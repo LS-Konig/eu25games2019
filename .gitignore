@@ -17,7 +17,7 @@ _publish.yml
 *_files*
 *html
 
-# Data
+# Data: Only track raw and final datasets
 data/02_processed
 
 # Claude / project files
@@ -27,6 +27,3 @@ prompt_canvas.md
 # OS
 .DS_Store
 Thumbs.db
-
-# Archive
-code/OLDEST
