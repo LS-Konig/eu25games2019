@@ -1,0 +1,952 @@
+---
+title: |
+  Code Notebook 2
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Dataset Compilation 1
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "future", # parallel computing
+  "furrr", # future backend purrr functions
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+Country labels correspond to the positional order of list elements across all
+three raw wave files (25 EU member states, excluding Luxembourg, Malta, Cyprus).
+
+```{r}
+#| label: country-labels
+
+country_labels <- c(
+  "Austria",
+  "Belgium",
+  "Bulgaria",
+  "Croatia",
+  "Czechia",
+  "Denmark",
+  "Estonia",
+  "Finland",
+  "France",
+  "Germany",
+  "Greece",
+  "Hungary",
+  "Ireland",
+  "Italy",
+  "Latvia",
+  "Lithuania",
+  "Netherlands",
+  "Poland",
+  "Portugal",
+  "Romania",
+  "Slovakia",
+  "Slovenia",
+  "Spain",
+  "Sweden",
+  "United Kingdom"
+)
+```
+
+# Load Data {#sec-load}
+
+Each wave is an R list of 25 country dataframes (Dynata wide-export format).
+The question-wording lookup table produced by `01_explore.qmd` is the
+load-bearing artifact for all column-name decisions in this notebook.
+
+```{r}
+#| label: load
+
+wave1 <- readRDS(here("data", "01_raw", "Wave1.rds"))
+wave2 <- readRDS(here("data", "01_raw", "Wave2.rds"))
+wave3 <- readRDS(here("data", "01_raw", "Wave3.rds"))
+
+wording_map <- read_csv(
+  here("data", "02_processed", "question_wording_map.csv"),
+  show_col_types = FALSE
+)
+
+# turn df objects to tibble objects
+wave1 <- wave1 |>
+  map(as_tibble)
+
+wave2 <- wave2 |>
+  map(as_tibble)
+
+wave3 <- wave3 |>
+  map(as_tibble)
+
+# empty strings to NA
+clean_empty_to_na <- function(df) {
+  df |>
+    mutate(across(where(is.character), ~ na_if(trimws(.x), "")))
+}
+
+wave1 <- map(wave1, clean_empty_to_na)
+wave2 <- map(wave2, clean_empty_to_na)
+wave3 <- map(wave3, clean_empty_to_na)
+```
+
+# Phase 1 — Column Name Synchronisation {#sec-phase1}
+
+Dynata assigns numeric choice-IDs when a question includes an open-text
+"Other" option.
+Because party lists and response-option orderings differ per country, the choice
+ID — and therefore the suffix — varies (e.g. `Q4_29_TEXT` vs `Q4_58_TEXT`).
+All such variants represent the same logical variable; the canonical name drops
+the numeric suffix (`Q4_TEXT`).
+
+No coalescing is required: exploratory analysis confirmed that within every
+wave × country combination there is at most one column matching each base
+question + `_TEXT` pattern.
+
+## Build the sync map {#sec-phase1-build}
+
+The sync map is derived entirely from `question_wording_map.csv` — no
+hand-coded renames.
+The rule is: any column whose name matches `Q{n}_{k}_TEXT` is renamed to
+`Q{n}_TEXT`.
+All other column names are left unchanged.
+
+```{r}
+#| label: build-col-sync-map
+
+col_sync_map <- wording_map |>
+  # keep only columns whose names carry a numeric choice-ID suffix
+  filter(str_detect(col_name, "^Q\\d+_\\d+_TEXT$")) |>
+  mutate(
+    canonical = str_replace(col_name, "^(Q\\d+)_\\d+_TEXT$", "\\1_TEXT")
+  ) |>
+  # one entry per wave × country × original name (wordings not needed here)
+  distinct(wave, country, col_name, canonical)
+
+cat(
+  "Sync-map rows:",
+  nrow(col_sync_map),
+  "| Unique originals:",
+  n_distinct(col_sync_map$col_name),
+  "| Unique canonicals:",
+  n_distinct(col_sync_map$canonical),
+  "\n"
+)
+```
+
+Summary: how many columns need renaming per wave, aggregated across countries.
+
+```{r}
+#| label: sync-map-summary
+
+col_sync_map |>
+  group_by(wave) |>
+  summarise(
+    n_renames = n(),
+    n_countries = n_distinct(country),
+    n_originals = n_distinct(col_name),
+    n_canonicals = n_distinct(canonical),
+    .groups = "drop"
+  ) |>
+  knitr::kable(caption = "Column renames per wave (Phase 1)")
+```
+
+Inspect the canonical names that consolidate the most country variants — these
+are the "hottest" columns where Dynata numbering diverges the most.
+
+```{r}
+#| label: sync-map-top-variants
+
+col_sync_map |>
+  group_by(wave, canonical) |>
+  summarise(
+    n_variants = n_distinct(col_name),
+    variants = paste(sort(unique(col_name)), collapse = " | "),
+    .groups = "drop"
+  ) |>
+  filter(n_variants > 1) |>
+  arrange(wave, desc(n_variants)) |>
+  knitr::kable(
+    caption = "Canonical names with >1 original variant across countries"
+  )
+```
+
+## Apply function {#sec-phase1-apply}
+
+`sync_colnames()` applies the wave- and country-specific subset of the sync map
+to a single dataframe.
+Columns not in the map are passed through unchanged.
+
+```{r}
+#| label: sync-colnames-fn
+
+sync_colnames <- function(df, wave_num, country_name, sync_map) {
+  # lookup: original → canonical, for this wave × country only
+  lookup <- sync_map |>
+    filter(wave == wave_num, country == country_name) |>
+    select(col_name, canonical)
+
+  if (nrow(lookup) == 0) {
+    return(df)
+  }
+
+  # keep only renames for columns that actually exist in df
+  lookup <- lookup |> filter(col_name %in% names(df))
+
+  rename(df, !!!setNames(lookup$col_name, lookup$canonical))
+}
+```
+
+Verify on a spot-check pair: Austria wave 1 (`Q4_29_TEXT → Q4_TEXT`) and
+Ireland wave 1 (`Q4_29_TEXT → Q4_TEXT`), plus Bulgaria wave 1 which uses the
+divergent `Q4_58_TEXT` form.
+
+```{r}
+#| label: phase1-spot-check
+
+check <- function(wave_list, wave_num, country_idx, country_name, orig, canon) {
+  df <- wave_list[[country_idx]]
+  has_orig <- orig %in% names(df)
+  has_canon <- canon %in% names(df)
+  df_sync <- sync_colnames(df, wave_num, country_name, col_sync_map)
+  after_orig <- orig %in% names(df_sync)
+  after_canon <- canon %in% names(df_sync)
+  tibble(
+    country = country_name,
+    wave = wave_num,
+    original = orig,
+    canonical = canon,
+    had_orig = has_orig,
+    had_canon = has_canon,
+    after_has_orig = after_orig,
+    after_has_canon = after_canon,
+    ok = has_orig & !has_canon & !after_orig & after_canon
+  )
+}
+
+spot <- bind_rows(
+  # Wave 1: most countries use Q4_29_TEXT
+  check(wave1, 1, 1, "Austria", "Q4_29_TEXT", "Q4_TEXT"),
+  check(wave1, 1, 13, "Ireland", "Q4_29_TEXT", "Q4_TEXT"),
+  # Wave 1 outliers: Belgium uses _30_, UK uses _26_
+  check(wave1, 1, 2, "Belgium", "Q4_30_TEXT", "Q4_TEXT"),
+  check(wave1, 1, 25, "United Kingdom", "Q4_26_TEXT", "Q4_TEXT"),
+  # Wave 2: Bulgaria uses _58_, Czechia uses _31_
+  check(wave2, 2, 3, "Bulgaria", "Q4_58_TEXT", "Q4_TEXT"),
+  check(wave2, 2, 5, "Czechia", "Q4_31_TEXT", "Q4_TEXT"),
+  # Wave 3: same patterns persist
+  check(wave3, 3, 3, "Bulgaria", "Q4_58_TEXT", "Q4_TEXT"),
+  check(wave3, 3, 5, "Czechia", "Q4_31_TEXT", "Q4_TEXT")
+)
+
+knitr::kable(spot, caption = "Phase 1 spot-check: before/after rename")
+```
+
+All `ok` values must be `TRUE`.
+
+```{r}
+#| label: phase1-spot-check-assert
+
+stopifnot(all(spot$ok, na.rm = TRUE))
+cat("Phase 1 spot-check passed.\n")
+```
+
+## Column count invariant {#sec-phase1-invariant}
+
+Renaming must not change the number of columns.
+Verify for all 75 wave × country combinations.
+
+```{r}
+#| label: phase1-col-count
+
+waves <- list(`1` = wave1, `2` = wave2, `3` = wave3)
+
+col_count_check <- map2_dfr(waves, names(waves), function(wave_list, wn) {
+  wn_int <- as.integer(wn)
+  map2_dfr(wave_list, seq_along(wave_list), function(df, i) {
+    ctry <- country_labels[i]
+    before <- ncol(df)
+    after <- ncol(sync_colnames(df, wn_int, ctry, col_sync_map))
+    tibble(wave = wn_int, country = ctry, before, after, ok = before == after)
+  })
+})
+
+n_fail <- sum(!col_count_check$ok, na.rm = TRUE)
+cat("Combinations failing column-count invariant:", n_fail, "\n")
+if (n_fail > 0) {
+  col_count_check |> filter(!ok) |> print()
+}
+stopifnot(n_fail == 0)
+```
+
+# Phase 2 — Game Data Consolidation {#sec-phase2}
+
+Waves 2 and 3 only; skipped entirely for Wave 1 (which has no games).
+
+Due to Dynata survey branching, each respondent is randomly routed to one
+of eleven column-sets per game.
+This produces 33 column-sets for the dictator game and 33 for the trust game
+(3 canonical games × 11 branching variants each).
+Each slot occupies exactly 6 consecutive columns in the raw data:
+
+```
+Q{n}_First.Click  Q{n}_Last.Click  Q{n}_Page.Submit  Q{n}_Click.Count
+Q{m}_4  Q{m}_5
+```
+
+where `Q{n}` is the timing question and `Q{m}_4` / `Q{m}_5` are player 1
+and player 2 token allocations.
+
+Because Q-numbers differ per country (Dynata renumbers branching paths
+country-by-country), no hardcoded lookup is possible.
+Instead, slots are detected by their structural signature in column order.
+Instruction-page timing blocks (one before the dict games, one before the trust
+games) are detected by scanning backward up to 30 columns from each game
+group's first slot, taking the closest 4-column timing block found
+(the dict instruction block is not immediately adjacent because Q60's 10 columns
+sit between it and the first game slot).
+The `Q60` fields holding the randomised attribute order and per-game attribute
+values are parsed and split into individual columns in the same consolidation
+step.
+
+## Slot detection {#sec-phase2-detect}
+
+`detect_game_slots()` scans column names in order, returning a list of 66
+slot objects.
+It emits a warning if the count is not exactly 66.
+
+```{r}
+#| label: detect-game-slots-fn
+
+detect_game_slots <- function(df) {
+  cols <- names(df)
+  n <- length(cols)
+
+  timing_sfx <- c("First.Click", "Last.Click", "Page.Submit", "Click.Count")
+
+  slots <- list()
+  i <- 1L
+
+  while (i <= n - 5L) {
+    window <- cols[i:(i + 5L)]
+
+    t_match <- str_match(
+      window[1:4],
+      "^(Q\\d+)_(First\\.Click|Last\\.Click|Page\\.Submit|Click\\.Count)$"
+    )
+    o_match <- str_match(
+      window[5:6],
+      "^(Q\\d+)_(4|5)$"
+    )
+
+    timing_ok <- !any(is.na(t_match)) &&
+      n_distinct(t_match[, 2]) == 1 &&
+      setequal(t_match[, 3], timing_sfx)
+    outcome_ok <- !any(is.na(o_match)) &&
+      n_distinct(o_match[, 2]) == 1 &&
+      setequal(o_match[, 3], c("4", "5"))
+
+    if (timing_ok && outcome_ok) {
+      slots <- c(
+        slots,
+        list(list(
+          timing_q = t_match[1, 2],
+          outcome_q = o_match[1, 2],
+          firstclick = window[match("First.Click", t_match[, 3])],
+          lastclick = window[match("Last.Click", t_match[, 3])],
+          pagesubmit = window[match("Page.Submit", t_match[, 3])],
+          clickcount = window[match("Click.Count", t_match[, 3])],
+          pl1 = window[which(o_match[, 3] == "4") + 4L],
+          pl2 = window[which(o_match[, 3] == "5") + 4L]
+        ))
+      )
+      i <- i + 6L
+    } else {
+      i <- i + 1L
+    }
+  }
+
+  if (length(slots) != 66L) {
+    warning(
+      "Expected 66 game slots (33 dict + 33 trust), found ",
+      length(slots),
+      ". Check column structure."
+    )
+  }
+
+  slots
+}
+```
+
+## Consolidation {#sec-phase2-consolidate}
+
+`consolidate_games()` groups the 66 detected slots into 6 canonical games
+(slots 1–11 → `dict1`, 12–22 → `dict2`, 23–33 → `dict3`,
+34–44 → `trust1`, 45–55 → `trust2`, 56–66 → `trust3`), coalesces the 11
+variants per field into 36 canonical game columns (all prefixed `cj_`,
+including timing fields — they belong to the conjoint block),
+then adds 8 instruction-page timing columns (`cj_dict_instr_*` / `cj_trust_instr_*`
+detected positionally as the 4-column timing block immediately preceding each
+game group), then parses `Q60_1`–`Q60_8` into 43 attribute columns
+(`cj_attr_order` plus 7 attributes × 6 games), and drops all 414 source
+columns (396 game + 8 instruction + 10 Q60).
+The dict/trust column ordering (dict before trust) matches the survey design.
+
+```{r}
+#| label: consolidate-games-fn
+
+consolidate_games <- function(df) {
+  slots <- detect_game_slots(df)
+  n_slots <- length(slots)
+  cols_df <- names(df)
+
+  game_labels <- c("dict1", "dict2", "dict3", "trust1", "trust2", "trust3")
+  game_fields <- c(
+    "pl1",
+    "pl2",
+    "firstclick",
+    "lastclick",
+    "pagesubmit",
+    "clickcount"
+  )
+  attr_fields <- c("nat", "party", "eupos", "rel", "age", "sex", "class")
+  timing_sfx <- c("First.Click", "Last.Click", "Page.Submit", "Click.Count")
+  sfx_short <- c(
+    "First.Click" = "firstclick",
+    "Last.Click" = "lastclick",
+    "Page.Submit" = "pagesubmit",
+    "Click.Count" = "clickcount"
+  )
+
+  # Treatment condition lookup: slot index within a group of 11 → label
+  treatment_map <- c(
+    rep("1_conat_eustance_partisan", 4), # slots 1–4
+    rep("2_conat_partisan", 2), # slots 5–6
+    rep("3_eunat_eustance", 2), # slots 7–8
+    rep("4_somenat", 3) # slots 9–11
+  )
+
+  # --- game slot coalescing + treatment detection ---
+  game_source_cols <- slots |>
+    map(\(s) unlist(s[game_fields])) |>
+    unlist() |>
+    unique()
+
+  game_cols <- list()
+  treatment_cols <- list()
+
+  for (g in seq_along(game_labels)) {
+    slot_range <- ((g - 1L) * 11L + 1L):(g * 11L)
+    if (max(slot_range) > n_slots) {
+      next
+    }
+    group <- slots[slot_range]
+
+    # coalesce outcome/timing fields as before
+    for (fld in game_fields) {
+      src_vecs <- map(group, \(s) na_if(df[[s[[fld]]]], ""))
+      game_cols[[paste0("cj_", game_labels[g], "_", fld)]] <-
+        reduce(src_vecs, coalesce)
+    }
+
+    # detect treatment: find which slot within the group has a non-NA pl1 value
+    pl1_cols <- map_chr(group, \(s) s[["pl1"]])
+    pl1_mat <- map(pl1_cols, \(col) na_if(df[[col]], "")) |>
+      map(is.na) |>
+      do.call(cbind, args = _) # n_rows × 11 logical matrix; TRUE = missing
+
+    # for each respondent: index of the first non-NA slot (1–11), else NA
+    slot_hit <- apply(pl1_mat, 1, \(row) {
+      hit <- which(!row)
+      if (length(hit) == 0L) NA_integer_ else hit[[1L]]
+    })
+
+    treatment_cols[[paste0("cj_", game_labels[g], "_treatment")]] <-
+      treatment_map[slot_hit] # NA propagates naturally via integer NA index
+  }
+
+  # --- instruction-page timing ---
+  instr_source_cols <- character(0)
+  instr_cols <- list()
+
+  find_instr_block <- function(slot_idx) {
+    slot_col_names <- unlist(slots[[slot_idx]][game_fields])
+    slot_start <- min(which(cols_df %in% slot_col_names))
+    for (start_pos in (slot_start - 4L):max(1L, slot_start - 30L)) {
+      window <- cols_df[start_pos:(start_pos + 3L)]
+      t_match <- str_match(
+        window,
+        "^(Q\\d+)_(First\\.Click|Last\\.Click|Page\\.Submit|Click\\.Count)$"
+      )
+      if (
+        !any(is.na(t_match)) &&
+          n_distinct(t_match[, 2]) == 1 &&
+          setequal(t_match[, 3], timing_sfx)
+      ) {
+        return(list(window = window, t_match = t_match))
+      }
+    }
+    NULL
+  }
+
+  if (n_slots >= 34L) {
+    for (tgt in list(
+      list(slot = 1L, label = "dict_instr"),
+      list(slot = 34L, label = "trust_instr")
+    )) {
+      blk <- find_instr_block(tgt$slot)
+      if (!is.null(blk)) {
+        for (sfx in timing_sfx) {
+          col_name <- blk$window[match(sfx, blk$t_match[, 3])]
+          instr_cols[[paste0("cj_", tgt$label, "_", sfx_short[[sfx]])]] <-
+            na_if(df[[col_name]], "")
+          instr_source_cols <- c(instr_source_cols, col_name)
+        }
+      } else {
+        warning("Could not detect instruction timing block before ", tgt$label)
+      }
+    }
+  }
+
+  # --- Q60 attribute parsing ---
+  attr_map <- c(
+    "2" = "nat",
+    "3" = "party",
+    "4" = "eupos",
+    "5" = "rel",
+    "6" = "age",
+    "7" = "sex",
+    "8" = "class"
+  )
+  game_6 <- c("dict1", "dict2", "dict3", "trust1", "trust2", "trust3")
+
+  q60_attr_order <- if ("Q60_1" %in% cols_df) df[["Q60_1"]] else NULL
+
+  q60_game_cols <- list()
+  for (suffix in names(attr_map)) {
+    col <- paste0("Q60_", suffix)
+    if (!col %in% cols_df) {
+      next
+    }
+    attr_name <- attr_map[[suffix]]
+    split_vals <- str_split(df[[col]], ",")
+    for (k in seq_along(game_6)) {
+      q60_game_cols[[paste0("cj_", game_6[k], "_", attr_name)]] <-
+        map_chr(split_vals, \(v) {
+          if (length(v) >= k) str_trim(v[[k]]) else NA_character_
+        })
+    }
+  }
+
+  q60_source_cols <- intersect(paste0("Q60_", 1:10), cols_df)
+  all_source_cols <- unique(c(
+    game_source_cols,
+    instr_source_cols,
+    q60_source_cols
+  ))
+
+  # --- assemble in canonical order ---
+  # treatment column placed right after pl1/pl2, before timing fields
+  ordered_cols <- list()
+
+  if (!is.null(q60_attr_order)) {
+    ordered_cols[["cj_attr_order_raw"]] <- q60_attr_order
+  }
+
+  for (sfx in sfx_short) {
+    nm <- paste0("cj_dict_instr_", sfx)
+    if (!is.null(instr_cols[[nm]])) ordered_cols[[nm]] <- instr_cols[[nm]]
+  }
+  for (g in c("dict1", "dict2", "dict3")) {
+    for (fld in game_fields) {
+      ordered_cols[[paste0("cj_", g, "_", fld)]] <-
+        game_cols[[paste0("cj_", g, "_", fld)]]
+    }
+    ordered_cols[[paste0("cj_", g, "_treatment")]] <-
+      treatment_cols[[paste0("cj_", g, "_treatment")]]
+    for (af in attr_fields) {
+      ordered_cols[[paste0("cj_", g, "_", af, "_raw")]] <-
+        q60_game_cols[[paste0("cj_", g, "_", af)]]
+    }
+  }
+  for (sfx in sfx_short) {
+    nm <- paste0("cj_trust_instr_", sfx)
+    if (!is.null(instr_cols[[nm]])) ordered_cols[[nm]] <- instr_cols[[nm]]
+  }
+  for (g in c("trust1", "trust2", "trust3")) {
+    for (fld in game_fields) {
+      ordered_cols[[paste0("cj_", g, "_", fld)]] <-
+        game_cols[[paste0("cj_", g, "_", fld)]]
+    }
+    ordered_cols[[paste0("cj_", g, "_treatment")]] <-
+      treatment_cols[[paste0("cj_", g, "_treatment")]]
+    for (af in attr_fields) {
+      ordered_cols[[paste0("cj_", g, "_", af, "_raw")]] <-
+        q60_game_cols[[paste0("cj_", g, "_", af)]]
+    }
+  }
+
+  ordered_cols <- ordered_cols[!map_lgl(ordered_cols, is.null)]
+
+  bind_cols(
+    select(df, -all_of(all_source_cols)),
+    as_tibble(ordered_cols)
+  )
+}
+```
+
+## Verification {#sec-phase2-verify}
+
+```{r}
+#| label: phase2-slot-check
+
+aut2_raw <- wave2[[1]] |>
+  slice(-1, -2) |>
+  filter(DistributionChannel == "anonymous")
+aut2_slots <- detect_game_slots(aut2_raw)
+cat("Austria wave 2 — slots detected:", length(aut2_slots), "\n")
+cat(
+  "Slot  1: timing =",
+  aut2_slots[[1]]$timing_q,
+  "| outcome =",
+  aut2_slots[[1]]$outcome_q,
+  "\n"
+)
+cat(
+  "Slot 12: timing =",
+  aut2_slots[[12]]$timing_q,
+  "| outcome =",
+  aut2_slots[[12]]$outcome_q,
+  "\n"
+)
+cat(
+  "Slot 34: timing =",
+  aut2_slots[[34]]$timing_q,
+  "| outcome =",
+  aut2_slots[[34]]$outcome_q,
+  "\n"
+)
+cat(
+  "Slot 66: timing =",
+  aut2_slots[[66]]$timing_q,
+  "| outcome =",
+  aut2_slots[[66]]$outcome_q,
+  "\n"
+)
+stopifnot(length(aut2_slots) == 66L)
+```
+
+Each respondent should have exactly one non-empty source slot per canonical
+game (the hallmark of correct Dynata branching).
+
+```{r}
+#| label: phase2-branching-check
+
+dict1_pl1_cols <- map_chr(aut2_slots[1:11], "pl1")
+
+n_filled <- aut2_raw |>
+  select(all_of(dict1_pl1_cols)) |>
+  mutate(across(everything(), \(x) x != "")) |>
+  rowSums(na.rm = TRUE)
+
+cat(
+  "Respondents with exactly 1 dict-game-1 slot filled:",
+  sum(n_filled == 1, na.rm = TRUE),
+  "of",
+  nrow(aut2_raw),
+  "\n"
+)
+cat("Respondents with 0 or 1 filled:", sum(n_filled <= 1, na.rm = TRUE), "\n")
+cat("Respondents with > 1 filled:", sum(n_filled > 1, na.rm = TRUE), "\n")
+
+stopifnot(all(n_filled <= 1, na.rm = TRUE))
+```
+
+Ireland wave 2 uses different Q-numbers — verify the slot count still works.
+
+```{r}
+#| label: phase2-ireland-check
+
+irl2_raw <- wave2[[13]] |>
+  slice(-1, -2) |>
+  filter(DistributionChannel == "anonymous")
+irl2_slots <- detect_game_slots(irl2_raw)
+cat("Ireland wave 2 — slots detected:", length(irl2_slots), "\n")
+cat(
+  "Ireland slot 1 outcome Q:",
+  irl2_slots[[1]]$outcome_q,
+  " (Austria had:",
+  aut2_slots[[1]]$outcome_q,
+  ")\n"
+)
+stopifnot(length(irl2_slots) == 66L)
+```
+
+After consolidation: 87 canonical `cj_` columns added, 414 source columns
+removed (396 game + 8 instruction + 10 Q60), net column count reduction = 414 - 87 = 327.
+
+```{r}
+#| label: phase2-col-reduction
+
+aut2_cons <- consolidate_games(aut2_raw)
+
+# 36 game (6 × 6 fields) + 8 instr timing + 42 per-game attrs = 86 matching ^cj_(dict|trust)
+# plus cj_attr_order (1) = 87 total cj_ cols
+new_cj_game <- names(aut2_cons)[str_detect(
+  names(aut2_cons),
+  "^cj_(dict|trust)\\d+_(pl|first|last|page|click)"
+)]
+new_cj_instr <- names(aut2_cons)[str_detect(
+  names(aut2_cons),
+  "^cj_(dict|trust)_instr_"
+)]
+new_cj_attrs <- names(aut2_cons)[str_detect(
+  names(aut2_cons),
+  "^cj_(dict|trust)\\d+_(nat|party|eupos|rel|age|sex|class)_raw$"
+)]
+cat("Game outcome/timing cols (cj_):", length(new_cj_game), "\n")
+cat("Instruction timing cols (cj_):", length(new_cj_instr), "\n")
+cat("Per-game attribute cols (cj_):", length(new_cj_attrs), "\n")
+cat("cj_attr_order present:", "cj_attr_order" %in% names(aut2_cons), "\n")
+
+remaining_source <- intersect(map_chr(aut2_slots, "pl1"), names(aut2_cons))
+cat("Source pl1 cols still present:", length(remaining_source), "\n")
+stopifnot(length(remaining_source) == 0)
+stopifnot(length(new_cj_game) == 36L)
+stopifnot(length(new_cj_instr) == 8L)
+stopifnot(length(new_cj_attrs) == 42L)
+stopifnot("cj_attr_order_raw" %in% names(aut2_cons))
+```
+
+Value spot-check: the first respondent routed to slot 1 should have the same
+`pl1` value in the consolidated column as in the raw source.
+
+```{r}
+#| label: phase2-value-check
+
+slot1_pl1 <- aut2_slots[[1]]$pl1
+r_idx <- which(aut2_raw[[slot1_pl1]] != "")[1]
+raw_val <- aut2_raw[[slot1_pl1]][r_idx]
+cons_val <- aut2_cons$cj_dict1_pl1[r_idx]
+cat("Source", slot1_pl1, ":", raw_val, "| cj_dict1_pl1:", cons_val, "\n")
+stopifnot(identical(raw_val, cons_val))
+cat("Value check passed.\n")
+```
+
+# Phase 3 — Build Per-Wave Datasets {#sec-phase3}
+
+Each per-wave dataset is assembled by:
+
+1. Stripping the question-wording row (row 1 of each country dataframe)
+2. Filtering to `DistributionChannel == "anonymous"` (real respondents only)
+3. Applying Phase 1 column sync
+4. Applying Phase 2 game consolidation (Waves 2 & 3 only)
+5. Adding `meta_wave` and `meta_country`
+6. `bind_rows()` across all 25 countries — column mismatches become `NA`
+
+```{r}
+#| label: build-wave-fn
+
+build_wave <- function(wave_list, wave_num, country_vec, sync_map) {
+  map2_dfr(wave_list, seq_along(wave_list), function(df, i) {
+    ctry <- country_vec[i]
+
+    df <- df |>
+      # strip wording row (row 1) and import-ID row (row 2)
+      slice(-1, -2) |>
+      # real respondents only
+      filter(DistributionChannel == "anonymous") |>
+      # Phase 1: canonical column names
+      sync_colnames(wave_num, ctry, sync_map)
+
+    # Phase 2: game consolidation (waves 2 and 3 only)
+    if (wave_num > 1L) {
+      df <- consolidate_games(df)
+    }
+
+    df |>
+      mutate(
+        meta_wave = wave_num,
+        meta_country = ctry,
+        .before = everything()
+      )
+  })
+}
+```
+
+```{r}
+#| label: build-waves
+
+plan(multisession, workers = 3L)
+
+wave_results <- future_map(
+  list(
+    list(wave_list = wave1, wave_num = 1L),
+    list(wave_list = wave2, wave_num = 2L),
+    list(wave_list = wave3, wave_num = 3L)
+  ),
+  \(args) {
+    build_wave(args$wave_list, args$wave_num, country_labels, col_sync_map)
+  },
+  .options = furrr_options(seed = NULL)
+)
+
+df_wave1 <- wave_results[[1]]
+df_wave2 <- wave_results[[2]]
+df_wave3 <- wave_results[[3]]
+
+plan(sequential) # restore default after
+```
+
+## Row counts {#sec-phase3-rowcounts}
+
+```{r}
+#| label: row-counts
+
+row_counts <- bind_rows(
+  df_wave1 |> count(meta_wave, meta_country),
+  df_wave2 |> count(meta_wave, meta_country),
+  df_wave3 |> count(meta_wave, meta_country)
+) |>
+  pivot_wider(
+    id_cols = meta_country,
+    names_from = meta_wave,
+    values_from = n,
+    names_prefix = "wave"
+  ) |>
+  arrange(meta_country)
+
+knitr::kable(
+  row_counts,
+  caption = "Respondents per country per wave (anonymous rows only)"
+)
+```
+
+## Column coverage after sync {#sec-phase3-coverage}
+
+```{r}
+#| label: col-coverage
+
+col_coverage <- tibble(
+  wave = c(1L, 2L, 3L),
+  n_cols = c(ncol(df_wave1), ncol(df_wave2), ncol(df_wave3)),
+  n_rows = c(nrow(df_wave1), nrow(df_wave2), nrow(df_wave3))
+)
+
+knitr::kable(
+  col_coverage,
+  caption = "Dimensions of per-wave datasets after Phase 1"
+)
+```
+
+Confirm that the `_\d+_TEXT` column name pattern is absent from all three
+per-wave datasets (i.e. all such columns have been successfully renamed).
+
+```{r}
+#| label: no-numbered-text-cols
+
+check_no_numbered_text <- function(df, label) {
+  bad <- names(df)[str_detect(names(df), "^Q\\d+_\\d+_TEXT$")]
+  if (length(bad) > 0) {
+    cat(
+      label,
+      ": FAIL — remaining numbered-TEXT columns:",
+      paste(bad, collapse = ", "),
+      "\n"
+    )
+  } else {
+    cat(label, ": OK — no numbered-TEXT columns remain.\n")
+  }
+  invisible(bad)
+}
+
+bad1 <- check_no_numbered_text(df_wave1, "Wave 1")
+bad2 <- check_no_numbered_text(df_wave2, "Wave 2")
+bad3 <- check_no_numbered_text(df_wave3, "Wave 3")
+
+stopifnot(length(bad1) == 0, length(bad2) == 0, length(bad3) == 0)
+```
+
+# Save wave stacked data
+
+```{r}
+#| label: save
+
+write_rds(
+  df_wave1,
+  file = here(
+    "data",
+    "02_processed",
+    "wave1_compiled.rds"
+  )
+)
+
+write_rds(
+  df_wave2,
+  file = here(
+    "data",
+    "02_processed",
+    "wave2_compiled.rds"
+  )
+)
+
+write_rds(
+  df_wave3,
+  file = here(
+    "data",
+    "02_processed",
+    "wave3_compiled.rds"
+  )
+)
+```
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```

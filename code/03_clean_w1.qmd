@@ -1,0 +1,2172 @@
+---
+title: |
+  Code Notebook 2
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Clean Wave 1
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+```{r}
+#| label: load-data
+
+# wave 1 -----------------------------------------------------------------------
+df_wave1 <- readRDS(
+  here(
+    "data",
+    "02_processed",
+    "wave1_compiled.rds"
+  )
+)
+
+# load wording map
+wording_map <- read_csv(
+  here(
+    "data",
+    "02_processed",
+    "question_wording_map.csv"
+  )
+)
+```
+
+# Phase 4: Coalesce
+
+Some variables store identical questions but are split into different columns.
+
+## Wave 1 Framing Questions
+
+```{r}
+#| label: explore-w1-framing
+
+# Short console code block to check that these are actually one variable
+# ------------------------------------------------------------------------------
+
+wording_map |>
+  filter(wave == 1 & country == "Austria") |>
+  count(wording, sort = T)
+
+# Q7_1 etc: Markets & Competition
+df_wave1 |>
+  select(
+    Q40_1, # position frame
+    Q37_1, #
+    Q34_1, #
+    Q31_1, #
+    Q28_1, #
+    Q25_1, #
+    Q22_1, # valence frame
+    Q19_1, #
+    Q16_1, #
+    Q13_1, #
+    Q10_1, #
+    Q7_1 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q7_2 etc: Security & Defense
+df_wave1 |>
+  select(
+    Q40_2, # position frame
+    Q37_2, #
+    Q34_2, #
+    Q31_2, #
+    Q28_2, #
+    Q25_2, #
+    Q22_2, # valence frame
+    Q19_2, #
+    Q16_2, #
+    Q13_2, #
+    Q10_2, #
+    Q7_2 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q7_3 etc: Asylyum & Immigration
+df_wave1 |>
+  select(
+    Q40_3, # position frame
+    Q37_3, #
+    Q34_3, #
+    Q31_3, #
+    Q28_3, #
+    Q25_3, #
+    Q22_3, # valence frame
+    Q19_3, #
+    Q16_3, #
+    Q13_3, #
+    Q10_3, #
+    Q7_3 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q7_4 etc: Environment and Energy
+df_wave1 |>
+  select(
+    Q40_4, # position frame
+    Q37_4, #
+    Q34_4, #
+    Q31_4, #
+    Q28_4, #
+    Q25_4, #
+    Q22_4, # valence frame
+    Q19_4, #
+    Q16_4, #
+    Q13_4, #
+    Q10_4, #
+    Q7_4 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q7_5 etc: Trade
+df_wave1 |>
+  select(
+    Q40_5, # position frame
+    Q37_5, #
+    Q34_5, #
+    Q31_5, #
+    Q28_5, #
+    Q25_5, #
+    Q22_5, # valence frame
+    Q19_5, #
+    Q16_5, #
+    Q13_5, #
+    Q10_5, #
+    Q7_5 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+# Q7_6 etc: Agriculture
+df_wave1 |>
+  select(
+    Q40_6, # position frame
+    Q37_6, #
+    Q34_6, #
+    Q31_6, #
+    Q28_6, #
+    Q25_6, #
+    Q22_6, # valence frame
+    Q19_6, #
+    Q16_6, #
+    Q13_6, #
+    Q10_6, #
+    Q7_6 #
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q8 etc Besinnen Sie sich bitte...
+df_wave1 |>
+  select(Q41, Q38, Q35, Q32, Q29, Q26, Q23, Q20, Q17, Q14, Q11, Q8) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q9 etc: In welchem Maß vertrauen Sie...
+df_wave1 |>
+  select(Q42, Q39, Q36, Q33, Q30, Q27, Q24, Q21, Q18, Q15, Q12, Q9) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+```
+
+Note: there are two systematically different frames (Valence and Position), each with different wordings across languages, but only one was asked per respondent.
+
+Q7_* are valence framing questions and Q25_* are position framing questions, q8 and q9 are the follow ups
+
+```{r}
+#| label: coalesce-w1-framing-vars
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # BLOCK I: VALENCE FRAMING -------------------------------------------------
+    # market: valence
+    Q7_1 = coalesce(
+      Q7_1,
+      Q10_1,
+      Q13_1,
+      Q16_1,
+      Q19_1,
+      Q22_1
+    ),
+    # Security: valence
+    Q7_2 = coalesce(
+      Q7_2,
+      Q10_2,
+      Q13_2,
+      Q16_2,
+      Q19_2,
+      Q22_2
+    ),
+    # Asylum: valence
+    Q7_3 = coalesce(
+      Q7_3,
+      Q10_3,
+      Q13_3,
+      Q16_3,
+      Q19_3,
+      Q22_3
+    ),
+    # Energy: valence
+    Q7_4 = coalesce(
+      Q7_4,
+      Q10_4,
+      Q13_4,
+      Q16_4,
+      Q19_4,
+      Q22_4
+    ),
+    # Trade: valence
+    Q7_5 = coalesce(
+      Q7_5,
+      Q10_5,
+      Q13_5,
+      Q16_5,
+      Q19_5,
+      Q22_5
+    ),
+    # Agriculture: valence
+    Q7_6 = coalesce(
+      Q7_6,
+      Q10_6,
+      Q13_6,
+      Q16_6,
+      Q19_6,
+      Q22_6
+    ),
+    # BLOCK II: POSITION FRAMING -----------------------------------------------
+    # market: position
+    Q25_1 = coalesce(
+      Q25_1,
+      Q28_1,
+      Q31_1,
+      Q34_1,
+      Q37_1,
+      Q40_1
+    ),
+    # security: position
+    Q25_2 = coalesce(
+      Q25_2,
+      Q28_2,
+      Q31_2,
+      Q34_2,
+      Q37_2,
+      Q40_2
+    ),
+    # asylum: position
+    Q25_3 = coalesce(
+      Q25_3,
+      Q28_3,
+      Q31_3,
+      Q34_3,
+      Q37_3,
+      Q40_3
+    ),
+    # environment: position
+    Q25_4 = coalesce(
+      Q25_4,
+      Q28_4,
+      Q31_4,
+      Q34_4,
+      Q37_4,
+      Q40_4
+    ),
+    # trade: position
+    Q25_5 = coalesce(
+      Q25_5,
+      Q28_5,
+      Q31_5,
+      Q34_5,
+      Q37_5,
+      Q40_5
+    ),
+    # agriculture: position
+    Q25_6 = coalesce(
+      Q25_6,
+      Q28_6,
+      Q31_6,
+      Q34_6,
+      Q37_6,
+      Q40_6
+    ),
+    # follow up questions, same for valence and position framing ---------------
+    Q8 = coalesce(Q41, Q38, Q35, Q32, Q29, Q26, Q23, Q20, Q17, Q14, Q11, Q8),
+    Q9 = coalesce(Q42, Q39, Q36, Q33, Q30, Q27, Q24, Q21, Q18, Q15, Q12, Q9)
+  ) |>
+  # remove old vars
+  select(
+    # valence ------------------------------------------------------------------
+    -Q10_1,
+    -Q13_1,
+    -Q16_1,
+    -Q19_1,
+    -Q22_1,
+    -Q10_2,
+    -Q13_2,
+    -Q16_2,
+    -Q19_2,
+    -Q22_2,
+    -Q10_3,
+    -Q13_3,
+    -Q16_3,
+    -Q19_3,
+    -Q22_3,
+    -Q10_4,
+    -Q13_4,
+    -Q16_4,
+    -Q19_4,
+    -Q22_4,
+    -Q10_5,
+    -Q13_5,
+    -Q16_5,
+    -Q19_5,
+    -Q22_5,
+    -Q10_6,
+    -Q13_6,
+    -Q16_6,
+    -Q19_6,
+    -Q22_6,
+    # position -----------------------------------------------------------------
+    -Q28_1,
+    -Q31_1,
+    -Q34_1,
+    -Q37_1,
+    -Q40_1,
+    -Q28_2,
+    -Q31_2,
+    -Q34_2,
+    -Q37_2,
+    -Q40_2,
+    -Q28_3,
+    -Q31_3,
+    -Q34_3,
+    -Q37_3,
+    -Q40_3,
+    -Q28_4,
+    -Q31_4,
+    -Q34_4,
+    -Q37_4,
+    -Q40_4,
+    -Q28_5,
+    -Q31_5,
+    -Q34_5,
+    -Q37_5,
+    -Q40_5,
+    -Q28_6,
+    -Q31_6,
+    -Q34_6,
+    -Q37_6,
+    -Q40_6,
+    # follow ups ---------------------------------------------------------------
+    -Q41,
+    -Q38,
+    -Q35,
+    -Q32,
+    -Q29,
+    -Q26,
+    -Q23,
+    -Q20,
+    -Q17,
+    -Q14,
+    -Q11,
+    -Q42,
+    -Q39,
+    -Q36,
+    -Q33,
+    -Q30,
+    -Q27,
+    -Q24,
+    -Q21,
+    -Q18,
+    -Q15,
+    -Q12,
+  )
+
+```
+
+## Wave 1 Priming Questions
+
+Ensure no respondent has >1 values across the spread out variables.
+
+```{r}
+#| label: w1-explore-primes
+
+# populist item battery --------------------------------------------------------
+df_wave1 |>
+  select(
+    Q60_1,
+    Q63_1,
+    Q66_1,
+    Q68_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_2,
+    Q63_2,
+    Q66_2,
+    Q68_2,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_3,
+    Q63_3,
+    Q66_3,
+    Q68_3,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_4,
+    Q63_4,
+    Q66_4,
+    Q68_4,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_5,
+    Q63_5,
+    Q66_5,
+    Q68_5,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_6,
+    Q63_6,
+    Q66_6,
+    Q68_6,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q60_7,
+    Q63_7,
+    Q66_7,
+    Q68_7,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# prospective vote -------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q61,
+    Q64,
+    Q67,
+    Q69,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Text answer for "other" option
+df_wave1 |>
+  select(
+    Q61_TEXT,
+    Q64_TEXT,
+    Q67_TEXT,
+    Q69_TEXT,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU long term vs demand of people
+df_wave1 |>
+  select(
+    Q65_1,
+    Q71_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q65_2,
+    Q71_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# for greece, filter did not work, hence only for greece no coalesce
+```
+
+```{r}
+#| label: w1-prime1-coalesce
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # condition indicator -------------------------------------------------------
+    prime_respresp_condition = case_when(
+      !is.na(Q60_1) ~ "responsiveness",
+      !is.na(Q63_1) ~ "responsibility",
+      !is.na(Q66_1) ~ "control_text",
+      !is.na(Q68_1) ~ "control_notext",
+    ),
+    # populism battery items (conditions → item 1–7) ----------------------------
+    Q60_1 = coalesce(Q60_1, Q63_1, Q66_1, Q68_1),
+    Q60_2 = coalesce(Q60_2, Q63_2, Q66_2, Q68_2),
+    Q60_3 = coalesce(Q60_3, Q63_3, Q66_3, Q68_3),
+    Q60_4 = coalesce(Q60_4, Q63_4, Q66_4, Q68_4),
+    Q60_5 = coalesce(Q60_5, Q63_5, Q66_5, Q68_5),
+    Q60_6 = coalesce(Q60_6, Q63_6, Q66_6, Q68_6),
+    Q60_7 = coalesce(Q60_7, Q63_7, Q66_7, Q68_7),
+    # prospective vote (conditions → Q61) ---------------------------------------
+    Q61 = coalesce(Q61, Q64, Q67, Q69),
+    Q61_TEXT = coalesce(Q61_TEXT, Q64_TEXT, Q67_TEXT, Q69_TEXT),
+    # EU long-term vs demand of people (non-Greece only) ------------------------
+    Q71_1 = if_else(meta_country != "Greece", coalesce(Q71_1, Q65_1), Q71_1),
+    Q71_2 = if_else(meta_country != "Greece", coalesce(Q71_2, Q65_2), Q71_2),
+    # Greece: branching filter failed, value lives in Q65_* not Q71_*
+    Q65_1 = if_else(meta_country != "Greece", NA, Q65_1),
+    Q65_2 = if_else(meta_country != "Greece", NA, Q65_2)
+  ) |>
+  select(
+    # drop redundant battery columns -------------------------------------------
+    -Q63_1,
+    -Q63_2,
+    -Q63_3,
+    -Q63_4,
+    -Q63_5,
+    -Q63_6,
+    -Q63_7,
+    -Q66_1,
+    -Q66_2,
+    -Q66_3,
+    -Q66_4,
+    -Q66_5,
+    -Q66_6,
+    -Q66_7,
+    -Q68_1,
+    -Q68_2,
+    -Q68_3,
+    -Q68_4,
+    -Q68_5,
+    -Q68_6,
+    -Q68_7,
+    # drop redundant vote columns ----------------------------------------------
+    -Q64,
+    -Q67,
+    -Q69,
+    -Q64_TEXT,
+    -Q67_TEXT,
+    -Q69_TEXT,
+  )
+
+```
+
+```{r}
+#| label: w1-explore-primes-gridlock
+
+# scales item 1 ---------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q73_1,
+    Q78_1,
+    Q83_1,
+    Q87_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scales item 2 ---------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q73_2,
+    Q78_2,
+    Q83_2,
+    Q87_2,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scales item 3 ---------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q73_3,
+    Q78_3,
+    Q83_3,
+    Q87_3,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scales item 4 ---------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q74_1,
+    Q79_1,
+    Q84_1,
+    Q88_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scales item 5 ---------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q74_2,
+    Q79_2,
+    Q84_2,
+    Q88_2,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# party attachment -------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q75,
+    Q80,
+    Q85,
+    Q89,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# closeness -------------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q76,
+    Q81,
+    Q86,
+    Q90,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q82_1: no cross-condition equivalent — standalone missingness check ---------
+df_wave1 |>
+  select(Q82_1) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+```
+
+```{r}
+#| label: w1-coalesce-primes-gridlock
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # condition indicator -------------------------------------------------------
+    prime_gridlock_condition = case_when(
+      !is.na(Q73_1) ~ "gridlock",
+      !is.na(Q78_1) ~ "no_gridlock",
+      !is.na(Q83_1) ~ "control_text",
+      !is.na(Q87_1) ~ "control_notext",
+    ),
+    # BLOCK: GRIDLOCK PRIMING SCALES (Q73/Q78/Q83/Q87 → Q73) ------------------
+    # item 1
+    Q73_1 = coalesce(Q73_1, Q78_1, Q83_1, Q87_1),
+    # item 2
+    Q73_2 = coalesce(Q73_2, Q78_2, Q83_2, Q87_2),
+    # item 3
+    Q73_3 = coalesce(Q73_3, Q78_3, Q83_3, Q87_3),
+    # BLOCK: GRIDLOCK PRIMING SCALES (Q74/Q79/Q84/Q88 → Q74) ------------------
+    # item 1
+    Q74_1 = coalesce(Q74_1, Q79_1, Q84_1, Q88_1),
+    # item 2
+    Q74_2 = coalesce(Q74_2, Q79_2, Q84_2, Q88_2),
+    # BLOCK: PARTY ATTACHMENT (Q75/Q80/Q85/Q89 → Q75) -------------------------
+    Q75 = coalesce(Q75, Q80, Q85, Q89),
+    Q75_TEXT = coalesce(Q75_TEXT, Q80_TEXT, Q85_TEXT, Q89_TEXT),
+    # BLOCK: CLOSENESS (Q76/Q81/Q86/Q90 → Q76) --------------------------------
+    Q76 = coalesce(Q76, Q81, Q86, Q90),
+  ) |>
+  select(
+    # Q73 scale duplicates ------------------------------------------------------
+    -Q78_1,
+    -Q83_1,
+    -Q87_1,
+    -Q78_2,
+    -Q83_2,
+    -Q87_2,
+    -Q78_3,
+    -Q83_3,
+    -Q87_3,
+    # Q74 scale duplicates ------------------------------------------------------
+    -Q79_1,
+    -Q84_1,
+    -Q88_1,
+    -Q79_2,
+    -Q84_2,
+    -Q88_2,
+    # party attachment duplicates -----------------------------------------------
+    -Q80,
+    -Q85,
+    -Q89,
+    -Q80_TEXT,
+    -Q85_TEXT,
+    -Q89_TEXT,
+    # closeness duplicates ------------------------------------------------------
+    -Q81,
+    -Q86,
+    -Q90,
+  )
+```
+
+
+```{r}
+#| label: w1-compliance-exp-explore
+
+# timings ----------------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q91_First.Click,
+    Q94_First.Click,
+    Q98_First.Click,
+    Q102_First.Click,
+    Q106_First.Click,
+    Q110_First.Click,
+    Q114_First.Click,
+    Q118_First.Click,
+    Q122_First.Click,
+    Q126_First.Click,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q91_Last.Click,
+    Q94_Last.Click,
+    Q98_Last.Click,
+    Q102_Last.Click,
+    Q106_Last.Click,
+    Q110_Last.Click,
+    Q114_Last.Click,
+    Q118_Last.Click,
+    Q122_Last.Click,
+    Q126_Last.Click,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q91_Page.Submit,
+    Q94_Page.Submit,
+    Q98_Page.Submit,
+    Q102_Page.Submit,
+    Q106_Page.Submit,
+    Q110_Page.Submit,
+    Q114_Page.Submit,
+    Q118_Page.Submit,
+    Q122_Page.Submit,
+    Q126_Page.Submit,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q91_Click.Count,
+    Q94_Click.Count,
+    Q98_Click.Count,
+    Q102_Click.Count,
+    Q106_Click.Count,
+    Q110_Click.Count,
+    Q114_Click.Count,
+    Q118_Click.Count,
+    Q122_Click.Count,
+    Q126_Click.Count,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+# approval nat. gov ------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q93,
+    Q96,
+    Q100,
+    Q104,
+    Q108,
+    Q112,
+    Q116,
+    Q120,
+    Q124,
+    Q128,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# approval EU ------------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q97,
+    Q101,
+    Q105,
+    Q109,
+    Q113,
+    Q117,
+    Q121,
+    Q125,
+    Q129,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q130 standalone --------------------------------------------------------------
+df_wave1 |>
+  select(Q130) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+```
+
+```{r}
+#| label: w1-compliance-exp-coalesce
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # condition indicator --------------------------------------------------------
+    prime_compliance_condition = case_when(
+      !is.na(Q91_First.Click) ~ "nat_legislation",
+      !is.na(Q94_First.Click) ~ "transpose",
+      !is.na(Q98_First.Click) ~ "no_transpose_sanction",
+      !is.na(Q102_First.Click) ~ "no_transpose_sanction_consistency",
+      !is.na(Q106_First.Click) ~ "no_transpose_sanction_economic",
+      !is.na(Q110_First.Click) ~ "no_transpose_sanction_legality",
+      !is.na(Q114_First.Click) ~ "no_transpose_sanction_reputation",
+      !is.na(Q118_First.Click) ~ "no_transpose_nosanction",
+      !is.na(Q122_First.Click) ~ "no_transpose_nosanction_consistency",
+      !is.na(Q126_First.Click) ~ "no_transpose_nosanction_reputation"
+    ),
+    # timing: First.Click --------------------------------------------------------
+    Q91_First.Click = coalesce(
+      Q91_First.Click,
+      Q94_First.Click,
+      Q98_First.Click,
+      Q102_First.Click,
+      Q106_First.Click,
+      Q110_First.Click,
+      Q114_First.Click,
+      Q118_First.Click,
+      Q122_First.Click,
+      Q126_First.Click
+    ),
+    # timing: Last.Click ---------------------------------------------------------
+    Q91_Last.Click = coalesce(
+      Q91_Last.Click,
+      Q94_Last.Click,
+      Q98_Last.Click,
+      Q102_Last.Click,
+      Q106_Last.Click,
+      Q110_Last.Click,
+      Q114_Last.Click,
+      Q118_Last.Click,
+      Q122_Last.Click,
+      Q126_Last.Click
+    ),
+    # timing: Page.Submit --------------------------------------------------------
+    Q91_Page.Submit = coalesce(
+      Q91_Page.Submit,
+      Q94_Page.Submit,
+      Q98_Page.Submit,
+      Q102_Page.Submit,
+      Q106_Page.Submit,
+      Q110_Page.Submit,
+      Q114_Page.Submit,
+      Q118_Page.Submit,
+      Q122_Page.Submit,
+      Q126_Page.Submit
+    ),
+    # timing: Click.Count --------------------------------------------------------
+    Q91_Click.Count = coalesce(
+      Q91_Click.Count,
+      Q94_Click.Count,
+      Q98_Click.Count,
+      Q102_Click.Count,
+      Q106_Click.Count,
+      Q110_Click.Count,
+      Q114_Click.Count,
+      Q118_Click.Count,
+      Q122_Click.Count,
+      Q126_Click.Count
+    ),
+    # approval nat. gov ----------------------------------------------------------
+    Q93 = coalesce(
+      Q93,
+      Q96,
+      Q100,
+      Q104,
+      Q108,
+      Q112,
+      Q116,
+      Q120,
+      Q124,
+      Q128
+    ),
+    # approval EU ----------------------------------------------------------------
+    Q97 = coalesce(
+      Q97,
+      Q101,
+      Q105,
+      Q109,
+      Q113,
+      Q117,
+      Q121,
+      Q125,
+      Q129
+    )
+  ) |>
+  select(
+    # timing duplicates ----------------------------------------------------------
+    -Q94_First.Click,
+    -Q98_First.Click,
+    -Q102_First.Click,
+    -Q106_First.Click,
+    -Q110_First.Click,
+    -Q114_First.Click,
+    -Q118_First.Click,
+    -Q122_First.Click,
+    -Q126_First.Click,
+    -Q94_Last.Click,
+    -Q98_Last.Click,
+    -Q102_Last.Click,
+    -Q106_Last.Click,
+    -Q110_Last.Click,
+    -Q114_Last.Click,
+    -Q118_Last.Click,
+    -Q122_Last.Click,
+    -Q126_Last.Click,
+    -Q94_Page.Submit,
+    -Q98_Page.Submit,
+    -Q102_Page.Submit,
+    -Q106_Page.Submit,
+    -Q110_Page.Submit,
+    -Q114_Page.Submit,
+    -Q118_Page.Submit,
+    -Q122_Page.Submit,
+    -Q126_Page.Submit,
+    -Q94_Click.Count,
+    -Q98_Click.Count,
+    -Q102_Click.Count,
+    -Q106_Click.Count,
+    -Q110_Click.Count,
+    -Q114_Click.Count,
+    -Q118_Click.Count,
+    -Q122_Click.Count,
+    -Q126_Click.Count,
+    # approval duplicates --------------------------------------------------------
+    -Q96,
+    -Q100,
+    -Q104,
+    -Q108,
+    -Q112,
+    -Q116,
+    -Q120,
+    -Q124,
+    -Q128,
+    -Q101,
+    -Q105,
+    -Q109,
+    -Q113,
+    -Q117,
+    -Q121,
+    -Q125,
+    -Q129,
+  )
+
+```
+
+```{r}
+#| label: w1-court-exp-explore
+
+# timings ----------------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q135_First.Click,
+    Q138_First.Click,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q135_Last.Click,
+    Q138_Last.Click,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q135_Page.Submit,
+    Q138_Page.Submit,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q135_Click.Count,
+    Q138_Click.Count,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scale item 1 -----------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q137_1,
+    Q140_1,
+    Q142_1,
+    Q143_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# scale item 2 -----------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q137_2,
+    Q140_2,
+    Q142_2,
+    Q143_2,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Q141 ------------------------------------------------------------------------
+df_wave1 |>
+  select(Q141, Q144, Q142) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+```
+
+```{r}
+#| label: w1-court-exp-coalesce
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # control_text and control_notext arms have no timing vars (Dynata export omission), so condition is inferred from outcome columns Q141 / Q143_1 instead of click timings
+    # condition indicator --------------------------------------------------------
+    prime_court_condition = case_when(
+      !is.na(Q135_First.Click) ~ "majority",
+      !is.na(Q138_First.Click) ~ "minority",
+      !is.na(Q141) ~ "control_text",
+      !is.na(Q143_1) ~ "control_notext"
+    ),
+    # timing: First.Click --------------------------------------------------------
+    Q135_First.Click = coalesce(
+      Q135_First.Click,
+      Q138_First.Click
+    ),
+    # timing: Last.Click ---------------------------------------------------------
+    Q135_Last.Click = coalesce(
+      Q135_Last.Click,
+      Q138_Last.Click
+    ),
+    # timing: Page.Submit --------------------------------------------------------
+    Q135_Page.Submit = coalesce(
+      Q135_Page.Submit,
+      Q138_Page.Submit
+    ),
+    # timing: Click.Count --------------------------------------------------------
+    Q135_Click.Count = coalesce(
+      Q135_Click.Count,
+      Q138_Click.Count
+    ),
+    # scale item 1 ---------------------------------------------------------------
+    Q137_1 = coalesce(
+      Q137_1,
+      Q140_1,
+      Q142_1,
+      Q143_1,
+      Q141_1 # Poland
+    ),
+    # scale item 2 ---------------------------------------------------------------
+    Q137_2 = coalesce(
+      Q137_2,
+      Q140_2,
+      Q142_2,
+      Q143_2,
+      Q141_2 # Poland
+    ),
+    # Court Assessment
+    Q141 = coalesce(
+      Q141,
+      Q142, # Poland
+      Q144
+    )
+  ) |>
+  select(
+    # timing duplicates ----------------------------------------------------------
+    -Q138_First.Click,
+    -Q138_Last.Click,
+    -Q138_Page.Submit,
+    -Q138_Click.Count,
+    # scale duplicates -----------------------------------------------------------
+    -Q140_1,
+    -Q142_1,
+    -Q143_1,
+    -Q140_2,
+    -Q142_2,
+    -Q143_2,
+    -Q144,
+    -Q142,
+    -Q141_1,
+    -Q141_2
+  )
+
+```
+
+```{r}
+#| label: w1-immigr-econ-exp-explore
+
+# EU self ------------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q160,
+    Q166,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU party placements ----------------------------------------------------------
+df_wave1 |>
+  select(
+    Q161_1,
+    Q167_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_2,
+    Q167_2,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_3,
+    Q167_3,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_4,
+    Q167_4,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_5,
+    Q167_5,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+df_wave1 |>
+  select(
+    Q161_6,
+    Q167_6,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_7,
+    Q167_7,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_8,
+    Q167_8,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_9,
+    Q167_9,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q161_10,
+    Q167_10,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU bodies placements ---------------------------------------------------------
+df_wave1 |>
+  select(
+    Q162_1,
+    Q168_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q162_2,
+    Q168_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q162_3,
+    Q168_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q162_4,
+    Q168_4
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q162_5,
+    Q168_5
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Econ eval rel. 12 months ago -------------------------------------------------
+df_wave1 |>
+  select(
+    Q163,
+    Q169
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Econ responsible nat gov -----------------------------------------------------
+df_wave1 |>
+  select(
+    Q164_1,
+    Q170_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Econ responsible EU -----------------------------------------------------
+df_wave1 |>
+  select(
+    Q164_2,
+    Q170_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Econ responsible global econ -----------------------------------------------------
+df_wave1 |>
+  select(
+    Q164_4,
+    Q170_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# News consumption -------------------------------------------------------------
+df_wave1 |>
+  select(
+    Q165_1,
+    Q171_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q165_2,
+    Q171_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q165_3,
+    Q171_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+```
+
+```{r}
+#| label: w1-immigr-econ-exp-coalesce
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    # condition indicator --------------------------------------------------------
+    prime_econblame_condition = case_when(
+      !is.na(Q164_3) ~ "immigration_displayed",
+      !is.na(Q170_3) ~ "immigration_not_displayed"
+    ),
+    Q160 = coalesce(Q160, Q166),
+    # party EU placements
+    Q161_1 = coalesce(Q161_1, Q167_1),
+    Q161_2 = coalesce(Q161_2, Q167_2),
+    Q161_3 = coalesce(Q161_3, Q167_3),
+    Q161_4 = coalesce(Q161_4, Q167_4),
+    Q161_5 = coalesce(Q161_5, Q167_5),
+    Q161_6 = coalesce(Q161_6, Q167_6),
+    Q161_7 = coalesce(Q161_7, Q167_7),
+    Q161_8 = coalesce(Q161_8, Q167_8),
+    Q161_9 = coalesce(Q161_9, Q167_9),
+    Q161_10 = coalesce(Q161_10, Q167_10),
+    # EU bodies EU placement
+    Q162_1 = coalesce(Q162_1, Q168_1),
+    Q162_2 = coalesce(Q162_2, Q168_2),
+    Q162_3 = coalesce(Q162_3, Q168_3),
+    Q162_4 = coalesce(Q162_4, Q168_4),
+    Q162_5 = coalesce(Q162_5, Q168_5),
+    # Econ eval 12 mo ago
+    Q163 = coalesce(Q163, Q169),
+    # econ responsible
+    Q164_1 = coalesce(Q164_1, Q170_1),
+    Q164_2 = coalesce(Q164_2, Q170_2),
+    # Q164_3 is treatment: option to blame immigrants only shown for some
+    # did not work in Denmark and Finland
+    Q164_3 = if_else(
+      meta_country == "Denmark" | meta_country == "Finland",
+      coalesce(Q164_3, Q170_3),
+      Q164_3
+    ),
+    Q164_4 = if_else(
+      meta_country != "Denmark" & meta_country != "Finland",
+      coalesce(Q164_4, Q170_3),
+      coalesce(Q164_4, Q170_4)
+    ),
+    # news consumption
+    Q165_1 = coalesce(Q165_1, Q171_1),
+    Q165_2 = coalesce(Q165_2, Q171_2),
+    Q165_3 = coalesce(Q165_3, Q171_3)
+  ) |>
+  select(
+    -Q166,
+    -Q167_1,
+    -Q167_2,
+    -Q167_3,
+    -Q167_4,
+    -Q167_5,
+    -Q167_6,
+    -Q167_7,
+    -Q167_8,
+    -Q167_9,
+    -Q167_10,
+    -Q168_1,
+    -Q168_2,
+    -Q168_3,
+    -Q168_4,
+    -Q168_5,
+    -Q169,
+    -Q170_1,
+    -Q170_2,
+    -Q170_3,
+    -Q171_1,
+    -Q171_2,
+    -Q171_3,
+    -Q170_4
+  )
+
+```
+
+```{r}
+#| label: w1-q147-explore
+
+df_wave1 |>
+  select(
+    Q147_1,
+    Q149_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave1 |>
+  select(
+    Q147_2,
+    Q149_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+```
+
+```{r}
+#| label: w1-q147-coalesce
+
+df_wave1 <- df_wave1 |>
+  mutate(
+    Q147_1 = coalesce(Q147_1, Q149_1),
+    Q147_2 = coalesce(Q147_2, Q149_2)
+  ) |>
+  select(
+    -Q149_1,
+    -Q149_2
+  )
+```
+
+```{r}
+#| label: w1-czechia-q157-correction
+
+# in czechia, q157 and 156 are flipped
+df_wave1 <- df_wave1 |>
+  mutate(
+    # store originals
+    Q156_1_tmp = Q156_1,
+    Q156_2_tmp = Q156_2,
+    Q156_3_tmp = Q156_3,
+
+    Q157_1_tmp = Q157_1,
+    Q157_2_tmp = Q157_2,
+    Q157_3_tmp = Q157_3,
+    Q157_4_tmp = Q157_4,
+    Q157_5_tmp = Q157_5,
+
+    # swap only for Czechia
+    Q156_1 = if_else(meta_country == "Czechia", Q157_1_tmp, Q156_1),
+    Q156_2 = if_else(meta_country == "Czechia", Q157_2_tmp, Q156_2),
+    Q156_3 = if_else(meta_country == "Czechia", Q157_3_tmp, Q156_3),
+    Q156_4 = if_else(meta_country == "Czechia", Q157_4_tmp, Q156_4),
+    Q156_5 = if_else(meta_country == "Czechia", Q157_5_tmp, Q156_5),
+
+    Q157_1 = if_else(meta_country == "Czechia", Q156_1_tmp, Q157_1),
+    Q157_2 = if_else(meta_country == "Czechia", Q156_2_tmp, Q157_2),
+    Q157_3 = if_else(meta_country == "Czechia", Q156_3_tmp, Q157_3)
+  ) |>
+  select(
+    -ends_with("_tmp"),
+    -Q157_4,
+    -Q157_5
+  )
+```
+
+
+## Wave 1 Variable Structure (remaining, post-Phase 3)
+
+### Conjoint Randomization
+- `Q6_1–7` — issue/party order randomization (A–F)
+
+### Conjoint Experiments (party program comparison)
+- `Q45/50/55` — timings | `Q46/51/56` — profile pairs (A×B, C×D, E×F)
+- `Q47_1–2 / Q52_1–2 / Q57_1–2` — party ratings
+
+### Priming Experiment 1 (responsiveness deficit)
+- `Q59` — text | `Q60_1–7` — populism battery | `Q61` — prospective vote
+
+### Priming Experiment 2 (responsibility deficit)
+- `Q62` — text | `Q63_1–7` — populism battery | `Q64` — prospective vote
+
+### Priming Experiment 3 (resp./resp. control)
+- `Q65` — text | `Q65_1–2` — EU long-term vs. demand | `Q66_1–7` — populism battery | `Q67` — prospective vote
+
+### Priming Experiment 4 (no text control)
+- `Q68` — populism battery | `Q69` — prospective vote
+
+### Post-prime items
+- `Q70` — validation (if prime 1 or 2 shown)
+- `Q71_1–2` — EU long-term vs. demand (if prime 3 NOT shown)
+
+### Priming Experiment: Gridlock (5 conditions)
+Each condition: text → agree/disagree scales → party attachment → closeness
+
+| Condition | Text | Scales | Party att. | Closeness |
+|-----------|------|--------|------------|-----------|
+| Gridlock | Q72 | Q73_1–3, Q74_1–2 | Q75 | Q76 |
+| No gridlock | Q77 | Q78_1–3, Q79_1–2 | Q80 | Q81 |
+| Control (text) | Q82, Q82_1 | Q83_1–3, Q84_1–2 | Q85 | Q86 |
+| Control (no text) | — | Q87_1–3, Q88_1–2 | Q89 | Q90 |
+
+### Compliance Experiments (immigration; 10 conditions)
+Each condition: timings → scenario text → approval nat. gov → approval EU (where applicable)
+
+| Condition | Timings | Approval nat. | Approval EU |
+|-----------|---------|---------------|-------------|
+| National legislation | Q91 | Q93 | — |
+| Transpose | Q94 | Q96 | Q97 |
+| No transpose + sanction | Q98 | Q100 | Q101 |
+| No transpose + sanction (consistency) | Q102 | Q104 | Q105 |
+| No transpose + sanction (economic) | Q106 | Q108 | Q109 |
+| No transpose + sanction (legality) | Q110 | Q112 | Q113 |
+| No transpose + sanction (reputation) | Q114 | Q116 | Q117 |
+| No transpose, no sanction | Q118 | Q120 | Q121 |
+| No transpose, no sanction (consistency) | Q122 | Q124 | Q125 |
+| No transpose, no sanction (reputation) | Q126 | Q128 | Q129 |
+
+- `Q130` — verification (if Q92 shown)
+
+### EU/Court Knowledge & Attitudes
+- `Q131_1–5` — informed about EU | `Q132_1–5` — trust in EU
+- `Q133_1–2` — CJEU scale | `Q134` — informed about nat. const. court
+
+### Court Experiments (4 conditions)
+| Condition | Timings | Text | Scale |
+|-----------|---------|------|-------|
+| Majority | Q135 | Q136 | Q137_1–2 |
+| Minority | Q138 | Q139 | Q140_* |
+| Control (text) | — | Q141 | Q142 |
+| Control (no text) | — | — | Q143 |
+
+- `Q144` — view of court position (if Q136, Q139, or Q143 shown)
+
+### Attitudes & Outcomes
+- `Q145_1–4` — pol. interest (nat/EU), econ nativism, cult. nativism
+- `Q146_*` — EU knowledge checks
+- `Q147_1–2 / Q149_1–2` — country/personal EU benefit (two versions)
+- `Q148 / Q150` — important election issues (two versions)
+- `Q151_1–6` — policy attitudes (market, security, asylum, environment, trade, agriculture)
+- `Q152_*` — tolerance/plurality | `Q153` — LR self-placement
+- `Q154_* / Q155_1–2 / Q156_*` — LR placements (nat parties, nat gov, court, EU bodies)
+- `Q157_*` — political efficacy (nat) | `Q158` — voted 2014 EP | `Q159` — retrospective 2014 vote
+- `Q160 / Q161_* / Q162_*` — EU integration placements (self, nat parties, EU bodies) [with immigration blame]
+- `Q163–Q164_4` — econ eval + responsibility attributions (nat gov, EU, immigrants, global)
+- `Q165_1–3` — news consumption (TV, internet, newspaper)
+- `Q166–Q171_*` — identical block to Q160–Q165 but **without immigration blame option**
+- `Q172` — age left education | `Q173` — current occupation | `Q174` — last occupation
+- `Q175` — financial strain (troubles paying bills)
+
+
+# Rename Wave 1
+
+```{r}
+#| label: wave1-rename
+
+df_wave1_renamed <- df_wave1 |>
+  rename(
+    meta_startdate = StartDate,
+    meta_enddate = EndDate,
+    meta_status = Status,
+    meta_ipaddress = IPAddress,
+    meta_progress = Progress,
+    meta_duration_s = Duration..in.seconds.,
+    meta_finished = Finished,
+    meta_recordeddate = RecordedDate,
+    meta_responseid = ResponseId,
+    meta_recipient_lastname = RecipientLastName,
+    meta_recipient_firstname = RecipientFirstName,
+    meta_recipient_email = RecipientEmail,
+    meta_external_ref = ExternalReference,
+    meta_latitude = LocationLatitude,
+    meta_longitude = LocationLongitude,
+    meta_distchannel = DistributionChannel,
+    meta_lang = UserLanguage,
+    meta_country_raw = Country,
+    meta_psid = PSID,
+    meta_pid = PID,
+    meta_device = Device,
+    # demographics
+    q_gender_raw = Q2,
+    q_age_raw = Q3_1,
+    q_nationality_raw = Q4,
+    q_nationality_other_raw = Q4_TEXT,
+    q_identity_country_raw = Q5_1,
+    q_identity_eu_raw = Q5_2,
+    q_identity_europe_raw = Q5_3,
+    q_policy_comp_eu_natgov_raw = Q8,
+    q_eu_trust_val_raw = Q9,
+    # conjoint randomisation (Q6 JS fills 7 form fields with shuffled labels/party order)
+    cj_rand_issue_order_raw = Q6_1,
+    cj_rand_party_a_raw = Q6_2,
+    cj_rand_party_b_raw = Q6_3,
+    cj_rand_party_c_raw = Q6_4,
+    cj_rand_party_d_raw = Q6_5,
+    cj_rand_party_e_raw = Q6_6,
+    cj_rand_party_f_raw = Q6_7,
+    # policy competence valence (EU vs national govt, 6 policy domains)
+    q_policy_comp_val_market_raw = Q7_1,
+    q_policy_comp_val_security_raw = Q7_2,
+    q_policy_comp_val_immigration_raw = Q7_3,
+    q_policy_comp_val_environment_raw = Q7_4,
+    q_policy_comp_val_trade_raw = Q7_5,
+    q_policy_comp_val_agriculture_raw = Q7_6,
+    # policy competence positions (respondent's own position, same 6 domains)
+    q_policy_comp_pos_market_raw = Q25_1,
+    q_policy_comp_pos_security_raw = Q25_2,
+    q_policy_comp_pos_immigration_raw = Q25_3,
+    q_policy_comp_pos_environment_raw = Q25_4,
+    q_policy_comp_pos_trade_raw = Q25_5,
+    q_policy_comp_pos_agriculture_raw = Q25_6,
+    # conjoint task 1
+    cj_task1_firstclick = Q45_First.Click,
+    cj_task1_lastclick = Q45_Last.Click,
+    cj_task1_pagesubmit = Q45_Page.Submit,
+    cj_task1_clickcount = Q45_Click.Count,
+    cj_task1_choice_raw = Q46,
+    cj_task1_eval_a_raw = Q47_1,
+    cj_task1_eval_b_raw = Q47_2,
+    # conjoint task 2
+    cj_task2_firstclick = Q50_First.Click,
+    cj_task2_lastclick = Q50_Last.Click,
+    cj_task2_pagesubmit = Q50_Page.Submit,
+    cj_task2_clickcount = Q50_Click.Count,
+    cj_task2_choice_raw = Q51,
+    cj_task2_eval_c_raw = Q52_1,
+    cj_task2_eval_d_raw = Q52_2,
+    # conjoint task 3
+    cj_task3_firstclick = Q55_First.Click,
+    cj_task3_lastclick = Q55_Last.Click,
+    cj_task3_pagesubmit = Q55_Page.Submit,
+    cj_task3_clickcount = Q55_Click.Count,
+    cj_task3_choice_raw = Q56,
+    cj_task3_eval_e_raw = Q57_1,
+    cj_task3_eval_f_raw = Q57_2,
+    # attention check
+    q_attn_check_raw = Q58,
+    q_attn_check_text = Q58_TEXT,
+    # resp. priming — populism outcome battery
+    q_pop_will_raw = Q60_1,
+    q_pop_people_raw = Q60_2,
+    q_pop_elite_raw = Q60_3,
+    q_pop_citizen_raw = Q60_4,
+    q_pop_reps_raw = Q60_5,
+    q_pop_goodevil_raw = Q60_6,
+    q_pop_compromise_raw = Q60_7,
+    # resp. priming — EU vote intention
+    q_eu_vote_2014_raw = Q61,
+    q_eu_vote_2014_raw_text = Q61_TEXT,
+    # resp. priming — manipulation check (ctrl arm, Greece only)
+    q_eu_longterm_gre_raw = Q65_1,
+    q_eu_responsive_gre_raw = Q65_2,
+    # resp. priming — verification
+    q_resp_verif_raw = Q70,
+    # resp. priming — manipulation check (treat arm)
+    q_eu_longterm_raw = Q71_1,
+    q_eu_responsive_raw = Q71_2,
+    # gridlock priming — efficacy scales (coalesced across all 4 conditions)
+    q_eu_efficacy_understand_raw = Q73_1,
+    q_eu_efficacy_care_raw = Q73_2,
+    q_eu_efficacy_nosay_raw = Q73_3,
+    q_eu_abolish_raw = Q74_1,
+    q_eu_satisfaction_raw = Q74_2,
+    # gridlock priming — party attachment
+    q_party_id_raw = Q75,
+    q_party_id_text_raw = Q75_TEXT,
+    # gridlock priming — party closeness
+    q_party_closeness_raw = Q76,
+    # gridlock priming — manipulation check
+    q_gridlock_manip_raw = Q82_1,
+    # compliance experiment — timing (post-coalesce)
+    prime_compliance_firstclick = Q91_First.Click,
+    prime_compliance_lastclick = Q91_Last.Click,
+    prime_compliance_pagesubmit = Q91_Page.Submit,
+    prime_compliance_clickcount = Q91_Click.Count,
+    # compliance experiment — approval outcomes
+    q_approval_natgov_raw = Q93,
+    q_approval_eu_raw = Q97,
+    # compliance experiment — verification
+    q_compliance_verif_raw = Q130,
+    # EU institution knowledge (self-reported informatedness)
+    q_eu_informed_com_raw = Q131_1,
+    q_eu_informed_cou_raw = Q131_2,
+    q_eu_informed_ep_raw = Q131_3,
+    q_eu_informed_cjeu_raw = Q131_4,
+    q_eu_informed_ecb_raw = Q131_5,
+    # EU institution trust
+    q_eu_trust_com_raw = Q132_1,
+    q_eu_trust_cou_raw = Q132_2,
+    q_eu_trust_ep_raw = Q132_3,
+    q_eu_trust_cjeu_raw = Q132_4,
+    q_eu_trust_ecb_raw = Q132_5,
+    # CJEU attitudes
+    q_cjeu_abolish_raw = Q133_1,
+    q_cjeu_satisfaction_raw = Q133_2,
+    # national constitutional court knowledge
+    q_natcourt_informed_raw = Q134,
+    # court experiment — timing (majority/minority conditions)
+    prime_court_firstclick = Q135_First.Click,
+    prime_court_lastclick = Q135_Last.Click,
+    prime_court_pagesubmit = Q135_Page.Submit,
+    prime_court_clickcount = Q135_Click.Count,
+    # national constitutional court scale (post-experiment, all conditions)
+    q_natcourt_1_raw = Q137_1,
+    q_natcourt_2_raw = Q137_2,
+    # court position view (control_text condition only)
+    q_court_pos_raw = Q141,
+    # agree scales
+    q_nat_int_raw = Q145_1,
+    q_eu_int_raw = Q145_2,
+    q_nativ_econ_raw = Q145_3,
+    q_nativ_cult_raw = Q145_4,
+    # true/false knowledge checks
+    q_eu_know_1_raw = Q146_1,
+    q_eu_know_2_raw = Q146_2,
+    q_eu_know_3_raw = Q146_3,
+    q_eu_know_4_raw = Q146_4,
+    q_eu_know_5_raw = Q146_5,
+
+    # EU attitudes (block 1)
+    q_eu_benefit_nat_raw = Q147_1,
+    q_eu_pos_personal_raw = Q147_2,
+    q_elec_issue_imp_pos_raw = Q148,
+    q_elec_issue_imp_val_raw = Q150,
+
+    # Policy attitudes
+    q_pol_market_raw = Q151_1,
+    q_pol_security_raw = Q151_2,
+    q_pol_immigration_raw = Q151_3,
+    q_pol_environment_raw = Q151_4,
+    q_pol_trade_raw = Q151_5,
+    q_pol_agriculture_raw = Q151_6,
+
+    # Tolerance / plurality
+    q_norm_tol_opposition_raw = Q152_1,
+    q_norm_order_over_freedom_raw = Q152_2,
+    q_norm_disobey_unjustlaw_raw = Q152_3,
+    q_norm_disobey_gov_raw = Q152_4,
+    q_norm_bypass_law_raw = Q152_5,
+    q_norm_gov_bend_law_raw = Q152_6,
+
+    # Ideology
+    q_lr_self_raw = Q153,
+    q_lr_party_1_raw = Q154_1,
+    q_lr_party_2_raw = Q154_2,
+    q_lr_party_3_raw = Q154_3,
+    q_lr_party_4_raw = Q154_4,
+    q_lr_party_5_raw = Q154_5,
+    q_lr_party_6_raw = Q154_6,
+    q_lr_party_7_raw = Q154_7,
+    q_lr_party_8_raw = Q154_8,
+    # only in some net/bel cases
+    q_lr_party_9_raw = Q154_9,
+    q_lr_party_10_raw = Q154_10,
+    q_lr_party_11_raw = Q154_11,
+    q_lr_party_12_raw = Q154_12,
+    q_lr_party_13_raw = Q154_13,
+
+    q_lr_gov_nat_raw = Q155_1,
+    q_lr_court_nat_raw = Q155_2,
+
+    q_lr_com_raw = Q156_1,
+    q_lr_cou_raw = Q156_2,
+    q_lr_ep_raw = Q156_3,
+    q_lr_cjeu_raw = Q156_4,
+    q_lr_ecb_raw = Q156_5,
+
+    # Political efficacy / informed
+    q_eff_internal_raw = Q157_1,
+    q_eff_external_resp_raw = Q157_2,
+    q_eff_external_nosay_raw = Q157_3,
+
+    # Voting
+    q_vote_eu_2014_raw = Q158,
+    q_vote_eu_2014_rec_raw = Q159,
+    q_vote_eu_2014_rec_text_raw = Q159_TEXT,
+
+    # EU integration & placements
+    q_euint_self_raw = Q160,
+
+    q_euint_party_1_raw = Q161_1,
+    q_euint_party_2_raw = Q161_2,
+    q_euint_party_3_raw = Q161_3,
+    q_euint_party_4_raw = Q161_4,
+    q_euint_party_5_raw = Q161_5,
+    q_euint_party_6_raw = Q161_6,
+    q_euint_party_7_raw = Q161_7,
+    q_euint_party_8_raw = Q161_8,
+    # for belgium
+    q_euint_party_9_raw = Q161_9,
+    q_euint_party_10_raw = Q161_10,
+
+    q_euint_com_raw = Q162_1,
+    q_euint_cou_raw = Q162_2,
+    q_euint_ep_raw = Q162_3,
+    q_euint_cjeu_raw = Q162_4,
+    q_euint_ecb_raw = Q162_5,
+
+    # Economic evaluations
+    q_econ_eval_retro_raw = Q163,
+
+    # Economic blame
+    q_econ_resp_natgov_raw = Q164_1,
+    q_econ_resp_eu_raw = Q164_2,
+    q_econ_resp_imm_raw = Q164_3,
+    q_econ_resp_global_raw = Q164_4,
+
+    # Media consumption
+    q_news_tv_raw = Q165_1,
+    q_news_online_raw = Q165_2,
+    q_news_print_raw = Q165_3,
+
+    # Socio-demographics
+    q_edu_age_stop_raw = Q172_1,
+    q_occ_current_raw = Q173,
+    q_occ_last_raw = Q174,
+    q_fin_strain_raw = Q175
+  )
+```
+
+# Condensed W1 Question Wordings
+
+```{r}
+#| label: w1-question-wordings
+
+rename_vec <- c(
+  # demographics
+  q_gender_raw = "Q2",
+  q_age_raw = "Q3_1",
+  q_nationality_raw = "Q4",
+  q_nationality_other_raw = "Q4_TEXT",
+  q_identity_country_raw = "Q5_1",
+  q_identity_eu_raw = "Q5_2",
+  q_identity_europe_raw = "Q5_3",
+  q_policy_comp_eu_natgov_raw = "Q8",
+  q_eu_trust_val_raw = "Q9",
+  # conjoint randomisation
+  cj_rand_issue_order = "Q6_1",
+  cj_rand_party_a = "Q6_2",
+  cj_rand_party_b = "Q6_3",
+  cj_rand_party_c = "Q6_4",
+  cj_rand_party_d = "Q6_5",
+  cj_rand_party_e = "Q6_6",
+  cj_rand_party_f = "Q6_7",
+  # policy competence valence
+  q_policy_comp_val_market_raw = "Q7_1",
+  q_policy_comp_val_security_raw = "Q7_2",
+  q_policy_comp_val_immigration_raw = "Q7_3",
+  q_policy_comp_val_environment_raw = "Q7_4",
+  q_policy_comp_val_trade_raw = "Q7_5",
+  q_policy_comp_val_agriculture_raw = "Q7_6",
+  # policy competence positions
+  q_policy_comp_pos_market_raw = "Q25_1",
+  q_policy_comp_pos_security_raw = "Q25_2",
+  q_policy_comp_pos_immigration_raw = "Q25_3",
+  q_policy_comp_pos_environment_raw = "Q25_4",
+  q_policy_comp_pos_trade_raw = "Q25_5",
+  q_policy_comp_pos_agriculture_raw = "Q25_6",
+  # conjoint tasks
+  cj_task1_choice_raw = "Q46",
+  cj_task1_eval_a_raw = "Q47_1",
+  cj_task1_eval_b_raw = "Q47_2",
+  cj_task2_choice_raw = "Q51",
+  cj_task2_eval_c_raw = "Q52_1",
+  cj_task2_eval_d_raw = "Q52_2",
+  cj_task3_choice_raw = "Q56",
+  cj_task3_eval_e_raw = "Q57_1",
+  cj_task3_eval_f_raw = "Q57_2",
+  # attention check
+  q_attn_check_raw = "Q58",
+  q_attn_check_text = "Q58_TEXT",
+  # populism battery
+  q_pop_will_raw = "Q60_1",
+  q_pop_people_raw = "Q60_2",
+  q_pop_elite_raw = "Q60_3",
+  q_pop_citizen_raw = "Q60_4",
+  q_pop_reps_raw = "Q60_5",
+  q_pop_goodevil_raw = "Q60_6",
+  q_pop_compromise_raw = "Q60_7",
+  # EU vote intention
+  q_eu_vote_2014_raw = "Q61",
+  q_eu_vote_2014_raw_text = "Q61_TEXT",
+  # manipulation check (ctrl arm, Greece only)
+  q_eu_longterm_gre_raw = "Q65_1",
+  q_eu_responsive_gre_raw = "Q65_2",
+  # verification
+  q_resp_verif_raw = "Q70",
+  # manipulation check (treat arm)
+  q_eu_longterm_raw = "Q71_1",
+  q_eu_responsive_raw = "Q71_2",
+  # efficacy scales
+  q_eu_efficacy_understand_raw = "Q73_1",
+  q_eu_efficacy_care_raw = "Q73_2",
+  q_eu_efficacy_nosay_raw = "Q73_3",
+  q_eu_abolish_raw = "Q74_1",
+  q_eu_satisfaction_raw = "Q74_2",
+  # party attachment / closeness
+  q_party_id_raw = "Q75",
+  q_party_id_text_raw = "Q75_TEXT",
+  q_party_closeness_raw = "Q76",
+  # manipulation check
+  q_gridlock_manip_raw = "Q82_1",
+  # compliance experiment outcomes
+  q_approval_natgov_raw = "Q93",
+  q_approval_eu_raw = "Q97",
+  q_compliance_verif_raw = "Q130",
+  # EU institution knowledge
+  q_eu_informed_com_raw = "Q131_1",
+  q_eu_informed_cou_raw = "Q131_2",
+  q_eu_informed_ep_raw = "Q131_3",
+  q_eu_informed_cjeu_raw = "Q131_4",
+  q_eu_informed_ecb_raw = "Q131_5",
+  # EU institution trust
+  q_eu_trust_com_raw = "Q132_1",
+  q_eu_trust_cou_raw = "Q132_2",
+  q_eu_trust_ep_raw = "Q132_3",
+  q_eu_trust_cjeu_raw = "Q132_4",
+  q_eu_trust_ecb_raw = "Q132_5",
+  # CJEU attitudes
+  q_cjeu_abolish_raw = "Q133_1",
+  q_cjeu_satisfaction_raw = "Q133_2",
+  # national court knowledge
+  q_natcourt_informed_raw = "Q134",
+  # national court scale
+  q_natcourt_1_raw = "Q137_1",
+  q_natcourt_2_raw = "Q137_2",
+  # court position
+  q_court_pos_raw = "Q141",
+  # agree scales
+  q_nat_int_raw = "Q145_1",
+  q_eu_int_raw = "Q145_2",
+  q_nativ_econ_raw = "Q145_3",
+  q_nativ_cult_raw = "Q145_4",
+  # knowledge checks
+  q_eu_know_1_raw = "Q146_1",
+  q_eu_know_2_raw = "Q146_2",
+  q_eu_know_3_raw = "Q146_3",
+  q_eu_know_4_raw = "Q146_4",
+  q_eu_know_5_raw = "Q146_5",
+  # EU attitudes
+  q_eu_benefit_nat_raw = "Q147_1",
+  q_eu_pos_personal_raw = "Q147_2",
+  q_elec_issue_imp_pos_raw = "Q148",
+  q_elec_issue_imp_val_raw = "Q150",
+  # policy attitudes
+  q_pol_market_raw = "Q151_1",
+  q_pol_security_raw = "Q151_2",
+  q_pol_immigration_raw = "Q151_3",
+  q_pol_environment_raw = "Q151_4",
+  q_pol_trade_raw = "Q151_5",
+  q_pol_agriculture_raw = "Q151_6",
+  # tolerance / plurality
+  q_norm_tol_opposition_raw = "Q152_1",
+  q_norm_order_over_freedom_raw = "Q152_2",
+  q_norm_disobey_unjustlaw_raw = "Q152_3",
+  q_norm_disobey_gov_raw = "Q152_4",
+  q_norm_bypass_law_raw = "Q152_5",
+  q_norm_gov_bend_law_raw = "Q152_6",
+  # ideology
+  q_lr_self_raw = "Q153",
+  q_lr_party_1_raw = "Q154_1",
+  q_lr_party_2_raw = "Q154_2",
+  q_lr_party_3_raw = "Q154_3",
+  q_lr_party_4_raw = "Q154_4",
+  q_lr_party_5_raw = "Q154_5",
+  q_lr_party_6_raw = "Q154_6",
+  q_lr_party_7_raw = "Q154_7",
+  q_lr_party_8_raw = "Q154_8",
+  q_lr_party_9_raw = "Q154_9",
+  q_lr_party_10_raw = "Q154_10",
+  q_lr_party_11_raw = "Q154_11",
+  q_lr_party_12_raw = "Q154_12",
+  q_lr_party_13_raw = "Q154_13",
+  q_lr_gov_nat_raw = "Q155_1",
+  q_lr_court_nat_raw = "Q155_2",
+  q_lr_com_raw = "Q156_1",
+  q_lr_cou_raw = "Q156_2",
+  q_lr_ep_raw = "Q156_3",
+  q_lr_cjeu_raw = "Q156_4",
+  q_lr_ecb_raw = "Q156_5",
+  # political efficacy
+  q_eff_internal_raw = "Q157_1",
+  q_eff_external_resp_raw = "Q157_2",
+  q_eff_external_nosay_raw = "Q157_3",
+  # voting
+  q_vote_eu_2014_raw = "Q158",
+  q_vote_eu_2014_rec_raw = "Q159",
+  q_vote_eu_2014_rec_text_raw = "Q159_TEXT",
+  # EU integration
+  q_euint_self_raw = "Q160",
+  q_euint_party_1_raw = "Q161_1",
+  q_euint_party_2_raw = "Q161_2",
+  q_euint_party_3_raw = "Q161_3",
+  q_euint_party_4_raw = "Q161_4",
+  q_euint_party_5_raw = "Q161_5",
+  q_euint_party_6_raw = "Q161_6",
+  q_euint_party_7_raw = "Q161_7",
+  q_euint_party_8_raw = "Q161_8",
+  q_euint_party_9_raw = "Q161_9",
+  q_euint_party_10_raw = "Q161_10",
+  q_euint_com_raw = "Q162_1",
+  q_euint_cou_raw = "Q162_2",
+  q_euint_ep_raw = "Q162_3",
+  q_euint_cjeu_raw = "Q162_4",
+  q_euint_ecb_raw = "Q162_5",
+  # economic evaluations
+  q_econ_eval_retro_raw = "Q163",
+  q_econ_resp_natgov_raw = "Q164_1",
+  q_econ_resp_eu_raw = "Q164_2",
+  q_econ_resp_imm_raw = "Q164_3",
+  q_econ_resp_global_raw = "Q164_4",
+  # media consumption
+  q_news_tv_raw = "Q165_1",
+  q_news_online_raw = "Q165_2",
+  q_news_print_raw = "Q165_3",
+  # socio-demographics
+  q_edu_age_stop_raw = "Q172_1",
+  q_occ_current_raw = "Q173",
+  q_occ_last_raw = "Q174",
+  q_fin_strain_raw = "Q175"
+)
+
+wording_map_w1 <- wording_map |>
+  filter(wave == 1, col_name %in% rename_vec) |>
+  left_join(
+    tibble(col_name = rename_vec, new_name = names(rename_vec)),
+    by = "col_name"
+  ) |>
+  select(col_name, new_name, country, wording)
+```
+
+# Overview of Experiments
+
+Wave 1 included 5 priming experiments. The following code adds variables storing the priming treatments (english translation), as these are absent in the data (Source: `data/01_raw/W1_EU25_Survey_Ireland_basic.pdf`).
+
+```{r}
+#| label: w1-priming-texts
+
+df_wave1_renamed <- df_wave1_renamed |>
+  mutate(
+    cj_task_instruction = "Imagine that you are voting for one of the two parties in the upcoming European election. The following summary table shows the party programs issued by these two parties.",
+    prime_respresp_text = case_match(
+      prime_respresp_condition,
+      "responsibility" ~ "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have pointed out that the EU should act upon its long-term goals, even if its decisions sometimes do not respond to the pressing demand of the people. For Page 17 of 90 example, the EU should take necessary measures to protect the environment for the present and future generations, even if this means imposing tough rules on carbon dioxide (CO2) and pollutant emissions without listening to the will of the people. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call “responsibility” of the EU is strikingly lower than many people thought.",
+      "control_notext" ~ "",
+      "responsiveness" ~ "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have pointed out that the EU should respond to the pressing demand of the people even if it would endanger its long-term goals. For example, the EU should not impose tough rules on carbon dioxide (CO2) and pollutant emissions without listening to the will of the people, even if these actions are necessary to protect the environment for present and future generations. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call “responsiveness” of the EU is strikingly lower than many people thought.",
+      "control_text" ~ "In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals."
+    ),
+    prime_gridlock_text = case_match(
+      prime_gridlock_condition,
+      "control_notext" ~ "",
+      "gridlock" ~ "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have pointed out that the EU cannot reach an agreement well, leading to continued conflicts and inaction on important issues. For example, the views and interests of the Member States and the various EU institutions are often very different. As a result, the EU did not promptly address the European refugee crisis in 2015, although swift action was necessary to guarantee secure borders and fair procedures. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call “gridlock” of the EU is strikingly higher than many people thought.",
+      "no_gridlock" ~ "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have pointed out that the EU reaches an agreement too easily, rather than representing different views and interests on important issues. For example, the EU has often neglected the different views of the Member States and the various institutions. As a result, the EU made a hasty decision on the European refugee crisis in 2015, although thoughtful action was necessary to guarantee secure borders and fair procedures. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call “gridlock” of the EU is strikingly lower than many people thought.",
+      "control_text" ~ "In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to fail to reach an agreement and generate continued conflicts and inaction on important issues. On the other hand, others contend that the EU tends to reach an agreement too easily, rather than representing different views and interests. When it comes to the question of whether the EU tends to fail to reach an agreement or it tends to reach an agreement too easily, what is your opinion?"
+    ),
+    prime_compliance_text = case_match(
+      prime_compliance_condition,
+      "no_transpose_sanction_consistency" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU currently will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. As a result, <SURVEY_COUNTRY> will break a promise made to the EU, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.",
+      "no_transpose_nosanction_consistency" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. Nevertheless, <SURVEY_COUNTRY> is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action. However, it will break a promise made to the EU.",
+      "no_transpose_sanction_reputation" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. As a result, the government's decision will significantly hurt the reputation of <SURVEY_COUNTRY> in Europe, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.",
+      "transpose" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. Accordingly, the <SURVEY_COUNTRY> government is planning to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would help to address the serious problem of irregular immigration",
+      "nat_legislation" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The <SURVEY_COUNTRY> government will introduce legislation that reforms the current system to handle immigration. The <SURVEY_COUNTRY_LEADER> said that this legislation would help to address the serious problem of irregular immigration.",
+      "no_transpose_nosanction" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. Nevertheless, <SURVEY_COUNTRY> is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action.",
+      "no_transpose_sanction_economic" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. As a result, the EU will retaliate by imposing significant financial penalty, and <SURVEY_COUNTRY> is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.",
+      "no_transpose_sanction_legality" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. As a result, <SURVEY_COUNTRY> will violate EU law, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.",
+      "no_transpose_sanction" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. As a result, <SURVEY_COUNTRY> is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.",
+      "no_transpose_nosanction_reputation" ~ "You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach <SURVEY_COUNTRY> leaders have taken. After describing this scenario, we will ask you questions about their decision. The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state. However, the <SURVEY_COUNTRY> government is planning not to transpose it into national law. The <SURVEY_COUNTRY_LEADER> said that this legislation would not help to address the serious problem of irregular immigration. Nevertheless, <SURVEY_COUNTRY> is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action. However, the government's decision will significantly hurt the reputation of <SURVEY_COUNTRY> in Europe."
+    ),
+    prime_court_text = case_match(
+      prime_court_condition,
+      "minority" ~ "A recent analysis of the Supreme Court of <SURVEY_COUNTRY> decisions finds that the institution strongly favors parties or groups that are opposed to the government over the actions taken by the government. Specifically, this study finds that the Court regularly strikes down legislation passed by the government to protect parties or groups that are opposed to the government.",
+      "control_notext" ~ "",
+      "majority" ~ "A recent analysis of the Supreme Court of <SURVEY_COUNTRY> decisions finds that the institution strongly favors actions taken by the government over parties or groups that are opposed to the government, when it rules. Specifically, this study finds that the Court regularly upholds legislation passed by the government when it is challenged.",
+      "control_text" ~ "In thinking about the Supreme Court of <SURVEY_COUNTRY> decisions more generally, some people argue that it tends to favor actions taken by the government at the expense of parties or groups that are opposed to the government when it rules. Others contend that the Court tends to protect parties or groups that are opposed to the government even if it means striking down actions taken by the government."
+    )
+  )
+```
+
+
+# Save Cleaned W1 Dataset
+
+```{r}
+#| label: save-cleaned-w1
+
+write_rds(
+  df_wave1_renamed,
+  file = here(
+    "data",
+    "02_processed",
+    "wave1_clean.rds"
+  )
+)
+
+write_rds(
+  wording_map_w1,
+  file = here(
+    "data",
+    "02_processed",
+    "wave1_wording.rds"
+  )
+)
+```
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```

@@ -1,0 +1,399 @@
+---
+title: |
+  Code Notebook 1
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Question Wording Exploration
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+Country labels follow the list-element order used throughout the project (25 EU
+member states, excluding Luxembourg, Malta, Cyprus).
+
+```{r}
+#| label: country-labels
+
+country_labels <- c(
+  "Austria",
+  "Belgium",
+  "Bulgaria",
+  "Croatia",
+  "Czechia",
+  "Denmark",
+  "Estonia",
+  "Finland",
+  "France",
+  "Germany",
+  "Greece",
+  "Hungary",
+  "Ireland",
+  "Italy",
+  "Latvia",
+  "Lithuania",
+  "Netherlands",
+  "Poland",
+  "Portugal",
+  "Romania",
+  "Slovakia",
+  "Slovenia",
+  "Spain",
+  "Sweden",
+  "United Kingdom"
+)
+```
+
+# Load Raw Data {#sec-load}
+
+Each wave is an R list of 25 country dataframes in Dynata wide-export format.
+Row 1 of each dataframe holds question wordings (Dynata exports the wording
+row immediately below the column headers); row 2 holds Dynata internal import
+IDs.
+Real respondent rows are identified by `DistributionChannel == "anonymous"`.
+
+```{r}
+#| label: load
+
+wave1 <- readRDS(here("data", "01_raw", "Wave1.rds"))
+wave2 <- readRDS(here("data", "01_raw", "Wave2.rds"))
+wave3 <- readRDS(here("data", "01_raw", "Wave3.rds"))
+
+waves <- list(`1` = wave1, `2` = wave2, `3` = wave3)
+```
+
+Verify that each wave is a list of 25 dataframes.
+
+```{r}
+#| label: verify-structure
+
+map_int(waves, length)
+```
+
+# Sample Sizes {#sec-n}
+
+Respondent counts per country per wave, excluding the wording and import-ID rows
+(i.e. keeping only `DistributionChannel == "anonymous"` rows).
+
+```{r}
+#| label: sample-sizes
+
+sample_sizes <- map2_dfr(waves, names(waves), function(wave_list, wn) {
+  map2_dfr(wave_list, seq_along(wave_list), function(df, i) {
+    n_respondents <- df |>
+      filter(DistributionChannel == "anonymous") |>
+      nrow()
+    tibble(
+      wave = as.integer(wn),
+      country = country_labels[i],
+      n_cols = ncol(df),
+      n_resp = n_respondents
+    )
+  })
+})
+
+sample_sizes |>
+  pivot_wider(
+    id_cols = country,
+    names_from = wave,
+    values_from = n_resp,
+    names_prefix = "wave"
+  ) |>
+  arrange(country) |>
+  knitr::kable(
+    caption = "Respondents per country per wave (anonymous rows only)"
+  )
+```
+
+Column counts vary across countries because of country-specific questions.
+The table below shows how many columns each country dataframe has.
+
+```{r}
+#| label: col-counts
+
+sample_sizes |>
+  pivot_wider(
+    id_cols = country,
+    names_from = wave,
+    values_from = n_cols,
+    names_prefix = "wave"
+  ) |>
+  arrange(country) |>
+  knitr::kable(caption = "Column count per country per wave")
+```
+
+# Extract Question Wordings {#sec-wordings}
+
+Row 1 of each country dataframe contains the question wording for every column.
+We extract these into a long-format lookup table: one row per
+`wave × country × column`.
+
+```{r}
+#| label: extract-wordings
+
+extract_wordings <- function(wave_list, wave_num, countries) {
+  map2_dfr(wave_list, seq_along(wave_list), function(df, i) {
+    # row 1 = question wording (Dynata export convention)
+    wording_row <- df[1, , drop = FALSE]
+    tibble(
+      wave = as.integer(wave_num),
+      country = countries[i],
+      col_name = names(df),
+      wording = as.character(wording_row[1, ])
+    )
+  })
+}
+
+wording_map <- map2_dfr(
+  waves,
+  names(waves),
+  ~ extract_wordings(.x, .y, country_labels)
+)
+
+glimpse(wording_map)
+```
+
+Sanity check: confirm that row-1 values are not real respondent data by
+verifying the `DistributionChannel` wording cell is not `"anonymous"`.
+
+```{r}
+#| label: sanity-check-wording-row
+
+wording_map |>
+  filter(col_name == "DistributionChannel") |>
+  count(wave, wording)
+```
+
+# Column Coverage {#sec-coverage}
+
+## How many unique column names exist per wave? {#sec-coverage-per-wave}
+
+```{r}
+#| label: unique-cols-per-wave
+
+wording_map |>
+  group_by(wave) |>
+  summarise(n_unique_cols = n_distinct(col_name)) |>
+  knitr::kable(caption = "Unique column names per wave")
+```
+
+## Common core: columns present in all 75 wave × country combinations {#sec-common-core}
+
+A column is "common core" if it appears in every country in every wave.
+
+```{r}
+#| label: common-core
+
+n_combinations <- length(country_labels) * length(waves) # 75
+
+common_core <- wording_map |>
+  group_by(col_name) |>
+  summarise(n_present = n_distinct(paste(wave, country))) |>
+  filter(n_present == n_combinations) |>
+  pull(col_name)
+
+cat(
+  "Common core columns (present in all 75 wave × country combos):",
+  length(common_core),
+  "\n"
+)
+print(common_core)
+```
+
+## Wave-specific columns {#sec-wave-specific}
+
+Columns present in at least one wave but absent from at least one other wave
+(aggregated across all countries).
+
+```{r}
+#| label: wave-specific
+
+wave_presence <- wording_map |>
+  group_by(col_name, wave) |>
+  summarise(present = TRUE, .groups = "drop") |>
+  pivot_wider(
+    names_from = wave,
+    values_from = present,
+    names_prefix = "wave",
+    values_fill = FALSE
+  )
+
+wave_specific <- wave_presence |>
+  filter(!(wave1 & wave2 & wave3))
+
+cat("Columns absent from at least one wave:", nrow(wave_specific), "\n")
+
+wave_specific |>
+  arrange(desc(wave1), desc(wave2), desc(wave3)) |>
+  knitr::kable(caption = "Wave-specific columns (TRUE = present in that wave)")
+```
+
+## Country-specific columns {#sec-country-specific}
+
+Within each wave, columns that appear in fewer than all 25 countries.
+
+```{r}
+#| label: country-specific
+
+country_specific <- wording_map |>
+  group_by(wave, col_name) |>
+  summarise(n_countries = n_distinct(country), .groups = "drop") |>
+  filter(n_countries < length(country_labels)) |>
+  arrange(wave, n_countries, col_name)
+
+cat(
+  "Wave × column combinations present in <25 countries:",
+  nrow(country_specific),
+  "\n"
+)
+
+country_specific |>
+  knitr::kable(
+    caption = "Country-specific columns: how many of the 25 countries have them"
+  )
+```
+
+Which countries account for the country-specific columns?
+
+```{r}
+#| label: country-specific-who
+
+# Columns absent from some countries: which countries are missing them?
+ubiquitous_per_wave <- wording_map |>
+  group_by(wave, col_name) |>
+  summarise(n_countries = n_distinct(country), .groups = "drop") |>
+  filter(n_countries == length(country_labels)) |>
+  select(wave, col_name)
+
+country_specific_detail <- wording_map |>
+  anti_join(ubiquitous_per_wave, by = c("wave", "col_name")) |>
+  group_by(wave, country) |>
+  summarise(n_extra_cols = n_distinct(col_name), .groups = "drop") |>
+  arrange(wave, desc(n_extra_cols))
+
+country_specific_detail |>
+  pivot_wider(
+    names_from = wave,
+    values_from = n_extra_cols,
+    names_prefix = "wave",
+    values_fill = 0
+  ) |>
+  arrange(country) |>
+  knitr::kable(
+    caption = "Number of country-specific extra columns per country per wave"
+  )
+```
+
+# Wording Conflicts {#sec-conflicts}
+
+A conflict occurs when the same column name carries different question wordings
+across waves.
+This is the most dangerous case: a naive `bind_rows()` would silently merge
+columns that mean different things.
+
+```{r}
+#| label: wording-conflicts
+
+# Collapse to one wording per wave × col_name (take the most common wording
+# within that wave, since country translations cause minor variation)
+dominant_wording <- wording_map |>
+  group_by(wave, col_name, wording) |>
+  summarise(n = n(), .groups = "drop") |>
+  group_by(wave, col_name) |>
+  slice_max(n, n = 1, with_ties = FALSE) |>
+  select(wave, col_name, wording)
+
+# Flag col_names whose dominant wording differs across waves
+conflicts <- dominant_wording |>
+  group_by(col_name) |>
+  filter(n_distinct(wording) > 1) |>
+  arrange(col_name, wave) |>
+  ungroup()
+
+cat(
+  "Column names with differing wordings across waves:",
+  n_distinct(conflicts$col_name),
+  "\n"
+)
+
+conflicts |>
+  knitr::kable(caption = "Cross-wave wording conflicts")
+```
+
+# Save Lookup Table {#sec-save}
+
+The full `wording_map` (one row per wave × country × column) is the load-bearing
+artifact for all subsequent renaming decisions.
+Edit this CSV to fix naming decisions; do not hard-code renames in pipeline
+scripts.
+
+```{r}
+#| label: save-wording-map
+
+write_csv(
+  wording_map,
+  here("data", "02_processed", "question_wording_map.csv")
+)
+
+cat(
+  "Saved:",
+  nrow(wording_map),
+  "rows to data/02_processed/question_wording_map.csv\n"
+)
+```
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```

@@ -1,0 +1,1268 @@
+---
+title: |
+  Code Notebook 2
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Recode Variables
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "future", # parallel backend
+  "furrr", # parallel map() functions
+  "janitor", # tabyl
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+```{r}
+#| label: load-data
+
+# stacked waves ----------------------------------------------------------------
+df_stacked <- read_rds(
+  here(
+    "data",
+    "02_processed",
+    "waves_stacked.rds"
+  )
+)
+
+# load wording map
+wording_map <- read_csv(
+  here(
+    "data",
+    "02_processed",
+    "question_wording_map.csv"
+  )
+)
+```
+
+# Recode Variable Values (Phase 8)
+
+CONTINUE HERE: LET CLAUDE DYNAMICALLY RECEIVE INFO FOR ALL LANGUAGES AND THEN UPDATE THE SCALE MAP VECTORS
+
+THEN HAVE HIM IMPLEMENT THE RECODING CONSISTENTLY
+
+Strategy:
+
+Collect vars to recode
+divide into numeric and categorical
+group numerics into scales
+harmonize categorical to english
+recode numerical to numeric
+
+do this variable by variable
+
+```{r}
+#| label: collect-information
+# colnames and current type ----------------------------------------------------
+cols <- tibble(
+  cols = df_stacked |> colnames(),
+  col_type = df_stacked |> map_chr(class)
+)
+# pre-split by country — workers receive slices, not full df ------------------
+countries <- df_stacked |> distinct(meta_country) |> pull(meta_country)
+df_by_country <- countries |>
+  set_names() |>
+  lapply(function(country) filter(df_stacked, meta_country == country))
+col_names <- names(df_stacked) # small vector, fine to export
+compute_groups <- function(df_country) {
+  cat(paste0("starting\n"))
+  # signatures in one pass -----------------------------------------------------
+  signatures <- sapply(seq_len(ncol(df_country)), function(i) {
+    df_country[[i]] |>
+      as.character() |>
+      unique() |>
+      sort() |>
+      paste(collapse = "||")
+  })
+  # group + name back ----------------------------------------------------------
+  groups <- split(seq_along(signatures), signatures)
+  lapply(groups, function(idx) col_names[idx])
+}
+# run in parallel for each country --------------------------------------------
+plan(multisession)
+groups_named <- future_map(df_by_country, compute_groups)
+plan(sequential)
+```
+
+```{r}
+#| label: value-labels
+
+# GENDER -----------------------------------------------------------------------
+male_vec <- c(
+  "Male",
+  "Männlich",
+  "Мъж",
+  "Muškarac",
+  "Muž",
+  "Mand",
+  "Mees",
+  "Mies",
+  "Homme",
+  "Männlich",
+  "Άνδρας",
+  "Férfi",
+  "Maschio",
+  "Vīrietis",
+  "Vyras",
+  "Man",
+  "Mężczyzna",
+  "Masculino",
+  "Bărbat",
+  "Muž",
+  "Moški",
+  "Hombre",
+  "Man",
+  "Man"
+)
+female_vec <- c(
+  "Female",
+  "Weiblich",
+  "Жена",
+  "Žena",
+  "Žena",
+  "Kvinde",
+  "Naine",
+  "Nainen",
+  "Femme",
+  "Weiblich",
+  "Γυναίκα",
+  "Nő",
+  "Femmina",
+  "Sieviete",
+  "Moteris",
+  "Vrouw",
+  "Kobieta",
+  "Feminino",
+  "Femenino",
+  "Femeie",
+  "Žena",
+  "Ženski",
+  "Mujer",
+  "Kvinna",
+  "Vrouw",
+  "2"
+)
+
+# NATIONALITY ------------------------------------------------------------------
+austria_vec <- c(
+  "Österreich",
+  "Австрия",
+  "Austrija",
+  "Rakousko",
+  "Austria",
+  "Itävalta",
+  "Autriche",
+  "Αυστρία",
+  "Ausztria",
+  "Oostenrijk",
+  "Avstrija",
+  "Österrike"
+)
+
+belgium_vec <- c(
+  "Belgien",
+  "Belgique",
+  "België",
+  "Белгия",
+  "Belgija",
+  "Belgie",
+  "Belgia",
+  "Belgio",
+  "Belgium",
+  "Beļģija",
+  "Belgija",
+  "Belgicko",
+  "Bélgica"
+)
+
+bulgaria_vec <- c(
+  "Bulgarien",
+  "България",
+  "Bugarska",
+  "Bulgaaria",
+  "Bulgaria",
+  "Bulgarie",
+  "Βουλγαρία",
+  "Bulgária",
+  "Bulgārija",
+  "Bulgarija",
+  "Bulgarije",
+  "Bułgaria",
+  "Bolgarija",
+  "Bulharsko"
+)
+
+croatia_vec <- c(
+  "Kroatien",
+  "Hrvatska",
+  "Chorvatsko",
+  "Kroatia",
+  "Croatie",
+  "Croazia",
+  "Croatia",
+  "Kroatija",
+  "Chorwacja",
+  "Croaţia",
+  "Hrvaška",
+  "Croacia"
+)
+
+czechia_vec <- c(
+  "Tschechische Republik",
+  "Tsjechië",
+  "Češka",
+  "Česká republika",
+  "Csehország",
+  "Czech Republic",
+  "Čekijos Respublika",
+  "Czechy",
+  "Češka republika",
+  "Tjeckien"
+)
+
+denmark_vec <- c(
+  "Dänemark",
+  "Danemark",
+  "Denemarken",
+  "Дания",
+  "Danska",
+  "Dania",
+  "Danmark",
+  "Tanska",
+  "Denmark",
+  "Dānija",
+  "Danija",
+  "Danemarca",
+  "Dánsko"
+)
+
+estonia_vec <- c(
+  "Estland",
+  "Estonija",
+  "Estonsko",
+  "Eesti",
+  "Viro",
+  "Estonie",
+  "Észtország",
+  "Estonia",
+  "Igaunija",
+  "Estonija"
+)
+
+finland_vec <- c(
+  "Finnland",
+  "Finska",
+  "Finland",
+  "Suomi",
+  "Finlande",
+  "Φινλανδία",
+  "Finnország",
+  "Suomija",
+  "Finlanda"
+)
+
+france_vec <- c(
+  "Frankreich",
+  "France",
+  "Frankrijk",
+  "Francuska",
+  "Frankrig",
+  "Ranska",
+  "Γαλλία",
+  "Francija",
+  "França",
+  "Franţa",
+  "Francúzsko",
+  "Francia",
+  "Frankrike"
+)
+
+germany_vec <- c(
+  "Deutschland",
+  "Allemagne",
+  "Duitsland",
+  "Германия",
+  "Njemačka",
+  "Tyskland",
+  "Saksa",
+  "Γερμανία",
+  "Németország",
+  "Germania",
+  "Germany",
+  "Vācija",
+  "Niemcy",
+  "Alemanha",
+  "Nemčija",
+  "Nemecko",
+  "Alemania"
+)
+
+greece_vec <- c(
+  "Griechenland",
+  "Řecko",
+  "Ελλάδα",
+  "Grecia",
+  "Greece",
+  "Grieķija",
+  "Graikija",
+  "Griekenland",
+  "Grecja",
+  "Grčija",
+  "Grécko",
+  "Grekland"
+)
+
+hungary_vec <- c(
+  "Ungarn",
+  "Mađarska",
+  "Ungari",
+  "Magyarország",
+  "Hungary",
+  "Hongarije",
+  "Ungaria",
+  "Madžarska",
+  "Maďarsko"
+)
+
+ireland_vec <- c(
+  "Irska",
+  "Ireland",
+  "Īrija",
+  "Airija",
+  "Ierland",
+  "Irlandia",
+  "Irlanda"
+)
+
+italy_vec <- c(
+  "Italien",
+  "Italie",
+  "Italië",
+  "Italija",
+  "Olaszország",
+  "Italia",
+  "Italy",
+  "Itālija",
+  "Itália"
+)
+
+latvia_vec <- c(
+  "Lettland",
+  "Letland",
+  "Läti",
+  "Lettonia",
+  "Latvia",
+  "Λετονία",
+  "Latvija",
+  "Letonia"
+)
+
+lithuania_vec <- c(
+  "Litauen",
+  "Lituanie",
+  "Litouwen",
+  "Leedu",
+  "Lithuania",
+  "Lietuva",
+  "Litwa",
+  "Lituania",
+  "Litva"
+)
+
+netherlands_vec <- c(
+  "Niederlande",
+  "Pays-Bas",
+  "Nederland",
+  "Nizozemska",
+  "Nederlandene",
+  "Alankomaat (Hollanti)",
+  "Netherlands",
+  "Holandia",
+  "Holanda",
+  "Nizozemska"
+)
+
+poland_vec <- c(
+  "Polen",
+  "Pologne",
+  "Poljska",
+  "Polsko",
+  "Poola",
+  "Puola",
+  "Πολωνία",
+  "Polonia",
+  "Poland",
+  "Polija",
+  "Lenkija",
+  "Polska",
+  "Polónia",
+  "Poľsko"
+)
+
+portugal_vec <- c(
+  "Portugal",
+  "Португалия",
+  "Portugalsko",
+  "Portugali",
+  "Portugalija",
+  "Portugalia"
+)
+
+romania_vec <- c(
+  "Rumänien",
+  "Roumanie",
+  "Roemenië",
+  "Rumænien",
+  "Romania",
+  "Ρουμανία",
+  "Románia",
+  "România",
+  "Rumunsko",
+  "Rumanía"
+)
+
+slovakia_vec <- c(
+  "Slowakei",
+  "Slovaquie",
+  "Slovačka",
+  "Slovensko",
+  "Slovakkia",
+  "Szlovákia",
+  "Slovakia",
+  "Slovaška"
+)
+
+slovenia_vec <- c(
+  "Slowenien",
+  "Slovenija",
+  "Slovinsko",
+  "Slovenien",
+  "Sloveenia",
+  "Slovenia",
+  "Slovēnija",
+  "Slovėnija",
+  "Eslovénia",
+  "Eslovenia"
+)
+
+spain_vec <- c(
+  "Spanien",
+  "Espagne",
+  "Spanje",
+  "Hispaania",
+  "Spagna",
+  "Spain",
+  "Ispanija",
+  "Espanha",
+  "Španija",
+  "Španielsko",
+  "España"
+)
+
+sweden_vec <- c(
+  "Suède",
+  "Zweden",
+  "Sverige",
+  "Ruotsi",
+  "Sweden",
+  "Švedija",
+  "Szwecja",
+  "Suedia",
+  "Švedska"
+)
+
+united_kingdom_vec <- c(
+  "Vereinigtes Königreich (Großbritannien, Nordirland)",
+  "Verenigd Koninkrijk (Groot-Brittannië, Noord-Ierland)",
+  "Ujedinjena Kraljevina Velike Britanije i Sjeverne Irske",
+  "Velká Británie",
+  "Storbritannien, Nordirland",
+  "Yhdistynyt kuningaskunta (Iso-Britannia, Pohjois-Irlanti)",
+  "Royaume-Uni (Grande Bretagne, Irlande du Nord)",
+  "Egyesült Királyság (Nagy-Britannia, Észak-Írország)",
+  "United Kingdom (Great Britain, Northern Ireland)",
+  "Apvienotā Karaliste (Lielbritānija, Ziemeļīrija)",
+  "Jungtinė Karalystė (Didžioji Britanija, Šiaurės Airija)",
+  "Zjednoczone Królestwo (Wielka Brytania, Irlandia Północna)",
+  "Reino Unido (Grã-Bretanha, Irlanda do Norte)",
+  "Regatul Unit (Marea Britanie, Irlanda de Nord)",
+  "Združeno kraljestvo (Velika Britanija, Severna Irska)",
+  "Reino Unido (Gran Bretaña, Irlanda del Norte)",
+  "Storbritannien (England, Skottland, Wales, Nordirland)"
+)
+
+luxembourg_vec <- c(
+  "Luxemburg",
+  "Luxembourg",
+  "Luksemburg",
+  "Liuksemburgas"
+)
+
+malta_vec <- c(
+  "Malta",
+  "Málta"
+)
+
+cyprus_vec <- c(
+  "Cipar",
+  "Kyperská republika",
+  "Cypern (Syd)",
+  "Cipro (sud)",
+  "Κυπριακή Δημοκρατία",
+  "Ciprusi - Köztársaság",
+  "Kipro Respublika",
+  "Cypr (południowy)",
+  "Republic of Cyprus"
+)
+
+other_country_vec <- c(
+  "Andere Länder",
+  "Autre pays",
+  "Andere landen",
+  "Друга държава",
+  "Ostale zemlje",
+  "Jiná země",
+  "Andre lande",
+  "Muu riik",
+  "Joku muu maa/maat",
+  "Άλλες χώρες",
+  "Más ország",
+  "Altri paesi",
+  "Other countries",
+  "Citas valstis",
+  "Kitos valstybės",
+  "Inne kraje",
+  "Outros países",
+  "Alte ţări",
+  "Druge države",
+  "Iné krajiny",
+  "Otros países",
+  "Annat land",
+  "Other country"
+)
+
+dont_know_vec <- c(
+  "Weiß nicht",
+  "Ne zna",
+  "Ne znam",
+  "Nevím",
+  "Ved ikke",
+  "Ei oska öelda",
+  "En tiedä",
+  "Ne sait pas",
+  "Nem tudom",
+  "Don't know",
+  "Nezinu",
+  "Nežinau",
+  "Weet niet",
+  "Nie wiem",
+  "Não sei",
+  "Nu ştiu",
+  "Ne vem",
+  "Nevie, bez odpovede",
+  "Neviem",
+  "No lo sé",
+  "Vet ej"
+)
+
+# CJ Religion Attribute --------------------------------------------------------
+cj_muslim_vec <- c(
+  "Muslimisch",
+  "Moslim",
+  "Musulman",
+  "мюсюлманин",
+  "Musliman",
+  "Muslim",
+  "Muslim",
+  "Moslim",
+  "Moslem",
+  "Muslimi",
+  "Musulman",
+  "Muslimisch",
+  "Μουσουλμάνος",
+  "Muzulmán",
+  "Musulmana",
+  "musulmanis",
+  "Musulmanis", #Lv
+  "Musulmonas",
+  "Muzułmańskie",
+  "Muçulmano",
+  "Musulman",
+  "Moslimské",
+  "Muslimanska",
+  "Musulmana",
+  "Muslim",
+  "Muslim"
+)
+
+cj_protestant_vec <- c(
+  "Protestantisch",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "протестант",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestantti",
+  "Protestant",
+  "Protestantisch",
+  "Διαμαρτυρόμενος",
+  "Protestáns",
+  "Protestante",
+  "protestants",
+  "Protestants", #lv
+  "Protestantas",
+  "Protestanckie",
+  "Protestante",
+  "Protestant",
+  "Protestantské",
+  "Protestantska",
+  "Protestante",
+  "Protestant"
+)
+
+cj_catholic_vec <- c(
+  "Katholisch",
+  "Catholic",
+  "Katholiek",
+  "Catholique",
+  "католик",
+  "Katolik",
+  "Katolík",
+  "Katolik",
+  "Katholiek",
+  "Katoliiklane",
+  "Katolilainen",
+  "Catholique",
+  "Katholisch",
+  "Καθολικός",
+  "Katolikus",
+  "Cattolica",
+  "katolis",
+  "Katolis", #lv
+  "Katalikas",
+  "Katolickie",
+  "Católico",
+  "Catolic",
+  "Katolícke",
+  "Katoliška",
+  "Católica",
+  "Katolik"
+)
+
+cj_nonreli_vec <- c(
+  "Keine Religion",
+  "No Religion",
+  "Geen religie",
+  "Sans religion",
+  "без религия",
+  "Nije vjernik",
+  "Bez vyznání",
+  "Ikke religiøs",
+  "Geen religie",
+  "Ei ole usklik",
+  "Ei uskontoa",
+  "Sans religion",
+  "Keine Religion",
+  "Χωρίς θρησκεία",
+  "Nincs vallása",
+  "Nessuna religione",
+  "bez reliģiskās piederības",
+  "Bez reliģiskās piederības",
+  "Nėra religijos",
+  "Nie wierzący(-a)",
+  "Sem religião",
+  "Nicio religie",
+  "Žiadne vierovyznanie",
+  "Brez religije",
+  "Sin religión",
+  "Ingen religion"
+)
+```
+
+Recoding code: comment variables that stay character, recode to numeric (integer if possible), logical, date or factor for all others
+
+```{r}
+#| label: recode-vars
+
+# character variables: comment out
+df_stacked_recoded <- df_stacked |>
+  mutate(
+    # META VARS ----------------------------------------------------------------
+    meta_wave = as.integer(meta_wave),
+    # meta_country = ,
+    meta_startdate = as.POSIXct(meta_startdate),
+    meta_enddate = as.POSIXct(meta_enddate),
+    # meta_status = ,
+    # meta_ipaddress = ,
+    meta_progress = as.integer(meta_progress),
+    meta_duration_s = as.integer(meta_duration_s),
+    meta_finished = as.logical(meta_finished),
+    meta_recordeddate = as.POSIXct(meta_recordeddate),
+    # meta_responseid = ,
+    # meta_recipient_lastname = ,
+    # meta_recipient_firstname = ,
+    # meta_recipient_email = ,
+    # meta_external_ref = ,
+    meta_latitude = as.numeric(meta_latitude),
+    meta_longitude = as.numeric(meta_longitude),
+    # meta_distchannel = ,
+    # meta_lang = ,
+    # GENDER -------------------------------------------------------------------
+    q_gender = case_when(
+      q_gender_raw %in% male_vec ~ "male",
+      q_gender_raw %in% female_vec ~ "female",
+      !is.na(q_gender_raw) ~ "other"
+    ),
+    # AGE ----------------------------------------------------------------------
+    q_age = as.integer(str_extract(q_age_raw, "\\d+")),
+    # NATIONALITY --------------------------------------------------------------
+    # q_nationality = ,
+    # q_nationality_other = ,
+    # q_identity_country = ,
+    # q_identity_eu = ,
+    # q_identity_europe = ,
+    # q_pop_will = ,
+    # q_pop_people = ,
+    # q_pop_citizen = ,
+    # q_pop_reps = ,
+    # q_pop_goodevil = ,
+    # q_pop_compromise = ,
+    # q_eu_longterm = ,
+    # q_eu_responsive = ,
+    # q_eu_efficacy_understand = ,
+    # q_eu_efficacy_care = ,
+    # q_eu_efficacy_nosay = ,
+    # q_eu_abolish = ,
+    # q_eu_satisfaction = ,
+    # q_party_id = ,
+    # q_eu_informed_com = ,
+    # q_eu_informed_cou = ,
+    # q_eu_informed_ep = ,
+    # q_eu_informed_cjeu = ,
+    # q_eu_trust_com = ,
+    # q_eu_trust_cou = ,
+    # q_eu_trust_ep = ,
+    # q_eu_trust_cjeu = ,
+    # q_cjeu_abolish = ,
+    # q_cjeu_satisfaction = ,
+    # q_nat_int = ,
+    # q_eu_int = ,
+    # q_nativ_econ = ,
+    # q_nativ_cult = ,
+    # q_eu_know_1 = ,
+    # q_eu_know_2 = ,
+    # q_eu_know_3 = ,
+    # q_eu_know_4 = ,
+    # q_eu_know_5 = ,
+    # q_lr_self = ,
+    # q_lr_party_1 = ,
+    # q_lr_party_2 = ,
+    # q_lr_party_3 = ,
+    # q_lr_party_4 = ,
+    # q_lr_party_5 = ,
+    # q_lr_party_6 = ,
+    # q_lr_party_7 = ,
+    # q_lr_party_8 = ,
+    # q_lr_com = ,
+    # q_lr_cou = ,
+    # q_lr_ep = ,
+    # q_lr_cjeu = ,
+    # q_euint_self = ,
+    # q_euint_party_1 = ,
+    # q_euint_party_2 = ,
+    # q_euint_party_3 = ,
+    # q_euint_party_4 = ,
+    # q_euint_party_5 = ,
+    # q_euint_party_6 = ,
+    # q_euint_party_7 = ,
+    # q_euint_party_8 = ,
+    # q_euint_com = ,
+    # q_euint_cou = ,
+    # q_euint_ep = ,
+    # q_euint_cjeu = ,
+    # q_edu_age_stop = ,
+    # q_occ_current = ,
+    # q_occ_last = ,
+    # meta_country = ,
+    # meta_psid = ,
+    # meta_pid = ,
+    # meta_device = ,
+    # q_news_tv = ,
+    # q_lr_party_9 = ,
+    # q_lr_party_10 = ,
+    # q_lr_party_11 = ,
+    # q_lr_party_12 = ,
+    # q_norm_tol_opposition = ,
+    # q_norm_order_over_freedom = ,
+    # q_norm_disobey_unjustlaw = ,
+    # q_norm_disobey_gov = ,
+    # q_norm_bypass_law = ,
+    # q_norm_gov_bend_law = ,
+    # q_religion = ,
+    # q_class = ,
+    # q_verif = ,
+    # q_verif2 = ,
+    # q_euint_pos = ,
+    # q_dem_compromise = ,
+    # q_dem_listen = ,
+    # q_tech_experts = ,
+    # q_tech_leaders = ,
+    # q_party_harm = ,
+    # q_people_incompetent = ,
+    # q_eu_imp_nat_econ = ,
+    # q_eu_imp_nat_cul = ,
+    # q_eu_imp_nat_pol = ,
+    # q_vote_turnout_likelihood = ,
+    # q_vote_choice_past = ,
+    # q_vote_choice_past_other = ,
+    # q_vote_choice_hypo = ,
+    # q_vote_choice_hypo_other = ,
+    # q_vote_choice_past2014 = ,
+    # q_vote_choice_past2014_other = ,
+    # q_party_id_other = ,
+    # q_eu_campaign_sources = ,
+    # q_eu_campaign_sources_other = ,
+    # prime_cjeu_firstclick = ,
+    # prime_cjeu_lastclick = ,
+    # prime_cjeu_pagesubmit = ,
+    # prime_cjeu_clickcount = ,
+    # q_cjeu_pos = ,
+    # q_eval_econ_eur = ,
+    # q_eval_econ_nat = ,
+    # q_eval_fin_household = ,
+    # q_eval_job = ,
+    # q_satis_demo_nat = ,
+    # q_satis_demo_eu = ,
+    # q_risk_taking = ,
+    # q_future_discount = ,
+    # q_eu_efficacy_understand_c = ,
+    # q_eu_efficacy_care_c = ,
+    # q_eff_external_nosay_c = ,
+    # q_rural_urban = ,
+    # q_postal_code = ,
+    # q_region = ,
+    # cj_attr_order = ,
+    cj_dict_instr_firstclick = as.integer(cj_dict_instr_firstclick),
+    cj_dict_instr_lastclick = as.integer(cj_dict_instr_lastclick),
+    cj_dict_instr_pagesubmit = as.integer(cj_dict_instr_pagesubmit),
+    cj_dict_instr_clickcount = as.integer(cj_dict_instr_clickcount),
+    cj_dict1_pl1 = as.integer(cj_dict1_pl1),
+    cj_dict1_pl2 = as.integer(cj_dict1_pl2),
+    cj_dict1_firstclick = as.integer(cj_dict1_firstclick),
+    cj_dict1_lastclick = as.integer(cj_dict1_lastclick),
+    cj_dict1_pagesubmit = as.integer(cj_dict1_pagesubmit),
+    cj_dict1_clickcount = as.integer(cj_dict1_clickcount),
+    # cj_dict1_nat = ,
+    # cj_dict1_party = ,
+    # cj_dict1_eupos = ,
+    cj_dict1_rel = case_when(
+      cj_dict1_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_dict1_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_dict1_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_dict1_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_dict1_age = ,
+    # cj_dict1_sex = ,
+    # cj_dict1_class = ,
+    cj_dict2_pl1 = as.integer(cj_dict2_pl1),
+    cj_dict2_pl2 = as.integer(cj_dict2_pl2),
+    cj_dict2_firstclick = as.integer(cj_dict2_firstclick),
+    cj_dict2_lastclick = as.integer(cj_dict2_lastclick),
+    cj_dict2_pagesubmit = as.integer(cj_dict2_pagesubmit),
+    cj_dict2_clickcount = as.integer(cj_dict2_clickcount),
+    # cj_dict2_nat = ,
+    # cj_dict2_party = ,
+    # cj_dict2_eupos = ,
+    cj_dict2_rel = case_when(
+      cj_dict2_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_dict2_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_dict2_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_dict2_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_dict2_age = ,
+    # cj_dict2_sex = ,
+    # cj_dict2_class = ,
+    cj_dict3_pl1 = as.integer(cj_dict3_pl1),
+    cj_dict3_pl2 = as.integer(cj_dict3_pl2),
+    cj_dict3_firstclick = as.integer(cj_dict3_firstclick),
+    cj_dict3_lastclick = as.integer(cj_dict3_lastclick),
+    cj_dict3_pagesubmit = as.integer(cj_dict3_pagesubmit),
+    cj_dict3_clickcount = as.integer(cj_dict3_clickcount),
+    # cj_dict3_nat = ,
+    # cj_dict3_party = ,
+    # cj_dict3_eupos = ,
+    cj_dict3_rel = case_when(
+      cj_dict3_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_dict3_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_dict3_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_dict3_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_dict3_age = ,
+    # cj_dict3_sex = ,
+    # cj_dict3_class = ,
+    cj_trust_instr_firstclick = as.integer(cj_trust_instr_firstclick),
+    cj_trust_instr_lastclick = as.integer(cj_trust_instr_lastclick),
+    cj_trust_instr_pagesubmit = as.integer(cj_trust_instr_pagesubmit),
+    cj_trust_instr_clickcount = as.integer(cj_trust_instr_clickcount),
+    cj_trust1_pl1 = as.integer(cj_trust1_pl1),
+    cj_trust1_pl2 = as.integer(cj_trust1_pl2),
+    cj_trust1_firstclick = as.integer(cj_trust1_firstclick),
+    cj_trust1_lastclick = as.integer(cj_trust1_lastclick),
+    cj_trust1_pagesubmit = as.integer(cj_trust1_pagesubmit),
+    cj_trust1_clickcount = as.integer(cj_trust1_clickcount),
+    # cj_trust1_nat = ,
+    # cj_trust1_party = ,
+    # cj_trust1_eupos = ,
+    cj_trust1_rel = case_when(
+      cj_trust1_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_trust1_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_trust1_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_trust1_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_trust1_age = ,
+    # cj_trust1_sex = ,
+    # cj_trust1_class = ,
+    cj_trust2_pl1 = as.integer(cj_trust2_pl1),
+    cj_trust2_pl2 = as.integer(cj_trust2_pl2),
+    cj_trust2_firstclick = as.integer(cj_trust2_firstclick),
+    cj_trust2_lastclick = as.integer(cj_trust2_lastclick),
+    cj_trust2_pagesubmit = as.integer(cj_trust2_pagesubmit),
+    cj_trust2_clickcount = as.integer(cj_trust2_clickcount),
+    # cj_trust2_nat = ,
+    # cj_trust2_party = ,
+    # cj_trust2_eupos = ,
+    cj_trust2_rel = case_when(
+      cj_trust2_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_trust2_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_trust2_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_trust2_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_trust2_age = ,
+    # cj_trust2_sex = ,
+    # cj_trust2_class = ,
+    cj_trust3_pl1 = as.integer(cj_trust3_pl1),
+    cj_trust3_pl2 = as.integer(cj_trust3_pl2),
+    cj_trust3_firstclick = as.integer(cj_trust3_firstclick),
+    cj_trust3_lastclick = as.integer(cj_trust3_lastclick),
+    cj_trust3_pagesubmit = as.integer(cj_trust3_pagesubmit),
+    cj_trust3_clickcount = as.integer(cj_trust3_clickcount),
+    # cj_trust3_nat = ,
+    # cj_trust3_party = ,
+    # cj_trust3_eupos = ,
+    cj_trust3_rel = case_when(
+      cj_trust3_rel_raw %in% cj_muslim_vec ~ "muslim",
+      cj_trust3_rel_raw %in% cj_protestant_vec ~ "protestant",
+      cj_trust3_rel_raw %in% cj_catholic_vec ~ "catholic",
+      cj_trust3_rel_raw %in% cj_nonreli_vec ~ "non-religious",
+    ),
+    # cj_trust3_age = ,
+    # cj_trust3_sex = ,
+    # cj_trust3_class = ,
+    # q_religion_other = ,
+    # q_thermo_1 = ,
+    # q_thermo_2 = ,
+    # q_thermo_3 = ,
+    # q_thermo_4 = ,
+    # q_thermo_5 = ,
+    # q_thermo_6 = ,
+    # prime_cjeu_condition = ,
+    # prime_cjeu_text = ,
+    # cj_rand_issue_order = ,
+    # cj_rand_party_a = ,
+    # cj_rand_party_b = ,
+    # cj_rand_party_c = ,
+    # cj_rand_party_d = ,
+    # cj_rand_party_e = ,
+    # cj_rand_party_f = ,
+    # q_policy_comp_val_market = ,
+    # q_policy_comp_val_security = ,
+    # q_policy_comp_val_immigration = ,
+    # q_policy_comp_val_environment = ,
+    # q_policy_comp_val_trade = ,
+    # q_policy_comp_val_agriculture = ,
+    # q_policy_comp_eu_natgov = ,
+    # q_eu_trust_val = ,
+    # q_policy_comp_pos_market = ,
+    # q_policy_comp_pos_security = ,
+    # q_policy_comp_pos_immigration = ,
+    # q_policy_comp_pos_environment = ,
+    # q_policy_comp_pos_trade = ,
+    # q_policy_comp_pos_agriculture = ,
+    # cj_task1_firstclick = ,
+    # cj_task1_lastclick = ,
+    # cj_task1_pagesubmit = ,
+    # cj_task1_clickcount = ,
+    # cj_task1_choice = ,
+    # cj_task1_eval_a = ,
+    # cj_task1_eval_b = ,
+    # cj_task2_firstclick = ,
+    # cj_task2_lastclick = ,
+    # cj_task2_pagesubmit = ,
+    # cj_task2_clickcount = ,
+    # cj_task2_choice = ,
+    # cj_task2_eval_c = ,
+    # cj_task2_eval_d = ,
+    # cj_task3_firstclick = ,
+    # cj_task3_lastclick = ,
+    # cj_task3_pagesubmit = ,
+    # cj_task3_clickcount = ,
+    # cj_task3_choice = ,
+    # cj_task3_eval_e = ,
+    # cj_task3_eval_f = ,
+    # q_attn_check = ,
+    # q_attn_check_text = ,
+    # q_pop_elite = ,
+    # q_eu_vote_2014 = ,
+    # q_eu_vote_2014_text = ,
+    # q_eu_longterm_gre = ,
+    # q_eu_responsive_gre = ,
+    # q_resp_verif = ,
+    # q_party_id_text = ,
+    # q_party_closeness = ,
+    # q_gridlock_manip = ,
+    # prime_compliance_firstclick = ,
+    # prime_compliance_lastclick = ,
+    # prime_compliance_pagesubmit = ,
+    # prime_compliance_clickcount = ,
+    # q_approval_natgov = ,
+    # q_approval_eu = ,
+    # q_compliance_verif = ,
+    # q_eu_informed_ecb = ,
+    # q_eu_trust_ecb = ,
+    # q_natcourt_informed = ,
+    # prime_court_firstclick = ,
+    # prime_court_lastclick = ,
+    # prime_court_pagesubmit = ,
+    # prime_court_clickcount = ,
+    # q_natcourt_1 = ,
+    # q_natcourt_2 = ,
+    # q_court_pos = ,
+    # q_eu_benefit_nat = ,
+    # q_eu_pos_personal = ,
+    # q_elec_issue_imp_pos = ,
+    # q_elec_issue_imp_val = ,
+    # q_pol_market = ,
+    # q_pol_security = ,
+    # q_pol_immigration = ,
+    # q_pol_environment = ,
+    # q_pol_trade = ,
+    # q_pol_agriculture = ,
+    # q_lr_gov_nat = ,
+    # q_lr_court_nat = ,
+    # q_lr_ecb = ,
+    # q_eff_internal = ,
+    # q_eff_external_resp = ,
+    # q_eff_external_nosay = ,
+    # q_vote_eu_2014 = ,
+    # q_vote_eu_2014_rec = ,
+    # q_vote_eu_2014_rec_text = ,
+    # q_euint_ecb = ,
+    # q_econ_eval_retro = ,
+    # q_econ_resp_natgov = ,
+    # q_econ_resp_eu = ,
+    # q_econ_resp_imm = ,
+    # q_econ_resp_global = ,
+    # q_news_online = ,
+    # q_news_print = ,
+    # q_fin_strain = ,
+    # q_euint_party_9 = ,
+    # q_euint_party_10 = ,
+    # q_lr_party_13 = ,
+    # prime_respresp_condition = ,
+    # prime_gridlock_condition = ,
+    # prime_compliance_condition = ,
+    # prime_court_condition = ,
+    # prime_econblame_condition = ,
+    # cj_task_instruction = ,
+    # prime_respresp_text = ,
+    # prime_gridlock_text = ,
+    # prime_compliance_text = ,
+    # prime_court_text = ,
+    # prime_moreeu_firstclick = ,
+    # prime_moreeu_lastclick = ,
+    # prime_moreeu_pagesubmit = ,
+    # prime_moreeu_clickcount = ,
+    # q_vote_turnout_confirm = ,
+    # q_vote_choice_intended = ,
+    # q_vote_choice_intended_other = ,
+    # q_election_challenge_polgroups = ,
+    # q_election_impact_eu = ,
+    # q_election_importance_self = ,
+    # q_news_newspaper = ,
+    # q_news_radio = ,
+    # q_news_social = ,
+    # q_news_internet = ,
+    # q_news_personal = ,
+    # q_news_other = ,
+    # q_news_other_text = ,
+    # q_eu_efficacy_understand_fra = ,
+    # q_eu_efficacy_care_fra = ,
+    # q_eu_efficacy_nosay_fra = ,
+    # q_pop_will_fra = ,
+    # q_pop_people_fra = ,
+    # q_pop_citizen_fra = ,
+    # q_pop_reps_fra = ,
+    # q_pop_goodevil_fra = ,
+    # q_pop_compromise_fra = ,
+    # q_dem_compromise_fra = ,
+    # q_dem_listen_fra = ,
+    # q_tech_experts_fra = ,
+    # q_tech_leaders_fra = ,
+    # q_party_harm_fra = ,
+    # q_people_incompetent_fra = ,
+    # q_eu_longterm_fra = ,
+    # q_eu_responsive_fra = ,
+    # q_eu_imp_nat_econ_fra = ,
+    # q_eu_imp_nat_cul_fra = ,
+    # q_eu_imp_nat_pol_fra = ,
+    # q_eu_abolish_fra = ,
+    # q_eu_satisfaction_fra = ,
+    # q_euint_pos_fra = ,
+    # q_vote_turnout_reason_fra = ,
+    # q_vote_choice_past_fra = ,
+    # q_vote_choice_past_other_fra = ,
+    # q_vote_choice_hypo_fra = ,
+    # q_vote_choice_hypo_other_fra = ,
+    # q_vote_choice_ep2014_fra = ,
+    # q_vote_choice_ep2014_other_fra = ,
+    # q_party_id_fra = ,
+    # q_party_id_other_fra = ,
+    # q_eu_campaign_sources_fra = ,
+    # q_eu_campaign_sources_other_fra = ,
+    # q_campaign_activity_fra = ,
+    # q_campaign_activity_other_fra = ,
+    # prime_cjeu_fra_firstclick = ,
+    # prime_cjeu_fra_lastclick = ,
+    # prime_cjeu_fra_pagesubmit = ,
+    # prime_cjeu_fra_clickcount = ,
+    # q_cjeu_abolish_fra = ,
+    # q_cjeu_satisfaction_fra = ,
+    # q_cjeu_pos_fra = ,
+    # q_norm_tolerance_fra = ,
+    # q_norm_order_fra = ,
+    # q_norm_unjust_law_fra = ,
+    # q_norm_unvoted_gov_fra = ,
+    # q_norm_bypass_law_fra = ,
+    # q_norm_gov_bypass_fra = ,
+    # q_eval_econ_eur_fra = ,
+    # q_eval_econ_nat_fra = ,
+    # q_eval_fin_household_fra = ,
+    # q_eval_job_fra = ,
+    # q_nativ_econ_fra = ,
+    # q_nativ_cult_fra = ,
+    # q_nativ_3_fra = ,
+    # q_nativ_4_fra = ,
+    # q_satis_demo_nat_fra = ,
+    # q_satis_demo_eu_fra = ,
+    # q_nat_int_fra = ,
+    # q_eu_int_fra = ,
+    # q_nativ_econ_b_fra = ,
+    # q_nativ_cult_b_fra = ,
+    # q_eu_know_1_fra = ,
+    # q_eu_know_2_fra = ,
+    # q_eu_know_3_fra = ,
+    # q_eu_know_4_fra = ,
+    # q_eu_know_5_fra = ,
+    # q_eu_informed_com_fra = ,
+    # q_eu_informed_cou_fra = ,
+    # q_eu_informed_ep_fra = ,
+    # q_eu_informed_cjeu_fra = ,
+    # q_eu_trust_com_fra = ,
+    # q_eu_trust_cou_fra = ,
+    # q_eu_trust_ep_fra = ,
+    # q_eu_trust_cjeu_fra = ,
+    # q_risk_taking_fra = ,
+    # q_future_discount_fra = ,
+    # prime_moreeu_condition = ,
+    # prime_moreeu_text = ,
+    # q_vote_exp_rank_party_1 = ,
+    # q_vote_exp_rank_party_2 = ,
+    # q_vote_exp_rank_party_3 = ,
+    # q_vote_exp_rank_party_4 = ,
+    # q_vote_exp_rank_party_5 = ,
+    # q_vote_exp_rank_party_6 = ,
+    # prime_cjeu_fra_condition = ,
+    # prime_cjeu_fra_text = ,
+    # q_campaign_activity = ,
+    # q_campaign_activity_other = ,
+    # q_nativ_3 = ,
+    # q_nativ_4 = ,
+    # q_nativ_econ_b = ,
+    # q_nativ_cult_b = ,
+  )
+```
+
+# Save Full Recoded Wide EU25 Dataset
+
+```{r}
+#| label: save
+
+write_rds(
+  df_stacked_recoded,
+  file = here(
+    "data",
+    "03_final",
+    "eu25games2019.rds"
+  )
+)
+```
+
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```

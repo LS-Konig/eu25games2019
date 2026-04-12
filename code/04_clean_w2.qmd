@@ -1,0 +1,2156 @@
+---
+title: |
+  Code Notebook 2
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Clean Wave 2
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "knitr",
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+```{r}
+#| label: load-data
+
+# wave 2 -----------------------------------------------------------------------
+df_wave2 <- readRDS(
+  here(
+    "data",
+    "02_processed",
+    "wave2_compiled.rds"
+  )
+)
+
+# load wording map
+wording_map <- read_csv(
+  here(
+    "data",
+    "02_processed",
+    "question_wording_map.csv"
+  )
+)
+```
+
+# Phase 5: Coalesce
+
+Some variables store identical questions but are split into different columns.
+
+Here I produce a variable overview.
+
+## Wave 2 Block I Overview
+
+Block B1 Demographics
+Q2 <- Gender
+Q3 <- Age
+Q4 <- Nationality
+Q4_Text <- if Q4 = Other
+Q5_1 <- attachement nat
+Q5_2 <- attachement EU
+Q5_3 <- attachement Europe
+Q6 <- religion
+Q7 <- Class
+
+Block Verification 1
+Q8 <- Verification/Attention Check
+Q8_Text <- Verification/Attention Check
+
+Block Priming Exp1: Further EU
+Q9_* <- Timing vars (first.click, last.click etc.)
+Q10 <- Priming text (not in data currently): "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that the European integration should be pushed further. They say that to address the main challenges facing the EU and its member countries, their national governments should act in a coordinated way with the other EU countries. Despite the cross-border issues, the national governments of the EU member states have resisted a further transfer of power to the EU. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call “EU competence” is strikingly smaller than what many people want."
+
+Block Priming Exp1: EU gone too far
+Q11_* <- Timing vars
+Q12 <- text (not in data currently): "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call “EU competence” is strikingly larger than what many people want."
+
+Block Priming Exp1: EU gone too far econ
+Q13_* <- Timing
+Q14 <- Txt: "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call “EU competence” is strikingly larger than what many people want. As a result, this situation will eventually have a negative impact on Ireland's economy, as seen in the recent economic crisis."
+
+Block Priming Exp1: EU gone too far culture
+Q15_* <- Timings
+Q16 <- text: "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call “EU competence” is strikingly larger than what many people want. As a result, this situation will eventually undermine our culture and identity, as seen in recent refugee crisis."
+
+Block Priming Exp1: EU gone too far political
+Q17_* <- Timings
+Q18 <- Text: "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that the European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call “EU competence” of the EU is strikingly larger than what many people want. As a result, Irish government will lose much power and authority to defend our political status and influence, as seen in recent years."
+
+Block Priming Exp1: EU gone too far control
+Q19_* <- Timings
+Q20 <- EU integration scale (in data)
+
+Block Priming Exp1: Control 
+Q21_1-Q21_3 <- q_eu_efficacy_understand_raw, q_eu_efficacy_care_raw, q_eu_efficacy_nosay_raw
+Q22_1 to Q22_6 <- q_pop_will_raw, q_pop_people_raw, q_pop_citizen_raw, q_pop_reps_raw, q_pop_goodevil_raw, q_pop_compromise_raw
+Q23_1 to Q23_6 <- q_dem_compromise_raw, q_dem_listen_raw, q_tech_experts_raw, q_tech_leaders_raw, q_party_harm_raw, q_people_incompetent_raw
+Q24_1 and Q24_2 <- q_eu_longterm_raw and q_eu_responsive_raw 
+Q25_1 to Q25_3 <- q_eu_imp_nat_econ, q_eu_imp_nat_cul, q_eu_imp_nat_pol
+Q26_1 and Q26_2 <- q_eu_abolish_raw, q_eu_satisfaction_raw
+Q27 <- q_euint_direction_raw
+
+Block Efficacy, populism, responsiveness/responsibility, EU support
+Q28_1-Q28_3 <- q_eu_efficacy_understand_raw, q_eu_efficacy_care_raw, q_eu_efficacy_nosay_raw
+Q29_1 to Q29_6 <- q_pop_will_raw, q_pop_people_raw, q_pop_citizen_raw, q_pop_reps_raw, q_pop_goodevil_raw, q_pop_compromise_raw
+Q30_1 to Q30_6 <- q_dem_compromise_raw, q_dem_listen_raw, q_tech_experts_raw, q_tech_leaders_raw, q_party_harm_raw, q_people_incompetent_raw
+Q31_1 and Q31_2 <- q_eu_longterm_raw and q_eu_responsive_raw
+Q32_1 to Q32_3 <- q_eu_imp_nat_econ, q_eu_imp_nat_cul, q_eu_imp_nat_pol
+Q33_1 and Q33_2 <- q_eu_abolish_raw, q_eu_satisfaction_raw
+Q34 <- q_euint_direction_raw
+
+## Check W2 Priming Exp 1
+
+Before coalescing, I need to check that respondents were shown at most one of the respective questions. The code below implmements this in the following logic: select the variables for which you wish to check, then count how many non-NA values are in these selected variables for each respondent, i.e., row. If the resulting counts are <= 1, we're good.
+
+```{r}
+#| label: w2-prime1-explore
+
+# Check respondents received only 1 prime max ----------------------------------
+
+df_wave2 |>
+  select(
+    Q9_Click.Count,
+    Q11_Click.Count,
+    Q13_Click.Count,
+    Q15_Click.Count,
+    Q17_Click.Count,
+    Q19_Click.Count
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q9_First.Click,
+    Q11_First.Click,
+    Q13_First.Click,
+    Q15_First.Click,
+    Q17_First.Click,
+    Q19_First.Click
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q9_Last.Click,
+    Q11_Last.Click,
+    Q13_Last.Click,
+    Q15_Last.Click,
+    Q17_Last.Click,
+    Q19_Last.Click
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q9_Page.Submit,
+    Q11_Page.Submit,
+    Q13_Page.Submit,
+    Q15_Page.Submit,
+    Q17_Page.Submit,
+    Q19_Page.Submit
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Efficacy items ---------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q21_1,
+    Q28_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q21_2,
+    Q28_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q21_3,
+    Q28_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+# Pop Items --------------------------------------------------------------------
+
+df_wave2 |>
+  select(
+    Q22_1,
+    Q29_1,
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_2,
+    Q29_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_3,
+    Q29_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_4,
+    Q29_4
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_5,
+    Q29_5
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_6,
+    Q29_6
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Dem/Tech/Pop items
+df_wave2 |>
+  select(
+    Q23_1,
+    Q30_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_2,
+    Q30_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_3,
+    Q30_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_4,
+    Q30_4
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_5,
+    Q30_5
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_6,
+    Q30_6
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU longterm ------------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q24_1,
+    Q31_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU responsiveness ------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q24_2,
+    Q31_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU impact items --------------------------------------------------------------
+# EU longterm ------------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q25_1,
+    Q32_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q25_2,
+    Q32_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q25_3,
+    Q32_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# more EU items ----------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q26_1,
+    Q33_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q26_2,
+    Q33_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q27,
+    Q34
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Check for France extra -------------------------------------------------------
+# Efficacy items ---------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q21_1,
+    Q28_1,
+    Q35_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q21_2,
+    Q28_2,
+    Q35_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q21_3,
+    Q28_3,
+    Q35_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+
+# Pop Items --------------------------------------------------------------------
+
+df_wave2 |>
+  select(
+    Q22_1,
+    Q29_1,
+    Q36_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_2,
+    Q29_2,
+    Q36_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_3,
+    Q29_3,
+    Q36_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_4,
+    Q29_4,
+    Q36_4
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_5,
+    Q29_5,
+    Q36_5
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q22_6,
+    Q29_6,
+    Q36_6
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# Dem/Tech/Pop items
+df_wave2 |>
+  select(
+    Q23_1,
+    Q30_1,
+    Q37_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_2,
+    Q30_2,
+    Q37_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_3,
+    Q30_3,
+    Q37_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_4,
+    Q30_4,
+    Q37_4
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_5,
+    Q30_5,
+    Q37_5
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q23_6,
+    Q30_6,
+    Q37_6
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU longterm ------------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q24_1,
+    Q31_1,
+    Q38_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU responsiveness ------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q24_2,
+    Q31_2,
+    Q38_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# EU impact items --------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q25_1,
+    Q32_1,
+    Q39_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q25_2,
+    Q32_2,
+    Q39_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q25_3,
+    Q32_3,
+    Q39_3
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# more EU items ----------------------------------------------------------------
+df_wave2 |>
+  select(
+    Q26_1,
+    Q33_1,
+    Q40_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q26_2,
+    Q33_2,
+    Q40_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q27,
+    Q34,
+    Q41
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+```
+
+So france needs its own secondary variables...
+
+## Coalesce W2 Priming Exp 1
+
+```{r}
+#| label: w2-prime1-coalesce
+
+too_far_base <- "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call \"EU competence\" is strikingly larger than what many people want."
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    # condition indicator -------------------------------------------------------
+    prime_moreeu_condition = case_when(
+      !is.na(Q9_First.Click) ~ "further_eu",
+      !is.na(Q11_First.Click) ~ "too_far",
+      !is.na(Q13_First.Click) ~ "too_far_econ",
+      !is.na(Q15_First.Click) ~ "too_far_culture",
+      !is.na(Q17_First.Click) ~ "too_far_political",
+      !is.na(Q19_First.Click) ~ "control",
+    ),
+    # priming text --------------------------------------------------------------
+    prime_moreeu_text = case_match(
+      prime_moreeu_condition,
+      "further_eu" ~ "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that the European integration should be pushed further. They say that to address the main challenges facing the EU and its member countries, their national governments should act in a coordinated way with the other EU countries. Despite the cross-border issues, the national governments of the EU member states have resisted a further transfer of power to the EU. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call \"EU competence\" is strikingly smaller than what many people want.",
+      "too_far" ~ too_far_base,
+      "too_far_econ" ~ paste0(
+        too_far_base,
+        " As a result, this situation will eventually have a negative impact on <SURVEY_COUNTRY>'s economy, as seen in the recent economic crisis."
+      ),
+      "too_far_culture" ~ paste0(
+        too_far_base,
+        " As a result, this situation will eventually undermine our culture and identity, as seen in recent refugee crisis."
+      ),
+      "too_far_political" ~ paste0(
+        too_far_base,
+        " As a result, <SURVEY_COUNTRY> government will lose much power and authority to defend our political status and influence, as seen in recent years."
+      ),
+      "control" ~ "",
+    ),
+    # coalesce timings (Q9 absorbs Q11, Q13, Q15, Q17, Q19) --------------------
+    Q9_First.Click = coalesce(
+      Q9_First.Click,
+      Q11_First.Click,
+      Q13_First.Click,
+      Q15_First.Click,
+      Q17_First.Click,
+      Q19_First.Click
+    ),
+    Q9_Last.Click = coalesce(
+      Q9_Last.Click,
+      Q11_Last.Click,
+      Q13_Last.Click,
+      Q15_Last.Click,
+      Q17_Last.Click,
+      Q19_Last.Click
+    ),
+    Q9_Page.Submit = coalesce(
+      Q9_Page.Submit,
+      Q11_Page.Submit,
+      Q13_Page.Submit,
+      Q15_Page.Submit,
+      Q17_Page.Submit,
+      Q19_Page.Submit
+    ),
+    Q9_Click.Count = coalesce(
+      Q9_Click.Count,
+      Q11_Click.Count,
+      Q13_Click.Count,
+      Q15_Click.Count,
+      Q17_Click.Count,
+      Q19_Click.Count
+    ),
+    # coalesce outcome variables (Q21 absorbs Q28, etc.) -----------------------
+    Q21_1 = coalesce(Q21_1, Q28_1),
+    Q21_2 = coalesce(Q21_2, Q28_2),
+    Q21_3 = coalesce(Q21_3, Q28_3),
+    Q22_1 = coalesce(Q22_1, Q29_1),
+    Q22_2 = coalesce(Q22_2, Q29_2),
+    Q22_3 = coalesce(Q22_3, Q29_3),
+    Q22_4 = coalesce(Q22_4, Q29_4),
+    Q22_5 = coalesce(Q22_5, Q29_5),
+    Q22_6 = coalesce(Q22_6, Q29_6),
+    Q23_1 = coalesce(Q23_1, Q30_1),
+    Q23_2 = coalesce(Q23_2, Q30_2),
+    Q23_3 = coalesce(Q23_3, Q30_3),
+    Q23_4 = coalesce(Q23_4, Q30_4),
+    Q23_5 = coalesce(Q23_5, Q30_5),
+    Q23_6 = coalesce(Q23_6, Q30_6),
+    Q24_1 = coalesce(Q24_1, Q31_1),
+    Q24_2 = coalesce(Q24_2, Q31_2),
+    Q25_1 = coalesce(Q25_1, Q32_1),
+    Q25_2 = coalesce(Q25_2, Q32_2),
+    Q25_3 = coalesce(Q25_3, Q32_3),
+    Q26_1 = coalesce(Q26_1, Q33_1),
+    Q26_2 = coalesce(Q26_2, Q33_2),
+    Q20 = coalesce(Q20, Q27, Q34)
+  ) |>
+  select(
+    # drop redundant timing columns --------------------------------------------
+    -Q11_First.Click,
+    -Q11_Last.Click,
+    -Q11_Page.Submit,
+    -Q11_Click.Count,
+    -Q13_First.Click,
+    -Q13_Last.Click,
+    -Q13_Page.Submit,
+    -Q13_Click.Count,
+    -Q15_First.Click,
+    -Q15_Last.Click,
+    -Q15_Page.Submit,
+    -Q15_Click.Count,
+    -Q17_First.Click,
+    -Q17_Last.Click,
+    -Q17_Page.Submit,
+    -Q17_Click.Count,
+    -Q19_First.Click,
+    -Q19_Last.Click,
+    -Q19_Page.Submit,
+    -Q19_Click.Count,
+    # drop redundant outcome columns ------------------------------------------
+    -Q27,
+    -Q28_1,
+    -Q28_2,
+    -Q28_3,
+    -Q29_1,
+    -Q29_2,
+    -Q29_3,
+    -Q29_4,
+    -Q29_5,
+    -Q29_6,
+    -Q30_1,
+    -Q30_2,
+    -Q30_3,
+    -Q30_4,
+    -Q30_5,
+    -Q30_6,
+    -Q31_1,
+    -Q31_2,
+    -Q32_1,
+    -Q32_2,
+    -Q32_3,
+    -Q33_1,
+    -Q33_2,
+    -Q34,
+  ) |>
+  rename(
+    # meta vars
+    meta_startdate = StartDate,
+    meta_enddate = EndDate,
+    meta_status = Status,
+    meta_ipaddress = IPAddress,
+    meta_progress = Progress,
+    meta_duration_s = Duration..in.seconds.,
+    meta_finished = Finished,
+    meta_recordeddate = RecordedDate,
+    meta_responseid = ResponseId,
+    meta_recipient_lastname = RecipientLastName,
+    meta_recipient_firstname = RecipientFirstName,
+    meta_recipient_email = RecipientEmail,
+    meta_external_ref = ExternalReference,
+    meta_latitude = LocationLatitude,
+    meta_longitude = LocationLongitude,
+    meta_distchannel = DistributionChannel,
+    meta_lang = UserLanguage,
+    meta_country_raw = Country,
+    meta_psid = PSID,
+    meta_pid = PID,
+    meta_device = Device,
+    # demographics -----------------------------------------------------------------
+    q_gender_raw = Q2,
+    q_age_raw = Q3_1,
+    q_nationality_raw = Q4,
+    q_nationality_other_raw = Q4_TEXT,
+    q_identity_country_raw = Q5_1,
+    q_identity_eu_raw = Q5_2,
+    q_identity_europe_raw = Q5_3,
+    q_religion_raw = Q6,
+    q_religion_other_raw = Q6_TEXT,
+    q_class_raw = Q7,
+    q_verif_raw = Q8,
+    q_verif2_raw = Q8_TEXT,
+    # timings ------------------------------------------------------------------
+    prime_moreeu_firstclick = Q9_First.Click,
+    prime_moreeu_lastclick = Q9_Last.Click,
+    prime_moreeu_pagesubmit = Q9_Page.Submit,
+    prime_moreeu_clickcount = Q9_Click.Count,
+    # outcome variables --------------------------------------------------------
+    q_euint_pos_raw = Q20,
+    q_eu_efficacy_understand_raw = Q21_1,
+    q_eu_efficacy_care_raw = Q21_2,
+    q_eu_efficacy_nosay_raw = Q21_3,
+    q_pop_will_raw = Q22_1,
+    q_pop_people_raw = Q22_2,
+    q_pop_citizen_raw = Q22_3,
+    q_pop_reps_raw = Q22_4,
+    q_pop_goodevil_raw = Q22_5,
+    q_pop_compromise_raw = Q22_6,
+    q_dem_compromise_raw = Q23_1,
+    q_dem_listen_raw = Q23_2,
+    q_tech_experts_raw = Q23_3,
+    q_tech_leaders_raw = Q23_4,
+    q_party_harm_raw = Q23_5,
+    q_people_incompetent_raw = Q23_6,
+    q_eu_longterm_raw = Q24_1,
+    q_eu_responsive_raw = Q24_2,
+    q_eu_imp_nat_econ_raw = Q25_1,
+    q_eu_imp_nat_cul_raw = Q25_2,
+    q_eu_imp_nat_pol_raw = Q25_3,
+    q_eu_abolish_raw = Q26_1,
+    q_eu_satisfaction_raw = Q26_2,
+    # france has a second set, not exclusive :')
+    q_euint_pos_fra_raw = Q41,
+    q_eu_efficacy_understand_fra_raw = Q35_1,
+    q_eu_efficacy_care_fra_raw = Q35_2,
+    q_eu_efficacy_nosay_fra_raw = Q35_3,
+    q_pop_will_fra_raw = Q36_1,
+    q_pop_people_fra_raw = Q36_2,
+    q_pop_citizen_fra_raw = Q36_3,
+    q_pop_reps_fra_raw = Q36_4,
+    q_pop_goodevil_fra_raw = Q36_5,
+    q_pop_compromise_fra_raw = Q36_6,
+    q_dem_compromise_fra_raw = Q37_1,
+    q_dem_listen_fra_raw = Q37_2,
+    q_tech_experts_fra_raw = Q37_3,
+    q_tech_leaders_fra_raw = Q37_4,
+    q_party_harm_fra_raw = Q37_5,
+    q_people_incompetent_fra_raw = Q37_6,
+    q_eu_longterm_fra_raw = Q38_1,
+    q_eu_responsive_fra_raw = Q38_2,
+    q_eu_imp_nat_econ_fra_raw = Q39_1,
+    q_eu_imp_nat_cul_fra_raw = Q39_2,
+    q_eu_imp_nat_pol_fra_raw = Q39_3,
+    q_eu_abolish_fra_raw = Q40_1,
+    q_eu_satisfaction_fra_raw = Q40_2,
+  )
+
+rm(too_far_base)
+```
+
+## W2 Block II Overview
+
+Block Vote Choice and Partisanship
+
+Q42 <- q_vote_turnout_likelihood_raw
+Q43 <- q_vote_turnout_confirm_raw
+Q44 <- q_vote_choice_past_raw
+Q44_TEXT <- q_vote_choice_past_other_raw
+Q45 <- q_vote_choice_intended_raw
+Q45_TEXT <- q_vote_choice_intended_other_raw
+Q46 <- q_vote_choice_hypo_raw
+Q46_TEXT <- q_vote_choice_hypo_other_raw
+
+Party rankings is a mess across countries:
+
+```{r}
+#| label: tbl-party-rankings-q47
+
+wording_map |>
+  filter(wave == 2 & str_detect(col_name, "Q47")) |>
+  select(country, col_name) |>
+  kable()
+```
+
+```{r}
+#| label: tbl-party-rankings-q48
+
+wording_map |>
+  filter(wave == 2 & str_detect(col_name, "Q48")) |>
+  select(country, col_name) |>
+  kable()
+```
+
+
+Q49_1 <- q_election_challenge_polgroups_raw
+Q49_2 <- q_election_impact_eu_raw
+Q50 <- q_election_importance_self_raw
+
+Q51 <- q_vote_choice_past2014_raw
+Q51_TEXT <- q_vote_choice_past2014_other_raw
+
+Q52 <- q_party_id_raw
+Q52_TEXT <- q_party_id_other_raw
+
+## W2 Block II Checks
+
+```{r}
+#| label: w2-block2-explore
+
+# mutual exclusivity: at most 1 Q47/Q48 party column non-NA per respondent
+df_wave2 |>
+  select(starts_with("Q47_"), starts_with("Q48_")) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# flag anomalous respondents
+df_wave2 |>
+  filter(meta_responseid %in% c("R_2UbCOutJInF4vPr", "R_cMHAHAt4EiWsyqd")) |>
+  select(meta_responseid, starts_with("Q47_"), starts_with("Q48_")) |>
+  print()
+```
+
+```{r}
+#| label: w2-block2-coalesce
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    # fix dual-response anomaly for 2 Danish respondents
+    across(
+      starts_with("Q47_"),
+      ~ if_else(
+        meta_responseid %in% c("R_2UbCOutJInF4vPr", "R_cMHAHAt4EiWsyqd"),
+        NA_character_,
+        .x
+      )
+    ),
+    # coalesce Q47 and Q48 into six country-specific slots
+    q_vote_exp_rank_party_1_raw = coalesce(Q47_5, Q48_5),
+    q_vote_exp_rank_party_2_raw = case_when(
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Croatia",
+          "Czechia",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "United Kingdom"
+        ) ~ coalesce(Q47_21, Q48_21),
+      meta_country %in%
+        c(
+          "Belgium",
+          "Estonia",
+          "Finland",
+          "Italy",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ coalesce(Q47_26, Q48_26),
+      meta_country == "Austria" ~ coalesce(Q47_27, Q48_27),
+      meta_country == "France" ~ coalesce(Q47_27, Q48_26),
+      meta_country == "Greece" ~ coalesce(Q47_31, Q48_26),
+      meta_country == "Germany" ~ coalesce(Q47_32, Q48_32),
+      meta_country == "Ireland" ~ coalesce(Q47_6, Q48_6),
+      meta_country == "Latvia" ~ coalesce(Q47_30, Q48_26),
+      meta_country == "Portugal" ~ coalesce(Q47_30, Q48_39),
+      meta_country == "Romania" ~ coalesce(Q47_27, Q48_21),
+      TRUE ~ NA_character_
+    ),
+    q_vote_exp_rank_party_3_raw = case_when(
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Croatia",
+          "Czechia",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "United Kingdom"
+        ) ~ coalesce(Q47_22, Q48_22),
+      meta_country %in%
+        c(
+          "Belgium",
+          "Estonia",
+          "Finland",
+          "Italy",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ coalesce(Q47_27, Q48_27),
+      meta_country == "Austria" ~ coalesce(Q47_28, Q48_28),
+      meta_country == "France" ~ coalesce(Q47_28, Q48_27),
+      meta_country == "Greece" ~ coalesce(Q47_32, Q48_27),
+      meta_country == "Germany" ~ coalesce(Q47_33, Q48_33),
+      meta_country == "Ireland" ~ coalesce(Q47_7, Q48_7),
+      meta_country == "Latvia" ~ coalesce(Q47_31, Q48_27),
+      meta_country == "Portugal" ~ coalesce(Q47_31, Q48_40),
+      meta_country == "Romania" ~ coalesce(Q47_28, Q48_22),
+      TRUE ~ NA_character_
+    ),
+    q_vote_exp_rank_party_4_raw = case_when(
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Croatia",
+          "Czechia",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "United Kingdom"
+        ) ~ coalesce(Q47_23, Q48_23),
+      meta_country %in%
+        c(
+          "Belgium",
+          "Estonia",
+          "Finland",
+          "Italy",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ coalesce(Q47_28, Q48_28),
+      meta_country == "Austria" ~ coalesce(Q47_29, Q48_29),
+      meta_country == "France" ~ coalesce(Q47_29, Q48_28),
+      meta_country == "Greece" ~ coalesce(Q47_33, Q48_28),
+      meta_country == "Germany" ~ coalesce(Q47_34, Q48_34),
+      meta_country == "Ireland" ~ coalesce(Q47_8, Q48_8),
+      meta_country == "Latvia" ~ coalesce(Q47_32, Q48_28),
+      meta_country == "Portugal" ~ coalesce(Q47_32, Q48_41),
+      meta_country == "Romania" ~ coalesce(Q47_29, Q48_23),
+      TRUE ~ NA_character_
+    ),
+    q_vote_exp_rank_party_5_raw = case_when(
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Croatia",
+          "Czechia",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "United Kingdom"
+        ) ~ coalesce(Q47_24, Q48_24),
+      meta_country %in%
+        c(
+          "Belgium",
+          "Estonia",
+          "Finland",
+          "Italy",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ coalesce(Q47_29, Q48_29),
+      meta_country == "Austria" ~ coalesce(Q47_30, Q48_30),
+      meta_country == "France" ~ coalesce(Q47_30, Q48_29),
+      meta_country == "Greece" ~ coalesce(Q47_34, Q48_29),
+      meta_country == "Germany" ~ coalesce(Q47_35, Q48_35),
+      meta_country == "Ireland" ~ coalesce(Q47_9, Q48_9),
+      meta_country == "Latvia" ~ coalesce(Q47_33, Q48_29),
+      meta_country == "Portugal" ~ coalesce(Q47_33, Q48_42),
+      meta_country == "Romania" ~ coalesce(Q47_30, Q48_24),
+      TRUE ~ NA_character_
+    ),
+    q_vote_exp_rank_party_6_raw = case_when(
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Croatia",
+          "Czechia",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "United Kingdom"
+        ) ~ coalesce(Q47_25, Q48_25),
+      meta_country %in%
+        c(
+          "Belgium",
+          "Estonia",
+          "Finland",
+          "Italy",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ coalesce(Q47_30, Q48_30),
+      meta_country == "Austria" ~ coalesce(Q47_31, Q48_31),
+      meta_country == "France" ~ coalesce(Q47_31, Q48_30),
+      meta_country == "Greece" ~ coalesce(Q47_35, Q48_30),
+      meta_country == "Germany" ~ coalesce(Q47_36, Q48_36),
+      meta_country == "Ireland" ~ coalesce(Q47_10, Q48_10),
+      meta_country == "Latvia" ~ coalesce(Q47_34, Q48_30),
+      meta_country == "Portugal" ~ coalesce(Q47_34, Q48_43),
+      meta_country == "Romania" ~ coalesce(Q47_31, Q48_25),
+      TRUE ~ NA_character_
+    )
+  ) |>
+  select(-starts_with("Q48_")) |>
+  select(-starts_with("Q47_"))
+```
+
+```{r}
+#| label: w2-block2-rename
+
+df_wave2 <- df_wave2 |>
+  rename(
+    q_vote_turnout_likelihood_raw = Q42,
+    q_vote_turnout_confirm_raw = Q43,
+    q_vote_choice_past_raw = Q44,
+    q_vote_choice_past_other_raw = Q44_TEXT,
+    q_vote_choice_intended_raw = Q45,
+    q_vote_choice_intended_other_raw = Q45_TEXT,
+    q_vote_choice_hypo_raw = Q46,
+    q_vote_choice_hypo_other_raw = Q46_TEXT,
+    q_election_challenge_polgroups_raw = Q49_1,
+    q_election_impact_eu_raw = Q49_2,
+    q_election_importance_self_raw = Q50,
+    q_vote_choice_past2014_raw = Q51,
+    q_vote_choice_past2014_other_raw = Q51_TEXT,
+    q_party_id_raw = Q52,
+    q_party_id_other_raw = Q52_TEXT
+  )
+```
+
+## W2 Block III Feeling Thermometers
+
+Q196_1 
+Q196_12
+Q196_13
+Q196_14
+Q196_15
+Q196_16
+Q196_17 
+Q196_18 
+Q196_19
+Q196_20
+Q196_21
+Q196_22
+Q196_23
+Q196_24
+Q196_25
+Q196_26
+
+```{r}
+#| label: w2-check-thermo
+
+df_wave2 |>
+  select(
+    starts_with("Q196")
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# max count is 6, so no respondent saw >6 parties, hence questions are naming artefacts
+```
+
+```{r}
+#| label: w2-coalesce-thermo
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    q_thermo_1_raw = Q196_1,
+    q_thermo_2_raw = case_when(
+      meta_country %in%
+        c(
+          "Austria",
+          "Belgium",
+          "Croatia",
+          "Czechia",
+          "Estonia",
+          "Finland",
+          "France",
+          "Greece",
+          "Italy",
+          "Latvia",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ Q196_17,
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "UK"
+        ) ~ Q196_12,
+      meta_country == "Germany" ~ Q196_22,
+      meta_country == "Ireland" ~ Q196_7,
+      meta_country == "Portugal" ~ Q196_27,
+      meta_country == "Romania" ~ Q196_18,
+      TRUE ~ NA_character_
+    ),
+    q_thermo_3_raw = case_when(
+      meta_country %in%
+        c(
+          "Austria",
+          "Belgium",
+          "Croatia",
+          "Czechia",
+          "Estonia",
+          "Finland",
+          "France",
+          "Greece",
+          "Italy",
+          "Latvia",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ Q196_18,
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "UK"
+        ) ~ Q196_13,
+      meta_country == "Germany" ~ Q196_23,
+      meta_country == "Ireland" ~ Q196_8,
+      meta_country == "Portugal" ~ Q196_28,
+      meta_country == "Romania" ~ Q196_19,
+      TRUE ~ NA_character_
+    ),
+    q_thermo_4_raw = case_when(
+      meta_country %in%
+        c(
+          "Austria",
+          "Belgium",
+          "Croatia",
+          "Czechia",
+          "Estonia",
+          "Finland",
+          "France",
+          "Greece",
+          "Italy",
+          "Latvia",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ Q196_19,
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "UK"
+        ) ~ Q196_14,
+      meta_country == "Germany" ~ Q196_24,
+      meta_country == "Ireland" ~ Q196_9,
+      meta_country == "Portugal" ~ Q196_29,
+      meta_country == "Romania" ~ Q196_20,
+      TRUE ~ NA_character_
+    ),
+    q_thermo_5_raw = case_when(
+      meta_country %in%
+        c(
+          "Austria",
+          "Belgium",
+          "Croatia",
+          "Czechia",
+          "Estonia",
+          "Finland",
+          "France",
+          "Greece",
+          "Italy",
+          "Latvia",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ Q196_20,
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "UK"
+        ) ~ Q196_15,
+      meta_country == "Germany" ~ Q196_25,
+      meta_country == "Ireland" ~ Q196_10,
+      meta_country == "Portugal" ~ Q196_30,
+      meta_country == "Romania" ~ Q196_21,
+      TRUE ~ NA_character_
+    ),
+    q_thermo_6_raw = case_when(
+      meta_country %in%
+        c(
+          "Austria",
+          "Belgium",
+          "Croatia",
+          "Czechia",
+          "Estonia",
+          "Finland",
+          "France",
+          "Greece",
+          "Italy",
+          "Latvia",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden"
+        ) ~ Q196_21,
+      meta_country %in%
+        c(
+          "Bulgaria",
+          "Denmark",
+          "Hungary",
+          "Lithuania",
+          "Netherlands",
+          "Poland",
+          "UK"
+        ) ~ Q196_16,
+      meta_country == "Germany" ~ Q196_26,
+      meta_country == "Ireland" ~ Q196_11,
+      meta_country == "Portugal" ~ Q196_31,
+      meta_country == "Romania" ~ Q196_22,
+      TRUE ~ NA_character_
+    )
+  ) |>
+  select(-starts_with("Q196"))
+```
+
+
+## W2 Pol Participation, Campaign activity & Verification 2
+
+Q197_1 <- q_news_tv_raw
+Q197_2 <- q_news_newspaper_raw
+Q197_3 <- q_news_radio_raw
+Q197_4 <- q_news_social_raw
+Q197_5 <- q_news_internet_raw
+Q197_6 <- q_news_personal_raw
+Q197_7 <- q_news_other_raw
+Q197_TEXT <- q_news_other_text_raw
+
+Q198 <- q_eu_campaign_sources_raw
+Q198_TEXT <- q_eu_campaign_sources_other_raw
+
+```{r}
+#| label: w2-polpart-rename
+
+df_wave2 <- df_wave2 |>
+  rename(
+    q_news_tv_raw = Q197_1,
+    q_news_newspaper_raw = Q197_2,
+    q_news_radio_raw = Q197_3,
+    q_news_social_raw = Q197_4,
+    q_news_internet_raw = Q197_5,
+    q_news_personal_raw = Q197_6,
+    q_news_other_raw = Q197_7,
+    q_news_other_text_raw = Q197_TEXT,
+    q_eu_campaign_sources_raw = Q198,
+    q_eu_campaign_sources_other_raw = Q198_TEXT,
+    q_eu_campaign_sources_fra_raw = Q199,
+    q_eu_campaign_sources_other_fra_raw = Q199_TEXT
+  )
+```
+
+## W2 CJEU Block (CJEU experiment control condition)
+
+Q213* <- Timing vars (4)
+Q214 <- q_cjeu_pos_raw
+q215_1 <- q_cjeu_abolish_raw
+q215_2 <- q_cjeu_satisfaction_raw
+
+```{r}
+#| label: w1-cjeu-rename
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    prime_cjeu_condition = case_when(
+      !is.na(Q213_First.Click) ~ "control_text"
+    ),
+    prime_cjeu_text = case_match(
+      prime_cjeu_condition,
+      "control-text" ~ "In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission."
+    )
+  ) |>
+  rename(
+    prime_cjeu_firstclick = Q213_First.Click,
+    prime_cjeu_lastclick = Q213_Last.Click,
+    prime_cjeu_pagesubmit = Q213_Page.Submit,
+    prime_cjeu_clickcount = Q213_Click.Count,
+    q_cjeu_pos_raw = Q214,
+    q_cjeu_abolish_raw = Q215_1,
+    q_cjeu_satisfaction_raw = Q215_2
+  )
+```
+
+## W2 Pol knowledge, interest etc block
+
+Q216_1 <- q_eval_econ_eur_raw
+Q216_2 <- q_eval_econ_nat_raw
+Q216_3 <- q_eval_fin_household_raw
+Q216_4 <- q_eval_job_raw
+
+Q217_1 <- q_satis_demo_nat_raw
+Q217_2 <- q_satis_demo_eu_raw
+
+Q222_1 <- q_nat_int_raw 
+Q222_2 <- q_eu_int_raw
+Q223_1 <- q_nativ_econ_raw 
+Q223_2 <- q_nativ_cult_raw
+
+Q224_1 <- q_eu_know_1_raw
+Q224_2 <- q_eu_know_2_raw
+Q224_3 <- q_eu_know_3_raw
+Q224_4 <- q_eu_know_4_raw
+Q224_5 <- q_eu_know_5_raw
+
+Q225_1 <- q_eu_informed_com_raw
+Q225_2 <- q_eu_informed_cou_raw 
+Q225_3 <- q_eu_informed_ep_raw 
+Q225_4 <- q_eu_informed_cjeu_raw 
+
+Q226_1 <- q_eu_trust_com_raw
+Q226_2 <- q_eu_trust_cou_raw 
+Q226_3 <- q_eu_trust_ep_raw 
+Q226_4 <- q_eu_trust_cjeu_raw
+
+Q227 <- q_risk_taking
+Q228 <- q_future_discount
+
+```{r}
+#| label: w2-next-block-renaming
+
+df_wave2 <- df_wave2 |>
+  rename(
+    q_eval_econ_eur_raw = Q216_1,
+    q_eval_econ_nat_raw = Q216_2,
+    q_eval_fin_household_raw = Q216_3,
+    q_eval_job_raw = Q216_4,
+    q_satis_demo_nat_raw = Q217_1,
+    q_satis_demo_eu_raw = Q217_2,
+    q_nat_int_raw = Q222_1,
+    q_eu_int_raw = Q222_2,
+    q_nativ_econ_raw = Q223_1,
+    q_nativ_cult_raw = Q223_2,
+    q_eu_know_1_raw = Q224_1,
+    q_eu_know_2_raw = Q224_2,
+    q_eu_know_3_raw = Q224_3,
+    q_eu_know_4_raw = Q224_4,
+    q_eu_know_5_raw = Q224_5,
+    q_eu_informed_com_raw = Q225_1,
+    q_eu_informed_cou_raw = Q225_2,
+    q_eu_informed_ep_raw = Q225_3,
+    q_eu_informed_cjeu_raw = Q225_4,
+    q_eu_trust_com_raw = Q226_1,
+    q_eu_trust_cou_raw = Q226_2,
+    q_eu_trust_ep_raw = Q226_3,
+    q_eu_trust_cjeu_raw = Q226_4,
+    q_risk_taking = Q227,
+    q_future_discount = Q228
+  )
+```
+
+## W2 LR/EU placements and efficacy block
+
+```{r}
+#| label: w2-placements-coalesce
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    # occupation in Finland Slovenia and with different Q-number ---------------
+    Q247 = coalesce(Q247, Q267, Q365),
+    Q248 = coalesce(Q248, Q268, Q367),
+  ) |>
+  select(
+    -Q267,
+    -Q268,
+    -Q365,
+    -Q367
+  )
+```
+
+```{r}
+#| label: w2-placements-renaming
+
+df_wave2 <- df_wave2 |>
+  rename(
+    # self placement ---------------------------------------------------------------
+    q_lr_self_raw = Q236,
+    # party placements ---------------------------------------------------------
+    q_lr_party_1_raw = Q237_1,
+    q_lr_party_2_raw = Q237_2,
+    q_lr_party_3_raw = Q237_3,
+    q_lr_party_4_raw = Q237_4,
+    q_lr_party_5_raw = Q237_5,
+    q_lr_party_6_raw = Q237_6,
+    q_lr_party_7_raw = Q237_7,
+    q_lr_party_8_raw = Q237_8,
+    q_lr_party_9_raw = Q237_9,
+    q_lr_party_10_raw = Q237_10,
+    q_lr_party_11_raw = Q237_11,
+    q_lr_party_12_raw = Q237_12,
+    # eu institutions placements -----------------------------------------------
+    q_lr_com_raw = Q238_1,
+    q_lr_cou_raw = Q238_2,
+    q_lr_ep_raw = Q238_3,
+    q_lr_cjeu_raw = Q238_4,
+    # efficacy -----------------------------------------------------------------
+    q_eu_efficacy_understand_c_raw = Q239_1,
+    q_eu_efficacy_care_c_raw = Q239_2,
+    q_eff_external_nosay_c_raw = Q239_3,
+    # eu self placement --------------------------------------------------------
+    q_euint_self_raw = Q240,
+    # eu party placements ----------------------------------------------------------
+    q_euint_party_1_raw = Q241_1,
+    q_euint_party_2_raw = Q241_2,
+    q_euint_party_3_raw = Q241_3,
+    q_euint_party_4_raw = Q241_4,
+    q_euint_party_5_raw = Q241_5,
+    q_euint_party_6_raw = Q241_6,
+    q_euint_party_7_raw = Q241_7,
+    q_euint_party_8_raw = Q241_8,
+    # eu bodies placement ------------------------------------------------------
+    q_euint_com_raw = Q242_1,
+    q_euint_cou_raw = Q242_2,
+    q_euint_ep_raw = Q242_3,
+    q_euint_cjeu_raw = Q242_4,
+    # age at edu stop ----------------------------------------------------------
+    q_edu_age_stop_raw = Q243_1,
+    q_rural_urban_raw = Q244,
+    q_postal_code_raw = Q245,
+    q_region = Q246,
+    q_occ_current_raw = Q247,
+    q_occ_last_raw = Q248,
+
+    # french duplicates
+    q_vote_turnout_reason_fra_raw = Q53,
+    q_vote_choice_past_fra_raw = Q54,
+    q_vote_choice_past_other_fra_raw = Q54_TEXT,
+    q_vote_choice_hypo_fra_raw = Q55,
+    q_vote_choice_hypo_other_fra_raw = Q55_TEXT,
+    q_vote_choice_ep2014_fra_raw = Q56,
+    q_vote_choice_ep2014_other_fra_raw = Q56_TEXT,
+    q_party_id_fra_raw = Q57,
+    q_party_id_other_fra_raw = Q57_TEXT,
+
+    # french unique questions
+    q_campaign_activity_fra_raw = Q200,
+    q_campaign_activity_other_fra_raw = Q200_TEXT
+  )
+```
+
+POINT OF STOP: Q201 -- wtf why did french respondents get more priming? eventually drop if it can't be reconstructed
+
+My guess: France survey in some cases showed the "full" CJEU priming experiments, as Q numbers correspond to those in W3 Irish questionaire.
+
+Hence check if these are mutually exclusive with the overall prime control condition (I don't even know which was supposed to be right and which was wrong)
+
+```{r}
+#| label: w2-french-prime-mess
+
+df_wave2 |>
+  select(
+    prime_cjeu_firstclick,
+    Q201_First.Click
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+# 201 respondents saw both
+
+# here it seems to be correctly branched
+df_wave2 |>
+  select(
+    Q201_First.Click,
+    Q204_First.Click,
+    Q207_First.Click,
+    Q210_First.Click
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q201_Last.Click,
+    Q204_Last.Click,
+    Q207_Last.Click,
+    Q210_Last.Click
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q201_Page.Submit,
+    Q204_Page.Submit,
+    Q207_Page.Submit,
+    Q210_Page.Submit
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q201_Click.Count,
+    Q204_Click.Count,
+    Q207_Click.Count,
+    Q210_Click.Count
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q203_1,
+    Q206_1,
+    Q209_1,
+    Q211_1
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q203_2,
+    Q206_2,
+    Q209_2,
+    Q211_2
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+df_wave2 |>
+  select(
+    Q208,
+    Q212
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+
+# did french respondents of all CJEU prime branches see the earlier control condition?
+df_wave2 |>
+  select(
+    prime_cjeu_clickcount,
+    Q207_Click.Count
+  ) |>
+  mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
+  count(non_na_count)
+# yup, 206 did
+
+```
+
+Overview:
+
+CJEU Priming Condition: Majority
+Q201_*: Timings
+Q202: Text: "A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that the institution strongly favors actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Specifically, this study finds that the CJEU regularly upholds legislation passed by the European Commission."
+Q203_1: q_cjeu_abolish_fra_raw
+Q203_2: q_cjeu_satisfaction_fra_raw
+
+CJEU Priming Condition: Minority
+Q204_*: Timings
+Q205: "A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that the institution strongly tends to protect parties or groups that are opposed to the European Commission at the expense of actions taken by the European Commission. Specifically, this study finds that the CJEU regularly strikes down legislation passed by the Commission to protect parties or groups that are opposed to the European Commission."
+Q206_1: q_cjeu_abolish_fra_raw
+Q206_2: q_cjeu_satisfaction_fra_raw
+
+CJEU Priming Condition: Control-Text
+Q207_*: Timings
+Q208: q_cjeu_pos_fra_raw
+Q209_1: q_cjeu_abolish_fra_raw
+Q209_2: q_cjeu_satisfaction_fra_raw
+Text: In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission.
+
+CJEU Priming Condition: Control-NoText
+Q210_*: Timings
+Q211_1: q_cjeu_abolish_fra_raw
+Q211_2: q_cjeu_satisfaction_fra_raw
+Q212: q_cjeu_pos_fra_raw
+Text: In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission.
+
+and prime_cjeu_fra_condition and prime_cjeu_fra_text
+
+```{r}
+#| label: w2-french-cjeu-coalesce-rename
+
+df_wave2 <- df_wave2 |>
+  mutate(
+    # condition label
+    prime_cjeu_fra_condition = case_when(
+      !is.na(Q201_First.Click) ~ "majority",
+      !is.na(Q204_First.Click) ~ "minority",
+      !is.na(Q207_First.Click) ~ "control_text",
+      !is.na(Q210_First.Click) ~ "control_notext"
+    ),
+    # condition text
+    prime_cjeu_fra_text = case_match(
+      prime_cjeu_fra_condition,
+      "majority" ~ "A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that the institution strongly favors actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Specifically, this study finds that the CJEU regularly upholds legislation passed by the European Commission.",
+      "minority" ~ "A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that the institution strongly tends to protect parties or groups that are opposed to the European Commission at the expense of actions taken by the European Commission. Specifically, this study finds that the CJEU regularly strikes down legislation passed by the Commission to protect parties or groups that are opposed to the European Commission.",
+      c(
+        "control_text",
+        "control_notext"
+      ) ~ "In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission."
+    ),
+    # coalesce timings
+    Q201_First.Click = coalesce(
+      Q201_First.Click,
+      Q204_First.Click,
+      Q207_First.Click,
+      Q210_First.Click
+    ),
+    Q201_Last.Click = coalesce(
+      Q201_Last.Click,
+      Q204_Last.Click,
+      Q207_Last.Click,
+      Q210_Last.Click
+    ),
+    Q201_Page.Submit = coalesce(
+      Q201_Page.Submit,
+      Q204_Page.Submit,
+      Q207_Page.Submit,
+      Q210_Page.Submit
+    ),
+    Q201_Click.Count = coalesce(
+      Q201_Click.Count,
+      Q204_Click.Count,
+      Q207_Click.Count,
+      Q210_Click.Count
+    ),
+    # coalesce outcomes
+    Q203_1 = coalesce(Q203_1, Q206_1, Q209_1, Q211_1),
+    Q203_2 = coalesce(Q203_2, Q206_2, Q209_2, Q211_2),
+    Q208 = coalesce(Q208, Q212)
+  ) |>
+  select(
+    -Q204_First.Click,
+    -Q204_Last.Click,
+    -Q204_Page.Submit,
+    -Q204_Click.Count,
+    -Q207_First.Click,
+    -Q207_Last.Click,
+    -Q207_Page.Submit,
+    -Q207_Click.Count,
+    -Q210_First.Click,
+    -Q210_Last.Click,
+    -Q210_Page.Submit,
+    -Q210_Click.Count,
+    -Q206_1,
+    -Q206_2,
+    -Q209_1,
+    -Q209_2,
+    -Q211_1,
+    -Q211_2,
+    -Q212
+  ) |>
+  rename(
+    prime_cjeu_fra_firstclick = Q201_First.Click,
+    prime_cjeu_fra_lastclick = Q201_Last.Click,
+    prime_cjeu_fra_pagesubmit = Q201_Page.Submit,
+    prime_cjeu_fra_clickcount = Q201_Click.Count,
+    q_cjeu_pos_fra_raw = Q208,
+    q_cjeu_abolish_fra_raw = Q203_1,
+    q_cjeu_satisfaction_fra_raw = Q203_2
+  )
+```
+
+
+## Rename remaining french extra items
+
+```{r}
+#| label: w2-rename-remainders
+
+df_wave2 <- df_wave2 |>
+  rename(
+    # french duplicates of existing items ------------------------------------
+    q_eval_econ_eur_fra_raw = Q219_1,
+    q_eval_econ_nat_fra_raw = Q219_2,
+    q_eval_fin_household_fra_raw = Q219_3,
+    q_eval_job_fra_raw = Q219_4,
+    q_nativ_econ_fra_raw = Q220_1,
+    q_nativ_cult_fra_raw = Q220_2,
+    q_nativ_3_fra_raw = Q220_3,
+    q_nativ_4_fra_raw = Q220_4,
+    q_satis_demo_nat_fra_raw = Q221_1,
+    q_satis_demo_eu_fra_raw = Q221_2,
+    q_nat_int_fra_raw = Q229_1,
+    q_eu_int_fra_raw = Q229_2,
+    q_nativ_econ_b_fra_raw = Q230_1,
+    q_nativ_cult_b_fra_raw = Q230_2,
+    q_eu_know_1_fra_raw = Q231_1,
+    q_eu_know_2_fra_raw = Q231_2,
+    q_eu_know_3_fra_raw = Q231_3,
+    q_eu_know_4_fra_raw = Q231_4,
+    q_eu_know_5_fra_raw = Q231_5,
+    q_eu_informed_com_fra_raw = Q232_1,
+    q_eu_informed_cou_fra_raw = Q232_2,
+    q_eu_informed_ep_fra_raw = Q232_3,
+    q_eu_informed_cjeu_fra_raw = Q232_4,
+    q_eu_trust_com_fra_raw = Q233_1,
+    q_eu_trust_cou_fra_raw = Q233_2,
+    q_eu_trust_ep_fra_raw = Q233_3,
+    q_eu_trust_cjeu_fra_raw = Q233_4,
+    q_risk_taking_fra_raw = Q234,
+    q_future_discount_fra_raw = Q235,
+    # french-only political norms battery ------------------------------------
+    q_norm_tolerance_fra_raw = Q218_1,
+    q_norm_order_fra_raw = Q218_2,
+    q_norm_unjust_law_fra_raw = Q218_3,
+    q_norm_unvoted_gov_fra_raw = Q218_4,
+    q_norm_bypass_law_fra_raw = Q218_5,
+    q_norm_gov_bypass_fra_raw = Q218_6,
+  )
+
+```
+
+# Condensed W2 Question Wordings
+
+```{r}
+#| label: w2-question-wordings
+
+rename_vec_w2 <- c(
+  # meta
+  meta_startdate = "StartDate",
+  meta_enddate = "EndDate",
+  meta_status = "Status",
+  meta_ipaddress = "IPAddress",
+  meta_progress = "Progress",
+  meta_duration_s = "Duration..in.seconds.",
+  meta_finished = "Finished",
+  meta_recordeddate = "RecordedDate",
+  meta_responseid = "ResponseId",
+  meta_recipient_lastname = "RecipientLastName",
+  meta_recipient_firstname = "RecipientFirstName",
+  meta_recipient_email = "RecipientEmail",
+  meta_external_ref = "ExternalReference",
+  meta_latitude = "LocationLatitude",
+  meta_longitude = "LocationLongitude",
+  meta_distchannel = "DistributionChannel",
+  meta_lang = "UserLanguage",
+  meta_country_raw = "Country",
+  meta_psid = "PSID",
+  meta_pid = "PID",
+  meta_device = "Device",
+  # demographics
+  q_gender_raw = "Q2",
+  q_age_raw = "Q3_1",
+  q_nationality_raw = "Q4",
+  q_nationality_other_raw = "Q4_TEXT",
+  q_identity_country_raw = "Q5_1",
+  q_identity_eu_raw = "Q5_2",
+  q_identity_europe_raw = "Q5_3",
+  q_religion_raw = "Q6",
+  q_religion_other_raw = "Q6_TEXT",
+  q_class_raw = "Q7",
+  q_verif_raw = "Q8",
+  q_verif2_raw = "Q8_TEXT",
+  # priming exp 1 timings
+  prime_moreeu_firstclick = "Q9_First.Click",
+  prime_moreeu_lastclick = "Q9_Last.Click",
+  prime_moreeu_pagesubmit = "Q9_Page.Submit",
+  prime_moreeu_clickcount = "Q9_Click.Count",
+  # derived condition/text
+  prime_moreeu_condition = "prime_moreeu_condition",
+  prime_moreeu_text = "prime_moreeu_text",
+  # outcome variables
+  q_euint_pos_raw = "Q20",
+  q_eu_efficacy_understand_raw = "Q21_1",
+  q_eu_efficacy_care_raw = "Q21_2",
+  q_eu_efficacy_nosay_raw = "Q21_3",
+  q_pop_will_raw = "Q22_1",
+  q_pop_people_raw = "Q22_2",
+  q_pop_citizen_raw = "Q22_3",
+  q_pop_reps_raw = "Q22_4",
+  q_pop_goodevil_raw = "Q22_5",
+  q_pop_compromise_raw = "Q22_6",
+  q_dem_compromise_raw = "Q23_1",
+  q_dem_listen_raw = "Q23_2",
+  q_tech_experts_raw = "Q23_3",
+  q_tech_leaders_raw = "Q23_4",
+  q_party_harm_raw = "Q23_5",
+  q_people_incompetent_raw = "Q23_6",
+  q_eu_longterm_raw = "Q24_1",
+  q_eu_responsive_raw = "Q24_2",
+  q_eu_imp_nat_econ_raw = "Q25_1",
+  q_eu_imp_nat_cul_raw = "Q25_2",
+  q_eu_imp_nat_pol_raw = "Q25_3",
+  q_eu_abolish_raw = "Q26_1",
+  q_eu_satisfaction_raw = "Q26_2",
+  # French duplicate outcomes
+  q_euint_pos_fra_raw = "Q41",
+  q_eu_efficacy_understand_fra_raw = "Q35_1",
+  q_eu_efficacy_care_fra_raw = "Q35_2",
+  q_eu_efficacy_nosay_fra_raw = "Q35_3",
+  q_pop_will_fra_raw = "Q36_1",
+  q_pop_people_fra_raw = "Q36_2",
+  q_pop_citizen_fra_raw = "Q36_3",
+  q_pop_reps_fra_raw = "Q36_4",
+  q_pop_goodevil_fra_raw = "Q36_5",
+  q_pop_compromise_fra_raw = "Q36_6",
+  q_dem_compromise_fra_raw = "Q37_1",
+  q_dem_listen_fra_raw = "Q37_2",
+  q_tech_experts_fra_raw = "Q37_3",
+  q_tech_leaders_fra_raw = "Q37_4",
+  q_party_harm_fra_raw = "Q37_5",
+  q_people_incompetent_fra_raw = "Q37_6",
+  q_eu_longterm_fra_raw = "Q38_1",
+  q_eu_responsive_fra_raw = "Q38_2",
+  q_eu_imp_nat_econ_fra_raw = "Q39_1",
+  q_eu_imp_nat_cul_fra_raw = "Q39_2",
+  q_eu_imp_nat_pol_fra_raw = "Q39_3",
+  q_eu_abolish_fra_raw = "Q40_1",
+  q_eu_satisfaction_fra_raw = "Q40_2",
+  # vote choice
+  q_vote_turnout_likelihood_raw = "Q42",
+  q_vote_turnout_confirm_raw = "Q43",
+  q_vote_choice_past_raw = "Q44",
+  q_vote_choice_past_other_raw = "Q44_TEXT",
+  q_vote_choice_intended_raw = "Q45",
+  q_vote_choice_intended_other_raw = "Q45_TEXT",
+  q_vote_choice_hypo_raw = "Q46",
+  q_vote_choice_hypo_other_raw = "Q46_TEXT",
+  q_election_challenge_polgroups_raw = "Q49_1",
+  q_election_impact_eu_raw = "Q49_2",
+  q_election_importance_self_raw = "Q50",
+  q_vote_choice_past2014_raw = "Q51",
+  q_vote_choice_past2014_other_raw = "Q51_TEXT",
+  q_party_id_raw = "Q52",
+  q_party_id_other_raw = "Q52_TEXT",
+  # party rankings (derived)
+  q_vote_exp_rank_party_1_raw = "q_vote_exp_rank_party_1_raw",
+  q_vote_exp_rank_party_2_raw = "q_vote_exp_rank_party_2_raw",
+  q_vote_exp_rank_party_3_raw = "q_vote_exp_rank_party_3_raw",
+  q_vote_exp_rank_party_4_raw = "q_vote_exp_rank_party_4_raw",
+  q_vote_exp_rank_party_5_raw = "q_vote_exp_rank_party_5_raw",
+  q_vote_exp_rank_party_6_raw = "q_vote_exp_rank_party_6_raw",
+  # feeling thermometers (derived)
+  q_thermo_1_raw = "q_thermo_1_raw",
+  q_thermo_2_raw = "q_thermo_2_raw",
+  q_thermo_3_raw = "q_thermo_3_raw",
+  q_thermo_4_raw = "q_thermo_4_raw",
+  q_thermo_5_raw = "q_thermo_5_raw",
+  q_thermo_6_raw = "q_thermo_6_raw",
+  # media sources
+  q_news_tv_raw = "Q197_1",
+  q_news_newspaper_raw = "Q197_2",
+  q_news_radio_raw = "Q197_3",
+  q_news_social_raw = "Q197_4",
+  q_news_internet_raw = "Q197_5",
+  q_news_personal_raw = "Q197_6",
+  q_news_other_raw = "Q197_7",
+  q_news_other_text_raw = "Q197_TEXT",
+  q_eu_campaign_sources_raw = "Q198",
+  q_eu_campaign_sources_other_raw = "Q198_TEXT",
+  # CJEU block
+  prime_cjeu_condition = "prime_cjeu_condition",
+  prime_cjeu_text = "prime_cjeu_text",
+  prime_cjeu_firstclick = "Q213_First.Click",
+  prime_cjeu_lastclick = "Q213_Last.Click",
+  prime_cjeu_pagesubmit = "Q213_Page.Submit",
+  prime_cjeu_clickcount = "Q213_Click.Count",
+  q_cjeu_pos_raw = "Q214",
+  q_cjeu_abolish_raw = "Q215_1",
+  q_cjeu_satisfaction_raw = "Q215_2",
+  # pol knowledge
+  q_eval_econ_eur_raw = "Q216_1",
+  q_eval_econ_nat_raw = "Q216_2",
+  q_eval_fin_household_raw = "Q216_3",
+  q_eval_job_raw = "Q216_4",
+  q_satis_demo_nat_raw = "Q217_1",
+  q_satis_demo_eu_raw = "Q217_2",
+  q_nat_int_raw = "Q222_1",
+  q_eu_int_raw = "Q222_2",
+  q_nativ_econ_raw = "Q223_1",
+  q_nativ_cult_raw = "Q223_2",
+  q_eu_know_1_raw = "Q224_1",
+  q_eu_know_2_raw = "Q224_2",
+  q_eu_know_3_raw = "Q224_3",
+  q_eu_know_4_raw = "Q224_4",
+  q_eu_know_5_raw = "Q224_5",
+  q_eu_informed_com_raw = "Q225_1",
+  q_eu_informed_cou_raw = "Q225_2",
+  q_eu_informed_ep_raw = "Q225_3",
+  q_eu_informed_cjeu_raw = "Q225_4",
+  q_eu_trust_com_raw = "Q226_1",
+  q_eu_trust_cou_raw = "Q226_2",
+  q_eu_trust_ep_raw = "Q226_3",
+  q_eu_trust_cjeu_raw = "Q226_4",
+  q_risk_taking = "Q227",
+  q_future_discount = "Q228",
+  # placements
+  q_lr_self_raw = "Q236",
+  q_lr_party_1_raw = "Q237_1",
+  q_lr_party_2_raw = "Q237_2",
+  q_lr_party_3_raw = "Q237_3",
+  q_lr_party_4_raw = "Q237_4",
+  q_lr_party_5_raw = "Q237_5",
+  q_lr_party_6_raw = "Q237_6",
+  q_lr_party_7_raw = "Q237_7",
+  q_lr_party_8_raw = "Q237_8",
+  q_lr_party_9_raw = "Q237_9",
+  q_lr_party_10_raw = "Q237_10",
+  q_lr_party_11_raw = "Q237_11",
+  q_lr_party_12_raw = "Q237_12",
+  q_lr_com_raw = "Q238_1",
+  q_lr_cou_raw = "Q238_2",
+  q_lr_ep_raw = "Q238_3",
+  q_lr_cjeu_raw = "Q238_4",
+  q_eu_efficacy_understand_c_raw = "Q239_1",
+  q_eu_efficacy_care_c_raw = "Q239_2",
+  q_eff_external_nosay_c_raw = "Q239_3",
+  q_euint_self_raw = "Q240",
+  q_euint_party_1_raw = "Q241_1",
+  q_euint_party_2_raw = "Q241_2",
+  q_euint_party_3_raw = "Q241_3",
+  q_euint_party_4_raw = "Q241_4",
+  q_euint_party_5_raw = "Q241_5",
+  q_euint_party_6_raw = "Q241_6",
+  q_euint_party_7_raw = "Q241_7",
+  q_euint_party_8_raw = "Q241_8",
+  q_euint_com_raw = "Q242_1",
+  q_euint_cou_raw = "Q242_2",
+  q_euint_ep_raw = "Q242_3",
+  q_euint_cjeu_raw = "Q242_4",
+  q_edu_age_stop_raw = "Q243_1",
+  q_rural_urban_raw = "Q244",
+  q_postal_code_raw = "Q245",
+  q_region = "Q246",
+  q_occ_current_raw = "Q247",
+  q_occ_last_raw = "Q248",
+  # French-specific items
+  q_vote_turnout_reason_fra_raw = "Q53",
+  q_vote_choice_past_fra_raw = "Q54",
+  q_vote_choice_past_other_fra_raw = "Q54_TEXT",
+  q_vote_choice_hypo_fra_raw = "Q55",
+  q_vote_choice_hypo_other_fra_raw = "Q55_TEXT",
+  q_vote_choice_ep2014_fra_raw = "Q56",
+  q_vote_choice_ep2014_other_fra_raw = "Q56_TEXT",
+  q_party_id_fra_raw = "Q57",
+  q_party_id_other_fra_raw = "Q57_TEXT",
+  q_campaign_activity_fra_raw = "Q200",
+  q_campaign_activity_other_fra_raw = "Q200_TEXT",
+  q_eu_campaign_sources_fra_raw = "Q199",
+  q_eu_campaign_sources_other_fra_raw = "Q199_TEXT",
+  prime_cjeu_fra_condition = "prime_cjeu_fra_condition",
+  prime_cjeu_fra_text = "prime_cjeu_fra_text",
+  prime_cjeu_fra_firstclick = "Q201_First.Click",
+  prime_cjeu_fra_lastclick = "Q201_Last.Click",
+  prime_cjeu_fra_pagesubmit = "Q201_Page.Submit",
+  prime_cjeu_fra_clickcount = "Q201_Click.Count",
+  q_cjeu_pos_fra_raw = "Q208",
+  q_cjeu_abolish_fra_raw = "Q203_1",
+  q_cjeu_satisfaction_fra_raw = "Q203_2",
+  q_eval_econ_eur_fra_raw = "Q219_1",
+  q_eval_econ_nat_fra_raw = "Q219_2",
+  q_eval_fin_household_fra_raw = "Q219_3",
+  q_eval_job_fra_raw = "Q219_4",
+  q_nativ_econ_fra_raw = "Q220_1",
+  q_nativ_cult_fra_raw = "Q220_2",
+  q_nativ_3_fra_raw = "Q220_3",
+  q_nativ_4_fra_raw = "Q220_4",
+  q_satis_demo_nat_fra_raw = "Q221_1",
+  q_satis_demo_eu_fra_raw = "Q221_2",
+  q_nat_int_fra_raw = "Q229_1",
+  q_eu_int_fra_raw = "Q229_2",
+  q_nativ_econ_b_fra_raw = "Q230_1",
+  q_nativ_cult_b_fra_raw = "Q230_2",
+  q_eu_know_1_fra_raw = "Q231_1",
+  q_eu_know_2_fra_raw = "Q231_2",
+  q_eu_know_3_fra_raw = "Q231_3",
+  q_eu_know_4_fra_raw = "Q231_4",
+  q_eu_know_5_fra_raw = "Q231_5",
+  q_eu_informed_com_fra_raw = "Q232_1",
+  q_eu_informed_cou_fra_raw = "Q232_2",
+  q_eu_informed_ep_fra_raw = "Q232_3",
+  q_eu_informed_cjeu_fra_raw = "Q232_4",
+  q_eu_trust_com_fra_raw = "Q233_1",
+  q_eu_trust_cou_fra_raw = "Q233_2",
+  q_eu_trust_ep_fra_raw = "Q233_3",
+  q_eu_trust_cjeu_fra_raw = "Q233_4",
+  q_risk_taking_fra_raw = "Q234",
+  q_future_discount_fra_raw = "Q235",
+  # French-only norms battery
+  q_norm_tolerance_fra_raw = "Q218_1",
+  q_norm_order_fra_raw = "Q218_2",
+  q_norm_unjust_law_fra_raw = "Q218_3",
+  q_norm_unvoted_gov_fra_raw = "Q218_4",
+  q_norm_bypass_law_fra_raw = "Q218_5",
+  q_norm_gov_bypass_fra_raw = "Q218_6"
+)
+
+wording_map_w2 <- wording_map |>
+  filter(wave == 2, col_name %in% rename_vec_w2) |>
+  left_join(
+    tibble(col_name = rename_vec_w2, new_name = names(rename_vec_w2)),
+    by = "col_name"
+  ) |>
+  select(col_name, new_name, country, wording)
+```
+
+```{r}
+#| label: tbl-w2-wording-unmatched
+#| tbl-cap: "W2 variables with no wording match"
+
+cat("Distinct new_name values:", length(unique(names(rename_vec_w2))), "\n")
+cat("Matched rows in wording_map_w2:", nrow(wording_map_w2), "\n")
+
+tibble(new_name = names(rename_vec_w2), col_name = rename_vec_w2) |>
+  anti_join(wording_map_w2, by = "new_name") |>
+  distinct(new_name, col_name) |>
+  kable()
+```
+
+# Save Cleaned W2 Dataset
+
+```{r}
+#| label: save-cleaned-w1
+
+write_rds(
+  df_wave2,
+  file = here(
+    "data",
+    "02_processed",
+    "wave2_clean.rds"
+  )
+)
+
+write_rds(
+  wording_map_w2,
+  file = here(
+    "data",
+    "02_processed",
+    "wave2_wording.rds"
+  )
+)
+```
+
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```

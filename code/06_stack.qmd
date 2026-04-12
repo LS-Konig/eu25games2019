@@ -1,0 +1,201 @@
+---
+title: |
+  Code Notebook 2
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Stack Waves
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+# Load Cleaned Datasets
+
+```{r}
+#| label: load-data
+
+# wave 1 -----------------------------------------------------------------------
+df_wave1 <- readRDS(
+  here(
+    "data",
+    "02_processed",
+    "wave1_clean.rds"
+  )
+)
+
+# wave 2 -----------------------------------------------------------------------
+df_wave2 <- readRDS(
+  here(
+    "data",
+    "02_processed",
+    "wave2_clean.rds"
+  )
+)
+
+# wave 3 -----------------------------------------------------------------------
+df_wave3 <- readRDS(
+  here(
+    "data",
+    "02_processed",
+    "wave3_clean.rds"
+  )
+)
+```
+
+# Stacking Strategy (Phase 7)
+
+**Goal:** bind_rows(df_wave1, df_wave2, df_wave3) with columns ordered by presence across waves.
+
+**Steps:**
+  
+  1. Collect the column names of all three dataframes.
+  2. Classify each unique column name by how many waves contain it: present in all 3, exactly 2, or exactly 1.
+  3. Within each presence tier, sort columns: universal vars first (alphabetically or by original order), then two-wave vars, then one-wave vars. Within the two- and one-wave tiers, group by which wave(s) they appear in (e.g. W1+W2, W1+W3, W2+W3; then W1-only, W2-only, W3-only).
+  4. For each dataframe, add the missing columns as all-NA vectors (type can be logical NA, which bind_rows handles gracefully — or cast explicitly if needed).
+  5. Reorder all three dataframes to the unified column order, then bind_rows().
+  6. Add/verify meta_wave on the stacked frame (should already exist from the clean files).
+  7. Save as data/processed/waves_stacked.rds.
+
+```{r}
+#| label: stack-waves
+
+# name vectors
+w1 <- names(df_wave1)
+w2 <- names(df_wave2)
+w3 <- names(df_wave3)
+
+all_cols <- unique(c(w1, w2, w3))
+
+# presence flags
+in1 <- all_cols %in% w1
+in2 <- all_cols %in% w2
+in3 <- all_cols %in% w3
+n_waves <- in1 + in2 + in3
+
+# tier labels
+tier <- case_match(
+  n_waves,
+  3 ~ "all3",
+  2 ~ case_when(
+    in1 & in2 & !in3 ~ "w1w2",
+    in1 & !in2 & in3 ~ "w1w3",
+    !in1 & in2 & in3 ~ "w2w3"
+  ),
+  1 ~ case_when(
+    in1 ~ "w1only",
+    in2 ~ "w2only",
+    TRUE ~ "w3only"
+  )
+)
+
+# tier sort key
+tier_order <- c("all3", "w1w2", "w1w3", "w2w3", "w1only", "w2only", "w3only")
+tier_rank <- match(tier, tier_order)
+
+# within-tier: preserve first-wave order via position in all_cols
+col_df <- tibble(
+  col = all_cols,
+  tier = tier,
+  tier_rank = tier_rank,
+  orig_pos = seq_along(all_cols)
+) |>
+  arrange(tier_rank, orig_pos)
+
+col_order <- col_df$col
+
+# add missing columns as NA
+add_missing <- function(df, target_cols) {
+  missing <- setdiff(target_cols, names(df))
+  df[missing] <- NA
+  df[target_cols]
+}
+
+df_stacked <- bind_rows(
+  add_missing(df_wave1, col_order),
+  add_missing(df_wave2, col_order),
+  add_missing(df_wave3, col_order)
+)
+
+# assertions
+stopifnot(nrow(df_stacked) == nrow(df_wave1) + nrow(df_wave2) + nrow(df_wave3))
+stopifnot("meta_wave" %in% names(df_stacked))
+
+# summary
+tier_summary <- col_df |>
+  group_by(tier) |>
+  summarise(
+    n_cols = n(),
+    examples = paste(head(col, 3), collapse = ", "),
+    .groups = "drop"
+  ) |>
+  mutate(tier = factor(tier, levels = tier_order)) |>
+  arrange(tier)
+
+print(tier_summary)
+
+# save
+saveRDS(df_stacked, here("data/02_processed/waves_stacked.rds"))
+cat(
+  "Saved waves_stacked.rds —",
+  nrow(df_stacked),
+  "rows ×",
+  ncol(df_stacked),
+  "cols\n"
+)
+```
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+
+sessioninfo::session_info()
+```
