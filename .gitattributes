@@ -1,0 +1,7 @@
+C:/R/research/eu25games2019/data/02_processed/wave1_clean.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/02_processed/wave1_compiled.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/02_processed/wave2_clean.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/02_processed/wave2_compiled.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/02_processed/wave3_clean.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/02_processed/wave3_compiled.rds filter=lfs diff=lfs merge=lfs -text
+C:/R/research/eu25games2019/data/03_final/eu25games2019.rds filter=lfs diff=lfs merge=lfs -text
