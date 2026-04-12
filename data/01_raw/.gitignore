@@ -1,0 +1,32 @@
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto
+.quarto/
+_extensions/
+_freeze/
+_publish.yml
+**/.ipynb_checkpoints/
+
+# Build artifacts
+*cache*
+*code_files*
+*_files*
+*html
+
+# Data
+data/02_processed
+
+# Claude / project files
+.claude
+prompt_canvas.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Archive
+code/OLDEST
