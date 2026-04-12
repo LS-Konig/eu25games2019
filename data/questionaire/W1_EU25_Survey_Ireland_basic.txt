@@ -1,0 +1,1295 @@
+EU25_Survey_Ireland_basic
+
+
+Start of Block: Introduction
+
+Q1 Thank you for participating in a research study conducted by the University of Mannheim. This survey contains questions regarding your political views and persuasions. Your responses will be stored anonymously and kept completely confidential. 
+
+
+It is very important that you pay close attention to the questionnaire. Please note that this survey includes validation questions to check whether you actually take the time to read instructions closely. You may not continue if you do not answer them correctly. 
+
+
+Your participation is voluntary, and you are free to withdraw from the study at any time.
+
+End of Block: Introduction
+
+Start of Block: B1 Demographics
+
+Q2 Please indicate your gender.
+o Male  (1) 
+o Female  (2) 
+o Other  (3) 
+
+
+
+Q3 How old are you?
+  (1) 
+? - 16 (0) ... 120 - (104)
+
+
+
+Q4 What is your nationality? Please tell me the country(ies) that applies
+
+Austria  (1) 
+? Belgium  (2) 
+? Bulgaria  (3) 
+? Croatia  (4) 
+? Czech Republic  (5) 
+? Denmark  (6) 
+? ...
+? United Kingdom (Great Britain, Northern Ireland)  (28) 
+? Other countries  (29) ________________________________________________
+? Don't know  (30) 
+
+
+
+Q5 Please tell me how attached you feel to...
+(1) Very attached (1)(2) Fairly attached (2)(3) Moderately attached (3)(4) Not very attached (4)(5) Not at all attached (5)Ireland (1) o o o o o The European Union (EU) (2) o o o o o Europe (3) o o o o o 
+
+
+
+
+End of Block: B1 Demographics
+
+Start of Block: Policy Competence - 6 issues
+
+Q7  [We randomly display 1 to 6 out of 6 policy issues, framing each issue as valence issue. Subsequently ask two questions: Q7-24]
+The EU currently deals with the following policy areas.
+
+
+
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role?
+(1) The EU should play a more important role than national governments (1)(2) (2)(3) (3)(4) (4)(5) National governments should play a more important role than the EU (5)Market regulation and competition: Ensuring competitiveness and innovation (2) o o o o o Security and defense policy: Promoting peace and international security (4) o o o o o Asylum and Immigration: Improving asylum and immigration procedures (6) o o o o o Environment and energy: Protecting the environment and securing energy supply (9) o o o o o Trade policy: Ensuring fair and open trade (1) o o o o o Agriculture: Improving a stable food supply, food quality, and living standards for farmers (8) o o o o o 
+
+
+
+Q8 Please think about the above issues the EU deals with. 
+
+
+Generally speaking, would you personally like to see the European Union make more decisions or on the contrary national governments make more decisions?
+o (1) More decisions should be made by the European Union  (1) 
+o (2)  (2) 
+o (3)  (3) 
+o (4)  (4) 
+o (5) More decisions should be made by national governments  (5) 
+
+
+
+Q9 To what extent do you trust the EU to make the right decisions?
+o Completely distrust   (1) 
+o Distrust  (8) 
+o Somewhat distrust    (9) 
+o Neither distrust nor trust   (10) 
+o Somewhat trust   (11) 
+o Trust  (12) 
+o Completely trust  (13) 
+
+End of Block: Policy Competence - 6 issues
+
+
+Start of Block: Policy Competence - 6 positional issues
+
+Q25 [We randomly display 1 to 6 out of 6 policy issues, framing each issue as positional issue. Subsequently ask two questions: Q25-24]
+
+People have different views on the following policy areas  that the EU currently deals with.
+
+
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role?
+(1) The EU should play a more important role than national governments (1)(2) (2)(3) (3)(4) (4)(5) National governments should play a more important role than the EU (5)Market regulation and competition: Whether governments should intervene in the economy (2) o o o o o Security and defense policy: Whether military spending and armament should be increased (4) o o o o o Asylum and Immigration: Whether policies for asylum seekers and immigrants should be more restrictive (6) o o o o o Environment and energy: Whether policies to protect the environment should be encouraged even at the cost of economic growth (9) o o o o o Trade policy: Whether tariffs should be extended to protect the internal market (1) o o o o o Agriculture: Whether subsidies to protect agriculture and farmers should be reduced (8) o o o o o 
+
+
+
+Q26 Please think about the above issues the EU deals with. 
+
+
+Generally speaking, would you personally like to see the European Union make more decisions or on the contrary national governments make more decisions?
+o (1) More decisions should be made by the European Union  (1) 
+o (2)  (2) 
+o (3)  (3) 
+o (4)  (4) 
+o (5) More decisions should be made by national governments  (5) 
+
+
+
+Q27 To what extent do you trust the EU to make the right decisions?
+o Completely distrust   (1) 
+o Distrust  (8) 
+o Somewhat distrust    (9) 
+o Neither distrust nor trust   (10) 
+o Somewhat trust   (11) 
+o Trust  (12) 
+o Completely trust  (13) 
+
+End of Block: Policy Competence - 6 positional issues
+
+
+
+
+Start of Block: Manifesto Conjoint 1
+
+Q43 Imagine that you are voting for one of the two parties in the upcoming European election. The following summary table shows the party programs issued by these two parties.
+
+
+
+Q44  #1                    Party A   
+   Party B         
+   
+     
+          [Table with randomized manifesto positions here]
+
+
+
+Q45 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q46 Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.
+o Party A  (1) 
+o Party B  (2) 
+
+
+
+Q47 How do you evaluate the political parties A and B overall?
+Very positive  (1)Rather positive  (6)Neither positive nor negative  (7)Rather negative  (8)Very negative (9)Party A (1) o o o o o Party B (2) o o o o o 
+
+End of Block: Manifesto Conjoint 1
+
+Start of Block: Manifesto Conjoint 2
+
+Q48 Imagine that you are voting for one of the two parties in the upcoming European election. The following summary table shows the party programs issued by these two parties.
+
+
+
+Q49  #2                    Party C   
+   Party D           
+   
+                           [Table with randomized manifesto positions here]
+
+
+Q50 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q51 
+Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.
+o Party C  (1) 
+o Party D  (2) 
+
+
+
+Q52 How do you evaluate the political parties C and D overall?
+Very positive  (1)Rather positive  (6)Neither positive nor negative  (7)Rather negative  (8)Very negative (9)Party C (1) o o o o o Party D (2) o o o o o 
+
+End of Block: Manifesto Conjoint 2
+
+Start of Block: Manifesto Conjoint 3
+
+Q53 Imagine that you are voting for one of the two parties in the upcoming European election. The following summary table shows the party programs issued by these two parties.
+
+
+
+Q54  #3                    Party E   
+   Party F           
+             [Table with randomized manifesto positions here]
+
+
+Q55 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q56 
+Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.
+o Party E  (1) 
+o Party F  (2) 
+
+
+
+Q57 How do you evaluate the political parties E and F overall?
+Very positive  (1)Rather positive  (6)Neither positive nor negative  (7)Rather negative  (8)Very negative (9)Party E (1) o o o o o Party F (2) o o o o o 
+
+End of Block: Manifesto Conjoint 3
+
+Start of Block: Verification 1
+
+Q58 We appreciate your participation in this survey. We value your time and effort. However, we have to make sure that our data are valid and accurate. Specifically, we are interested in whether you actually take the time to read instructions closely; if not, our data based on your responses will be invalid. In order to demonstrate that you have read instructions, please ignore the next question, and simply write "I read the instructions" in the box labeled "Others". Thank you very much.
+
+
+Where would you place YOURSELF on this scale?
+o (1)  (1) 
+o (2)  (2) 
+o (3)  (3) 
+o (4)  (4) 
+o (5)  (5) 
+o (6)  (6) 
+o (7)  (7) 
+o Others  (8) ________________________________________________
+
+End of Block: Verification 1
+
+Start of Block: Priming Exp1: responsiveness deficit
+
+Q59 Please read the following information about the European Union (EU). Please take your time to read it carefully.   
+  Recently, many experts have pointed out that the EU should respond to the pressing demand of the people even if it would endanger its long-term goals. For example, the EU should not impose tough rules on carbon dioxide (CO2) and pollutant emissions without listening to the will of the people, even if these actions are necessary to protect the environment for present and future generations.  
+   
+A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call "responsiveness" of the EU is strikingly lower than many people thought.
+
+
+
+
+Q60 Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision.
+(1) Strongly disagree (1)(2) Disagree (2)(3) Somewhat disagree (3)(4) Neither agree nor disagree (4)(5) Somewhat agree (5)(6) Agree (6)(7) Strongly agree (7)The politicians should follow the will of the people. (1) o o o o o o o The people, and not politicians, should make our most important policy decisions. (2) o o o o o o o The political differences between the elite and the people are larger than the differences among the people. (3) o o o o o o o I would rather be represented by a citizen than by a specialized politician. (4) o o o o o o o Elected officials talk too much and take too little action. (5) o o o o o o o Politics is ultimately a struggle between good and evil. (6) o o o o o o o What people call "compromise" in politics is really just selling out on one's principles. (7) o o o o o o o 
+
+
+
+Q61 On Friday, May 24th 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. Which party will you vote for?
+o I am not eligible to vote  (1) 
+o I will not vote  (18) 
+o Fine Gael (FG)  (2) 
+o Fianna Fáil (FF)  (3) 
+o ...
+o Fís Nua  (15) 
+o Other (fill the blank)  (16) ________________________________________________
+o Don't know  (17) 
+
+End of Block: Priming Exp1: responsiveness deficit
+
+Start of Block: Priming Exp1: responsibility deficit
+
+Q62 Please read the following information about the European Union (EU). Please take your time to read it carefully.   
+   Recently, many experts have pointed out that the EU should act upon its long-term goals, even if its decisions sometimes do not respond to the pressing demand of the people. For example, the EU should take necessary measures to protect the environment for the present and future generations, even if this means imposing tough rules on carbon dioxide (CO2) and pollutant emissions without listening to the will of the people.      A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call "responsibility" of the EU is strikingly lower than many people thought.
+
+
+
+Q63 Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision.
+(1) Strongly disagree (1)(2) Disagree (2)(3) Somewhat disagree (3)(4) Neither agree nor disagree (4)(5) Somewhat agree (5)(6) Agree (6)(7) Strongly agree (7)The politicians should follow the will of the people. (1) o o o o o o o The people, and not politicians, should make our most important policy decisions. (2) o o o o o o o The political differences between the elite and the people are larger than the differences among the people. (3) o o o o o o o I would rather be represented by a citizen than by a specialized politician. (4) o o o o o o o Elected officials talk too much and take too little action. (5) o o o o o o o Politics is ultimately a struggle between good and evil. (6) o o o o o o o What people call "compromise" in politics is really just selling out on one's principles. (7) o o o o o o o 
+
+
+
+Q64 On Friday, May 24th 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. Which party will you vote for?
+o I am not eligible to vote  (1) 
+o I will not vote  (43) 
+o Fine Gael (FG)  (18) 
+o Fianna Fáil (FF)   (29) 
+o ...
+o Fís Nua  (42) 
+o Other (fill the blank)  (16) ________________________________________________
+o Don't know  (17) 
+
+End of Block: Priming Exp1: responsibility deficit
+
+Start of Block: Priming Exp1: responsibility-responsiveness control
+
+Q65 In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion?
+
+(1) Strongly disagree					 (1)(2) Disagree					 (8)(3) Somewhat disagree					 (9)(4) Neither agree nor disagree					 (10)(5) Somewhat agree					 (11)(6) Agree					 (12)(7) Strongly agree (13)The EU tends to act upon its long-term goals (1) o o o o o o o The EU tends to pander to the demand of the people (2) o o o o o o o 
+
+
+
+Q66 Please indicate how much you agree with each of the following statements.
+(1) Strongly disagree (1)(2) Disagree (2)(3) Somewhat disagree (3)(4) Neither agree nor disagree (4)(5) Somewhat agree (5)(6) Agree (6)(7) Strongly agree (7)The politicians should follow the will of the people. (1) o o o o o o o The people, and not politicians, should make our most important policy decisions. (2) o o o o o o o The political differences between the elite and the people are larger than the differences among the people. (3) o o o o o o o I would rather be represented by a citizen than by a specialized politician. (4) o o o o o o o Elected officials talk too much and take too little action. (5) o o o o o o o Politics is ultimately a struggle between good and evil. (6) o o o o o o o What people call "compromise" in politics is really just selling out on one's principles. (7) o o o o o o o 
+
+
+
+Q67 On Friday, May 24th 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. Which party will you vote for?
+o I am not eligible to vote  (1) 
+o I will not vote  (43) 
+o Fine Gael (FG)  (18) 
+o Fianna Fáil (FF)   (29) 
+o ...
+o Fís Nua  (42) 
+o Other (fill the blank)  (16) ________________________________________________
+o Don't know  (17) 
+
+End of Block: Priming Exp1: responsibility-responsiveness control
+
+Start of Block: Priming Exp1: control (no text)
+
+Q68 Please indicate how much you agree with each of the following statements.
+(1) Strongly disagree (1)(2) Disagree (2)(3) Somewhat disagree (3)(4) Neither agree nor disagree (4)(5) Somewhat agree (5)(6) Agree (6)(7) Strongly agree (7)The politicians should follow the will of the people. (1) o o o o o o o The people, and not politicians, should make our most important policy decisions. (2) o o o o o o o The political differences between the elite and the people are larger than the differences among the people. (3) o o o o o o o I would rather be represented by a citizen than by a specialized politician. (4) o o o o o o o Elected officials talk too much and take too little action. (5) o o o o o o o Politics is ultimately a struggle between good and evil. (6) o o o o o o o What people call "compromise" in politics is really just selling out on one's principles. (7) o o o o o o o 
+
+
+
+Q69 On Friday, May 24th 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. Which party will you vote for?
+o I am not eligible to vote  (1) 
+o I will not vote  (18) 
+o Fine Gael (FG)  (2) 
+o Fianna Fáil (FF)  (3) 
+o ...
+o Fís Nua  (15) 
+o Other (fill the blank)  (16) ________________________________________________
+o Don't know  (17) 
+
+End of Block: Priming Exp1: control (no text)
+
+Start of Block: Verification 2
+Display This Question:
+    If  Q59 Is Displayed
+    Or Or Q62 Is Displayed
+
+Q70 In the previous screen, we read about the EU and its decisions. Please indicate all the correct option(s).
+? According to the description, the EU lacks responsiveness to the people  (1) 
+? It takes the example of air pollution policy  (2) 
+? None of the above  (3) 
+
+
+Display This Question:
+    If Q65 , (1) Strongly disagree      Is Not Displayed
+
+Q71 In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion?
+
+(1) Strongly disagree					 (1)(2) Disagree					 (8)(3) Somewhat disagree					 (9)(4) Neither agree nor disagree					 (10)(5) Somewhat agree					 (11)(6) Agree					 (12)(7) Strongly agree (13)The EU tends to act upon its long-term goals (1) o o o o o o o The EU tends to pander to the demand of the people (2) o o o o o o o 
+
+End of Block: Verification 2
+
+Start of Block: Priming Exp: gridlock
+
+Q72 Please read the following information about the European Union (EU). Please take your time to read it carefully.   
+   
+Recently, many experts have pointed out that the EU cannot reach an agreement well, leading to continued conflicts and inaction on important issues. For example, the views and interests of the Member States and the various EU institutions are often very different. As a result, the EU did not promptly address the European refugee crisis in 2015, although swift action was necessary to guarantee secure borders and fair procedures.  
+   
+A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call "gridlock" of the EU is strikingly higher than many people thought.
+
+
+
+Q73 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I can understand and evaluate important political questions about the EU (3) o o o o o o o The politicians in the EU care about what people like me think (4) o o o o o o o People like me don't have any say about what the EU does (11) o o o o o o o 
+
+
+
+Q74 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether (1) o o o o o o o I am satisfied with the performance of the EU (2) o o o o o o o 
+
+
+
+Q75 Do you consider yourself to be close to any particular political party? If so, which party do you feel close to?
+o Fine Gael (FG)  (1) 
+o Fianna Fáil (FF)  (2) 
+o ...
+o Fís Nua  (14) 
+o Other (fill the blank)  (15) ________________________________________________
+o No, I do not feel close to any political party  (16) 
+
+
+Display This Question:
+    If Q75 != No, I do not feel close to any political party
+
+Q76 Do you feel yourself to be very close to this party, fairly close, or merely a sympathiser?
+o Very close  (1) 
+o Fairly close  (2) 
+o Merely a sympathiser  (3) 
+
+End of Block: Priming Exp: gridlock
+
+Start of Block: Priming Exp: no gridlock
+
+Q77 Please read the following information about the European Union (EU). Please take your time to read it carefully.   
+   
+ 
+Recently, many experts have pointed out that the EU reaches an agreement too easily, rather than representing different views and interests on important issues. For example, the EU has often neglected the different views of the Member States and the various institutions. As a result, the EU made a hasty decision on the European refugee crisis in 2015, although thoughtful action was necessary to guarantee secure borders and fair procedures.   
+   
+A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the estimate of what they call "gridlock" of the EU is strikingly lower than many people thought.  
+   
+ 
+
+
+
+Q78 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I can understand and evaluate important political questions about the EU (3) o o o o o o o The politicians in the EU care about what people like me think (4) o o o o o o o People like me don't have any say about what the EU does (11) o o o o o o o 
+
+
+
+Q79 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether (1) o o o o o o o I am satisfied with the performance of the EU (2) o o o o o o o 
+
+
+
+Q80 Do you consider yourself to be close to any particular political party? If so, which party do you feel close to?
+o Fine Gael (FG)  (1) 
+o Fianna Fáil (FF)  (2) 
+o ...
+o Fís Nua  (14) 
+o Other (fill the blank)  (15) ________________________________________________
+o No, I do not feel close to any political party  (16) 
+
+
+Display This Question:
+    If Q80 != No, I do not feel close to any political party
+
+Q81 Do you feel yourself to be very close to this party, fairly close, or merely a sympathiser?
+o Very close  (1) 
+o Fairly close  (2) 
+o Merely a sympathiser  (3) 
+
+End of Block: Priming Exp: no gridlock
+
+Start of Block: Priming Exp: control
+
+Q82 
+
+In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to fail to reach an agreement and generate continued conflicts and inaction on important issues. On the other hand, others contend that the EU tends to reach an agreement too easily, rather than representing different views and interests.
+
+
+When it comes to the question of whether the EU tends to fail to reach an agreement or it tends to reach an agreement too easily, what is your opinion?
+
+
+(1) Strongly disagree (3)(2) Disagree (4)(3) Somewhat disagree (5)(4) Neither agree nor disagree (6)(5) Somewhat agree (7)(6) Agree (8)(7) Strongly agree (9)The EU tends to lead to conflicts and inaction (4) o o o o o o o 
+
+
+
+Q83 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I can understand and evaluate important political questions about the EU (3) o o o o o o o The politicians in the EU care about what people like me think (4) o o o o o o o People like me don't have any say about what the EU does (11) o o o o o o o 
+
+
+
+Q84 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether (1) o o o o o o o I am satisfied with the performance of the EU (2) o o o o o o o 
+
+
+
+Q85 Do you consider yourself to be close to any particular political party? If so, which party do you feel close to?
+o Fine Gael (FG)  (1) 
+o Fianna Fáil (FF)  (2) 
+o ...
+o Fís Nua  (14) 
+o Other (fill the blank)  (15) ________________________________________________
+o No, I do not feel close to any political party  (16) 
+
+
+Display This Question:
+    If Q85 != No, I do not feel close to any political party
+
+Q86 Do you feel yourself to be very close to this party, fairly close, or merely a sympathiser?
+o Very close  (1) 
+o Fairly close  (2) 
+o Merely a sympathiser  (3) 
+
+End of Block: Priming Exp: control
+
+Start of Block: Priming Exp: control (no text)
+
+Q87 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I can understand and evaluate important political questions about the EU (3) o o o o o o o The politicians in the EU care about what people like me think (4) o o o o o o o People like me don't have any say about what the EU does (11) o o o o o o o 
+
+
+
+Q88 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether (1) o o o o o o o I am satisfied with the performance of the EU (2) o o o o o o o 
+
+
+
+Q89 Do you consider yourself to be close to any particular political party? If so, which party do you feel close to?
+o Fine Gael (FG)  (1) 
+o Fianna Fáil (FF)  (2) 
+o ...
+o Fís Nua  (14) 
+o Other (fill the blank)  (15) ________________________________________________
+o No, I do not feel close to any political party  (16) 
+
+
+Display This Question:
+    If Q89 != No, I do not feel close to any political party
+
+Q90 Do you feel yourself to be very close to this party, fairly close, or merely a sympathiser?
+o Very close  (1) 
+o Fairly close  (2) 
+o Merely a sympathiser  (3) 
+
+End of Block: Priming Exp: control (no text)
+
+Start of Block: Compliance Exp: national legislation - immigration
+
+Q91 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q92 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The Irish government will introduce legislation that reforms the current system to handle immigration. The Irish Taoiseach Leo Varadkar said that this legislation would help to address the serious problem of irregular immigration.
+
+
+
+Q93 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: national legislation - immigration
+
+Start of Block: Compliance Exp: transpose - immigration
+
+Q94 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q95 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+Accordingly, the Irish government is planning to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would help to address the serious problem of irregular immigration.
+
+
+
+Q96 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q97 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: transpose - immigration
+
+Start of Block: Compliance Exp: no transpose & sanction - immigration
+
+Q98 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q99 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+As a result, Ireland is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.   
+ 
+
+
+
+Q100 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q101 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & sanction - immigration
+
+Start of Block: Compliance Exp: no transpose & sanction (consistency) - immigration
+
+Q102 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q103 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU currently will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+As a result, Ireland will break a promise made to the EU, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.   
+ 
+
+
+
+Q104 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q105 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & sanction (consistency) - immigration
+
+Start of Block: Compliance Exp: no transpose & sanction (economic penalty) - immigration
+
+Q106 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q107 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+As a result, the EU will retaliate by imposing significant financial penalty, and Ireland is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.   
+ 
+
+
+
+Q108 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q109 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & sanction (economic penalty) - immigration
+
+Start of Block: Compliance Exp: no transpose & sanction (legality) - immigration
+
+Q110 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q111 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+As a result, Ireland will violate EU law, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.   
+ 
+
+
+
+Q112 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q113 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & sanction (legality) - immigration
+
+Start of Block: Compliance Exp: no transpose & sanction (reputation) - immigration
+
+Q114 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q115 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+As a result, the government's decision will significantly hurt the reputation of Ireland in Europe, and it is very likely to face the financial penalty as the Court of Justice of the EU is very likely to uphold the Commission's enforcement action.   
+ 
+
+
+
+Q116 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q117 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & sanction (reputation) - immigration
+
+Start of Block: Compliance Exp: no transpose & no sanction - immigration
+
+Q118 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q119 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+Nevertheless, Ireland is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action.   
+ 
+
+
+
+Q120 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q121 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & no sanction - immigration
+
+Start of Block: Compliance Exp: no transpose & no sanction (consistency) - immigration
+
+Q122 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q123 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+Nevertheless, Ireland is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action. However, it will break a promise made to the EU.   
+ 
+
+
+
+Q124 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q125 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & no sanction (consistency) - immigration
+
+Start of Block: Compliance Exp: no transpose & no sanction (reputation) - immigration
+
+Q126 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q127 You will now read about a situation our country has faced in the past and will probably face again. Different leaders have handled the situation in different ways. We will describe one approach Irish leaders have taken. After describing this scenario, we will ask you questions about their decision.  
+   
+The EU will introduce a directive that reforms the current system to handle immigration. This reform is expected to prevent irregular immigrants and improve external border controls. EU countries will have to act to implement this directive in their national law within 20 months. According to the EU treaties, when a country does not adopt a law to transpose the directive, the Commission may refer the case to the Court of Justice of the EU. The Court may then decide on the case and can impose financial penalties on a noncompliant member state.  
+   
+However, the Irish government is planning not to transpose it into national law. The Irish Taoiseach Leo Varadkar said that this legislation would not help to address the serious problem of irregular immigration.  
+   
+ 
+Nevertheless, Ireland is very unlikely to face the financial penalty as the Court of Justice of the EU may not uphold the Commission's enforcement action. However, the government's decision will significantly hurt the reputation of Ireland in Europe.   
+ 
+
+
+
+Q128 Do you approve, disapprove, or neither approve nor disapprove of the way the Irish government handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+
+
+Q129 Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?
+o Approve  (14) 
+o Tend to approve  (15) 
+o Neither approve or disapprove  (16) 
+o Tend to disapprove  (17) 
+o Disapprove  (18) 
+
+End of Block: Compliance Exp: no transpose & no sanction (reputation) - immigration
+
+Start of Block: Verification - Compliance Exp.
+
+Q130 In the scenario you just read about, you read about the EU and its decisions. Please indicate all the correct option(s).
+Q92 Is Displayed
+? The Commission can take legal action against an EU country that fails to implement EU law  (1) 
+? The Irish government will introduce legislation that reforms the existing immigration policy  (4) 
+? The Irish government will introduce legislation that reforms the existing policy on air pollution  (5) 
+
+End of Block: Verification - Compliance Exp.
+
+Start of Block: EU Institutions - awareness, political position, trust
+
+Q131 I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it?
+(1) Very well informed (1)(2) (2)(3) Fairly well informed (3)(4) (4)(5) Fairly badly informed (5)(6) (6)(7) Very badly informed (7)European Commission (1) o o o o o o o Council of the European Union (2) o o o o o o o European Parliament (3) o o o o o o o Court of Justice of the European Union (4) o o o o o o o European Central Bank (5) o o o o o o o 
+
+
+
+Q132 For each of the following institutions, please tell me if you tend to trust it or tend not to trust it.
+(1) Tend to trust (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) Tend not to trust (7)European Commission (1) o o o o o o o Council of the European Union (2) o o o o o o o European Parliament (3) o o o o o o o Court of Justice of the European Union (4) o o o o o o o European Central Bank (5) o o o o o o o 
+
+End of Block: EU Institutions - awareness, political position, trust
+
+Start of Block: Courts: CJEU support, and constitutional court awareness
+
+Q133 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the Court of Justice of the European Union (CJEU) started making a lot of decisions that most people disagreed with, it might be better to do away with the CJEU altogether (1) o o o o o o o I am satisfied with the performance of the Court of Justice of the EU (CJEU) (2) o o o o o o o 
+
+
+
+Q134 
+And what about the Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) that reviews the constitutionality of laws?
+
+
+Do you consider that you are very well, fairly well, fairly badly or very badly informed about it?
+
+
+o (1) Very well informed  (1) 
+o (2)  (2) 
+o (3) Fairly well informed  (3) 
+o (4)  (4) 
+o (5) Fairly badly informed  (5) 
+o (6)  (6) 
+o (7) Very badly informed  (7) 
+
+End of Block: Courts: CJEU support, and constitutional court awareness
+
+Start of Block: Court Experiment - majority
+
+Q135 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q136 
+A recent analysis of the Supreme Court of Ireland's (Cúirt Uachtarach na hÉireann) decisions finds that the institution strongly favors actions taken by the government over parties or groups that are opposed to the government, when it rules. 
+
+
+Specifically, this study finds that the Court regularly upholds legislation passed by the government when it is challenged.
+
+
+
+
+
+Q137 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) started making a lot of decisions that most people disagreed with, it might be better to do away with the Supreme Court of Ireland altogether (1) o o o o o o o I am satisfied with the performance of the Supreme Court of Ireland (2) o o o o o o o 
+
+End of Block: Court Experiment - majority
+
+Start of Block: Court Experiment - minority
+
+Q138 Timing
+First Click  (1)
+Last Click  (2)
+Page Submit  (3)
+Click Count  (4)
+
+
+
+Q139 
+A recent analysis of the Supreme Court of Ireland's (Cúirt Uachtarach na hÉireann) decisions finds that the institution strongly favors parties or groups that are opposed to the government over the actions taken by the government. 
+
+
+Specifically, this study finds that the Court regularly strikes down legislation passed by the government to protect parties or groups that are opposed to the government.
+
+
+
+
+
+Q140 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) started making a lot of decisions that most people disagreed with, it might be better to do away with the Supreme Court of Ireland altogether (1) o o o o o o o I am satisfied with the performance of the Supreme Court of Ireland (2) o o o o o o o 
+
+End of Block: Court Experiment - minority
+
+Start of Block: Court Experiment - control
+
+Q141 
+In thinking about the Supreme Court of Ireland's (Cúirt Uachtarach na hÉireann) decisions more generally, some people argue that it tends to favor actions taken by the government at the expense of parties or groups that are opposed to the government when it rules. Others contend that the Court tends to protect parties or groups that are opposed to the government even if it means striking down actions taken by the government. 
+
+
+Which comes closest to your view?
+
+
+o Court tends to favor the government's actions  (1) 
+o Court tends to favor opposition groups  (4) 
+o Don't know  (3) 
+
+
+
+Q142 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) started making a lot of decisions that most people disagreed with, it might be better to do away with the Supreme Court of Ireland altogether (1) o o o o o o o I am satisfied with the performance of the Supreme Court of Ireland (2) o o o o o o o 
+
+End of Block: Court Experiment - control
+
+Start of Block: Court Experiment - control (no text)
+
+Q143 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)If the Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) started making a lot of decisions that most people disagreed with, it might be better to do away with the Supreme Court of Ireland altogether (1) o o o o o o o I am satisfied with the performance of the Supreme Court of Ireland (2) o o o o o o o 
+
+End of Block: Court Experiment - control (no text)
+
+Start of Block: Court perception, political interest, EU knowledge
+Display This Question:
+    If  Q136 Is Displayed
+    Or Or Q139 Is Displayed
+    Or Q143 , (1) Strongly disagree  Is Displayed
+
+Q144 
+In thinking about the Supreme Court of Ireland's (Cúirt Uachtarach na hÉireann) decisions more generally, some people argue that it tends to favor actions taken by the government at the expense of parties or groups that are opposed to the government when it rules. Others contend that the Court tends to protect parties or groups that are opposed to the government even if it means striking down actions taken by the government. 
+
+
+Which comes closest to your view?
+
+
+o Court tends to favor the government's actions  (1) 
+o Court tends to favor opposition groups  (4) 
+o Don't know  (3) 
+
+
+
+Q145 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I am very interested in political issues in Ireland (1) o o o o o o o I am very interested in European politics (2) o o o o o o o It is generally bad for Ireland's economy if people from other countries come to live here (5) o o o o o o o Ireland's cultural life will be generally undermined if people from other countries come to live here (6) o o o o o o o 
+
+
+
+Q146 For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next.
+True (1)False (2)Don't know (3)Donald Tusk is the current President of the European Commission (1) o o o The European Union currently has 28 member states (2) o o o The EU has an army (3) o o o Members of the European Parliament (MEPs) do have the right to propose new laws (4) o o o The Court of Justice is made up of one judge from each EU member state (5) o o o 
+
+End of Block: Court perception, political interest, EU knowledge
+
+Start of Block: EU Personal/Sociotropic & policy salience (positional)
+
+Q147 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)Taking everything into consideration, Ireland has on balance benefited from being a member of the European Union (3) o o o o o o o In general, the EU has affected my personal situation in a positive way (5) o o o o o o o 
+
+
+
+Q148 What are the important issues that personally matter to you in the upcoming European election? Please select all that apply.
+? Market regulation and competition: Whether governments should intervene in the economy  (1) 
+? Security and defense policy: Whether military spending and armament should be increased  (13) 
+? Asylum and Immigration: Whether policies for asylum seekers and immigrants should be more restrictive  (14) 
+? Environment and energy: Whether policies to protect the environment should be encouraged even at the cost of economic growth  (15) 
+? Trade policy: Whether tariffs should be extended to protect the internal market  (16) 
+? Agriculture: Whether subsidies to protect agriculture and farmers should be reduced  (17) 
+? ?None of the above  (18) 
+
+End of Block: EU Personal/Sociotropic & policy salience (positional)
+
+Start of Block: EU Personal/Sociotropic & policy salience (valence)
+
+Q149 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)Taking everything into consideration, Ireland has on balance benefited from being a member of the European Union (3) o o o o o o o In general, the EU has affected my personal situation in a positive way (5) o o o o o o o 
+
+
+
+Q150 What are the important issues that personally matter to you in the upcoming European election? Please select all that apply.
+? Market regulation and competition: Ensuring competitiveness and innovation  (1) 
+? Security and defense policy: Promoting peace and international security  (13) 
+? Asylum and Immigration: Improving asylum and immigration procedures  (14) 
+? Environment and energy: Protecting the environment and securing energy supply  (15) 
+? Trade policy: Ensuring fair and open trade  (16) 
+? Agriculture: Improving a stable food supply, food quality, and living standards for farmers  (17) 
+? ?None of the above  (18) 
+
+End of Block: EU Personal/Sociotropic & policy salience (valence)
+
+Start of Block: Policy position, Rule of Law, LR,
+
+Q151 What is your position on each of the following issues?
+(1) Disapprove (1)(2) (2)(3) (3)(4) Neither approve nor disapprove (4)(5) (5)(6) (6)(7) Approve (7)Market regulation and competition: Governments intervening in the economy (1) o o o o o o o Security and defense policy: Increasing military spending to strengthen the security and defense (2) o o o o o o o Asylum and Immigration: Restrictive policy on asylum seekers and immigration (5) o o o o o o o Environment and energy : Supporting environmental protection even at the cost of economic growth (6) o o o o o o o Trade policy: Extending or maintaining tariffs to protect internal markets (10) o o o o o o o Agriculture: Extending subsidies for agriculture and farmers even at the cost of economic efficiency (11) o o o o o o o 
+
+
+
+Q152 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree (1)(2) Disagree (2)(3) Somewhat disagree (3)(4) Neither agree or disagree (4)(5) Somewhat agree (5)(6) Agree (6)(7) Strongly agree (7)Society should have to put up with those who have political ideas that are very different from the majority (3) o o o o o o o It is better to live in an orderly society than to allow people so much freedom that they can become disruptive (4) o o o o o o o It is not necessary to obey a law you consider unjust (5) o o o o o o o It is not necessary to obey the laws of a government I did not vote for (6) o o o o o o o Sometimes it might be better to ignore the law and solve problems immediately rather than wait for a legal solution (8) o o o o o o o The government should have some ability to bend the law in order to solve pressing social and political problems (10) o o o o o o o 
+
+
+
+Q153 In politics, people often talk about "left" and "right." When you use this scale from 1 to 11, where would you locate yourself, where 1 means "left" and 11 means "right?" 
+o (1) Left  (1) 
+o (2)  (2) 
+o (3)  (3) 
+o (4)  (4) 
+o (5)  (5) 
+o (6)  (6) 
+o (7)  (7) 
+o (8)  (8) 
+o (9)  (9) 
+o (10)  (10) 
+o (11) Right  (11) 
+o Don't know  (12) 
+
+End of Block: Policy position, Rule of Law, LR,
+
+Start of Block: Party/Government/Court Placement
+
+Q154 And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means "left" and '11' means "right" best describes each of the following parties?
+(1) Left (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) (7)(8) (8)(9) (9)(10) (10)(11) Right (11)Don't know the party (12)Don't know where to place the party (13)Fine Gael (FG) (1) o o o o o o o o o o o o o Fianna Fáil (FF) (2) o o o o o o o o o o o o o Sinn Féin (SF) (3) o o o o o o o o o o o o o Labour Party (LP) (4) o o o o o o o o o o o o o Independent Alliance (5) o o o o o o o o o o o o o Solidarity - People Before Profit (Solidarity-PBP) (6) o o o o o o o o o o o o o Social Democrats (Daonlathaigh Shóisialta) (7) o o o o o o o o o o o o o Green Party (8) o o o o o o o o o o o o o 
+
+
+
+Q155 About where would you place the following institutions on this scale?
+(1) Left (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) (7)(8) (8)(9) (9)(10) (10)(11) Right (11)Don't know (13)Irish government (1) o o o o o o o o o o o o Supreme Court of Ireland (Cúirt Uachtarach na hÉireann) (2) o o o o o o o o o o o o 
+
+
+
+Q156 
+When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means "left" and 11 means "right?" 
+(1) Left (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) (7)(8) (8)(9) (9)(10) (10)(11) Right (11)Don't know (23)European Commission (1) o o o o o o o o o o o o Council of the European Union (16) o o o o o o o o o o o o European Parliament (17) o o o o o o o o o o o o Court of Justice of the European Union (18) o o o o o o o o o o o o European Central Bank (19) o o o o o o o o o o o o 
+
+
+
+Q157 Please tell me to what extent you agree or disagree with each of the following statements.
+(1) Strongly disagree  (1)(2) Disagree  (2)(3) Somewhat disagree   (3)(4) Neither agree or disagree  (4)(5) Somewhat agree  (5)(6) Agree  (6)(7) Strongly agree (7)I can understand and evaluate important political issues about Ireland (8) o o o o o o o The politicians in Ireland care about what people like me think (9) o o o o o o o People like me don't have any say about what the Irish government does (10) o o o o o o o 
+
+
+
+Q158 European Parliament elections were held on the 23 May 2014. For one reason or another, some people in Ireland did not vote in these elections. Did you yourself vote in the recent European Parliament elections?
+o Voted  (4) 
+o Did not vote  (5) 
+o I was not eligible to vote  (6) 
+o Don't know  (7) 
+
+
+Display This Question:
+    If Q158 = Voted
+
+Q159 Which party did you give your 1st preference vote to in these recent European Parliament elections?
+o Fianna Fáil (FF)  (1) 
+o Fine Gael (FG)  (2) 
+o Sinn Féin (SF)  (3) 
+o Labour Party (LP)  (4) 
+o Green Party (GP)  (5) 
+o Socialist Party (SP)  (6) 
+o Catholic Democrats (The National Party)  (7) 
+o Direct Democracy Ireland (DDI)  (8) 
+o Fís Nua  (9) 
+o People Before Profit Alliance (PBP)  (10) 
+o South Kerry Independent Alliance (SKIA)  (11) 
+o Workers' Party (WP)  (12) 
+o Christian Solidarity (CS)  (13) 
+o People's Convention (PC)  (14) 
+o Other (fill the blank)  (15) ________________________________________________
+o Don't know  (16) 
+
+End of Block: Party/Government/Court Placement
+
+Start of Block: EU positions (self/party), economic responsibility, and media [Q166-171: parallel random split with respondents receiving the same questions as in this block, but without mentioning immigrants in the question on economic responsibility]
+
+Q160 Some people are extremely opposed to European integration. Suppose these people are located at 1. Others are extremely in favor of European integration. Suppose these people are located at 11. And others have views in between. Where would you place yourself on this scale?
+o (1) Extremely opposed  (1) 
+o (2)  (2) 
+o (3)  (3) 
+o (4)  (4) 
+o (5)  (5) 
+o (6)  (6) 
+o (7)  (7) 
+o (8)  (8) 
+o (9)  (9) 
+o (10)  (10) 
+o (11) Extremely in favor  (11) 
+o Don't know  (12) 
+
+
+
+Q161 And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means "extremely opposed" and '11' means "extremely in favor" best describes each of the following parties?
+(1) Extremely opposed (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) (7)(8) (8)(9) (9)(10) (10)(11) Extremely in favor (11)Don't know the party (12)Don't know where to place the party (13)Fine Gael (FG) (1) o o o o o o o o o o o o o Fianna Fáil (FF) (2) o o o o o o o o o o o o o Sinn Féin (SF) (3) o o o o o o o o o o o o o Labour Party (LP) (4) o o o o o o o o o o o o o Independent Alliance (5) o o o o o o o o o o o o o Solidarity - People Before Profit (Solidarity-PBP) (6) o o o o o o o o o o o o o Social Democrats (Daonlathaigh Shóisialta) (7) o o o o o o o o o o o o o Green Party (8) o o o o o o o o o o o o o 
+
+
+
+Q162 When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means "being extremely opposed to European integration" and 11 means "being extremely in favor of European integration"?
+(1) Extremely opposed to European integration (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) (7)(8) (8)(9) (9)(10) (10)(11) Extremely in favor of European integration (11)Don't know (23)European Commission (13) o o o o o o o o o o o o Council of the European Union (16) o o o o o o o o o o o o European Parliament (17) o o o o o o o o o o o o Court of Justice of the European Union (18) o o o o o o o o o o o o European Central Bank (19) o o o o o o o o o o o o 
+
+
+
+Q163 What do you think about the economy? Compared to 12 months ago, do you think that the general economic situation in Ireland...?
+o Is a lot better  (1) 
+o Is a little better  (4) 
+o Has stayed the same  (5) 
+o Is a little worse  (6) 
+o Is a lot worse  (7) 
+
+
+
+Q164 
+Now I would like to ask you some questions about how much responsibility the different institutions have in the current economic situation in Ireland. 
+
+
+Please use a scale from 1 to 7, where '1' means that you think they have "no responsibility" and '7' means that they have "full responsibility"
+(1) No responsibility (1)(2) (2)(3) (3)(4) (4)(5) (5)(6) (6)(7) Full responsibility (7)Don't know (11)Irish government (1) o o o o o o o o European Union (EU) (4) o o o o o o o o Asylum seekers and immigrants (5) o o o o o o o o Global economy (6) o o o o o o o o 
+
+
+
+Q165 How often do you follow the news ...?
+Every day (1)Almost every day (4)Several times a week (5)Once a week (6)Once a month (7)Less often (8)Never (9)On TV (1) o o o o o o o On the Internet (4) o o o o o o o On the newspapers (5) o o o o o o o 
+
+End of Block: EU positions (self/party), economic responsibility, and media
+
+
+Start of Block: Other Demographic: Edu, Income
+
+Q172 How old were you when you stopped full-time education?
+  (1) 
+? No education (0) ... 120 (121)
+
+
+
+Q173 What is your current occupation?
+o Responsible for ordinary shopping and looking after the home, or without any current occupation, not working  (1) 
+o Student  (4) 
+o Unemployed or temporarily not working  (5) 
+o Retired or unable to work through illness  (6) 
+o Farmer  (7) 
+o Fisherman  (8) 
+o Professional (lawyer, medical practitioner, accountant, architect, etc.) - Self-employed  (9) 
+o Owner of a shop, craftsmen, other self-employed person  (10) 
+o Business proprietors, owner (full or partner) of a company  (11) 
+o Employed professional (employed doctor, lawyer, accountant, architect) - Employed  (12) 
+o General management, director or top management (managing directors, director general, other director)  (13) 
+o Middle management, other management (department head, junior manager, teacher, technician)  (14) 
+o Employed position, working mainly at a desk  (15) 
+o Employed position, not at a desk but travelling (salesmen, driver, etc.)  (16) 
+o Employed position, not at a desk, but in a service job (hospital, restaurant, police, fireman, etc.)  (17) 
+o Supervisor  (18) 
+o Skilled manual worker  (19) 
+o Other (unskilled) manual worker, servant  (20) 
+
+
+Display This Question:
+    If Q173 = Responsible for ordinary shopping and looking after the home, or without any current occupation, not working
+    Or Q173 = Student
+    Or Q173 = Unemployed or temporarily not working
+    Or Q173 = Retired or unable to work through illness
+
+Q174 Did you do any paid work in the past? What was your last occupation?
+o Farmer  (7) 
+o Fisherman  (8) 
+o Professional (lawyer, medical practitioner, accountant, architect, etc.) - Self-employed  (9) 
+o Owner of a shop, craftsmen, other self-employed person  (10) 
+o Business proprietors, owner (full or partner) of a company  (11) 
+o Employed professional (employed doctor, lawyer, accountant, architect) - Employed  (12) 
+o General management, director or top management (managing directors, director general, other director)  (13) 
+o Middle management, other management (department head, junior manager, teacher, technician)  (14) 
+o Employed position, working mainly at a desk  (15) 
+o Employed position, not at a desk but travelling (salesmen, driver, etc.)  (16) 
+o Employed position, not at a desk, but in a service job (hospital, restaurant, police, fireman, etc.)  (17) 
+o Supervisor  (18) 
+o Skilled manual worker  (19) 
+o Other (unskilled) manual worker, servant  (20) 
+o Never did any paid work  (2) 
+
+
+
+Q175 During the last twelve months, would you say you had difficulties to pay your bills at the end of the month...?
+o Most of the time  (1) 
+o From time to time  (2) 
+o Almost never, or never  (3) 
+
+End of Block: Other Demographic: Edu, Income
+
+Start of Block: Disclaimer
+
+Q176 
+Thank you for your participation in this survey. 
+
+
+This survey includes some experiments about political views. We were interested how information affects public opinion. The content used in these experiments may not be based on facts. Thanks again for your participation.
+
+End of Block: Disclaimer
+
+
+
+
+
+Page of 
+
+
+Page 1 of 1
+
+

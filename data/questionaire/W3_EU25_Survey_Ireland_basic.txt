@@ -1,0 +1,2118 @@
+W2 (EU25_Ireland_basic)
+
+Start of Block: Introduction
+
+
+Q1 Thank you for participating in a research study conducted by the University of Mannheim,
+Germany. This survey contains questions regarding your political views and beliefs. Your
+responses will be stored anonymously and kept completely confidential. They will be used for
+scientific research only. All records from the study will be processed and stored on a password-
+protected computer at the University.
+
+
+It is very important that you pay close attention to the questionnaire. Please note that this survey
+includes validation questions to check whether you actually take the time to read instructions
+closely. You may not continue if you do not answer them correctly.
+
+
+Your participation is voluntary, and you are free to withdraw from the study at any time. It
+should take no more than 15 minutes. For any questions about the study, please contact
+Hyeonho Hahm at hahm@uni-mannheim.de.
+
+
+By continuing with this interview, it means that you agree with the above terms and conditions.
+
+
+End of Block: Introduction
+
+Start of Block: B1 Demographics
+
+
+Q2 Please indicate your gender.
+
+   o Male (1)
+   o Female (2)
+   o Other (3)
+
+
+
+
+                                                                                      Page 1 of 61
+Q3 How old are you?
+ (1)
+
+▼ - 16 (0) ... 120 - (104)
+
+
+
+
+                             Page 2 of 61
+Q4 What is your nationality? Please tell me the country(ies) that applies(y).       // Start of
+JavaScript var attRaw = ["European integration", "Market regulation and competition","Asylum
+and immigration","Environment and energy", "Security and defense", "Agriculture","Trade
+policy"]; //var att = attRaw.slice(0); var att = ["European integration", "Market regulation and
+competition","Asylum and immigration","Environment and energy", "Security and defense",
+"Agriculture","Trade policy"]; // number here really plays no role (when attributes are filled below,
+loop would add additional elements if necessary); 7 is the number of dimensions; if you
+generate more than 7 placeholders, some will be empty var attributes = ["","","","","","",""]; //
+Randomize the Order of Dimensions (avoid recency and primacy) // from 0 to 7-1=6: 7 elements
+for (i=0; i
+
+
+   ▢           Austria (1)
+
+
+   ▢           Belgium (2)
+
+
+   ▢           Bulgaria (3)
+
+
+   ▢           Croatia (4)
+
+
+   ▢           Czech Republic (5)
+
+
+   ▢           Denmark (6)
+
+
+   ▢           Estonia (7)
+
+
+   ▢           Finland (8)
+
+
+   ▢           France (9)
+
+
+   ▢           Germany (10)
+
+
+   ▢           Greece (11)
+
+
+   ▢           Hungary (12)
+
+
+   ▢           Ireland (13)
+
+
+   ▢           Italy (14)
+
+
+
+                                                                                       Page 3 of 61
+▢       Latvia (15)
+
+
+▢       Lithuania (16)
+
+
+▢       Luxembourg (17)
+
+
+▢       Malta (18)
+
+
+▢       Netherlands (19)
+
+
+▢       Poland (20)
+
+
+▢       Portugal (21)
+
+
+▢       Republic of Cyprus (22)
+
+
+▢       Romania (23)
+
+
+▢       Slovakia (24)
+
+
+▢       Slovenia (25)
+
+
+▢       Spain (26)
+
+
+▢       Sweden (27)
+
+
+▢       United Kingdom (Great Britain, Northern Ireland) (28)
+
+
+▢        Other countries (29)
+________________________________________________
+
+
+▢       Don't know (30)
+
+
+
+
+                                                                Page 4 of 61
+Q5 Please tell me how attached you feel to...
+                                                     (3)
+                   (1) Very       (2) Fairly                   (4) Not very   (5) Not at all
+                                                Moderately
+                 attached (1)    attached (2)                  attached (4)   attached (5)
+                                                attached (3)
+
+ Ireland (1)
+                       o               o             o              o                o
+    The
+ European
+ Union (EU)
+     (2)
+                       o               o             o              o                o
+ Europe (3)
+                       o               o             o              o                o
+
+
+
+
+                                                                              Page 5 of 61
+Q6 Do you consider yourself to be…?
+
+   o Catholic (1)
+   o Orthodox (2)
+   o Protestant (3)
+   o Other Christian (4)
+   o Jewish (5)
+   o Muslim (6)
+   o Sikh (7)
+   o Buddhist (8)
+   o Hindu (9)
+   o Atheist (10)
+   o Non believer or Agnostic (11)
+   o Other (12)
+   o Don't know (13)
+
+
+
+
+                                      Page 6 of 61
+Q7 Do you see yourself and your household belonging to...?
+
+   o The working class of society (1)
+   o The lower middle class of society (4)
+   o The middle class of society (5)
+   o The upper middle class of society (6)
+   o The higher class of society (7)
+   o Don't know (11)
+End of Block: B1 Demographics
+
+Start of Block: Verification 1
+
+
+
+
+                                                             Page 7 of 61
+Q8 We appreciate your participation in this survey. We value your time and effort. However, we
+have to make sure that our data are valid and accurate. Specifically, we are interested in
+whether you actually take the time to read instructions closely; if not, our data based on your
+responses will be invalid. In order to demonstrate that you have read instructions, please ignore
+the next question, and simply write "I read the instructions" in the box labeled "Others". Thank
+you very much.
+
+
+Where would you place YOURSELF on this scale?
+
+   o (1) Strongly disagree (1)
+   o (2) (2)
+   o (3) (3)
+   o (4) Neither agree or disagree (4)
+   o (5) (5)
+   o (6) (6)
+   o (7) Strongly agree (7)
+   o Others (8) ________________________________________________
+End of Block: Verification 1
+
+Start of Block: [W2] Efficacy, populism, responsiveness/responsibility, EU support
+
+
+
+
+                                                                                    Page 8 of 61
+Q35 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                     (4)
+                 (1)                     (3)
+                            (2)                    Neither       (5)         (6)          (7)
+              Strongly               Somewhat
+                         Disagree                 agree or    Somewhat      Agree      Strongly
+              disagree                disagree
+                            (2)                   disagree    agree (5)      (6)       agree (7)
+                 (1)                     (3)
+                                                     (4)
+    I can
+understand
+     and
+  evaluate
+ important
+  political       o           o           o            o           o           o           o
+ questions
+ about the
+   EU (3)
+     The
+politicians
+ in the EU
+care about
+    what
+people like
+                  o           o           o            o           o           o           o
+  me think
+     (4)
+People like
+ me don't
+ have any
+say about
+ what the         o           o           o            o           o           o           o
+ EU does
+   (11)
+
+
+
+
+                                                                                    Page 9 of 61
+Q36 Please indicate how much you agree with each of the following statements.
+                                                        (4)
+                      (1)                    (3)      Neither                           (7)
+                                 (2)                               (5)       (6)
+                   Strongly              Somewhat     agree                          Strongly
+                              Disagree                          Somewhat    Agree
+                   disagree               disagree      nor                           agree
+                                 (2)                            agree (5)    (6)
+                      (1)                    (3)     disagree                           (7)
+                                                        (4)
+     The
+  politicians
+should follow
+the will of the       o           o          o          o           o           o       o
+ people. (1)
+ The people,
+   and not
+ politicians,
+should make
+   our most
+  important
+                      o           o          o          o           o           o       o
+    policy
+decisions. (2)
+I would rather
+       be
+ represented
+  by a citizen
+   than by a          o           o          o          o           o           o       o
+  specialized
+ politician. (4)
+    Elected
+  officials talk
+too much and
+ take too little      o           o          o          o           o           o       o
+   action. (5)
+  Politics is
+ ultimately a
+   struggle
+  between
+  good and
+                      o           o          o          o           o           o       o
+   evil. (6)
+ What people
+      call
+"compromise"
+ in politics is
+  really just
+selling out on
+                      o           o          o          o           o           o       o
+     one's
+principles. (7)
+
+
+
+                                                                                Page 10 of 61
+Page 11 of 61
+Q37 Please indicate how much you agree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)      Neither                            (7)
+                               (2)                               (5)       (6)
+                 Strongly              Somewhat     agree                           Strongly
+                            Disagree                          Somewhat    Agree
+                 disagree               disagree      nor                            agree
+                               (2)                            agree (5)    (6)
+                    (1)                    (3)     disagree                            (7)
+                                                      (4)
+       In a
+democracy it
+ is important
+    to make
+compromises
+     among          o          o           o          o           o             o       o
+    differing
+  viewpoints.
+        (8)
+      It is
+ important to
+ listen to the
+   opinion of
+other groups.
+                    o          o           o          o           o             o       o
+       (9)
+Our country
+ would run
+   better if
+   political
+ decisions
+were left up
+ to experts         o          o           o          o           o             o       o
+ instead of
+ politicians
+and citizens.
+    (10)
+ The leaders
+     of our
+    country
+  should be
+     more
+   educated         o          o           o          o           o             o       o
+  and skilled
+than ordinary
+citizens. (11)
+   Political
+  parties do
+ more harm
+than good to        o          o           o          o           o             o       o
+ society (12)
+
+
+
+                                                                                Page 12 of 61
+  Ordinary
+people don’t
+ know what
+policies are
+  good for
+                     o           o            o            o            o        o           o
+ them. (13)
+
+
+
+
+Q38 In thinking about the European Union (EU) and its decisions more generally, some people
+argue that it should act upon its long-term goals without pandering to the demand of the people.
+On the other hand, others argue that the EU should listen to the demand of people, rather than
+to act upon its long-term goals.
+When it comes to the question of whether the EU should act upon its long-term goals or it
+should listen to the demand of the people, what is your opinion?
+                                                     (4)
+               (1)                       (3)
+                            (2)                    Neither        (5)
+            Strongly                 Somewhat                               (6) Agree
+                         Disagree                 agree nor    Somewhat
+            disagree                  disagree
+                                                  disagree      agree                       (7)
+                                                                                         Strongly
+                                                                                          agree
+                                                                                           (13)
+                                                                              (12)
+                           (8)                                   (11)
+               (1)                      (9)
+                                                    (10)
+The EU
+ should
+act upon
+its long-
+  term
+                o            o           o            o            o            o            o
+goals (1)
+The EU
+ should
+listen to
+   the
+demand
+  of the
+                o            o           o            o            o            o            o
+ people
+    (2)
+
+
+
+
+                                                                                     Page 13 of 61
+Q39 Could you tell me whether you think that the EU has a rather positive or rather negative
+effect on each of the following domains?
+                                                   Neither
+                Very positive      Rather                           Rather        Very negative
+                                                 positive nor
+                     (1)         positive (6)                     negative (8)         (9)
+                                                 negative (7)
+
+  Ireland's
+economy (1)            o               o                o               o                o
+ Our culture
+ and identity
+     (6)               o               o                o               o                o
+  Ireland's
+   political
+ status and
+influence (7)
+                       o               o                o               o                o
+
+
+
+
+                                                                                  Page 14 of 61
+Q40 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)
+                               (2)                  Neither       (5)         (6)        (7)
+                 Strongly              Somewhat
+                            Disagree               agree or    Somewhat      Agree    Strongly
+                 disagree               disagree
+                               (2)                 disagree    agree (5)      (6)     agree (7)
+                    (1)                    (3)
+                                                      (4)
+  If the EU
+   started
+making a lot
+of decisions
+ that most
+    people
+ disagreed
+with, it might      o           o          o            o           o           o         o
+be better to
+  do away
+with the EU
+ altogether
+      (1)
+    I am
+  satisfied
+  with the
+performance
+ of the EU
+                    o           o          o            o           o           o         o
+     (2)
+
+
+
+
+                                                                                 Page 15 of 61
+Q41 When it comes to the question of whether European integration should be pushed further
+or it already has gone too far, what is your opinion? Please indicate your views using a scale
+from 1 to 11, where '1' means European integration "has already gone too far" and '11' means it
+"should be pushed further".
+
+   o (1) European integration has already gone too far (1)
+   o (2) (3)
+   o (3) (2)
+   o (4) (5)
+   o (5) (6)
+   o (6) (8)
+   o (7) European integration should be pushed further (9)
+End of Block: [W2] Efficacy, populism, responsiveness/responsibility, EU support
+
+Start of Block: [W2] Vote choice and partisanship
+
+
+Q53
+European Parliament elections were held on Friday, 24 May 2019. For one reason or another,
+some people in Ireland did not vote in these elections. A lot of people were not able to vote
+because they were sick, or they just didn't have time.
+
+
+Which of the following statements best describes you?
+
+   o I was not eligible to vote (16)
+   o I did not vote (in this election in May) (48)
+   o I thought about voting this time, but didn't (49)
+   o I usually vote, but didn't this time (50)
+   o I am sure I voted (51)
+
+
+                                                                                 Page 16 of 61
+Display This Question:
+    If Q53 = I am sure I voted
+
+
+Q54 Which party did you give your 1st preference vote to in this election?
+
+   o Fine Gael (FG) (18)
+   o Fianna Fáil (FF) (29)
+   o Sinn Féin (SF) (30)
+   o Labour Party (LP) (32)
+   o Independent Alliance (33)
+   o Solidarity - People Before Profit (Solidarity-PBP) (36)
+   o Social Democrats (Daonlathaigh Shóisialta) (35)
+   o Green Party (GP) (34)
+   o Renua Ireland (Renua) (38)
+   o Independence 4 Change (37)
+   o Direct Democracy Ireland (DDI) (39)
+   o Workers’ Party (WP) (40)
+   o Catholic Democrats (The National Party) (41)
+   o Fís Nua (42)
+   o Other (fill the blank) (15) ________________________________________________
+   o Don't know (17)
+
+
+
+
+                                                                             Page 17 of 61
+Display This Question:
+    If Q53 = I was not eligible to vote
+    Or Q53 = I did not vote (in this election in May)
+    Or Q53 = I thought about voting this time, but didn't
+    Or Q53 = I usually vote, but didn't this time
+
+
+Q55 Just assuming you had voted in the election, which party would you have voted for?
+
+   o Fine Gael (FG) (18)
+   o Fianna Fáil (FF) (29)
+   o Sinn Féin (SF) (30)
+   o Labour Party (LP) (32)
+   o Independent Alliance (33)
+   o Solidarity - People Before Profit (Solidarity-PBP) (36)
+   o Social Democrats (Daonlathaigh Shóisialta) (35)
+   o Green Party (GP) (34)
+   o Renua Ireland (Renua) (38)
+   o Independence 4 Change (37)
+   o Direct Democracy Ireland (DDI) (39)
+   o Workers’ Party (WP) (40)
+   o Catholic Democrats (The National Party) (41)
+   o Fís Nua (42)
+   o Other (fill the blank) (15) ________________________________________________
+   o Don't know (17)
+
+
+                                                                               Page 18 of 61
+Q56 This question is about the previous European Parliament elections that were held five
+years ago.
+
+
+Which party did you give your 1st preference vote in the previous European Parliament
+elections in 2014?
+
+   o I was not eligible to vote (1)
+   o I did not vote (4)
+   o I don't remember if I voted (3)
+   o Fine Gael (FG) (5)
+   o Fianna Fáil (FF) (6)
+   o Sinn Féin (SF) (7)
+   o Labour Party (LP) (8)
+   o Independent Alliance (9)
+   o Solidarity - People Before Profit (Solidarity-PBP) (10)
+   o Social Democrats (Daonlathaigh Shóisialta) (11)
+   o Green Party (GP) (12)
+   o Renua Ireland (Renua) (13)
+   o Independence 4 Change (14)
+   o Direct Democracy Ireland (DDI) (15)
+   o Workers’ Party (WP) (16)
+   o Catholic Democrats (The National Party) (17)
+   o Fís Nua (18)
+   o Other (fill the blank) (19) ________________________________________________
+
+                                                                                 Page 19 of 61
+   o Don't know (20)
+
+Q52 Do you consider yourself to be close to any particular political party? If so, which party do
+you feel close to?
+
+   o Fine Gael (FG) (1)
+   o Fianna Fáil (FF) (2)
+   o Sinn Féin (SF) (3)
+   o Labour Party (LP) (4)
+   o Independent Alliance (5)
+   o Solidarity - People Before Profit (Solidarity-PBP) (6)
+   o Social Democrats (Daonlathaigh Shóisialta) (7)
+   o Green Party (8)
+   o Renua Ireland (Renua) (9)
+   o Independents 4 Change (10)
+   o Direct Democracy Ireland (DDI) (11)
+   o Workers' Party (WP) (12)
+   o Catholic Democrats (The National Party) (13)
+   o Fís Nua (14)
+   o Other (fill the blank) (15) ________________________________________________
+   o No, I do not feel close to any political party (16)
+End of Block: [W2] Vote choice and partisanship
+
+Start of Block: Dictator Game: instructions
+
+
+                                                                                    Page 20 of 61
+Q58 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+Q59
+
+
+
+
+This game is played by pairs of individuals. Each pair is made up of a Player 1 and a Player 2.
+Each player will have some information about the other player, but you will not be told who the
+other players are during or after the experiment.
+
+
+The game is conducted as follows: A sum of 10 tokens will be provisionally allocated to Player 1
+at the start of each round. Player 1 will then decide how much of the 10 tokens to offer to player
+2. Player 1 could give some, all, or none of the 10 tokens. Player 1 keeps all tokens not given to
+player 2. Player 2 gets to keep all the tokens Player 1 offers.
+
+
+You will play this game three times with three different people.
+
+
+The more tokens you obtain, the more successful you will be.            // Randomize the Order of
+Dimensions (avoid recency and primacy) var attRaw = ["Age", "Gender","Social
+Class","Religion", "Party Affiliation","Nationality", "EU-Position"]; var att = ["Age",
+"Gender","Social Class","Religion", "Party Affiliation","Nationality", "EU-Position"]; var attributes
+= ["","","","","","",""]; for (i=0; i
+
+
+
+
+                                                                                       Page 21 of 61
+Q60            #QID702{display:none;}
+
+   o  Click to write Form field 1 (1)
+   ________________________________________________
+
+   o  Click to write Form field 2 (2)
+   ________________________________________________
+
+   o  Click to write Form field 3 (3)
+   ________________________________________________
+
+   o  Click to write Form field 4 (4)
+   ________________________________________________
+
+   o  Click to write Form field 5 (5)
+   ________________________________________________
+
+   o  Click to write Form field 6 (6)
+   ________________________________________________
+
+   o  Click to write Form field 7 (7)
+   ________________________________________________
+
+   o  Click to write Form field 8 (8)
+   ________________________________________________
+
+   o  Click to write Form field 9 (9)
+   ________________________________________________
+
+   o  Click to write Form field 10 (10)
+   ________________________________________________
+
+
+End of Block: Dictator Game: instructions
+
+Start of Block: Dictator Game 1.1
+
+
+Q61 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+                                                      Page 22 of 61
+Q62
+
+
+
+
+Player 1: You are Player 1. You have 10 tokens for this game. You can split the tokens between
+yourself and Player 2 in any way you want.
+
+
+Information about this round's Player 2
+       #1
+  Player 2
+
+
+
+
+       var str_att = "${Q60/ChoiceTextEntryValue/1}" var str_nat =
+"${Q60/ChoiceTextEntryValue/2}" var str_prty = "${Q60/ChoiceTextEntryValue/3}" var str_eu =
+"${Q60/ChoiceTextEntryValue/4}" var str_rel = "${Q60/ChoiceTextEntryValue/5}" var str_age =
+"${Q60/ChoiceTextEntryValue/6}" var str_sex = "${Q60/ChoiceTextEntryValue/7}" var str_ses =
+"${Q60/ChoiceTextEntryValue/8}" var str_att_plain = "${Q60/ChoiceTextEntryValue/9}" var
+str_det_nat = "${Q60/ChoiceTextEntryValue/10}" var attributes_att = str_att.split(","); var
+attributes_nat = str_nat.split(","); var attributes_prty = str_prty.split(","); var attributes_eu =
+str_eu.split(","); var attributes_rel = str_rel.split(","); var attributes_age = str_age.split(","); var
+attributes_sex = str_sex.split(","); var attributes_ses = str_ses.split(","); var dimplain =
+str_att_plain.split(","); var attributes_det_nat = str_det_nat.split(","); var age_index_one =
+attributes_att.indexOf(dimplain[0]); //age var sex_index_one =
+attributes_att.indexOf(dimplain[1]); //"Gender" var ses_index_one =
+attributes_att.indexOf(dimplain[2]); //"Social Class" var reli_index_one =
+attributes_att.indexOf(dimplain[3]); //"Religion" var prty_index_one =
+attributes_att.indexOf(dimplain[4]); //"Party Affiliation" var nat_index_one =
+attributes_att.indexOf(dimplain[5]); //"Nationality" var eu_index_one =
+attributes_att.indexOf(dimplain[6]); //"EU-Position" // Create array for player 2's traits var
+att_traits_one = [1,2,3,4,5,6,7]; att_traits_one[age_index_one] = attributes_age[0];
+
+
+                                                                                         Page 23 of 61
+att_traits_one[sex_index_one] = attributes_sex[0]; att_traits_one[ses_index_one] =
+attributes_ses[0]; att_traits_one[reli_index_one] = attributes_rel[0];
+att_traits_one[prty_index_one] = attributes_prty[0]; att_traits_one[nat_index_one] =
+attributes_det_nat[0]; att_traits_one[eu_index_one] = attributes_eu[0]; // Create list of variables
+in the for loop att_list_one =
+["att1_one","att2_one","att3_one","att4_one","att5_one","att6_one","att7_one"]; a_list_one =
+["a1_one","a2_one","a3_one","a4_one","a5_one","a6_one","a7_one"]; // For elements 1 to 6 in
+the Dimensions, First Candidate and Second Candidate variables. // The first line assigns
+Dimensions to each "id" tag in the first column of the HTML table // The second line assigns first
+candidate traits to each "id" tag in the second //column of the HTML table // The third line
+assigns second candidate traits to each "id" tag in the third //column of the HTML table for(i=0;i
+Player 1 (You) : _______ (4)
+Player 2 : _______ (5)
+Total : ________
+
+
+End of Block: Dictator Game 1.1
+
+…. (dictator game randomizations expressed in multiple randomized survey blocks )
+
+Start of Block: Trust Game: Instructions
+
+
+Q127 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+Q128
+This game is played by pairs of individuals. Each pair is made up of a Player 1 and a Player 2.
+Each player will have some information about the other player, but you will not be told who the
+other players are during or after the experiment.
+
+
+Each player will receive 10 tokens. Player 1 then has the opportunity to give a portion of his or
+her 10 tokens to Player 2. Player 1 could give some, all, or none of the 10 tokens. Whatever
+amount Player 1 decides to give to Player 2 will be tripled before it is passed on to Player 2.
+Player 2 then has the option of returning any portion of this tripled amount to Player 1.
+
+
+Then, the game is over.
+
+
+
+
+                                                                                     Page 24 of 61
+Player 1 receives whatever he or she keeps from their original 10 tokens, plus anything returned
+to him or her by Player 2. Player 2 receives their original 10 tokens, plus whatever he or she
+keeps after returning any portion of the tripled amount to Player 1.
+
+
+You will play this game three times, with three different people.
+
+
+The more tokens you obtain, the more successful you will be.
+
+
+
+
+                                                                                  Page 25 of 61
+Q129
+We will now run through 3 examples to show you how the game might be played.
+
+Example 1
+Imagine that Player 1 gives 4 tokens to Player 2. We triple this amount, so Player 2 gets 12
+tokens (3 times 4 tokens equals 12 tokens). At this point, Player 1 has 6 tokens. Then Player 2
+has to decide whether to give any portion of this tripled amount (12 tokens) back to Player 1,
+and if so, how much.
+
+Suppose Player 2 decides to return 3 tokens to Player 1. At the end of the game Player 1 will
+have 9 tokens and Player 2 will have his or her original 10 tokens, plus 9 tokens (the amount
+Player 2 keeps for himself or herself).
+
+Example 2
+Imagine that Player 1 gives 3 tokens to Player 2. We triple this amount, so Player 2 gets 9
+tokens (3 times 3 tokens equals 9 tokens). At this point, Player 1 has 7 tokens. Then Player 2
+has to decide whether to give any portion of this tripled amount (9 tokens) back to Player 1, and
+if so, how much.
+
+Suppose Player 2 decides to return 0 tokens to Player 1. At the end of the game Player 1 will
+have 7 tokens and Player 2 will have his or her original 10 tokens, plus 9 tokens (the amount
+Player 2 keeps for himself or herself).
+
+Example 3
+Imagine that Player 1 gives 10 tokens to Player 2. We triple this amount, so Player 2 gets 30
+tokens (3 times 10 tokens equals 30 tokens). At this point, Player 1 has 0 tokens. Then Player 2
+has to decide whether to give any portion of this tripled amount (30 tokens) back to Player 1,
+and if so, how much.
+
+Suppose Player 2 decides to return 3 tokens to Player 1. At the end of the game Player 1 will
+have 3 tokens and Player 2 will have his or her original 10 tokens, plus 27 tokens (the amount
+Player 2 keeps for himself or herself).
+
+
+End of Block: Trust Game: Instructions
+
+Start of Block: Trust Game 1.1
+
+Q130 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+                                                                                   Page 26 of 61
+Q131
+
+
+
+
+Player 1: You are Player 1. You have 10 tokens for this game. Put the amount of tokens you
+want to be tripled and passed on to Player 2 in the box labeled "Player 2". Put the amount you
+want to keep for yourself in the box labeled "Player 1". You can give Player 2 some, all, or none
+of the 10 tokens. Player 2 will receive this amount tripled by us. Remember the more you give to
+Player 2 the greater the amount of tokens as his or her disposal. While Player 2 is under no
+obligation to give anything back, we will pass onto you whatever he or she decides to return.
+
+
+Information about this round's Player 2
+     #4           Criteria
+  Player 2
+
+
+
+
+        var str_att = "${Q60/ChoiceTextEntryValue/1}" var str_nat =
+"${Q60/ChoiceTextEntryValue/2}" var str_prty = "${Q60/ChoiceTextEntryValue/3}" var str_eu =
+"${Q60/ChoiceTextEntryValue/4}" var str_rel = "${Q60/ChoiceTextEntryValue/5}" var str_age =
+"${Q60/ChoiceTextEntryValue/6}" var str_sex = "${Q60/ChoiceTextEntryValue/7}" var str_ses =
+"${Q60/ChoiceTextEntryValue/8}" var str_att_plain = "${Q60/ChoiceTextEntryValue/9}" var
+str_det_nat = "${Q60/ChoiceTextEntryValue/10}"              var attributes_att = str_att.split(",");  var
+attributes_nat = str_nat.split(",");     var attributes_prty = str_prty.split(",");    var attributes_eu =
+str_eu.split(",");    var attributes_rel = str_rel.split(",");   var attributes_age = str_age.split(",");
+var attributes_sex = str_sex.split(",");      var attributes_ses = str_ses.split(",");     var dimplain =
+str_att_plain.split(",");    var attributes_det_nat = str_det_nat.split(",");       var age_index_four =
+attributes_att.indexOf(dimplain[0]); //age var sex_index_four =
+attributes_att.indexOf(dimplain[1]); //"Gender" var ses_index_four =
+attributes_att.indexOf(dimplain[2]); //"Social Class" var reli_index_four =
+attributes_att.indexOf(dimplain[3]); //"Religion" var prty_index_four =
+
+
+                                                                                          Page 27 of 61
+attributes_att.indexOf(dimplain[4]); //"Party Affiliation" var nat_index_four =
+attributes_att.indexOf(dimplain[5]); //"Nationality" var eu_index_four =
+attributes_att.indexOf(dimplain[6]); //"EU-Position" // Create array for player 2's traits var
+att_traits_four = [1,2,3,4,5,6,7]; att_traits_four[age_index_four] = attributes_age[3];
+att_traits_four[sex_index_four] = attributes_sex[3]; att_traits_four[ses_index_four] =
+attributes_ses[3]; att_traits_four[reli_index_four] = attributes_rel[3];
+att_traits_four[prty_index_four] = attributes_prty[3]; att_traits_four[nat_index_four] =
+attributes_det_nat[0]; att_traits_four[eu_index_four] = attributes_eu[3]; // Create list of variables
+in the for loop att_list_four =
+["att1_four","att2_four","att3_four","att4_four","att5_four","att6_four","att7_four"]; a_list_four =
+["a1_four","a2_four","a3_four","a4_four","a5_four","a6_four","a7_four"]; // For elements 1 to 6
+in the Dimensions, First Candidate and Second Candidate variables. // The first line assigns
+Dimensions to each "id" tag in the first column of the HTML table // The second line assigns first
+candidate traits to each "id" tag in the second //column of the HTML table // The third line
+assigns second candidate traits to each "id" tag in the third //column of the HTML table for(i=0;i
+Player 1 (You) : _______ (4)
+Player 2 : _______ (5)
+Total : ________
+
+
+End of Block: Trust Game 1.1
+
+…. (trust game randomizations expressed in multiple randomized survey blocks )
+
+Start of Block: Feeling Thermometer
+
+
+Q196
+We would like to get your feelings toward some political parties and political leaders in the news
+these days. Below there is a list of parties and people. I'd like you to rate them using something
+we call the feeling thermometer.
+
+
+Ratings between 50 degrees and 100 degrees mean that you feel favorable and warm toward
+the party or person. Ratings between 0 degrees and 50 degrees mean that you don't feel
+favorable toward the party or person and that you don't care too much for that party or person.
+You would rate the political party or the person at the 50 degree mark if you don't feel
+particularly warm or cold toward the person.
+                                                   0 10 20 30 40 50 60 70 80 90 100
+
+
+
+
+                                                                                      Page 28 of 61
+                             Fine Gael (FG) ()
+
+                           Fianna Fáil (FF) ()
+
+                             Sinn Féin (SF) ()
+
+                      Labour Party (Labour) ()
+
+                  IA (Independent Alliance) ()
+
+                       Green Party (Green) ()
+
+
+
+
+End of Block: Feeling Thermometer
+
+Start of Block: [W2] political participation, campaign activity + verification 2
+
+
+
+
+                                                                                   Page 29 of 61
+Q199
+On Friday, May 24 2019, the European elections were held. People use a variety of methods to
+gather and share information about political candidates, campaigns or political issues.
+
+
+Please tell us if you have done the following during the election campaign. Please indicate all
+that apply.
+
+
+   ▢          Read: followed news about a candidate or party in the newspapers, on TV, or on
+   the Internet (1)
+
+
+   ▢         Forward: forwarded, retweeted, or posted someone else’s article, blog, picture, or
+   video about a political campaign, candidate or issue (4)
+
+
+   ▢           Create: created and circulated your own article, blog, picture, or video about a
+   political campaign, candidate, or issue on an online site (5)
+
+
+   ▢         Comment: commented online or tweeted about an article, blog, picture, or video
+   you saw about a political campaign, candidate, or issue (6)
+
+
+   ▢            Post: posted a status update or sent an e-mail, Tweet, or instant message about
+   a political campaign, candidate, or issue (7)
+
+
+   ▢        Other: please specify (2)
+   ________________________________________________
+
+
+   ▢           None of the above (8)
+
+
+
+
+                                                                                    Page 30 of 61
+Q200 We find that many people participate in politics in other ways besides voting. They
+support a candidate, political party, or political issue in various ways.
+
+
+Please tell us if you have done the following during the election campaign. Please indicate all
+that apply.
+
+
+   ▢          Contacted: received a visit or telephone call, or being contacted by a candidate
+   or party (1)
+
+
+   ▢           Contact: contacted a candidate, party, or political organization (4)
+
+
+   ▢           Attend: attended a meeting, rally, speech, or dinner (5)
+
+
+   ▢           Campaign: worked on an election campaign (6)
+
+
+   ▢           Donate: donated money to a candidate, party, or political organization (7)
+
+
+   ▢           Protest: participated in a protest, demonstration, or sit-in (8)
+
+
+   ▢        Other: please specify (10)
+   ________________________________________________
+
+
+   ▢           None of the above (9)
+
+
+End of Block: [W2] political participation, campaign activity + verification 2
+
+Start of Block: [W2] CJEU Experiment - majority
+
+
+Q201 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+Q202
+A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that
+the institution strongly favors actions taken by the European Commission at the expense of
+
+
+
+                                                                                      Page 31 of 61
+parties or groups that are opposed to the European Commission.
+
+
+Specifically, this study finds that the CJEU regularly upholds legislation passed by the European
+Commission.
+
+
+
+
+Q203 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                       (4)
+                    (1)                    (3)
+                               (2)                   Neither       (5)         (6)         (7)
+                 Strongly              Somewhat
+                            Disagree                agree or    Somewhat      Agree     Strongly
+                 disagree               disagree
+                               (2)                  disagree    agree (5)      (6)      agree (7)
+                    (1)                    (3)
+                                                       (4)
+If the Court
+of Justice of
+     the
+ European
+    Union
+   (CJEU)
+   started
+making a lot
+of decisions
+ that most
+    people          o           o           o            o           o           o          o
+ disagreed
+with, it might
+be better to
+  do away
+   with the
+    CJEU
+ altogether
+      (1)
+    I am
+  satisfied
+  with the
+performance
+of the Court
+of Justice of
+                    o           o           o            o           o           o          o
+   the EU
+ (CJEU) (2)
+
+
+
+End of Block: [W2] CJEU Experiment - majority
+
+
+
+                                                                                   Page 32 of 61
+Start of Block: [W2] CJEU Experiment - minority
+
+
+Q204 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+Q205
+A recent analysis of the Court of Justice of the European Union's (CJEU) decisions finds that
+the institution strongly tends to protect parties or groups that are opposed to the European
+Commission at the expense of actions taken by the European Commission.
+
+
+Specifically, this study finds that the CJEU regularly strikes down legislation passed by the
+Commission to protect parties or groups that are opposed to the European Commission.
+
+
+
+
+                                                                                    Page 33 of 61
+Q206 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)
+                               (2)                  Neither      (5)         (6)         (7)
+                 Strongly              Somewhat
+                            Disagree               agree or   Somewhat      Agree     Strongly
+                 disagree               disagree
+                               (2)                 disagree   agree (5)      (6)      agree (7)
+                    (1)                    (3)
+                                                      (4)
+If the Court
+of Justice of
+     the
+ European
+    Union
+   (CJEU)
+   started
+making a lot
+of decisions
+ that most
+    people          o           o          o           o            o          o          o
+ disagreed
+with, it might
+be better to
+  do away
+   with the
+    CJEU
+ altogether
+      (1)
+    I am
+  satisfied
+  with the
+performance
+of the Court
+of Justice of
+                    o           o          o           o            o          o          o
+   the EU
+ (CJEU) (2)
+
+
+
+End of Block: [W2] CJEU Experiment - minority
+
+Start of Block: [W2] CJEU Experiment - control
+
+
+Q207 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+                                                                                 Page 34 of 61
+Q208
+In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally,
+some people argue that it tends to favor actions taken by the European Commission at the
+expense of parties or groups that are opposed to the European Commission. Others contend
+that the CJEU tends to protect parties or groups that are opposed to the European Commission
+even if it means striking down actions taken by the European Commission.
+
+
+Which comes closest to your view?
+
+   o The Court of Justice of the European Union tends to favor actions taken by the
+   Commission (6)
+
+   o The Court of Justice of the European Union tends to protect opposing groups (9)
+   o Don't know (8)
+
+
+
+
+                                                                                 Page 35 of 61
+Q209 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)
+                               (2)                  Neither      (5)         (6)         (7)
+                 Strongly              Somewhat
+                            Disagree               agree or   Somewhat      Agree     Strongly
+                 disagree               disagree
+                               (2)                 disagree   agree (5)      (6)      agree (7)
+                    (1)                    (3)
+                                                      (4)
+If the Court
+of Justice of
+     the
+ European
+    Union
+   (CJEU)
+   started
+making a lot
+of decisions
+ that most
+    people          o           o          o           o            o          o          o
+ disagreed
+with, it might
+be better to
+  do away
+   with the
+    CJEU
+ altogether
+      (1)
+    I am
+  satisfied
+  with the
+performance
+of the Court
+of Justice of
+                    o           o          o           o            o          o          o
+   the EU
+ (CJEU) (2)
+
+
+
+End of Block: [W2] CJEU Experiment - control
+
+Start of Block: [W2] CJEU Experiment - control (no text)
+
+
+Q210 Timing
+First Click (1)
+Last Click (2)
+Page Submit (3)
+Click Count (4)
+
+
+
+
+                                                                                 Page 36 of 61
+Q211 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)
+                               (2)                  Neither      (5)         (6)         (7)
+                 Strongly              Somewhat
+                            Disagree               agree or   Somewhat      Agree     Strongly
+                 disagree               disagree
+                               (2)                 disagree   agree (5)      (6)      agree (7)
+                    (1)                    (3)
+                                                      (4)
+If the Court
+of Justice of
+     the
+ European
+    Union
+   (CJEU)
+   started
+making a lot
+of decisions
+ that most
+    people          o           o          o           o            o          o          o
+ disagreed
+with, it might
+be better to
+  do away
+   with the
+    CJEU
+ altogether
+      (1)
+    I am
+  satisfied
+  with the
+performance
+of the Court
+of Justice of
+                    o           o          o           o            o          o          o
+   the EU
+ (CJEU) (2)
+
+
+
+
+Q212
+In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally,
+some people argue that it tends to favor actions taken by the European Commission at the
+expense of parties or groups that are opposed to the European Commission. Others contend
+that the CJEU tends to protect parties or groups that are opposed to the European Commission
+even if it means striking down actions taken by the European Commission.
+
+
+
+
+                                                                                 Page 37 of 61
+Which comes closest to your view?
+
+   o The Court of Justice of the European Union tends to favor actions taken by the
+   Commission (6)
+
+   o The Court of Justice of the European Union tends to protect opposing groups (9)
+   o Don't know (8)
+End of Block: [W2] CJEU Experiment - control (no text)
+
+Start of Block: [W2] Liberty, rule of law, econ, globalization, democracy
+
+
+
+
+                                                                               Page 38 of 61
+Q218 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                   (1)                    (3)
+                              (2)                   Neither      (5)         (6)         (7)
+                Strongly              Somewhat
+                           Disagree                agree or   Somewhat      Agree     Strongly
+                disagree               disagree
+                              (2)                  disagree   agree (5)      (6)      agree (7)
+                   (1)                    (3)
+                                                      (4)
+   Society
+   should
+have to put
+   up with
+those who
+    have
+   political
+ ideas that
+                   o          o            o           o           o           o          o
+  are very
+  different
+  from the
+majority (3)
+ It is better
+to live in an
+    orderly
+society than
+   to allow
+ people so
+     much
+  freedom          o          o            o           o           o           o          o
+  that they
+      can
+  become
+ disruptive
+      (4)
+  It is not
+necessary
+to obey a
+ law you
+ consider
+                   o          o            o           o           o           o          o
+unjust (5)
+    It is not
+ necessary
+to obey the
+  laws of a
+government         o          o            o           o           o           o          o
+   I did not
+vote for (6)
+Sometimes
+it might be
+  better to        o          o            o           o           o           o          o
+                                                                                 Page 39 of 61
+  ignore the
+    law and
+      solve
+   problems
+immediately
+ rather than
+   wait for a
+      legal
+ solution (8)
+     The
+government
+    should
+ have some
+  ability to
+  bend the
+law in order
+   to solve     o   o   o   o   o   o       o
+  pressing
+ social and
+   political
+  problems
+     (10)
+
+
+
+
+                                    Page 40 of 61
+Q219 How would you judge the current situation in each of the following?
+                                          (3) Neither
+               (1) Very     (2) Rather                  (4) Rather     (5) Very     Don't know
+                                           good nor
+               good (1)      good (6)                     bad (8)       bad (9)        (5)
+                                            bad (7)
+    The
+situation of
+    the
+ European
+ economy
+                   o             o             o             o             o             o
+    (4)
+    The
+situation of
+  the Irish
+ economy           o             o             o             o             o             o
+     (1)
+    The
+ financial
+situation of
+    your
+household
+                   o             o             o             o             o             o
+     (6)
+   Your
+ personal
+    job
+ situation         o             o             o             o             o             o
+    (5)
+
+
+
+
+                                                                                  Page 41 of 61
+Q220 You may have heard of globalisation, that is the general opening-up of all economies,
+which leads to the creation of a world-wide market.
+
+
+Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                   (1)                    (3)                                          (7)
+                              (2)                   Neither      (5)        (6)                Don't
+                Strongly              Somewhat                                      Strongly
+                           Disagree                agree or   Somewhat     Agree               know
+                disagree               disagree                                      agree
+                              (4)                  disagree   agree (7)     (8)                 (3)
+                   (1)                    (5)                                          (9)
+                                                      (6)
+Globalisation
+     is a
+ generally
+bad thing for
+  Ireland's
+                   o           o           o           o           o           o        o          o
+economy (1)
+Globalisation
+    is a
+  generally
+bad thing for
+ our culture       o           o           o           o           o           o        o          o
+and identity
+     (4)
+Globalisation
+  does not
+give people
+ like me a
+    say in
+                   o           o           o           o           o           o        o          o
+ politics (5)
+Globalisation
+takes away
+control from
+  the Irish
+government
+                   o           o           o           o           o           o        o          o
+     (6)
+
+
+
+
+                                                                                   Page 42 of 61
+Q221
+On the whole, are you very satisfied, fairly satisfied, not very satisfied or not at all satisfied with
+the way democracy works in Ireland?
+
+
+And how about the way democracy works in the EU?
+                     (1) Very          (2) Fairly     (3) Not very      (4) Not at all       Don't know
+                   statisfied (1)     satisfied (2)   satisfied (3)     satisfied (4)           (5)
+
+In Ireland (1)
+                          o                 o                o                 o                 o
+   In the
+  European
+  Union (2)               o                 o                o                 o                 o
+
+End of Block: [W2] Liberty, rule of law, econ, globalization, democracy
+
+Start of Block: [W2] Political interest, nativism, political/EU knowledge, time/risk
+
+
+
+Q229 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                         (4)
+                  (1)                       (3)
+                              (2)                      Neither        (5)           (6)           (7)
+               Strongly                 Somewhat
+                           Disagree                   agree or     Somewhat        Agree       Strongly
+               disagree                  disagree
+                              (2)                     disagree     agree (5)        (6)        agree (7)
+                  (1)                       (3)
+                                                         (4)
+ I am very
+interested
+in political
+ issues in
+   Ireland
+                  o             o             o            o             o               o          o
+      (1)
+ I am very
+interested
+      in
+European
+   politics
+                  o             o             o            o             o               o          o
+     (2)
+
+
+
+
+                                                                                         Page 43 of 61
+Q230 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                    (1)                    (3)
+                               (2)                  Neither      (5)         (6)         (7)
+                 Strongly              Somewhat
+                            Disagree               agree or   Somewhat      Agree     Strongly
+                 disagree               disagree
+                               (2)                 disagree   agree (5)      (6)      agree (7)
+                    (1)                    (3)
+                                                      (4)
+      It is
+  generally
+    bad for
+   Ireland's
+ economy if
+people from
+     other
+                    o           o          o           o           o           o          o
+  countries
+   come to
+live here (5)
+   Ireland's
+ cultural life
+     will be
+   generally
+undermined
+   if people
+  from other
+                    o           o          o           o           o           o          o
+   countries
+    come to
+live here (6)
+
+
+
+
+                                                                                 Page 44 of 61
+Q231 For each of the following statements about the EU, could you please tell me whether you
+think it is true or false. If you don't know, just say so and we will skip to the next.
+                              True (1)                False (2)            Don't know (3)
+   The European
+ Council is officially
+called the Council of
+the European Union.               o                       o                       o
+         (1)
+  There are 1125
+  members in the
+European Parliament
+       (13)
+                                  o                       o                       o
+ Vassilios Skouris is
+the current President
+of the Court of Justice
+    of the European               o                       o                       o
+        Union (8)
+    The Euro area
+ currently consists of
+  19 Member States
+         (10)
+                                  o                       o                       o
+Leo Varadkar belongs
+  to Fine Gael (11)               o                       o                       o
+
+
+
+
+                                                                               Page 45 of 61
+Q232 I would like to ask you a question about certain institutions. For each of the following
+institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed
+about it?
+                 (1) Very                (3) Fairly                (5) Fairly                (7) Very
+                   well                     well                     badly                    badly
+                              (2) (2)                  (4) (4)                   (6) (6)
+                informed                 informed                  informed                 informed
+                    (1)                     (3)                       (5)                       (7)
+ European
+Commission
+    (1)              o           o            o            o            o           o            o
+ Council of
+    the
+ European
+ Union (2)
+                     o           o            o            o            o           o            o
+European
+Parliament
+    (3)              o           o            o            o            o           o            o
+  Court of
+ Justice of
+    the
+ European            o           o            o            o            o           o            o
+ Union (4)
+
+
+
+
+                                                                                       Page 46 of 61
+Q233 For each of the following institutions, please tell me if you tend to trust it or tend not to
+trust it.
+                (1) Tend                                                                     (7) Tend
+                 to trust     (2) (2)      (3) (3)      (4) (4)     (5) (5)      (6) (6)       not to
+                   (1)                                                                       trust (7)
+ European
+Commission
+    (1)              o           o            o            o            o           o            o
+ Council of
+    the
+ European
+ Union (2)
+                     o           o            o            o            o           o            o
+European
+Parliament
+    (3)              o           o            o            o            o           o            o
+  Court of
+ Justice of
+    the
+ European            o           o            o            o            o           o            o
+ Union (4)
+
+
+
+
+                                                                                       Page 47 of 61
+Q234 Please tell me, in general, how willing or unwilling you are to take risks.
+
+
+Please use a scale from 1 to 7, where 1 means you are ”completely unwilling to take risks” and
+a 7 means you are ”very willing to take risks”. You can also use any numbers between 1 and 11
+to indicate where you fall on the scale.
+
+   o (1) Completely unwilling to take risks (1)
+   o (2) (3)
+   o (3) (2)
+   o (4) (5)
+   o (5) (6)
+   o (6) (7)
+   o (7) Very willing to take risks (8)
+
+
+
+
+                                                                                   Page 48 of 61
+Q235 We now ask for your willingness to or unwillingness you are to give up something that is
+beneficial for you today in order to benefit more from that in the future.
+
+
+Please again indicate your answer on a scale from 1 to 7, where 1 means you are ”completely
+unwilling to do so” and a 7 means you are ”very willing to do so”. You can also use any numbers
+between 1 and 11 to indicate where you fall on the scale.
+
+   o (1) Completely unwilling to give up something today for the future (1)
+   o (2) (3)
+   o (3) (2)
+   o (4) (5)
+   o (5) (6)
+   o (6) (7)
+   o (7) Very willing to give up something today for the future (8)
+End of Block: [W2] Political interest, nativism, political/EU knowledge, time/risk
+
+Start of Block: LR Placement (self/party/institutions), efficacy (national)
+
+
+
+
+                                                                                 Page 49 of 61
+Q236 In politics, people often talk about "left" and "right." When you use this scale from 1 to 11,
+where would you locate yourself, where 1 means "left" and 11 means "right?"
+
+   o (1) Left (1)
+   o (2) (2)
+   o (3) (3)
+   o (4) (4)
+   o (5) (5)
+   o (6) (6)
+   o (7) (7)
+   o (8) (8)
+   o (9) (9)
+   o (10) (10)
+   o (11) Right (11)
+   o Don't know (12)
+
+
+
+
+                                                                                     Page 50 of 61
+Q237 And where would you place the following parties on this scale? Which number from 1 to
+11, where '1' means "left" and '11' means "right" best describes each of the following parties?
+                                                                                                Don't
+                                                                                                know
+                                                                                        Don't
+                                                                                                where
+                  (1)                                                           (11)    know
+                         (2)   (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)                      to
+                  Left                                                          Right     the
+                         (2)   (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)                   place
+                  (1)                                                           (11)    party
+                                                                                                  the
+                                                                                         (12)
+                                                                                                party
+                                                                                                 (13)
+
+  Fine Gael
+   (FG) (1)          o         o     o     o     o     o     o     o     o   o     o       o      o
+ Fianna Fáil
+   (FF) (2)          o         o     o     o     o     o     o     o     o   o     o       o      o
+  Sinn Féin
+   (SF) (3)          o         o     o     o     o     o     o     o     o   o     o       o      o
+Labour Party
+  (LP) (4)           o         o     o     o     o     o     o     o     o   o     o       o      o
+Independent
+ Alliance (5)        o         o     o     o     o     o     o     o     o   o     o       o      o
+ Solidarity -
+   People
+Before Profit
+ (Solidarity-        o o o o o o o o o o o o o
+  PBP) (6)
+   Social
+ Democrats
+(Daonlathaigh
+Shóisialta) (7)
+                     o o o o o o o o o o o o o
+Green Party
+    (8)              o o o o o o o o o o o o o
+
+
+
+
+                                                                                        Page 51 of 61
+Q238
+When you use this scale from 1 to 11, how would you describe the political viewpoint of the
+following European bodies, where 1 means "left" and 11 means "right?"
+               (1)                                                                  (11)      Don't
+                      (2)    (3)    (4)    (5)   (6)    (7)    (8)    (9)   (10)
+               Left                                                                 Right     know
+                      (2)    (3)    (4)    (5)   (6)    (7)    (8)    (9)   (10)
+               (1)                                                                  (11)       (23)
+ European
+Commission
+    (1)           o o o o o o o o o o o o
+Council of
+   the
+European
+Union (16)
+                  o o o o o o o o o o o o
+European
+Parliament
+   (17)           o o o o o o o o o o o o
+ Court of
+Justice of
+   the
+European          o o o o o o o o o o o o
+Union (18)
+
+
+
+
+                                                                                   Page 52 of 61
+Q239 Please tell me to what extent you agree or disagree with each of the following statements.
+                                                      (4)
+                  (1)                    (3)
+                             (2)                    Neither      (5)         (6)         (7)
+               Strongly              Somewhat
+                          Disagree                 agree or   Somewhat      Agree     Strongly
+               disagree               disagree
+                             (2)                   disagree   agree (5)      (6)      agree (7)
+                  (1)                    (3)
+                                                      (4)
+    I can
+understand
+     and
+  evaluate
+ important
+  political       o           o            o           o           o           o          o
+   issues
+    about
+Ireland (8)
+     The
+ politicians
+ in Ireland
+care about
+    what          o           o            o           o           o           o          o
+people like
+me think (9)
+People like
+  me don't
+ have any
+ say about
+  what the
+   Irish
+                  o           o            o           o           o           o          o
+government
+ does (10)
+
+
+
+End of Block: LR Placement (self/party/institutions), efficacy (national)
+
+Start of Block: Placement - EU positions (parties/EU institutions)
+
+
+
+
+                                                                                 Page 53 of 61
+Q240 Some people are extremely opposed to European integration. Suppose these people are
+located at 1. Others are extremely in favor of European integration. Suppose these people are
+located at 11. And others have views in between. Where would you place yourself on this
+scale?
+
+   o (1) Extremely opposed (1)
+   o (2) (2)
+   o (3) (3)
+   o (4) (4)
+   o (5) (5)
+   o (6) (6)
+   o (7) (7)
+   o (8) (8)
+   o (9) (9)
+   o (10) (10)
+   o (11) Extremely in favor (11)
+   o Don't know (12)
+
+
+
+
+                                                                                Page 54 of 61
+Q241 And political parties also vary in their attitudes towards European Integration. Where
+would you place the following parties on this scale? Which number from 1 to 11, where '1'
+means "extremely opposed" and '11' means "extremely in favor" best describes each of the
+following parties?
+                                                                                                          Don't
+                                                                                                          know
+                                                                                                 Don't
+                                                                                                          where
+                  Extremely                                                          Extremely   know
+                              (2)   (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)                           to
+                  opposed                                                             in favor     the
+                              (2)   (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)                        place
+                   (1) (1)                                                           (11) (11)   party
+                                                                                                            the
+                                                                                                  (12)
+                                                                                                          party
+                                                                                                           (13)
+
+  Fine Gael
+   (FG) (1)           o             o     o     o     o     o     o     o     o   o      o          o       o
+ Fianna Fáil
+   (FF) (2)           o             o     o     o     o     o     o     o     o   o      o          o       o
+  Sinn Féin
+   (SF) (3)           o             o     o     o     o     o     o     o     o   o      o          o       o
+Labour Party
+  (LP) (4)            o             o     o     o     o     o     o     o     o   o      o          o       o
+Independent
+ Alliance (5)         o             o     o     o     o     o     o     o     o   o      o          o       o
+ Solidarity -
+   People
+Before Profit
+ (Solidarity-         o             ooooooooo o                                                     o o
+  PBP) (6)
+   Social
+ Democrats
+(Daonlathaigh
+Shóisialta) (7)
+                      o             ooooooooo o                                                     o o
+Green Party
+    (8)               o             ooooooooo o                                                     o o
+
+
+
+
+                                                                                          Page 55 of 61
+Q242 When you use this scale from 1 to 11, how would you describe the political viewpoint of
+the following European bodies, where 1 means "being extremely opposed to European
+integration" and 11 means "being extremely in favor of European integration"?
+                  (1)
+                                                                                         (11)
+               Extremely
+                                                                                     Extremely
+               opposed                                                                             Don't
+                            (2)    (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)    in favor of
+                   to                                                                              know
+                            (2)    (3)   (4)   (5)   (6)   (7)   (8)   (9)   (10)    European
+               European                                                                             (23)
+                                                                                    integration
+              integration
+                                                                                         (11)
+                  (1)
+ European
+Commission
+   (13)            o              o o o o o o o o o o                                                 o
+Council of
+   the
+European
+Union (16)
+                   o              o o o o o o o o o o                                                 o
+European
+Parliament
+   (17)            o              o o o o o o o o o o                                                 o
+ Court of
+Justice of
+   the
+European           o              o o o o o o o o o o                                                 o
+Union (18)
+
+
+
+End of Block: Placement - EU positions (parties/EU institutions)
+
+Start of Block: Other Demographic: Income, edu, region
+
+Q243 How old were you when you stopped full-time education?
+ (1)
+
+▼ No education (0) ... 120 (121)
+
+
+
+
+                                                                                        Page 56 of 61
+Q244
+Would you say you live in a...?
+
+   o Rural area or village (1)
+   o Small or middle sized town (2)
+   o Large town (3)
+   o Don't know (4)
+
+Q245
+Please indicate some information we need for statistical purposes.
+
+What is your postal code?
+
+    ________________________________________________________________
+
+
+
+
+Q246 Region
+
+▼ Dublin (33) ... Monaghan (32)
+
+
+
+
+                                                                     Page 57 of 61
+Q247 What is your current occupation?
+
+   o  Responsible for ordinary shopping and looking after the home, or without any current
+   occupation, not working (1)
+
+   o Student (4)
+   o Unemployed or temporarily not working (5)
+   o Retired or unable to work through illness (6)
+   o Farmer (7)
+   o Fisherman (8)
+   o
+   (9)
+       Professional (lawyer, medical practitioner, accountant, architect, etc.) - Self-employed
+
+
+   o Owner of a shop, craftsmen, other self-employed person (10)
+   o Business proprietors, owner (full or partner) of a company (11)
+   o
+   (12)
+       Employed professional (employed doctor, lawyer, accountant, architect) - Employed
+
+
+   o  General management, director or top management (managing directors, director
+   general, other director) (13)
+
+   o   Middle management, other management (department head, junior manager, teacher,
+   technician) (14)
+
+   o Employed position, working mainly at a desk (15)
+   o Employed position, not at a desk but travelling (salesmen, driver, etc.) (16)
+   o   Employed position, not at a desk, but in a service job (hospital, restaurant, police,
+   fireman, etc.) (17)
+
+   o Supervisor (18)
+   o Skilled manual worker (19)
+   o Other (unskilled) manual worker, servant (20)
+
+                                                                                     Page 58 of 61
+Display This Question:
+    If Q247 = Responsible for ordinary shopping and looking after the home, or without any current
+occupation, not working
+    Or Q247 = Student
+    Or Q247 = Unemployed or temporarily not working
+    Or Q247 = Retired or unable to work through illness
+
+
+
+
+                                                                                         Page 59 of 61
+Q248 Did you do any paid work in the past? What was your last occupation?
+
+   o Farmer (7)
+   o Fisherman (8)
+   o
+   (9)
+       Professional (lawyer, medical practitioner, accountant, architect, etc.) - Self-employed
+
+
+   o Owner of a shop, craftsmen, other self-employed person (10)
+   o Business proprietors, owner (full or partner) of a company (11)
+   o
+   (12)
+       Employed professional (employed doctor, lawyer, accountant, architect) - Employed
+
+
+   o  General management, director or top management (managing directors, director
+   general, other director) (13)
+
+   o   Middle management, other management (department head, junior manager, teacher,
+   technician) (14)
+
+   o Employed position, working mainly at a desk (15)
+   o Employed position, not at a desk but travelling (salesmen, driver, etc.) (16)
+   o   Employed position, not at a desk, but in a service job (hospital, restaurant, police,
+   fireman, etc.) (17)
+
+   o Supervisor (18)
+   o Skilled manual worker (19)
+   o Other (unskilled) manual worker, servant (20)
+   o Never did any paid work (2)
+End of Block: Other Demographic: Income, edu, region
+
+Start of Block: Disclaimer
+
+
+Q249
+Thank you for your participation in this survey. This survey includes some experiments about
+
+
+
+                                                                                     Page 60 of 61
+political views. We were interested how information affects public opinion. The content used in
+these experiments may not be based on facts.
+
+
+Thanks again for your participation.
+
+
+End of Block: Disclaimer
+
+
+
+
+                                                                                  Page 61 of 61
+
