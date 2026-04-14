@@ -75,20 +75,6 @@ wording_map <- read_csv(
 
 # Recode Variable Values (Phase 8) {#sec-recode}
 
-CONTINUE HERE: LET CLAUDE DYNAMICALLY RECEIVE INFO FOR ALL LANGUAGES AND THEN UPDATE THE SCALE MAP VECTORS
-
-THEN HAVE HIM IMPLEMENT THE RECODING CONSISTENTLY
-
-Strategy:
-
-Collect vars to recode
-divide into numeric and categorical
-group numerics into scales
-harmonize categorical to english
-recode numerical to numeric
-
-do this variable by variable
-
 ```{r}
 #| label: collect-information
 # colnames and current type ----------------------------------------------------
@@ -1112,7 +1098,197 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
-Recoding code: comment variables that stay character, recode to numeric (integer if possible), logical, date or factor for all others
+## Attachement to Pol. Entities 
+
+```{r}
+#| label: value-labels-identity5
+very_attached <- c(
+  "(1) Sehr verbunden",
+  "(1) Très attaché(e)",
+  "(1) Много привързан",
+  "(1) Velmi oddán(a)",
+  "(1) Velmi silně",
+  "(1) Meget knyttet til",
+  "(1) Väga seotud",
+  "(1) Erittäin kiintynyt",
+  "(1) Very attached",
+  "(1) Molto legato",
+  "(1) Nagyon kötődik",
+  "(1) Πολύ συνδεδεμένος/η",
+  "(1) Vrlo privržen",
+  # Latvia
+  "(1) Ļoti piederīgs(-a)",
+  # Lithuania
+  "(1) Labai prisirišęs (-usi)",
+  # Netherlands
+  "(1) Sterk gehecht",
+  # Poland
+  "(1) Bardzo związany(a)",
+  # Portugal
+  "(1) Muito ligado(a)",
+  # Romania
+  "(1) Foarte ataşat(ă)",
+  # Slovakia
+  "(1) Úzko spätý",
+  # Slovenia
+  "(1) Zelo navezan",
+  "(1) Zelo navezan(a)",
+  # Spain
+  "(1) Muy unido/a",
+  # Sweden
+  "(1) Mycket fäst vid"
+)
+fairly_attached <- c(
+  "(2) Ziemlich verbunden",
+  "(2) Assez attaché(e)",
+  "(2) Donjakъde privrzvan",
+  "(2) Prilično privržen",
+  "(2) Docela oddán(a)",
+  "(2) Spíše silně",
+  "(2) Noget knyttet til",
+  "(2) Üsna seotud",
+  "(2) Melko kiintynyt",
+  "(2) Fairly attached",
+  "(2) Abbastanza legato",
+  "(2) Eléggé kötődik",
+  "(2) Αρκετά συνδεδεμένος/η",
+  "Nogal gehecht",
+  "(2)",
+  # Latvia (bare "(2)" already covered above)
+  # Lithuania (bare "(2)" already covered)
+  # Netherlands
+  "(2) Nogal gehecht",
+  # Poland
+  "(2) Raczej związany(a)",
+  # Portugal
+  "(2) Ligado(a)",
+  # Romania
+  "(2) Destul de ataşat(ă)",
+  # Slovakia
+  "(2) Dosť spätý",
+  # Spain
+  "(2) Bastante unido/a",
+  # Sweden
+  "(2) Ganska fäst vid"
+)
+moderately_attached <- c(
+  "(3) Einigermaßen verbunden",
+  "(3) Mittelmäßig verbunden",
+  "(3) Modérément attaché(e)",
+  "(3) Moderat knyttet til",
+  "(3) Mõõdukalt seotud",
+  "(3) Moderately attached",
+  "(3) Moderatamente legato",
+  "(3) Közepesen kötődik",
+  "(3) Μέτρια συνδεδεμένος/η",
+  "Enigszins gehecht",
+  "(3)",
+  # Netherlands
+  "(3) Enigszins gehecht",
+  # Poland
+  "(3) Umiarkowanie związany(a)",
+  # Portugal
+  "(3) Moderadamente ligado(a)",
+  "(3)Moderadamente ligado(a)",
+  # Romania
+  "(3) Moderat atașat",
+  # Slovakia
+  "(3) Mierne spätý",
+  # Spain
+  "(3) Moderadamente unido/a",
+  # Sweden
+  "(3) Måttligt fäst vid"
+)
+not_very_attached <- c(
+  "(4) Nicht sehr verbunden",
+  "(4) Nicht so verbunden",
+  "(4) Pas très attaché(e)",
+  "(4) Ne naročito privržen",
+  "(4) Nepříliš oddán(a)",
+  "(4) Vůbec ne",
+  "(4) Ikke særligt knyttet til",
+  "(4) Mitte väga seotud",
+  "(4) Ette kovin kiintynyt",
+  "(4) Not very attached",
+  "(4) Non molto legato",
+  "(4) Nem nagyon kötődik",
+  "(4) Όχι πολύ συνδεδεμένος/η",
+  "(4) Не много привързан",
+  "Niet erg gehecht",
+  "Ikke særligt knyttet til",
+  "(4)",
+  # Latvia
+  "(4) Ne īpaši piederīgs (-a)",
+  "Ne īpaši piederīgs (-a)",
+  # Lithuania (bare "(4)" already covered)
+  # Netherlands
+  "(4) Niet erg gehecht",
+  # Poland
+  "(4) Raczej niezwiązany(a)",
+  # Portugal
+  "(4) Não muito ligado(a)",
+  # Romania
+  "(4) Nu prea ataşat(ă)",
+  # Slovakia
+  "(4) Nie veľmi spätý",
+  # Slovenia (bare "(4)" already covered)
+  # Spain
+  "(4) No muy unido/a",
+  # Sweden
+  "(4) Inte särskilt fäst vid"
+)
+not_at_all_attached <- c(
+  "(5) Überhaupt nicht verbunden",
+  "(5) Pas du tout attaché(e)",
+  "(5) Изобщо не съм привързан",
+  "(5) Uopće nisam privržen",
+  "(5) Vůbec ne oddán(a)",
+  "(5) Slet ikke knyttet til",
+  "(5) Üldse mitte seotud",
+  "(5) Ette lainkaan kiintynyt",
+  "(5) Not at all attached",
+  "(5) Per niente legato",
+  "(5) Egyáltalán nem kötődik",
+  "(5) Καθόλου συνδεδεμένος/η",
+  "Helemaal niet gehecht",
+  "Slet ikke knyttet til",
+  # Latvia
+  "(5) Vispār nejūtaties piederīgs (-a)",
+  "Vispār nejūtaties piederīgs (-a)",
+  # Lithuania
+  "(5) Visiškai neprisirišęs (-usi)",
+  # Netherlands
+  "(5) Helemaal niet gehecht",
+  # Poland
+  "(5) W ogóle niezwiązany(a)",
+  # Portugal
+  "(5) Nada ligado(a)",
+  # Romania
+  "(5) Deloc ataşat(ă)",
+  # Slovakia
+  "(5) Vôbec nie spätý",
+  # Slovenia
+  "(5) Sploh ne navezan",
+  "(5) Sploh ne navezan(a)",
+  # Spain
+  "(5) Nada unido/a",
+  # Sweden
+  "(5) Inte alls fäst vid"
+)
+```
+
+```{r}
+#| label: recode-vars-identity5
+
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_identity_country = ,
+    q_identity_eu = ,
+    q_identity_europe = 
+  )
+```
+
+## Conjoint Behavioral Game Variables
 
 ```{r}
 #| label: value-labels-cj-rel
@@ -1236,7 +1412,7 @@ cj_nonreli_vec <- c(
 ```
 
 ```{r}
-#| label: recode-vars
+#| label: recode-vars-cj-games
 
 # to look up country specific value codings, copy and run
 # purrr::keep(groups_named[["Austria"]], ~ any(grepl("q_identity", .x)))
@@ -1245,129 +1421,6 @@ cj_nonreli_vec <- c(
 # character variables: comment out
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
-    # q_identity_country = ,
-    # q_identity_eu = ,
-    # q_identity_europe = ,
-    # q_pop_will = ,
-    # q_pop_people = ,
-    # q_pop_citizen = ,
-    # q_pop_reps = ,
-    # q_pop_goodevil = ,
-    # q_pop_compromise = ,
-    # q_eu_longterm = ,
-    # q_eu_responsive = ,
-    # q_eu_efficacy_understand = ,
-    # q_eu_efficacy_care = ,
-    # q_eu_efficacy_nosay = ,
-    # q_eu_abolish = ,
-    # q_eu_satisfaction = ,
-    # q_party_id = ,
-    # q_eu_informed_com = ,
-    # q_eu_informed_cou = ,
-    # q_eu_informed_ep = ,
-    # q_eu_informed_cjeu = ,
-    # q_eu_trust_com = ,
-    # q_eu_trust_cou = ,
-    # q_eu_trust_ep = ,
-    # q_eu_trust_cjeu = ,
-    # q_cjeu_abolish = ,
-    # q_cjeu_satisfaction = ,
-    # q_nat_int = ,
-    # q_eu_int = ,
-    # q_nativ_econ = ,
-    # q_nativ_cult = ,
-    # q_eu_know_1 = ,
-    # q_eu_know_2 = ,
-    # q_eu_know_3 = ,
-    # q_eu_know_4 = ,
-    # q_eu_know_5 = ,
-    # q_lr_self = ,
-    # q_lr_party_1 = ,
-    # q_lr_party_2 = ,
-    # q_lr_party_3 = ,
-    # q_lr_party_4 = ,
-    # q_lr_party_5 = ,
-    # q_lr_party_6 = ,
-    # q_lr_party_7 = ,
-    # q_lr_party_8 = ,
-    # q_lr_com = ,
-    # q_lr_cou = ,
-    # q_lr_ep = ,
-    # q_lr_cjeu = ,
-    # q_euint_self = ,
-    # q_euint_party_1 = ,
-    # q_euint_party_2 = ,
-    # q_euint_party_3 = ,
-    # q_euint_party_4 = ,
-    # q_euint_party_5 = ,
-    # q_euint_party_6 = ,
-    # q_euint_party_7 = ,
-    # q_euint_party_8 = ,
-    # q_euint_com = ,
-    # q_euint_cou = ,
-    # q_euint_ep = ,
-    # q_euint_cjeu = ,
-    # q_edu_age_stop = ,
-    # q_occ_current = ,
-    # q_occ_last = ,
-    # meta_country = ,
-    # meta_psid = ,
-    # meta_pid = ,
-    # meta_device = ,
-    # q_news_tv = ,
-    # q_lr_party_9 = ,
-    # q_lr_party_10 = ,
-    # q_lr_party_11 = ,
-    # q_lr_party_12 = ,
-    # q_norm_tol_opposition = ,
-    # q_norm_order_over_freedom = ,
-    # q_norm_disobey_unjustlaw = ,
-    # q_norm_disobey_gov = ,
-    # q_norm_bypass_law = ,
-    # q_norm_gov_bend_law = ,
-    # q_religion = ,
-    # q_class = ,
-    # q_verif = ,
-    # q_verif2 = ,
-    # q_euint_pos = ,
-    # q_dem_compromise = ,
-    # q_dem_listen = ,
-    # q_tech_experts = ,
-    # q_tech_leaders = ,
-    # q_party_harm = ,
-    # q_people_incompetent = ,
-    # q_eu_imp_nat_econ = ,
-    # q_eu_imp_nat_cul = ,
-    # q_eu_imp_nat_pol = ,
-    # q_vote_turnout_likelihood = ,
-    # q_vote_choice_past = ,
-    # q_vote_choice_past_other = ,
-    # q_vote_choice_hypo = ,
-    # q_vote_choice_hypo_other = ,
-    # q_vote_choice_past2014 = ,
-    # q_vote_choice_past2014_other = ,
-    # q_party_id_other = ,
-    # q_eu_campaign_sources = ,
-    # q_eu_campaign_sources_other = ,
-    # prime_cjeu_firstclick = ,
-    # prime_cjeu_lastclick = ,
-    # prime_cjeu_pagesubmit = ,
-    # prime_cjeu_clickcount = ,
-    # q_cjeu_pos = ,
-    # q_eval_econ_eur = ,
-    # q_eval_econ_nat = ,
-    # q_eval_fin_household = ,
-    # q_eval_job = ,
-    # q_satis_demo_nat = ,
-    # q_satis_demo_eu = ,
-    # q_risk_taking = ,
-    # q_future_discount = ,
-    # q_eu_efficacy_understand_c = ,
-    # q_eu_efficacy_care_c = ,
-    # q_eff_external_nosay_c = ,
-    # q_rural_urban = ,
-    # q_postal_code = ,
-    # q_region = ,
     # cj_attr_order = ,
     cj_dict_instr_firstclick = as.integer(cj_dict_instr_firstclick),
     cj_dict_instr_lastclick = as.integer(cj_dict_instr_lastclick),
@@ -1733,6 +1786,137 @@ write_rds(
   )
 )
 ```
+
+## CONTINUE
+
+```{r}
+#| label: continue
+
+# df_stacked_recoded <- df_stacked_recoded |>
+#   mutate(
+    # q_pop_will = ,
+    # q_pop_people = ,
+    # q_pop_citizen = ,
+    # q_pop_reps = ,
+    # q_pop_goodevil = ,
+    # q_pop_compromise = ,
+    # q_eu_longterm = ,
+    # q_eu_responsive = ,
+    # q_eu_efficacy_understand = ,
+    # q_eu_efficacy_care = ,
+    # q_eu_efficacy_nosay = ,
+    # q_eu_abolish = ,
+    # q_eu_satisfaction = ,
+    # q_party_id = ,
+    # q_eu_informed_com = ,
+    # q_eu_informed_cou = ,
+    # q_eu_informed_ep = ,
+    # q_eu_informed_cjeu = ,
+    # q_eu_trust_com = ,
+    # q_eu_trust_cou = ,
+    # q_eu_trust_ep = ,
+    # q_eu_trust_cjeu = ,
+    # q_cjeu_abolish = ,
+    # q_cjeu_satisfaction = ,
+    # q_nat_int = ,
+    # q_eu_int = ,
+    # q_nativ_econ = ,
+    # q_nativ_cult = ,
+    # q_eu_know_1 = ,
+    # q_eu_know_2 = ,
+    # q_eu_know_3 = ,
+    # q_eu_know_4 = ,
+    # q_eu_know_5 = ,
+    # q_lr_self = ,
+    # q_lr_party_1 = ,
+    # q_lr_party_2 = ,
+    # q_lr_party_3 = ,
+    # q_lr_party_4 = ,
+    # q_lr_party_5 = ,
+    # q_lr_party_6 = ,
+    # q_lr_party_7 = ,
+    # q_lr_party_8 = ,
+    # q_lr_com = ,
+    # q_lr_cou = ,
+    # q_lr_ep = ,
+    # q_lr_cjeu = ,
+    # q_euint_self = ,
+    # q_euint_party_1 = ,
+    # q_euint_party_2 = ,
+    # q_euint_party_3 = ,
+    # q_euint_party_4 = ,
+    # q_euint_party_5 = ,
+    # q_euint_party_6 = ,
+    # q_euint_party_7 = ,
+    # q_euint_party_8 = ,
+    # q_euint_com = ,
+    # q_euint_cou = ,
+    # q_euint_ep = ,
+    # q_euint_cjeu = ,
+    # q_edu_age_stop = ,
+    # q_occ_current = ,
+    # q_occ_last = ,
+    # meta_country = ,
+    # meta_psid = ,
+    # meta_pid = ,
+    # meta_device = ,
+    # q_news_tv = ,
+    # q_lr_party_9 = ,
+    # q_lr_party_10 = ,
+    # q_lr_party_11 = ,
+    # q_lr_party_12 = ,
+    # q_norm_tol_opposition = ,
+    # q_norm_order_over_freedom = ,
+    # q_norm_disobey_unjustlaw = ,
+    # q_norm_disobey_gov = ,
+    # q_norm_bypass_law = ,
+    # q_norm_gov_bend_law = ,
+    # q_religion = ,
+    # q_class = ,
+    # q_verif = ,
+    # q_verif2 = ,
+    # q_euint_pos = ,
+    # q_dem_compromise = ,
+    # q_dem_listen = ,
+    # q_tech_experts = ,
+    # q_tech_leaders = ,
+    # q_party_harm = ,
+    # q_people_incompetent = ,
+    # q_eu_imp_nat_econ = ,
+    # q_eu_imp_nat_cul = ,
+    # q_eu_imp_nat_pol = ,
+    # q_vote_turnout_likelihood = ,
+    # q_vote_choice_past = ,
+    # q_vote_choice_past_other = ,
+    # q_vote_choice_hypo = ,
+    # q_vote_choice_hypo_other = ,
+    # q_vote_choice_past2014 = ,
+    # q_vote_choice_past2014_other = ,
+    # q_party_id_other = ,
+    # q_eu_campaign_sources = ,
+    # q_eu_campaign_sources_other = ,
+    # prime_cjeu_firstclick = ,
+    # prime_cjeu_lastclick = ,
+    # prime_cjeu_pagesubmit = ,
+    # prime_cjeu_clickcount = ,
+    # q_cjeu_pos = ,
+    # q_eval_econ_eur = ,
+    # q_eval_econ_nat = ,
+    # q_eval_fin_household = ,
+    # q_eval_job = ,
+    # q_satis_demo_nat = ,
+    # q_satis_demo_eu = ,
+    # q_risk_taking = ,
+    # q_future_discount = ,
+    # q_eu_efficacy_understand_c = ,
+    # q_eu_efficacy_care_c = ,
+    # q_eff_external_nosay_c = ,
+    # q_rural_urban = ,
+    # q_postal_code = ,
+    # q_region = ,
+  )
+```
+
 
 
 # Session Info {#sec-session}
