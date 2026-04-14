@@ -603,6 +603,55 @@ dont_know_vec <- c(
   "Vet ej"
 )
 
+# Nationality lookup
+nat_lookup <- c(
+  setNames(rep("Austria", length(austria_vec)), austria_vec),
+  setNames(rep("Belgium", length(belgium_vec)), belgium_vec),
+  setNames(rep("Bulgaria", length(bulgaria_vec)), bulgaria_vec),
+  setNames(rep("Croatia", length(croatia_vec)), croatia_vec),
+  setNames(rep("Czechia", length(czechia_vec)), czechia_vec),
+  setNames(rep("Denmark", length(denmark_vec)), denmark_vec),
+  setNames(rep("Estonia", length(estonia_vec)), estonia_vec),
+  setNames(rep("Finland", length(finland_vec)), finland_vec),
+  setNames(rep("France", length(france_vec)), france_vec),
+  setNames(rep("Germany", length(germany_vec)), germany_vec),
+  setNames(rep("Greece", length(greece_vec)), greece_vec),
+  setNames(rep("Hungary", length(hungary_vec)), hungary_vec),
+  setNames(rep("Ireland", length(ireland_vec)), ireland_vec),
+  setNames(rep("Italy", length(italy_vec)), italy_vec),
+  setNames(rep("Latvia", length(latvia_vec)), latvia_vec),
+  setNames(rep("Lithuania", length(lithuania_vec)), lithuania_vec),
+  setNames(rep("Luxembourg", length(luxembourg_vec)), luxembourg_vec),
+  setNames(rep("Malta", length(malta_vec)), malta_vec),
+  setNames(rep("Cyprus", length(cyprus_vec)), cyprus_vec),
+  setNames(rep("Netherlands", length(netherlands_vec)), netherlands_vec),
+  setNames(rep("Poland", length(poland_vec)), poland_vec),
+  setNames(rep("Portugal", length(portugal_vec)), portugal_vec),
+  setNames(rep("Romania", length(romania_vec)), romania_vec),
+  setNames(rep("Slovakia", length(slovakia_vec)), slovakia_vec),
+  setNames(rep("Slovenia", length(slovenia_vec)), slovenia_vec),
+  setNames(rep("Spain", length(spain_vec)), spain_vec),
+  setNames(rep("Sweden", length(sweden_vec)), sweden_vec),
+  setNames(
+    rep("United Kingdom", length(united_kingdom_vec)),
+    united_kingdom_vec
+  ),
+  setNames(rep("Other", length(other_country_vec)), other_country_vec)
+)
+
+# Translate tokens via lookup
+translate_nat <- function(x) {
+  if (is.na(x)) {
+    return(NA_character_)
+  }
+  tokens <- str_trim(str_split(x, ",")[[1]])
+  translated <- nat_lookup[tokens]
+  # keep original token if not found
+  translated[is.na(translated)] <- tokens[is.na(translated)]
+  paste(translated, collapse = ", ")
+}
+
+
 # CJ Religion Attribute --------------------------------------------------------
 cj_muslim_vec <- c(
   "Muslimisch",
@@ -758,7 +807,10 @@ df_stacked_recoded <- df_stacked |>
     # AGE ----------------------------------------------------------------------
     q_age = as.integer(str_extract(q_age_raw, "\\d+")),
     # NATIONALITY --------------------------------------------------------------
-    # q_nationality = ,
+    q_nationality = map_chr(q_nationality_raw, translate_nat),
+    q_nationality_n = map_int(q_nationality_raw, \(x) {
+      if (is.na(x)) NA_integer_ else length(str_split(x, ",")[[1]])
+    }),
     # q_nationality_other = ,
     # q_identity_country = ,
     # q_identity_eu = ,
