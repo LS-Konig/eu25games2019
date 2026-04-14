@@ -811,7 +811,389 @@ df_stacked_recoded <- df_stacked |>
     q_nationality_n = map_int(q_nationality_raw, \(x) {
       if (is.na(x)) NA_integer_ else length(str_split(x, ",")[[1]])
     }),
-    # q_nationality_other = ,
+    q_nationality_other = case_when(
+      str_trim(q_nationality_other_raw) %in%
+        c("afghan", "afghanistanskt") ~ "Afghanistan",
+      str_trim(q_nationality_other_raw) %in%
+        c("Albanië", "albania") ~ "Albania",
+      str_trim(q_nationality_other_raw) %in%
+        c("Algérie", "algerie", "ALGERIE") ~ "Algeria",
+      str_trim(q_nationality_other_raw) %in% c("angola", "Angola") ~ "Angola",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Argentina",
+          "argentina",
+          "Argentinien",
+          "ARGENTINA",
+          "argentine"
+        ) ~ "Argentina",
+      str_trim(q_nationality_other_raw) %in%
+        c("Armenia", "Armenien") ~ "Armenia",
+      str_trim(q_nationality_other_raw) %in%
+        c("Australien", "AUSTRALIA", "Australia") ~ "Australia",
+      str_trim(q_nationality_other_raw) %in%
+        c("Österreich", "austria") ~ "Austria",
+      str_trim(q_nationality_other_raw) %in%
+        c("Azerbajdzjan", "Azerbaijan") ~ "Azerbaijan",
+      str_trim(q_nationality_other_raw) %in%
+        c("Bangladesh", "BANGLADESHI") ~ "Bangladesh",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Беларусь",
+          "Belarus",
+          "belarus",
+          "Bělorusko",
+          "valko-venäjä"
+        ) ~ "Belarus",
+      str_trim(q_nationality_other_raw) %in% c("Bolivia") ~ "Bolivia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "BiH",
+          "Bih",
+          "Bosna i Hercegovina",
+          "Bosna in Herzegovina",
+          "Bosnien & Hercegovina",
+          "Bosnien & Hercegovina",
+          "Bosnia",
+          "bosnien",
+          "Bosnien"
+        ) ~ "Bosnia and Herzegovina",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Brésil",
+          "Brasil",
+          "brasil",
+          "BRASIL",
+          "Brazil",
+          "brazil",
+          "Brazilie",
+          "Brasilien",
+          "ΒΡΑΖΙΛΙΑ",
+          "brazilian",
+          "Brazilian",
+          "Brasilian",
+          "Brasileira"
+        ) ~ "Brazil",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Kanada",
+          "Canada",
+          "canada",
+          "Canadian",
+          "canadian",
+          "Kanadishe",
+          "ΚΑΝΑΔΑΣ"
+        ) ~ "Canada",
+      str_trim(q_nationality_other_raw) %in%
+        c("cabo verde", "Cabo Verde") ~ "Cape Verde",
+      str_trim(q_nationality_other_raw) %in%
+        c("cameroun", "Cameroun", "Cameroon") ~ "Cameroon",
+      str_trim(q_nationality_other_raw) %in%
+        c("centrafricaine") ~ "Central African Republic",
+      str_trim(q_nationality_other_raw) %in% c("chile") ~ "Chile",
+      str_trim(q_nationality_other_raw) %in%
+        c("China", "Chinese", "CHINOISE") ~ "China",
+      str_trim(q_nationality_other_raw) %in%
+        c("colombia", "Colombia") ~ "Colombia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Hrvatska",
+          "hrvatska",
+          "Hrvatsko",
+          "croatia"
+        ) ~ "Croatia",
+      str_trim(q_nationality_other_raw) %in%
+        c("cubaanse", "Cuba", "cuba") ~ "Cuba",
+      str_trim(q_nationality_other_raw) %in%
+        c("RD CONGO") ~ "Democratic Republic of the Congo",
+      str_trim(q_nationality_other_raw) %in% c("Ecuador") ~ "Ecuador",
+      str_trim(q_nationality_other_raw) %in%
+        c("Egypt", "Egy", "egyptian") ~ "Egypt",
+      str_trim(q_nationality_other_raw) %in% c("El Salvador") ~ "El Salvador",
+      str_trim(q_nationality_other_raw) %in%
+        c("Eesti", "eesti", "eestlane") ~ "Estonia",
+      str_trim(q_nationality_other_raw) %in% c("Fijian") ~ "Fiji",
+      str_trim(q_nationality_other_raw) %in%
+        c("suomi", "finska", "finland", "Finland") ~ "Finland",
+      str_trim(q_nationality_other_raw) %in% c("Gruzinsko") ~ "Georgia",
+      str_trim(q_nationality_other_raw) %in% c("DDR", "Tyskland") ~ "Germany",
+      str_trim(q_nationality_other_raw) %in% c("Ghana") ~ "Ghana",
+      str_trim(q_nationality_other_raw) %in% c("Guatemala") ~ "Guatemala",
+      str_trim(q_nationality_other_raw) %in% c("guyana") ~ "Guyana",
+      str_trim(q_nationality_other_raw) %in% c("Haiti") ~ "Haiti",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "unkari",
+          "magyar",
+          "Magyarország",
+          "magyarország",
+          "MAGYARORSZÁG"
+        ) ~ "Hungary",
+      str_trim(q_nationality_other_raw) %in% c("Island") ~ "Iceland",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Indien",
+          "india",
+          "India",
+          "ind",
+          "Indian",
+          "indian",
+          "INDIA",
+          "indien"
+        ) ~ "India",
+      str_trim(q_nationality_other_raw) %in% c("Iran", "iran") ~ "Iran",
+      str_trim(q_nationality_other_raw) %in% c("irak") ~ "Iraq",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Ireland",
+          "Republic of Ireland",
+          "republic of Ireland",
+          "ireland",
+          "ire"
+        ) ~ "Ireland",
+      str_trim(q_nationality_other_raw) %in% c("Izraela", "Israel") ~ "Israel",
+      str_trim(q_nationality_other_raw) %in% c("italian") ~ "Italy",
+      str_trim(q_nationality_other_raw) %in% c("Jamaica") ~ "Jamaica",
+      str_trim(q_nationality_other_raw) %in%
+        c("Japan", "japan", "Japanese") ~ "Japan",
+      str_trim(q_nationality_other_raw) %in% c("Kazakstan") ~ "Kazakhstan",
+      str_trim(q_nationality_other_raw) %in% c("kenya") ~ "Kenya",
+      str_trim(q_nationality_other_raw) %in% c("Korea") ~ "Korea",
+      str_trim(q_nationality_other_raw) %in% c("Latvija") ~ "Latvia",
+      str_trim(q_nationality_other_raw) %in%
+        c("Lebanon", "Libanon") ~ "Lebanon",
+      str_trim(q_nationality_other_raw) %in%
+        c("Liechtenstein") ~ "Liechtenstein",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "lietuva",
+          "LIETUVA",
+          "Lietuva",
+          "Lithuania"
+        ) ~ "Lithuania",
+      str_trim(q_nationality_other_raw) %in% c("Madagascar") ~ "Madagascar",
+      str_trim(q_nationality_other_raw) %in% c("Malawian") ~ "Malawi",
+      str_trim(q_nationality_other_raw) %in%
+        c("Malaysia", "malaysia") ~ "Malaysia",
+      str_trim(q_nationality_other_raw) %in% c("Malta") ~ "Malta",
+      str_trim(q_nationality_other_raw) %in% c("Mauritius") ~ "Mauritius",
+      str_trim(q_nationality_other_raw) %in% c("Mexico") ~ "Mexico",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Moldavia",
+          "moldavia",
+          "Republica Moldova"
+        ) ~ "Moldova",
+      str_trim(q_nationality_other_raw) %in%
+        c("Crna Gora", "Czarnogóra") ~ "Montenegro",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Morocco",
+          "maroc",
+          "Marokko",
+          "marokko",
+          "maruecos"
+        ) ~ "Morocco",
+      str_trim(q_nationality_other_raw) %in% c("Moçambique") ~ "Mozambique",
+      str_trim(q_nationality_other_raw) %in% c("namibia") ~ "Namibia",
+      str_trim(q_nationality_other_raw) %in%
+        c("Nederland", "nl", "nederland") ~ "Netherlands",
+      str_trim(q_nationality_other_raw) %in% c("Newzealand") ~ "New Zealand",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Nigeria",
+          "Nigerian",
+          "nigerian",
+          "nigeria",
+          "NIGERIA"
+        ) ~ "Nigeria",
+      str_trim(q_nationality_other_raw) %in%
+        c("Makedonija") ~ "North Macedonia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Norge",
+          "NORGE",
+          "Norwegia",
+          "norge",
+          "Norge.",
+          "Noruego"
+        ) ~ "Norway",
+      str_trim(q_nationality_other_raw) %in%
+        c("Pakistan", "pakistan") ~ "Pakistan",
+      str_trim(q_nationality_other_raw) %in% c("Palestine") ~ "Palestine",
+      str_trim(q_nationality_other_raw) %in% c("Perú", "peru") ~ "Peru",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "FILIPPIINI",
+          "Filippiini",
+          "philippines",
+          "Philippines",
+          "Filippernerne",
+          "Filippinerna",
+          "filippinerne",
+          "filipinsk",
+          "philiippines"
+        ) ~ "Philippines",
+      str_trim(q_nationality_other_raw) %in% c("poland", "Polska") ~ "Poland",
+      str_trim(q_nationality_other_raw) %in% c("Portugal") ~ "Portugal",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Romania",
+          "Romania+",
+          "romina",
+          "roman",
+          "Romana",
+          "Rumenien",
+          "romania"
+        ) ~ "Romania",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Russland",
+          "Rußland",
+          "Ryssland",
+          "Россия",
+          "Русия",
+          "Ρωσία",
+          "Ρωσσια",
+          "ΡΩΣΙΑ",
+          "Russia",
+          "russia",
+          "Venemaa",
+          "venemaa",
+          "Vene",
+          "vene",
+          "venäjä",
+          "Venäjä",
+          "rysska",
+          "ryska",
+          "Rusland",
+          "Krievija",
+          "krevija",
+          "krievija",
+          "Krīveja",
+          "Rusija",
+          "Rusia"
+        ) ~ "Russia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Serbien",
+          "Srbija",
+          "Srbsko",
+          "Serbisch",
+          "Σερβία"
+        ) ~ "Serbia",
+      str_trim(q_nationality_other_raw) %in% c("Singapore") ~ "Singapore",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "slovensko",
+          "SLOVENSKO",
+          "Slovensko",
+          "Slovenská republika"
+        ) ~ "Slovakia",
+      str_trim(q_nationality_other_raw) %in%
+        c("slovenija", "SLOVENIJA") ~ "Slovenia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "South Africa",
+          "South African",
+          "SOUTH AFRICAN",
+          "south africa",
+          "south Africa",
+          "south african",
+          "Zuid Afrika",
+          "južna afrika"
+        ) ~ "South Africa",
+      str_trim(q_nationality_other_raw) %in% c("españa") ~ "Spain",
+      str_trim(q_nationality_other_raw) %in% c("suriname") ~ "Suriname",
+      str_trim(q_nationality_other_raw) %in% c("sverige", "Sverige") ~ "Sweden",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "schweiz",
+          "Schweiz",
+          "Svájc",
+          "Suíça"
+        ) ~ "Switzerland",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Syrien",
+          "syrien",
+          "Syrian",
+          "Syria",
+          "syrer"
+        ) ~ "Syria",
+      str_trim(q_nationality_other_raw) %in%
+        c("Thailand", "thailand") ~ "Thailand",
+      str_trim(q_nationality_other_raw) %in% c("togo") ~ "Togo",
+      str_trim(q_nationality_other_raw) %in%
+        c("Trinidadian") ~ "Trinidad and Tobago",
+      str_trim(q_nationality_other_raw) %in%
+        c("Tunisie", "tunisie", "Tunisien") ~ "Tunisia",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "turque",
+          "Turque",
+          "Türkei",
+          "turkki",
+          "Турция",
+          "Turkiet",
+          "turkiet",
+          "Turkki",
+          "Turkey",
+          "turkije",
+          "Turkije",
+          "Tyrkiet",
+          "Turcija"
+        ) ~ "Turkey",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Ukraine",
+          "украина",
+          "ukr",
+          "Ucrânia",
+          "ucraina",
+          "ukraine",
+          "Украйна",
+          "ukraina",
+          "Ukraina",
+          "oekraine",
+          "Ucrania",
+          "Ukrainian"
+        ) ~ "Ukraine",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "England",
+          "ENGLAND",
+          "English",
+          "Scotland",
+          "Scottish",
+          "Welsh"
+        ) ~ "United Kingdom",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "Verenigde staten",
+          "usa",
+          "USA",
+          "United States",
+          "ΗΠΑ",
+          "United States of America",
+          "Estados Unidos",
+          "EEUU"
+        ) ~ "United States",
+      str_trim(q_nationality_other_raw) %in%
+        c("uruguay", "Uruguay") ~ "Uruguay",
+      str_trim(q_nationality_other_raw) %in%
+        c(
+          "venezuela",
+          "Venezuela",
+          "VENEZUELA",
+          "venezolano",
+          "Venezolana",
+          "venezuelana"
+        ) ~ "Venezuela",
+      str_trim(q_nationality_other_raw) %in%
+        c("Vietnam", "vietnam") ~ "Vietnam",
+      .default = NA_character_
+    ),
     # q_identity_country = ,
     # q_identity_eu = ,
     # q_identity_europe = ,
