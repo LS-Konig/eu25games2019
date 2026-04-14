@@ -73,7 +73,7 @@ wording_map <- read_csv(
 )
 ```
 
-# Recode Variable Values (Phase 8)
+# Recode Variable Values (Phase 8) {#sec-recode}
 
 CONTINUE HERE: LET CLAUDE DYNAMICALLY RECEIVE INFO FOR ALL LANGUAGES AND THEN UPDATE THE SCALE MAP VECTORS
 
@@ -122,8 +122,40 @@ groups_named <- future_map(df_by_country, compute_groups)
 plan(sequential)
 ```
 
+## Meta Variables {#sec-meta}
+
 ```{r}
-#| label: value-labels
+#| label: recode-meta
+
+df_stacked_recoded <- df_stacked |>
+  mutate(
+    # META VARS ----------------------------------------------------------------
+    meta_wave = as.integer(meta_wave),
+    # meta_country = ,
+    meta_startdate = as.POSIXct(meta_startdate),
+    meta_enddate = as.POSIXct(meta_enddate),
+    # meta_status = ,
+    # meta_ipaddress = ,
+    meta_progress = as.integer(meta_progress),
+    meta_duration_s = as.integer(meta_duration_s),
+    meta_finished = as.logical(meta_finished),
+    meta_recordeddate = as.POSIXct(meta_recordeddate),
+    # meta_responseid = ,
+    # meta_recipient_lastname = ,
+    # meta_recipient_firstname = ,
+    # meta_recipient_email = ,
+    # meta_external_ref = ,
+    meta_latitude = as.numeric(meta_latitude),
+    meta_longitude = as.numeric(meta_longitude),
+    # meta_distchannel = ,
+    # meta_lang = ,
+  )
+```
+
+## Gender {#sec-gender}
+
+```{r}
+#| label: value-labels-gender
 
 # GENDER -----------------------------------------------------------------------
 male_vec <- c(
@@ -180,6 +212,38 @@ female_vec <- c(
   "Vrouw",
   "2"
 )
+```
+
+```{r}
+#| label: recode-gender
+
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    # GENDER -------------------------------------------------------------------
+    q_gender = case_when(
+      q_gender_raw %in% male_vec ~ "male",
+      q_gender_raw %in% female_vec ~ "female",
+      !is.na(q_gender_raw) ~ "other"
+    ),
+  )
+```
+
+## Age {#sec-age}
+
+```{r}
+#| label: recode-age
+
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    # AGE ----------------------------------------------------------------------
+    q_age = as.integer(str_extract(q_age_raw, "\\d+")),
+  )
+```
+
+## Nationality {#sec-nationality}
+
+```{r}
+#| label: value-labels-nationality
 
 # NATIONALITY ------------------------------------------------------------------
 austria_vec <- c(
@@ -650,162 +714,13 @@ translate_nat <- function(x) {
   translated[is.na(translated)] <- tokens[is.na(translated)]
   paste(translated, collapse = ", ")
 }
-
-
-# CJ Religion Attribute --------------------------------------------------------
-cj_muslim_vec <- c(
-  "Muslimisch",
-  "Moslim",
-  "Musulman",
-  "мюсюлманин",
-  "Musliman",
-  "Muslim",
-  "Muslim",
-  "Moslim",
-  "Moslem",
-  "Muslimi",
-  "Musulman",
-  "Muslimisch",
-  "Μουσουλμάνος",
-  "Muzulmán",
-  "Musulmana",
-  "musulmanis",
-  "Musulmanis", #Lv
-  "Musulmonas",
-  "Muzułmańskie",
-  "Muçulmano",
-  "Musulman",
-  "Moslimské",
-  "Muslimanska",
-  "Musulmana",
-  "Muslim",
-  "Muslim"
-)
-
-cj_protestant_vec <- c(
-  "Protestantisch",
-  "Protestant",
-  "Protestant",
-  "Protestant",
-  "протестант",
-  "Protestant",
-  "Protestant",
-  "Protestant",
-  "Protestant",
-  "Protestant",
-  "Protestantti",
-  "Protestant",
-  "Protestantisch",
-  "Διαμαρτυρόμενος",
-  "Protestáns",
-  "Protestante",
-  "protestants",
-  "Protestants", #lv
-  "Protestantas",
-  "Protestanckie",
-  "Protestante",
-  "Protestant",
-  "Protestantské",
-  "Protestantska",
-  "Protestante",
-  "Protestant"
-)
-
-cj_catholic_vec <- c(
-  "Katholisch",
-  "Catholic",
-  "Katholiek",
-  "Catholique",
-  "католик",
-  "Katolik",
-  "Katolík",
-  "Katolik",
-  "Katholiek",
-  "Katoliiklane",
-  "Katolilainen",
-  "Catholique",
-  "Katholisch",
-  "Καθολικός",
-  "Katolikus",
-  "Cattolica",
-  "katolis",
-  "Katolis", #lv
-  "Katalikas",
-  "Katolickie",
-  "Católico",
-  "Catolic",
-  "Katolícke",
-  "Katoliška",
-  "Católica",
-  "Katolik"
-)
-
-cj_nonreli_vec <- c(
-  "Keine Religion",
-  "No Religion",
-  "Geen religie",
-  "Sans religion",
-  "без религия",
-  "Nije vjernik",
-  "Bez vyznání",
-  "Ikke religiøs",
-  "Geen religie",
-  "Ei ole usklik",
-  "Ei uskontoa",
-  "Sans religion",
-  "Keine Religion",
-  "Χωρίς θρησκεία",
-  "Nincs vallása",
-  "Nessuna religione",
-  "bez reliģiskās piederības",
-  "Bez reliģiskās piederības",
-  "Nėra religijos",
-  "Nie wierzący(-a)",
-  "Sem religião",
-  "Nicio religie",
-  "Žiadne vierovyznanie",
-  "Brez religije",
-  "Sin religión",
-  "Ingen religion"
-)
 ```
 
-Recoding code: comment variables that stay character, recode to numeric (integer if possible), logical, date or factor for all others
-
 ```{r}
-#| label: recode-vars
+#| label: recode-nationality
 
-# character variables: comment out
-df_stacked_recoded <- df_stacked |>
+df_stacked_recoded <- df_stacked_recoded |>
   mutate(
-    # META VARS ----------------------------------------------------------------
-    meta_wave = as.integer(meta_wave),
-    # meta_country = ,
-    meta_startdate = as.POSIXct(meta_startdate),
-    meta_enddate = as.POSIXct(meta_enddate),
-    # meta_status = ,
-    # meta_ipaddress = ,
-    meta_progress = as.integer(meta_progress),
-    meta_duration_s = as.integer(meta_duration_s),
-    meta_finished = as.logical(meta_finished),
-    meta_recordeddate = as.POSIXct(meta_recordeddate),
-    # meta_responseid = ,
-    # meta_recipient_lastname = ,
-    # meta_recipient_firstname = ,
-    # meta_recipient_email = ,
-    # meta_external_ref = ,
-    meta_latitude = as.numeric(meta_latitude),
-    meta_longitude = as.numeric(meta_longitude),
-    # meta_distchannel = ,
-    # meta_lang = ,
-    # GENDER -------------------------------------------------------------------
-    q_gender = case_when(
-      q_gender_raw %in% male_vec ~ "male",
-      q_gender_raw %in% female_vec ~ "female",
-      !is.na(q_gender_raw) ~ "other"
-    ),
-    # AGE ----------------------------------------------------------------------
-    q_age = as.integer(str_extract(q_age_raw, "\\d+")),
     # NATIONALITY --------------------------------------------------------------
     q_nationality = map_chr(q_nationality_raw, translate_nat),
     q_nationality_n = map_int(q_nationality_raw, \(x) {
@@ -1194,6 +1109,142 @@ df_stacked_recoded <- df_stacked |>
         c("Vietnam", "vietnam") ~ "Vietnam",
       .default = NA_character_
     ),
+  )
+```
+
+Recoding code: comment variables that stay character, recode to numeric (integer if possible), logical, date or factor for all others
+
+```{r}
+#| label: value-labels-cj-rel
+
+# CJ Religion Attribute --------------------------------------------------------
+cj_muslim_vec <- c(
+  "Muslimisch",
+  "Moslim",
+  "Musulman",
+  "мюсюлманин",
+  "Musliman",
+  "Muslim",
+  "Muslim",
+  "Moslim",
+  "Moslem",
+  "Muslimi",
+  "Musulman",
+  "Muslimisch",
+  "Μουσουλμάνος",
+  "Muzulmán",
+  "Musulmana",
+  "musulmanis",
+  "Musulmanis", #Lv
+  "Musulmonas",
+  "Muzułmańskie",
+  "Muçulmano",
+  "Musulman",
+  "Moslimské",
+  "Muslimanska",
+  "Musulmana",
+  "Muslim",
+  "Muslim"
+)
+
+cj_protestant_vec <- c(
+  "Protestantisch",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "протестант",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestant",
+  "Protestantti",
+  "Protestant",
+  "Protestantisch",
+  "Διαμαρτυρόμενος",
+  "Protestáns",
+  "Protestante",
+  "protestants",
+  "Protestants", #lv
+  "Protestantas",
+  "Protestanckie",
+  "Protestante",
+  "Protestant",
+  "Protestantské",
+  "Protestantska",
+  "Protestante",
+  "Protestant"
+)
+
+cj_catholic_vec <- c(
+  "Katholisch",
+  "Catholic",
+  "Katholiek",
+  "Catholique",
+  "католик",
+  "Katolik",
+  "Katolík",
+  "Katolik",
+  "Katholiek",
+  "Katoliiklane",
+  "Katolilainen",
+  "Catholique",
+  "Katholisch",
+  "Καθολικός",
+  "Katolikus",
+  "Cattolica",
+  "katolis",
+  "Katolis", #lv
+  "Katalikas",
+  "Katolickie",
+  "Católico",
+  "Catolic",
+  "Katolícke",
+  "Katoliška",
+  "Católica",
+  "Katolik"
+)
+
+cj_nonreli_vec <- c(
+  "Keine Religion",
+  "No Religion",
+  "Geen religie",
+  "Sans religion",
+  "без религия",
+  "Nije vjernik",
+  "Bez vyznání",
+  "Ikke religiøs",
+  "Geen religie",
+  "Ei ole usklik",
+  "Ei uskontoa",
+  "Sans religion",
+  "Keine Religion",
+  "Χωρίς θρησκεία",
+  "Nincs vallása",
+  "Nessuna religione",
+  "bez reliģiskās piederības",
+  "Bez reliģiskās piederības",
+  "Nėra religijos",
+  "Nie wierzący(-a)",
+  "Sem religião",
+  "Nicio religie",
+  "Žiadne vierovyznanie",
+  "Brez religije",
+  "Sin religión",
+  "Ingen religion"
+)
+```
+
+```{r}
+#| label: recode-vars
+
+# to look up country specific value codings, copy and run
+# purrr::keep(groups_named[["Austria"]], ~ any(grepl("q_identity", .x)))
+# in the R console
+
+# character variables: comment out
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
     # q_identity_country = ,
     # q_identity_eu = ,
     # q_identity_europe = ,
