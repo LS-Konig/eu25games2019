@@ -1102,7 +1102,7 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-identity5
-very_attached <- c(
+very_attached_vec <- c(
   "(1) Sehr verbunden",
   "(1) Très attaché(e)",
   "(1) Много привързан",
@@ -1138,7 +1138,7 @@ very_attached <- c(
   # Sweden
   "(1) Mycket fäst vid"
 )
-fairly_attached <- c(
+fairly_attached_vec <- c(
   "(2) Ziemlich verbunden",
   "(2) Assez attaché(e)",
   "(2) Donjakъde privrzvan",
@@ -1171,7 +1171,7 @@ fairly_attached <- c(
   # Sweden
   "(2) Ganska fäst vid"
 )
-moderately_attached <- c(
+moderately_attached_vec <- c(
   "(3) Einigermaßen verbunden",
   "(3) Mittelmäßig verbunden",
   "(3) Modérément attaché(e)",
@@ -1199,7 +1199,7 @@ moderately_attached <- c(
   # Sweden
   "(3) Måttligt fäst vid"
 )
-not_very_attached <- c(
+not_very_attached_vec <- c(
   "(4) Nicht sehr verbunden",
   "(4) Nicht so verbunden",
   "(4) Pas très attaché(e)",
@@ -1237,7 +1237,7 @@ not_very_attached <- c(
   # Sweden
   "(4) Inte särskilt fäst vid"
 )
-not_at_all_attached <- c(
+not_at_all_attached_vec <- c(
   "(5) Überhaupt nicht verbunden",
   "(5) Pas du tout attaché(e)",
   "(5) Изобщо не съм привързан",
@@ -1282,9 +1282,30 @@ not_at_all_attached <- c(
 
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
-    q_identity_country = ,
-    q_identity_eu = ,
-    q_identity_europe = 
+    q_identity_country = case_when(
+      q_identity_country_raw %in% very_attached_vec ~ 1L,
+      q_identity_country_raw %in% fairly_attached_vec ~ 2L,
+      q_identity_country_raw %in% moderately_attached_vec ~ 3L,
+      q_identity_country_raw %in% not_very_attached_vec ~ 4L,
+      q_identity_country_raw %in% not_at_all_attached_vec ~ 5L,
+      .default = NA
+    ),
+    q_identity_eu = case_when(
+      q_identity_eu_raw %in% very_attached_vec ~ 1L,
+      q_identity_eu_raw %in% fairly_attached_vec ~ 2L,
+      q_identity_eu_raw %in% moderately_attached_vec ~ 3L,
+      q_identity_eu_raw %in% not_very_attached_vec ~ 4L,
+      q_identity_eu_raw %in% not_at_all_attached_vec ~ 5L,
+      .default = NA
+    ),
+    q_identity_europe = case_when(
+      q_identity_europe_raw %in% very_attached_vec ~ 1L,
+      q_identity_europe_raw %in% fairly_attached_vec ~ 2L,
+      q_identity_europe_raw %in% moderately_attached_vec ~ 3L,
+      q_identity_europe_raw %in% not_very_attached_vec ~ 4L,
+      q_identity_europe_raw %in% not_at_all_attached_vec ~ 5L,
+      .default = NA
+    )
   )
 ```
 
