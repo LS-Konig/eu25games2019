@@ -29,7 +29,6 @@ execute:
 
 ```{r}
 #| label: setup
-
 start_time <- Sys.time()
 
 options(width = 80)
@@ -50,7 +49,6 @@ rm(p_required, p_to_install, packages)
 
 ```{r}
 #| label: load-data
-
 # wave 1 -----------------------------------------------------------------------
 df_wave1 <- readRDS(
   here(
@@ -78,7 +76,6 @@ Some variables store identical questions but are split into different columns.
 
 ```{r}
 #| label: explore-w1-framing
-
 # Short console code block to check that these are actually one variable
 # ------------------------------------------------------------------------------
 
@@ -212,8 +209,6 @@ df_wave1 |>
   select(Q42, Q39, Q36, Q33, Q30, Q27, Q24, Q21, Q18, Q15, Q12, Q9) |>
   mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
   count(non_na_count)
-
-
 ```
 
 Note: there are two systematically different frames (Valence and Position), each with different wordings across languages, but only one was asked per respondent.
@@ -222,7 +217,6 @@ Q7_* are valence framing questions and Q25_* are position framing questions, q8 
 
 ```{r}
 #| label: coalesce-w1-framing-vars
-
 df_wave1 <- df_wave1 |>
   mutate(
     # BLOCK I: VALENCE FRAMING -------------------------------------------------
@@ -427,7 +421,6 @@ df_wave1 <- df_wave1 |>
     -Q15,
     -Q12,
   )
-
 ```
 
 ## Wave 1 Priming Questions
@@ -436,7 +429,6 @@ Ensure no respondent has >1 values across the spread out variables.
 
 ```{r}
 #| label: w1-explore-primes
-
 # populist item battery --------------------------------------------------------
 df_wave1 |>
   select(
@@ -552,7 +544,6 @@ df_wave1 |>
 
 ```{r}
 #| label: w1-prime1-coalesce
-
 df_wave1 <- df_wave1 |>
   mutate(
     # condition indicator -------------------------------------------------------
@@ -611,12 +602,10 @@ df_wave1 <- df_wave1 |>
     -Q67_TEXT,
     -Q69_TEXT,
   )
-
 ```
 
 ```{r}
 #| label: w1-explore-primes-gridlock
-
 # scales item 1 ---------------------------------------------------------------
 df_wave1 |>
   select(
@@ -703,7 +692,6 @@ df_wave1 |>
 
 ```{r}
 #| label: w1-coalesce-primes-gridlock
-
 df_wave1 <- df_wave1 |>
   mutate(
     # condition indicator -------------------------------------------------------
@@ -766,7 +754,6 @@ df_wave1 <- df_wave1 |>
 
 ```{r}
 #| label: w1-compliance-exp-explore
-
 # timings ----------------------------------------------------------------------
 df_wave1 |>
   select(
@@ -875,7 +862,6 @@ df_wave1 |>
 
 ```{r}
 #| label: w1-compliance-exp-coalesce
-
 df_wave1 <- df_wave1 |>
   mutate(
     # condition indicator --------------------------------------------------------
@@ -1026,12 +1012,10 @@ df_wave1 <- df_wave1 |>
     -Q125,
     -Q129,
   )
-
 ```
 
 ```{r}
 #| label: w1-court-exp-explore
-
 # timings ----------------------------------------------------------------------
 df_wave1 |>
   select(
@@ -1096,7 +1080,6 @@ df_wave1 |>
 
 ```{r}
 #| label: w1-court-exp-coalesce
-
 df_wave1 <- df_wave1 |>
   mutate(
     # control_text and control_notext arms have no timing vars (Dynata export omission), so condition is inferred from outcome columns Q141 / Q143_1 instead of click timings
@@ -1168,12 +1151,10 @@ df_wave1 <- df_wave1 |>
     -Q141_1,
     -Q141_2
   )
-
 ```
 
 ```{r}
 #| label: w1-immigr-econ-exp-explore
-
 # EU self ------------------------------------------------------------------
 df_wave1 |>
   select(
@@ -1370,7 +1351,6 @@ df_wave1 |>
 
 ```{r}
 #| label: w1-immigr-econ-exp-coalesce
-
 df_wave1 <- df_wave1 |>
   mutate(
     # condition indicator --------------------------------------------------------
@@ -1444,12 +1424,10 @@ df_wave1 <- df_wave1 |>
     -Q171_3,
     -Q170_4
   )
-
 ```
 
 ```{r}
 #| label: w1-q147-explore
-
 df_wave1 |>
   select(
     Q147_1,
@@ -1465,12 +1443,10 @@ df_wave1 |>
   ) |>
   mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
   count(non_na_count)
-
 ```
 
 ```{r}
 #| label: w1-q147-coalesce
-
 df_wave1 <- df_wave1 |>
   mutate(
     Q147_1 = coalesce(Q147_1, Q149_1),
@@ -1484,7 +1460,6 @@ df_wave1 <- df_wave1 |>
 
 ```{r}
 #| label: w1-czechia-q157-correction
-
 # in czechia, q157 and 156 are flipped
 df_wave1 <- df_wave1 |>
   mutate(
@@ -1606,7 +1581,6 @@ Each condition: timings → scenario text → approval nat. gov → approval EU 
 
 ```{r}
 #| label: wave1-rename
-
 df_wave1_renamed <- df_wave1 |>
   rename(
     meta_startdate = StartDate,
@@ -1692,7 +1666,7 @@ df_wave1_renamed <- df_wave1 |>
     # resp. priming — populism outcome battery
     q_pop_will_raw = Q60_1,
     q_pop_people_raw = Q60_2,
-    q_pop_elite_raw = Q60_3,
+    q_pop_reps_raw = Q60_3,
     q_pop_citizen_raw = Q60_4,
     q_pop_reps_raw = Q60_5,
     q_pop_goodevil_raw = Q60_6,
@@ -1875,7 +1849,6 @@ df_wave1_renamed <- df_wave1 |>
 
 ```{r}
 #| label: w1-question-wordings
-
 rename_vec <- c(
   # demographics
   q_gender_raw = "Q2",
@@ -2088,7 +2061,6 @@ Wave 1 included 5 priming experiments. The following code adds variables storing
 
 ```{r}
 #| label: w1-priming-texts
-
 df_wave1_renamed <- df_wave1_renamed |>
   mutate(
     cj_task_instruction = "Imagine that you are voting for one of the two parties in the upcoming European election. The following summary table shows the party programs issued by these two parties.",
@@ -2134,7 +2106,6 @@ df_wave1_renamed <- df_wave1_renamed |>
 
 ```{r}
 #| label: save-cleaned-w1
-
 write_rds(
   df_wave1_renamed,
   file = here(
@@ -2159,7 +2130,6 @@ write_rds(
 ```{r}
 #| label: exec-time
 #| eval: true
-
 end_time <- Sys.time()
 cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```
@@ -2167,6 +2137,5 @@ cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```{r}
 #| label: session-info
 #| eval: true
-
 sessioninfo::session_info()
 ```
