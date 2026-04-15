@@ -1704,7 +1704,14 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
-How to test: crosstab recoded variables NA values against non-NA raw variables
+How to test: print recoded variables NA values against non-NA raw variables
+
+```{r}
+df_stacked_recoded |>
+  select(q_eu_satisfaction, q_eu_satisfaction_raw) |>
+  filter(is.na(q_eu_satisfaction) & !is.na(q_eu_satisfaction_raw)) |>
+  distinct(q_eu_satisfaction_raw)
+```
 
 ## Conjoint Behavioral Game Variables
 
