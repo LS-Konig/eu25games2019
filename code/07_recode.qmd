@@ -1578,7 +1578,7 @@ agree_vec <- c(
   "(6) D'accordo", # it
   "(6) D’accordo",
   "(6) Slažem se", # hr
-  "6)\tD’accord",
+  "6)\tD’accord"
 )
 # 7
 strongly_agree_vec <- c(
@@ -1843,6 +1843,8 @@ df_stacked_recoded |>
   filter(is.na(q_eu_satisfaction) & !is.na(q_eu_satisfaction_raw)) |>
   distinct(q_eu_satisfaction_raw)
 ```
+
+## 
 
 ## Conjoint Behavioral Game Variables
 
