@@ -209,6 +209,14 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
+```{r}
+#| label: validate-gender-recode
+df_stacked_recoded |>
+  select(q_gender, q_gender_raw) |>
+  filter(is.na(q_gender) & !is.na(q_gender_raw)) |>
+  distinct(q_gender_raw)
+```
+
 ## Age {#sec-age}
 
 ```{r}
@@ -218,6 +226,14 @@ df_stacked_recoded <- df_stacked_recoded |>
     # AGE ----------------------------------------------------------------------
     q_age = as.integer(str_extract(q_age_raw, "\\d+")),
   )
+```
+
+```{r}
+#| label: validate-age-recode
+df_stacked_recoded |>
+  select(q_age, q_age_raw) |>
+  filter(is.na(q_age) & !is.na(q_age_raw)) |>
+  distinct(q_age_raw)
 ```
 
 ## Nationality {#sec-nationality}
@@ -1090,6 +1106,19 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
+```{r}
+#| label: validate-nationality-recode
+df_stacked_recoded |>
+  select(q_nationality, q_nationality_raw) |>
+  filter(is.na(q_nationality) & !is.na(q_nationality_raw)) |>
+  distinct(q_nationality_raw)
+
+df_stacked_recoded |>
+  select(q_nationality_other, q_nationality_other_raw) |>
+  filter(is.na(q_nationality_other) & !is.na(q_nationality_other_raw)) |>
+  distinct(q_nationality_other_raw)
+```
+
 ## Attachement to Pol. Entities 
 
 ```{r}
@@ -1298,6 +1327,24 @@ df_stacked_recoded <- df_stacked_recoded |>
       .default = NA
     )
   )
+```
+
+```{r}
+#| label: validate-identity5-vars
+df_stacked_recoded |>
+  select(q_identity_country, q_identity_country_raw) |>
+  filter(is.na(q_identity_country) & !is.na(q_identity_country_raw)) |>
+  distinct(q_identity_country_raw)
+
+df_stacked_recoded |>
+  select(q_identity_eu, q_identity_eu_raw) |>
+  filter(is.na(q_identity_eu) & !is.na(q_identity_eu_raw)) |>
+  distinct(q_identity_eu_raw)
+
+df_stacked_recoded |>
+  select(q_identity_europe, q_identity_europe_raw) |>
+  filter(is.na(q_identity_europe) & !is.na(q_identity_europe_raw)) |>
+  distinct(q_identity_europe_raw)
 ```
 
 ## Populist Attitude Items
@@ -1619,6 +1666,39 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
+```{r}
+#| label: validate-pop-recode
+df_stacked_recoded |>
+  select(q_pop_will, q_pop_will_raw) |>
+  filter(is.na(q_pop_will) & !is.na(q_pop_will_raw)) |>
+  distinct(q_pop_will_raw)
+
+df_stacked_recoded |>
+  select(q_pop_people, q_pop_people_raw) |>
+  filter(is.na(q_pop_people) & !is.na(q_pop_people_raw)) |>
+  distinct(q_pop_people_raw)
+
+df_stacked_recoded |>
+  select(q_pop_citizen, q_pop_citizen_raw) |>
+  filter(is.na(q_pop_citizen) & !is.na(q_pop_citizen_raw)) |>
+  distinct(q_pop_citizen_raw)
+
+df_stacked_recoded |>
+  select(q_pop_reps, q_pop_reps_raw) |>
+  filter(is.na(q_pop_reps) & !is.na(q_pop_reps_raw)) |>
+  distinct(q_pop_reps_raw)
+
+df_stacked_recoded |>
+  select(q_pop_goodevil, q_pop_goodevil_raw) |>
+  filter(is.na(q_pop_goodevil) & !is.na(q_pop_goodevil_raw)) |>
+  distinct(q_pop_goodevil_raw)
+
+df_stacked_recoded |>
+  select(q_pop_compromise, q_pop_compromise_raw) |>
+  filter(is.na(q_pop_compromise) & !is.na(q_pop_compromise_raw)) |>
+  distinct(q_pop_compromise_raw)
+```
+
 ## EU Attitude Variables
 
 ```{r}
@@ -1707,6 +1787,7 @@ df_stacked_recoded <- df_stacked_recoded |>
 How to test: print recoded variables NA values against non-NA raw variables
 
 ```{r}
+#| label: validate-euattitude-recode
 df_stacked_recoded |>
   select(q_eu_satisfaction, q_eu_satisfaction_raw) |>
   filter(is.na(q_eu_satisfaction) & !is.na(q_eu_satisfaction_raw)) |>
@@ -2193,6 +2274,39 @@ df_stacked_recoded <- df_stacked_recoded |>
     # q_nativ_econ_b = ,
     # q_nativ_cult_b = ,
   )
+```
+
+```{r}
+#| label: validate-cjgames-recode
+df_stacked_recoded |>
+  select(cj_dict1_rel, cj_dict1_rel_raw) |>
+  filter(is.na(cj_dict1_rel) & !is.na(cj_dict1_rel_raw)) |>
+  distinct(cj_dict1_rel_raw)
+
+df_stacked_recoded |>
+  select(cj_dict2_rel, cj_dict2_rel_raw) |>
+  filter(is.na(cj_dict2_rel) & !is.na(cj_dict2_rel_raw)) |>
+  distinct(cj_dict2_rel_raw)
+
+df_stacked_recoded |>
+  select(cj_dict3_rel, cj_dict3_rel_raw) |>
+  filter(is.na(cj_dict3_rel) & !is.na(cj_dict3_rel_raw)) |>
+  distinct(cj_dict3_rel_raw)
+
+df_stacked_recoded |>
+  select(cj_trust1_rel, cj_trust1_rel_raw) |>
+  filter(is.na(cj_trust1_rel) & !is.na(cj_trust1_rel_raw)) |>
+  distinct(cj_trust1_rel_raw)
+
+df_stacked_recoded |>
+  select(cj_trust2_rel, cj_trust2_rel_raw) |>
+  filter(is.na(cj_trust2_rel) & !is.na(cj_trust2_rel_raw)) |>
+  distinct(cj_trust2_rel_raw)
+
+df_stacked_recoded |>
+  select(cj_trust3_rel, cj_trust3_rel_raw) |>
+  filter(is.na(cj_trust3_rel) & !is.na(cj_trust3_rel_raw)) |>
+  distinct(cj_trust3_rel_raw)
 ```
 
 # Save Full Recoded Wide EU25 Dataset
