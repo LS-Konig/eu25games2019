@@ -1393,7 +1393,8 @@ strongly_disagree_vec <- c(
   "(1) Instämmer inte alls", # sv
   "(1)\tInstämmer inte alls", # sv (tab)
   "(1) Fortemente in disaccordo", # it
-  "(1) Uopće se ne slažem" # hr
+  "(1) Uopće se ne slažem",
+  "1)\tPas du tout d’accord"
 )
 # 2
 disagree_vec <- c(
@@ -1428,7 +1429,8 @@ disagree_vec <- c(
   "(2) Instämmer inte", # sv
   "(2)\tInstämmer inte", # sv (tab)
   "(2) In disaccordo", # it
-  "(2) Ne slažem se" # hr
+  "(2) Ne slažem se",
+  "2)\tPas d’accord"
 )
 # 3
 somewhat_disagree_vec <- c(
@@ -1463,7 +1465,8 @@ somewhat_disagree_vec <- c(
   "(3) Instämmer inte i viss utsträckning", # sv
   "(3)\tInstämmer inte i viss utsträckning", # sv (tab)
   "(3) Abbastanza in disaccordo", # it
-  "(3) Djelomično se ne slažem" # hr
+  "(3) Djelomično se ne slažem",
+  "3)\tPlutôt pas d’accord"
 )
 # 4
 neither_nor_vec <- c(
@@ -1501,7 +1504,9 @@ neither_nor_vec <- c(
   "(4) Né in accordo né in disaccordo", # it
   "(4) Niti se slažem niti ne slažem", # hr
   "(4) Niti se slažem niti ne  slažem", # hr (double space)
-  "(4)  Нито съгласен/на, нито несъгласен/на"
+  "(4)  Нито съгласен/на, нито несъгласен/на",
+  "4)\tNi d’accord, ni pas d’accord",
+  "4"
 )
 # 5
 somewhat_agree_vec <- c(
@@ -1534,7 +1539,10 @@ somewhat_agree_vec <- c(
   "(5) Instämmer i viss utsträckning", # sv
   "(5)\tInstämmer i viss utsträckning", # sv (tab)
   "(5) Abbastanza d'accordo", # it
-  "(5) Djelomično se slažem" # hr
+  "(5) Djelomično se slažem",
+  "5)\tPlutôt d’accord",
+  "(5) Abbastanza d’accordo",
+  "(5) Plutôt d’accord"
 )
 # 6
 agree_vec <- c(
@@ -1569,7 +1577,8 @@ agree_vec <- c(
   "(6)\tInstämmer", # sv (tab)
   "(6) D'accordo", # it
   "(6) D’accordo",
-  "(6) Slažem se" # hr
+  "(6) Slažem se", # hr
+  "6)\tD’accord",
 )
 # 7
 strongly_agree_vec <- c(
@@ -1604,7 +1613,8 @@ strongly_agree_vec <- c(
   "(7)\tInstämmer starkt", # sv (tab)
   "(7) Molto d'accordo", # it
   "(7) Molto d’accordo",
-  "(7) U potpunosti se slažem" # hr
+  "(7) U potpunosti se slažem",
+  "7)\tTout à fait d’accord"
 )
 ```
 
