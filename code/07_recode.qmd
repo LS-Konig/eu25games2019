@@ -1157,7 +1157,9 @@ very_attached_vec <- c(
   # Spain
   "(1) Muy unido/a",
   # Sweden
-  "(1) Mycket fäst vid"
+  "(1) Mycket fäst vid",
+  "Meget knyttet til",
+  "Sterk gehecht"
 )
 fairly_attached_vec <- c(
   "(2) Ziemlich verbunden",
@@ -1190,7 +1192,10 @@ fairly_attached_vec <- c(
   # Spain
   "(2) Bastante unido/a",
   # Sweden
-  "(2) Ganska fäst vid"
+  "(2) Ganska fäst vid",
+  "Noget knyttet til",
+  "(2) Донякъде привързан",
+  "(2) Daļēji piederīgs(-a)"
 )
 moderately_attached_vec <- c(
   "(3) Einigermaßen verbunden",
@@ -1218,7 +1223,11 @@ moderately_attached_vec <- c(
   # Spain
   "(3) Moderadamente unido/a",
   # Sweden
-  "(3) Måttligt fäst vid"
+  "(3) Måttligt fäst vid",
+  "(3) •\tModérément attaché(e)",
+  "(3) Příliš ne",
+  "(3) Сравнително привързан",
+  "Moderat knyttet til"
 )
 not_very_attached_vec <- c(
   "(4) Nicht sehr verbunden",
