@@ -1845,7 +1845,170 @@ df_stacked_recoded |>
   distinct(q_eu_satisfaction_raw)
 ```
 
-## 
+## EU Informed Items
+
+```{r}
+#| label: value-labels-eu-informed
+# 1
+very_well_informed_1_vec <- c(
+  "(1) Sehr gut informiert",
+  "(1) Heel goed geïnformeerd",
+  "(1) Très bien informé",
+  "(1) Mного добре информиран/а",
+  "(1) Vrlo  dobro informirani",
+  "(1) Velmi dobře informovaný(á)",
+  "(1) Velmi dobře informovaný(á",
+  "(1) Meget godt informeret",
+  "(1) Väga hästi informeeritud",
+  "(1)\tVäga hästi informeeritud",
+  "(1) Erittäin hyvin tietoinen",
+  "(1) Très bien informé(e)",
+  "(1) Πολύ καλά ενημερωμένος(η)",
+  "(1) Nagyon jól tájékozott",
+  "(1) Very well informed",
+  "(1) Molto bene informato/a",
+  "(1) Ļoti labi informēts(-a)",
+  "(1) Labai gerai informuota(s)",
+  "(1) Bardzo dobrze poinformowaną",
+  "(1) Muito bem informado(a)",
+  "(1)  Muito bem informado(a)",
+  "(1) Foarte bine informat(ă)",
+  "(1) Veľmi dobre informovaný(á)",
+  "(1)\tVeľmi dobre informovaný(á)",
+  "(1) Muy bien informado/a",
+  "(1) Mycket väl",
+  "(1)\tMycket väl"
+)
+#2
+informed_2_vec <- c(
+  "(2)"
+)
+#3
+fairly_well_informed_3_vec <- c(
+  "(3) Ziemlich gut informiert",
+  "(3) Assez bien informé",
+  "(3) Vrij goed geïnformeerd",
+  "(3) Cравнително добре информиран/а",
+  "(3) Prilično dobro informirani",
+  "(3) Prilično dobro",
+  "(3) Prilično dobro",
+  "(3) Docela dobře informovaný(á)",
+  "(3) Docela dobře informovaný(á",
+  "(3) Rimeligt godt informeret",
+  "(3) Rimeligt godt informere",
+  "(3) Üsna hästi informeeritud",
+  "(3)\tÜsna hästi informeeritud",
+  "(3) Melko hyvin tietoinen",
+  "(3) Assez bien informé(e)",
+  "(3) Αρκετά καλά ενημερωμένος(η)",
+  "(3) Elég jól tájékozott",
+  "(3) Fairly well informed",
+  "(3) Abbastanza bene informato/a",
+  "(3) Diezgan labi informēts (-a)",
+  "(3) Diezgan labi informēts (-a",
+  "(3) Veikiau gerai informuota(s)",
+  "(3) Gana gerai informuota(s)",
+  "(3) Raczej dobrze poinformowaną",
+  "(3) Relativamente bem informado(a)",
+  "(3) Bem informado(a)",
+  "(3) Destul de bine informat(ă)",
+  "(3) Skôr dobre informovaný(á)",
+  "(3)\tSkôr dobre informovaný(á)",
+  "(3) Bastante bien informado/a",
+  "(3) Ganska väl",
+  "(3)\tGanska väl"
+)
+#4
+informed_4_vec <- c(
+  "(4)"
+)
+#5
+fairly_bad_informed_5_vec <- c(
+  "(5) Ziemlich schlecht informiert",
+  "(5) Vrij slecht geïnformeerd",
+  "(5) Assez mal informé",
+  "(5) Cравнително зле информиран/а",
+  "(5) Prilično loše informirani",
+  "(5) Prilično loše",
+  "(5) Docela špatně informovaný(á)",
+  "(5) Docela špatně informovaný(á",
+  "(5) Ret dårligt informeret",
+  "(5) Üsna halvasti informeeritud",
+  "(5)\tÜsna halvasti informeeritud",
+  "(5) Melko huonosti tietoinen",
+  "(5) Mal informé(e)",
+  "(5) Αρκετά κακά ενημερωμένος(η)",
+  "(5) Meglehetősen rosszul tájékozott",
+  "(5) Fairly badly informed",
+  "(5) Abbastanza male informato/a",
+  "(5) Diezgan slikti informēts (-a)",
+  "(5) Veikiau blogai informuota(s)",
+  "(5) Gana blogai informuota(s)",
+  "(5) Raczej źle poinformowaną",
+  "(5) Relativamente mal informado(a)",
+  "(5) Mal informado(a)",
+  "(5) Destul de puţin informat(ă)",
+  "(5) Skôr zle informovaný(á)",
+  "(5)\tSkôr zle informovaný(á)",
+  "(5) Bastante mal informado/a",
+  "(5) Ganska dåligt",
+  "(5)\tGanska dåligt"
+)
+#6
+informed_6_vec <- c(
+  "(6)"
+)
+#7
+very_badly_informed_7_vec <- c(
+  "(7) Sehr schlecht informiert",
+  "(7) Heel slecht geïnformeerd",
+  "(7) Très mal informé",
+  "(7) Mного зле информиран/а",
+  "(7) Vrlo loše informirani",
+  "(7) Velmi špatně informovaný(á)",
+  "(7) Meget dårligt informeret",
+  "(7) Väga halvasti informeeritud",
+  "(7)\tVäga halvasti informeeritud",
+  "(7) Erittäin huonosti tietoinen",
+  "(7) Très mal informé(e)",
+  "(7) Πολύ κακά ενημερωμένος(η)",
+  "(7) Nagyon rosszul tájékozott",
+  "(7) Very badly informed",
+  "(7) Molto male informato/a",
+  "(7) Ļoti slikti informēts (-a)",
+  "(7) Labai blogai informuota(s)",
+  "(7) Bardzo źle poinformowaną",
+  "(7) Muito mal informado(a)",
+  "(7) Foarte puţin informat(ă)",
+  "(7) Veľmi zle informovaný(á)",
+  "(7)\tVeľmi zle informovaný(á)",
+  "(7) Muy mal informado/a",
+  "(7) Mycket dåligt",
+  "(7)\tMycket dåligt"
+)
+```
+
+```{r}
+#| label: recode-eu-informed
+```
+
+```{r}
+#| label: validate-eu-informed
+```
+
+## EU Trust Items
+
+```{r}
+#| label: value-labels-eu-trust
+```
+
+```{r}
+#| label: recode-eu-trust
+```
+
+```{r}
+#| label: validate-eu-trust
+```
 
 ## Conjoint Behavioral Game Variables
 
