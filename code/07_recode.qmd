@@ -29,7 +29,6 @@ execute:
 
 ```{r}
 #| label: setup
-
 start_time <- Sys.time()
 
 options(width = 80)
@@ -53,7 +52,6 @@ rm(p_required, p_to_install, packages)
 
 ```{r}
 #| label: load-data
-
 # stacked waves ----------------------------------------------------------------
 df_stacked <- read_rds(
   here(
@@ -112,7 +110,6 @@ plan(sequential)
 
 ```{r}
 #| label: recode-meta
-
 df_stacked_recoded <- df_stacked |>
   mutate(
     # META VARS ----------------------------------------------------------------
@@ -142,7 +139,6 @@ df_stacked_recoded <- df_stacked |>
 
 ```{r}
 #| label: value-labels-gender
-
 # GENDER -----------------------------------------------------------------------
 male_vec <- c(
   "Male",
@@ -202,7 +198,6 @@ female_vec <- c(
 
 ```{r}
 #| label: recode-gender
-
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     # GENDER -------------------------------------------------------------------
@@ -218,7 +213,6 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: recode-age
-
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     # AGE ----------------------------------------------------------------------
@@ -230,7 +224,6 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-nationality
-
 # NATIONALITY ------------------------------------------------------------------
 austria_vec <- c(
   "Österreich",
@@ -704,7 +697,6 @@ translate_nat <- function(x) {
 
 ```{r}
 #| label: recode-nationality
-
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     # NATIONALITY --------------------------------------------------------------
@@ -1279,7 +1271,6 @@ not_at_all_attached_vec <- c(
 
 ```{r}
 #| label: recode-vars-identity5
-
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_identity_country = case_when(
@@ -1309,11 +1300,310 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
+## Populist Attitude Items
+
+```{r}
+#| label: pop-values-7scale
+# 1
+strongly_disagree_vec <- c(
+  "(1) Stimme überhaupt nicht zu", # de
+  "(1) Sterk mee oneens", # nl
+  "1)\tPas du tout d'accord", # fr
+  "(1) Pas du tout d'accord", # fr (alt)
+  "(1) Rozhodně nesouhlasím", # cs
+  "(1) Meget uenig", # da
+  "(1)\tMeget uenig", # da (tab)
+  "(1) Ei nõustu üldse", # et
+  "(1)\tEi nõustu üldse", # et (tab)
+  "(1) Täysin eri mieltä", # fi
+  "(1) Strongly disagree", # en
+  "(1) Διαφωνώ απόλυτα", # el
+  "(1) Egyáltalán nem értek egyet", # hu
+  "(1)\tEgyáltalán nem értek egyet", # hu (tab)
+  "(1) Pilnībā nepiekrītu", # lv
+  "(1)\tPilnībā nepiekrītu", # lv (tab)
+  "(1) Visiškai nesutinku", # lt
+  "(1) Zupełnie się nie zgadzam", # pl
+  "(1)\tZupełnie się nie zgadzam", # pl (tab)
+  "(1) Discordo totalmente", # pt
+  "(1) Dezacord puternic", # ro
+  "(1) Vôbec nesúhlasím", # sk
+  "(1)\tVôbec nesúhlasím", # sk (tab)
+  "(1) Močno se ne strinjam", # sl
+  "(1) Totalmente en desacuerdo", # es
+  "(1) Instämmer inte alls", # sv
+  "(1)\tInstämmer inte alls", # sv (tab)
+  "(1) Fortemente in disaccordo", # it
+  "(1) Uopće se ne slažem" # hr
+)
+# 2
+disagree_vec <- c(
+  "(2) Stimme  nicht zu", # de (double space)
+  "(2) Stimme nicht zu", # de
+  "(2) Mee oneens", # nl
+  "2)\tPas d'accord", # fr (tab)
+  "(2) Pas d'accord", # fr (alt)
+  "(2) Nesouhlasím", # cs
+  "(2) Uenig", # da
+  "(2)\tUenig", # da (tab)
+  "(2) Ei nõustu", # et
+  "(2)\tEi nõustu", # et (tab)
+  "(2) Eri mieltä", # fi
+  "(2) Disagree", # en
+  "(2) Διαφωνώ", # el
+  "(2) Nem értek egyet", # hu
+  "(2)\tNem értek egyet", # hu (tab)
+  "(2) Nepiekrītu", # lv
+  "(2)\tNepiekrītu", # lv (tab)
+  "(2) Nesutinku", # lt
+  "(2) Nie zgadzam się", # pl
+  "(2)\tNie zgadzam się", # pl (tab)
+  "(2) Discordo", # pt
+  "(2) Dezacord", # ro
+  "(2) Nesúhlasím", # sk
+  "(2)\tNesúhlasím", # sk (tab)
+  "(2) Ne strinjam se", # sl
+  "(2) En desacuerdo", # es
+  "(2) Instämmer inte", # sv
+  "(2)\tInstämmer inte", # sv (tab)
+  "(2) In disaccordo", # it
+  "(2) Ne slažem se" # hr
+)
+# 3
+somewhat_disagree_vec <- c(
+  "(3) Stimme eher nicht zu", # de
+  "(3) Enigszins mee oneens", # nl
+  "3)\tPlutôt pas d'accord", # fr (tab)
+  "(3) Plutôt pas d'accord", # fr (alt)
+  "(3) Spíše nesouhlasím", # cs
+  "(3) Ret uenig", # da
+  "(3)\tRet uenig", # da (tab)
+  "(3) Mõneti ei nõustu", # et
+  "(3)\tMõneti ei nõustu", # et (tab)
+  "(3) Jossain määrin eri mieltä", # fi
+  "(3) Somewhat disagree", # en
+  "(3) Διαφωνώ σε κάποιο βαθμό", # el
+  "(3) Inkább nem értek egyet", # hu
+  "(3)\tInkább nem értek egyet", # hu (tab)
+  "(3) Zināmā mērā nepiekrītu", # lv
+  "(3)\tZināmā mērā nepiekrītu", # lv (tab)
+  "(3) Veikiau nesutinku", # lt
+  "(3) Częściowo się nie zgadzam", # pl
+  "(3)\tCzęściowo się nie zgadzam", # pl (tab)
+  "(3) Discordo um pouco", # pt
+  "(3) Dezacord parțial", # ro
+  "(3) Do určitej miery nesúhlasím", # sk
+  "(3)\tDo určitej miery nesúhlasím", # sk (tab)
+  "(3) Delno se ne strinjam", # sl
+  "(3) Algo en desacuerdo", # es
+  "(3) Instämmer inte i viss utsträckning", # sv
+  "(3)\tInstämmer inte i viss utsträckning", # sv (tab)
+  "(3) Abbastanza in disaccordo", # it
+  "(3) Djelomično se ne slažem" # hr
+)
+# 4
+neither_nor_vec <- c(
+  "(4) Stimme weder zu noch nicht zu", # de
+  "(4) Niet mee eens of oneens", # nl
+  "4)\tNi d'accord, ni pas d'accord", # fr (tab)
+  "(4) Ni d'accord, ni pas d'accord", # fr (alt)
+  "(4) Mám neutrální názor", # cs
+  "(4) Hverken enig eller uenig", # da
+  "(4)\tHverken enig eller uenig", # da (tab)
+  "(4) Ei nõus ega vastu", # et
+  "(4)\tEi nõus ega vastu", # et (tab)
+  "(4) Ei samaa eikä eri mieltä", # fi
+  "(4) Neither agree nor disagree", # en
+  "(4) Ούτε συμφωνώ ούτε διαφωνώ", # el
+  "(4) Nem értek egyet, de el sem utasítom", # hu
+  "(4)\tNem értek egyet, de el sem utasítom", # hu (tab)
+  "(4) Nedz piekrītu, nedz nepiekrītu", # lv
+  "(4)\tNedz piekrītu, nedz nepiekrītu", # lv (tab)
+  "(4) Nei sutinku, nei nesutinku", # lt
+  "(4) Mam neutralny stosunek", # pl
+  "(4)\tMam neutralny stosunek", # pl (tab)
+  "(4) Ani się zgadzam, ani się nie zgadzam", # pl (alt)
+  "(4) Nem concordo nem discordo", # pt
+  "(4) Neutru", # ro
+  "(4) Nemám na to názor", # sk
+  "(4) Ani súhlasím, ani nesúhlasím", # sk (alt)
+  "(4) Niti se strinjam niti se ne strinjam", # sl
+  "(4) Ni de acuerdo ni en desacuerdo", # es
+  "(4) Varken instämmer eller inte instämmer", # sv
+  "(4)\tVarken instämmer eller inte instämmer", # sv (tab)
+  "(4) Né in accordo né in disaccordo", # it
+  "(4) Niti se slažem niti ne slažem", # hr
+  "(4) Niti se slažem niti ne  slažem" # hr (double space)
+)
+# 5
+somewhat_agree_vec <- c(
+  "(5) Stimme eher zu", # de
+  "(5) Enigszins mee eens", # nl
+  "5)\tPlutôt d'accord", # fr (tab)
+  "(5) Plutôt d'accord", # fr (alt)
+  "(5) Spíše souhlasím", # cs
+  "(5) Ret enig", # da
+  "(5)\tRet enig", # da (tab)
+  "(5) Mõneti nõustun", # et
+  "(5)\tMõneti nõustun", # et (tab)
+  "(5) Jossain määrin samaa mieltä", # fi
+  "(5) Somewhat agree", # en
+  "(5) Συμφωνώ σε κάποιο βαθμό", # el
+  "(5) Valamelyest egyetértek", # hu
+  "(5)\tValamelyest egyetértek", # hu (tab)
+  "(5) Zināmā mērā piekrītu", # lv
+  "(5)\tZināmā mērā piekrītu", # lv (tab)
+  "(5) Veikiau sutinku", # lt
+  "(5) Częściowo się zgadzam", # pl
+  "(5)\tCzęściowo się zgadzam", # pl (tab)
+  "(5) Concordo um pouco", # pt
+  "(5) Acord parțial", # ro
+  "(5) Do určitej miery súhlasím", # sk
+  "(5)\tDo určitej miery súhlasím", # sk (tab)
+  "(5) Delno se strinjam", # sl
+  "(5) Algo de acuerdo", # es
+  "(5) Instämmer i viss utsträckning", # sv
+  "(5)\tInstämmer i viss utsträckning", # sv (tab)
+  "(5) Abbastanza d'accordo", # it
+  "(5) Djelomično se slažem" # hr
+)
+# 6
+agree_vec <- c(
+  "(6) Stimme zu", # de
+  "(6) Mee eens", # nl
+  "6)\tD'accord", # fr (tab)
+  "(6) D'accord", # fr (alt)
+  "(6) Souhlasím", # cs
+  "(6) Enig", # da
+  "(6)\tEnig", # da (tab)
+  "(6) Nõustun", # et
+  "(6)\tNõustun", # et (tab)
+  "(6) Samaa mieltä", # fi
+  "(6) Agree", # en
+  "(6) Συμφωνώ", # el
+  "(6) Egyetértek", # hu
+  "(6)\tEgyetértek", # hu (tab)
+  "(6) Piekrītu", # lv
+  "(6)\tPiekrītu", # lv (tab)
+  "(6) Sutinku", # lt
+  "(6) Zgadzam się", # pl
+  "(6)\tZgadzam się", # pl (tab)
+  "(6) Concordo", # pt
+  "(6) Acord", # ro
+  "(6) Súhlasím", # sk
+  "(6)\tSúhlasím", # sk (tab)
+  "(6) Strinjam se", # sl
+  "(6) De acuerdo", # es
+  "(6) Instämmer", # sv
+  "(6)\tInstämmer", # sv (tab)
+  "(6) D'accordo", # it
+  "(6) Slažem se" # hr
+)
+# 7
+strongly_agree_vec <- c(
+  "(7) Stimme vollkommen zu", # de
+  "(7) Sterk mee eens", # nl
+  "7)\tTout à fait d'accord", # fr (tab)
+  "(7) Tout à fait d'accord", # fr (alt)
+  "(7) Rozhodně souhlasím", # cs
+  "(7) Meget enig", # da
+  "(7)\tMeget enig", # da (tab)
+  "(7) Nõustun täiesti", # et
+  "(7)\tNõustun täiesti", # et (tab)
+  "(7) Täysin samaa mieltä", # fi
+  "(7) Strongly agree", # en
+  "(7) Συμφωνώ σε μεγάλο βαθμό", # el
+  "(7) Teljesen egyetértek", # hu
+  "(7)\tTeljesen egyetértek", # hu (tab)
+  "(7) Pilnībā piekrītu", # lv
+  "(7)\tPilnībā piekrītu", # lv (tab)
+  "(7) Visiškai sutinku", # lt
+  "(7) W pełni się zgadzam", # pl
+  "(7)\tW pełni się zgadzam", # pl (tab)
+  "(7) Concordo totalmente", # pt
+  "(7) Acord puternic", # ro
+  "(7) Úplne súhlasím", # sk
+  "(7)\tÚplne súhlasím", # sk (tab)
+  "(7) Močno se strinjam", # sl
+  "(7) Totalmente de acuerdo", # es
+  "(7) Instämmer starkt", # sv
+  "(7)\tInstämmer starkt", # sv (tab)
+  "(7) Molto d'accordo", # it
+  "(7) U potpunosti se slažem" # hr
+)
+```
+
+```{r}
+#| label: pop-recoding
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_pop_will = case_when(
+      q_pop_will_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_will_raw %in% disagree_vec ~ 2,
+      q_pop_will_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_will_raw %in% neither_nor_vec ~ 4,
+      q_pop_will_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_will_raw %in% agree_vec ~ 6,
+      q_pop_will_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_pop_people = case_when(
+      q_pop_people_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_people_raw %in% disagree_vec ~ 2,
+      q_pop_people_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_people_raw %in% neither_nor_vec ~ 4,
+      q_pop_people_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_people_raw %in% agree_vec ~ 6,
+      q_pop_people_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_pop_citizen = case_when(
+      q_pop_citizen_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_citizen_raw %in% disagree_vec ~ 2,
+      q_pop_citizen_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_citizen_raw %in% neither_nor_vec ~ 4,
+      q_pop_citizen_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_citizen_raw %in% agree_vec ~ 6,
+      q_pop_citizen_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_pop_reps = case_when(
+      q_pop_reps_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_reps_raw %in% disagree_vec ~ 2,
+      q_pop_reps_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_reps_raw %in% neither_nor_vec ~ 4,
+      q_pop_reps_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_reps_raw %in% agree_vec ~ 6,
+      q_pop_reps_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_pop_goodevil = case_when(
+      q_pop_goodevil_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_goodevil_raw %in% disagree_vec ~ 2,
+      q_pop_goodevil_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_goodevil_raw %in% neither_nor_vec ~ 4,
+      q_pop_goodevil_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_goodevil_raw %in% agree_vec ~ 6,
+      q_pop_goodevil_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_pop_compromise = case_when(
+      q_pop_compromise_raw %in% strongly_disagree_vec ~ 1,
+      q_pop_compromise_raw %in% disagree_vec ~ 2,
+      q_pop_compromise_raw %in% somewhat_disagree_vec ~ 3,
+      q_pop_compromise_raw %in% neither_nor_vec ~ 4,
+      q_pop_compromise_raw %in% somewhat_agree_vec ~ 5,
+      q_pop_compromise_raw %in% agree_vec ~ 6,
+      q_pop_compromise_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+  )
+```
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
 #| label: value-labels-cj-rel
-
 # CJ Religion Attribute --------------------------------------------------------
 cj_muslim_vec <- c(
   "Muslimisch",
@@ -1434,7 +1724,6 @@ cj_nonreli_vec <- c(
 
 ```{r}
 #| label: recode-vars-cj-games
-
 # to look up country specific value codings, copy and run
 # purrr::keep(groups_named[["Austria"]], ~ any(grepl("q_identity", .x)))
 # in the R console
@@ -1797,7 +2086,6 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: save
-
 write_rds(
   df_stacked_recoded,
   file = here(
@@ -1812,6 +2100,8 @@ write_rds(
 
 ```{r}
 #| label: continue
+
+# purrr::keep(groups_named[["FR"]], ~ any(grepl("_raw", .x)))
 
 # df_stacked_recoded <- df_stacked_recoded |>
 #   mutate(
@@ -1945,7 +2235,6 @@ write_rds(
 ```{r}
 #| label: exec-time
 #| eval: true
-
 end_time <- Sys.time()
 cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```
@@ -1953,6 +2242,5 @@ cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```{r}
 #| label: session-info
 #| eval: true
-
 sessioninfo::session_info()
 ```
