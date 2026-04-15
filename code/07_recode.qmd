@@ -1394,6 +1394,7 @@ strongly_disagree_vec <- c(
   "(1)\tInstämmer inte alls", # sv (tab)
   "(1) Fortemente in disaccordo", # it
   "(1) Uopće se ne slažem",
+  "1) Uopće se ne slažem",
   "1)\tPas du tout d’accord"
 )
 # 2
