@@ -1666,7 +1666,7 @@ df_wave1_renamed <- df_wave1 |>
     # resp. priming — populism outcome battery
     q_pop_will_raw = Q60_1,
     q_pop_people_raw = Q60_2,
-    q_pop_reps_raw = Q60_3,
+    q_pop_elite_raw = Q60_3,
     q_pop_citizen_raw = Q60_4,
     q_pop_reps_raw = Q60_5,
     q_pop_goodevil_raw = Q60_6,
