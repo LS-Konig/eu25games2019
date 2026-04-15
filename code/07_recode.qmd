@@ -1600,6 +1600,26 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
+## EU Attitude Variables
+
+```{r}
+#| label: eu-attitude-values
+```
+
+```{r}
+#| label: eu-attitude-recoding
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_eu_longterm = ,
+    q_eu_responsive = ,
+    q_eu_efficacy_understand = ,
+    q_eu_efficacy_care = ,
+    q_eu_efficacy_nosay = ,
+    q_eu_abolish = ,
+    q_eu_satisfaction = ,
+  )
+```
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
@@ -2100,17 +2120,12 @@ write_rds(
 
 ```{r}
 #| label: continue
+#| eval: false
 
 # purrr::keep(groups_named[["FR"]], ~ any(grepl("_raw", .x)))
 
 # df_stacked_recoded <- df_stacked_recoded |>
 #   mutate(
-    # q_pop_will = ,
-    # q_pop_people = ,
-    # q_pop_citizen = ,
-    # q_pop_reps = ,
-    # q_pop_goodevil = ,
-    # q_pop_compromise = ,
     # q_eu_longterm = ,
     # q_eu_responsive = ,
     # q_eu_efficacy_understand = ,
