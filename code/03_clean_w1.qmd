@@ -1690,7 +1690,7 @@ df_wave1_renamed <- df_wave1 |>
     q_eu_satisfaction_raw = Q74_2,
     # gridlock priming — party attachment
     q_party_id_raw = Q75,
-    q_party_id_text_raw = Q75_TEXT,
+    q_party_id_other_raw = Q75_TEXT,
     # gridlock priming — party closeness
     q_party_closeness_raw = Q76,
     # gridlock priming — manipulation check
@@ -1922,7 +1922,7 @@ rename_vec <- c(
   q_eu_satisfaction_raw = "Q74_2",
   # party attachment / closeness
   q_party_id_raw = "Q75",
-  q_party_id_text_raw = "Q75_TEXT",
+  q_party_id_other_raw = "Q75_TEXT",
   q_party_closeness_raw = "Q76",
   # manipulation check
   q_gridlock_manip_raw = "Q82_1",
