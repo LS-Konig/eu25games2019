@@ -1303,13 +1303,16 @@ df_stacked_recoded <- df_stacked_recoded |>
 ## Populist Attitude Items
 
 ```{r}
-#| label: pop-values-7scale
+#| label: 7scale-agree-values
 # 1
 strongly_disagree_vec <- c(
   "(1) Stimme überhaupt nicht zu", # de
   "(1) Sterk mee oneens", # nl
+  "(1) Напълно несъгласен/на",
   "1)\tPas du tout d'accord", # fr
   "(1) Pas du tout d'accord", # fr (alt)
+  "(1) Pas du tout d’accord",
+  "(1)\tPas du tout d’accord",
   "(1) Rozhodně nesouhlasím", # cs
   "(1) Meget uenig", # da
   "(1)\tMeget uenig", # da (tab)
@@ -1343,6 +1346,8 @@ disagree_vec <- c(
   "(2) Mee oneens", # nl
   "2)\tPas d'accord", # fr (tab)
   "(2) Pas d'accord", # fr (alt)
+  "(2) Pas d’accord",
+  "(2) Несъгласен/на",
   "(2) Nesouhlasím", # cs
   "(2) Uenig", # da
   "(2)\tUenig", # da (tab)
@@ -1375,6 +1380,9 @@ somewhat_disagree_vec <- c(
   "(3) Enigszins mee oneens", # nl
   "3)\tPlutôt pas d'accord", # fr (tab)
   "(3) Plutôt pas d'accord", # fr (alt)
+  "(3) Plutôt pas d’accord",
+  "(3) Донякъде несъгласен/на",
+  "(3) Донякъде несъгласен/на",
   "(3) Spíše nesouhlasím", # cs
   "(3) Ret uenig", # da
   "(3)\tRet uenig", # da (tab)
@@ -1407,6 +1415,7 @@ neither_nor_vec <- c(
   "(4) Niet mee eens of oneens", # nl
   "4)\tNi d'accord, ni pas d'accord", # fr (tab)
   "(4) Ni d'accord, ni pas d'accord", # fr (alt)
+  "(4) Ni d’accord, ni pas d’accord",
   "(4) Mám neutrální názor", # cs
   "(4) Hverken enig eller uenig", # da
   "(4)\tHverken enig eller uenig", # da (tab)
@@ -1414,6 +1423,8 @@ neither_nor_vec <- c(
   "(4)\tEi nõus ega vastu", # et (tab)
   "(4) Ei samaa eikä eri mieltä", # fi
   "(4) Neither agree nor disagree", # en
+  "(4) Neither agree or disagree",
+  "(4) Нито съгласен/на, нито несъгласен/на",
   "(4) Ούτε συμφωνώ ούτε διαφωνώ", # el
   "(4) Nem értek egyet, de el sem utasítom", # hu
   "(4)\tNem értek egyet, de el sem utasítom", # hu (tab)
@@ -1434,6 +1445,7 @@ neither_nor_vec <- c(
   "(4) Né in accordo né in disaccordo", # it
   "(4) Niti se slažem niti ne slažem", # hr
   "(4) Niti se slažem niti ne  slažem" # hr (double space)
+  "(4)  Нито съгласен/на, нито несъгласен/на"
 )
 # 5
 somewhat_agree_vec <- c(
@@ -1442,6 +1454,7 @@ somewhat_agree_vec <- c(
   "5)\tPlutôt d'accord", # fr (tab)
   "(5) Plutôt d'accord", # fr (alt)
   "(5) Spíše souhlasím", # cs
+  "(5) Донякъде съгласен/на",
   "(5) Ret enig", # da
   "(5)\tRet enig", # da (tab)
   "(5) Mõneti nõustun", # et
@@ -1473,6 +1486,8 @@ agree_vec <- c(
   "(6) Mee eens", # nl
   "6)\tD'accord", # fr (tab)
   "(6) D'accord", # fr (alt)
+  "(6) D’accord",
+  "(6) Съгласен/на",
   "(6) Souhlasím", # cs
   "(6) Enig", # da
   "(6)\tEnig", # da (tab)
@@ -1497,6 +1512,7 @@ agree_vec <- c(
   "(6) Instämmer", # sv
   "(6)\tInstämmer", # sv (tab)
   "(6) D'accordo", # it
+  "(6) D’accordo",
   "(6) Slažem se" # hr
 )
 # 7
@@ -1505,6 +1521,7 @@ strongly_agree_vec <- c(
   "(7) Sterk mee eens", # nl
   "7)\tTout à fait d'accord", # fr (tab)
   "(7) Tout à fait d'accord", # fr (alt)
+  "(7) Tout à fait d’accord",
   "(7) Rozhodně souhlasím", # cs
   "(7) Meget enig", # da
   "(7)\tMeget enig", # da (tab)
@@ -1512,6 +1529,7 @@ strongly_agree_vec <- c(
   "(7)\tNõustun täiesti", # et (tab)
   "(7) Täysin samaa mieltä", # fi
   "(7) Strongly agree", # en
+  "(7) Напълно съгласен/на",
   "(7) Συμφωνώ σε μεγάλο βαθμό", # el
   "(7) Teljesen egyetértek", # hu
   "(7)\tTeljesen egyetértek", # hu (tab)
@@ -1529,6 +1547,7 @@ strongly_agree_vec <- c(
   "(7) Instämmer starkt", # sv
   "(7)\tInstämmer starkt", # sv (tab)
   "(7) Molto d'accordo", # it
+  "(7) Molto d’accordo",
   "(7) U potpunosti se slažem" # hr
 )
 ```
@@ -1604,21 +1623,88 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: eu-attitude-values
+# uses 7 scale agree/disagree answers, so existing vectors can be used
 ```
 
 ```{r}
 #| label: eu-attitude-recoding
+#| eval: false
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
-    q_eu_longterm = ,
-    q_eu_responsive = ,
-    q_eu_efficacy_understand = ,
-    q_eu_efficacy_care = ,
-    q_eu_efficacy_nosay = ,
-    q_eu_abolish = ,
-    q_eu_satisfaction = ,
+    q_eu_longterm = case_when(
+      q_eu_longterm_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_longterm_raw %in% disagree_vec ~ 2L,
+      q_eu_longterm_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_longterm_raw %in% neither_nor_vec ~ 4L,
+      q_eu_longterm_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_longterm_raw %in% agree_vec ~ 6L,
+      q_eu_longterm_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_responsive = case_when(
+      q_eu_responsive_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_responsive_raw %in% disagree_vec ~ 2L,
+      q_eu_responsive_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_responsive_raw %in% neither_nor_vec ~ 4L,
+      q_eu_responsive_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_responsive_raw %in% agree_vec ~ 6L,
+      q_eu_responsive_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_efficacy_understand = case_when(
+      q_eu_efficacy_understand_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_efficacy_understand_raw %in% disagree_vec ~ 2L,
+      q_eu_efficacy_understand_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_efficacy_understand_raw %in% neither_nor_vec ~ 4L,
+      q_eu_efficacy_understand_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_efficacy_understand_raw %in% agree_vec ~ 6L,
+      q_eu_efficacy_understand_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_efficacy_care = case_when(
+      q_eu_efficacy_care_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_efficacy_care_raw %in% disagree_vec ~ 2L,
+      q_eu_efficacy_care_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_efficacy_care_raw %in% neither_nor_vec ~ 4L,
+      q_eu_efficacy_care_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_efficacy_care_raw %in% agree_vec ~ 6L,
+      q_eu_efficacy_care_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_efficacy_nosay = case_when(
+      q_eu_efficacy_nosay_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_efficacy_nosay_raw %in% disagree_vec ~ 2L,
+      q_eu_efficacy_nosay_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_efficacy_nosay_raw %in% neither_nor_vec ~ 4L,
+      q_eu_efficacy_nosay_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_efficacy_nosay_raw %in% agree_vec ~ 6L,
+      q_eu_efficacy_nosay_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_abolish = case_when(
+      q_eu_abolish_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_abolish_raw %in% disagree_vec ~ 2L,
+      q_eu_abolish_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_abolish_raw %in% neither_nor_vec ~ 4L,
+      q_eu_abolish_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_abolish_raw %in% agree_vec ~ 6L,
+      q_eu_abolish_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_eu_satisfaction = case_when(
+      q_eu_satisfaction_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_satisfaction_raw %in% disagree_vec ~ 2L,
+      q_eu_satisfaction_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_satisfaction_raw %in% neither_nor_vec ~ 4L,
+      q_eu_satisfaction_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_satisfaction_raw %in% agree_vec ~ 6L,
+      q_eu_satisfaction_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    )
   )
 ```
+
+How to test: crosstab recoded variables NA values against non-NA raw variables
 
 ## Conjoint Behavioral Game Variables
 
