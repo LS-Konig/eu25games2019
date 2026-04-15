@@ -1491,7 +1491,7 @@ neither_nor_vec <- c(
   "(4)\tVarken instämmer eller inte instämmer", # sv (tab)
   "(4) Né in accordo né in disaccordo", # it
   "(4) Niti se slažem niti ne slažem", # hr
-  "(4) Niti se slažem niti ne  slažem" # hr (double space)
+  "(4) Niti se slažem niti ne  slažem", # hr (double space)
   "(4)  Нито съгласен/на, нито несъгласен/на"
 )
 # 5
@@ -1708,7 +1708,6 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: eu-attitude-recoding
-#| eval: false
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_eu_longterm = case_when(
@@ -1784,10 +1783,42 @@ df_stacked_recoded <- df_stacked_recoded |>
   )
 ```
 
-How to test: print recoded variables NA values against non-NA raw variables
-
 ```{r}
 #| label: validate-euattitude-recode
+df_stacked_recoded |>
+  select(q_eu_longterm, q_eu_longterm_raw) |>
+  filter(
+    is.na(q_eu_longterm) & !is.na(q_eu_longterm_raw)
+  ) |>
+  distinct(q_eu_longterm_raw)
+
+df_stacked_recoded |>
+  select(q_eu_responsive, q_eu_responsive_raw) |>
+  filter(is.na(q_eu_responsive) & !is.na(q_eu_responsive_raw)) |>
+  distinct(q_eu_responsive_raw)
+
+df_stacked_recoded |>
+  select(q_eu_efficacy_understand, q_eu_efficacy_understand_raw) |>
+  filter(
+    is.na(q_eu_efficacy_understand) & !is.na(q_eu_efficacy_understand_raw)
+  ) |>
+  distinct(q_eu_efficacy_understand_raw)
+
+df_stacked_recoded |>
+  select(q_eu_efficacy_care, q_eu_efficacy_care_raw) |>
+  filter(is.na(q_eu_efficacy_care) & !is.na(q_eu_efficacy_care_raw)) |>
+  distinct(q_eu_efficacy_care_raw)
+
+df_stacked_recoded |>
+  select(q_eu_efficacy_nosay, q_eu_efficacy_nosay_raw) |>
+  filter(is.na(q_eu_efficacy_nosay) & !is.na(q_eu_efficacy_nosay_raw)) |>
+  distinct(q_eu_efficacy_nosay_raw)
+
+df_stacked_recoded |>
+  select(q_eu_abolish, q_eu_abolish_raw) |>
+  filter(is.na(q_eu_abolish) & !is.na(q_eu_abolish_raw)) |>
+  distinct(q_eu_abolish_raw)
+
 df_stacked_recoded |>
   select(q_eu_satisfaction, q_eu_satisfaction_raw) |>
   filter(is.na(q_eu_satisfaction) & !is.na(q_eu_satisfaction_raw)) |>
