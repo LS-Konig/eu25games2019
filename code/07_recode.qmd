@@ -1877,7 +1877,9 @@ very_well_informed_1_vec <- c(
   "(1)\tVeľmi dobre informovaný(á)",
   "(1) Muy bien informado/a",
   "(1) Mycket väl",
-  "(1)\tMycket väl"
+  "(1)\tMycket väl",
+  "(1) Vrlo dobro informirani",
+  "(1) Zelo dobro informiran(-a)"
 )
 #2
 informed_2_vec <- c(
@@ -1916,7 +1918,9 @@ fairly_well_informed_3_vec <- c(
   "(3)\tSkôr dobre informovaný(á)",
   "(3) Bastante bien informado/a",
   "(3) Ganska väl",
-  "(3)\tGanska väl"
+  "(3)\tGanska väl",
+  "(3) Precej dobro informiran(-a)",
+  "(3) ) Precej dobro informiran(-a)"
 )
 #4
 informed_4_vec <- c(
@@ -1952,7 +1956,8 @@ fairly_bad_informed_5_vec <- c(
   "(5)\tSkôr zle informovaný(á)",
   "(5) Bastante mal informado/a",
   "(5) Ganska dåligt",
-  "(5)\tGanska dåligt"
+  "(5)\tGanska dåligt",
+  "(5) Precej slabo informiran(-a)"
 )
 #6
 informed_6_vec <- c(
@@ -1984,16 +1989,75 @@ very_badly_informed_7_vec <- c(
   "(7)\tVeľmi zle informovaný(á)",
   "(7) Muy mal informado/a",
   "(7) Mycket dåligt",
-  "(7)\tMycket dåligt"
+  "(7)\tMycket dåligt",
+  "(7) Zelo slabo informiran(-a)"
 )
 ```
 
 ```{r}
 #| label: recode-eu-informed
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_eu_informed_com = case_when(
+      q_eu_informed_com_raw %in% very_well_informed_1_vec ~ 1L,
+      q_eu_informed_com_raw %in% informed_2_vec ~ 2L,
+      q_eu_informed_com_raw %in% fairly_well_informed_3_vec ~ 3L,
+      q_eu_informed_com_raw %in% informed_4_vec ~ 4L,
+      q_eu_informed_com_raw %in% fairly_bad_informed_5_vec ~ 5L,
+      q_eu_informed_com_raw %in% informed_6_vec ~ 6L,
+      q_eu_informed_com_raw %in% very_badly_informed_7_vec ~ 7L,
+    ),
+    q_eu_informed_cou = case_when(
+      q_eu_informed_cou_raw %in% very_well_informed_1_vec ~ 1L,
+      q_eu_informed_cou_raw %in% informed_2_vec ~ 2L,
+      q_eu_informed_cou_raw %in% fairly_well_informed_3_vec ~ 3L,
+      q_eu_informed_cou_raw %in% informed_4_vec ~ 4L,
+      q_eu_informed_cou_raw %in% fairly_bad_informed_5_vec ~ 5L,
+      q_eu_informed_cou_raw %in% informed_6_vec ~ 6L,
+      q_eu_informed_cou_raw %in% very_badly_informed_7_vec ~ 7L,
+    ),
+    q_eu_informed_ep = case_when(
+      q_eu_informed_ep_raw %in% very_well_informed_1_vec ~ 1L,
+      q_eu_informed_ep_raw %in% informed_2_vec ~ 2L,
+      q_eu_informed_ep_raw %in% fairly_well_informed_3_vec ~ 3L,
+      q_eu_informed_ep_raw %in% informed_4_vec ~ 4L,
+      q_eu_informed_ep_raw %in% fairly_bad_informed_5_vec ~ 5L,
+      q_eu_informed_ep_raw %in% informed_6_vec ~ 6L,
+      q_eu_informed_ep_raw %in% very_badly_informed_7_vec ~ 7L,
+    ),
+    q_eu_informed_cjeu = case_when(
+      q_eu_informed_cjeu_raw %in% very_well_informed_1_vec ~ 1L,
+      q_eu_informed_cjeu_raw %in% informed_2_vec ~ 2L,
+      q_eu_informed_cjeu_raw %in% fairly_well_informed_3_vec ~ 3L,
+      q_eu_informed_cjeu_raw %in% informed_4_vec ~ 4L,
+      q_eu_informed_cjeu_raw %in% fairly_bad_informed_5_vec ~ 5L,
+      q_eu_informed_cjeu_raw %in% informed_6_vec ~ 6L,
+      q_eu_informed_cjeu_raw %in% very_badly_informed_7_vec ~ 7L,
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-eu-informed
+df_stacked_recoded |>
+  select(q_eu_informed_com, q_eu_informed_com_raw) |>
+  filter(is.na(q_eu_informed_com) & !is.na(q_eu_informed_com_raw)) |>
+  distinct(q_eu_informed_com_raw)
+
+df_stacked_recoded |>
+  select(q_eu_informed_cou, q_eu_informed_cou_raw) |>
+  filter(is.na(q_eu_informed_cou) & !is.na(q_eu_informed_cou_raw)) |>
+  distinct(q_eu_informed_cou_raw)
+
+df_stacked_recoded |>
+  select(q_eu_informed_ep, q_eu_informed_ep_raw) |>
+  filter(is.na(q_eu_informed_ep) & !is.na(q_eu_informed_ep_raw)) |>
+  distinct(q_eu_informed_ep_raw)
+
+df_stacked_recoded |>
+  select(q_eu_informed_cjeu, q_eu_informed_cjeu_raw) |>
+  filter(is.na(q_eu_informed_cjeu) & !is.na(q_eu_informed_cjeu_raw)) |>
+  distinct(q_eu_informed_cjeu_raw)
 ```
 
 ## EU Trust Items
