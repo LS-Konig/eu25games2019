@@ -2065,15 +2065,39 @@ df_stacked_recoded |>
 ```{r}
 #| label: value-labels-eu-trust
 # helper print loop
-for (i in 1:length(countries)) {
-  df_stacked |>
-    filter(meta_country == countries[i]) |>
-    distinct(q_eu_trust_com_raw) |>
-    print()
-}
+# for (i in 1:length(countries)) {
+#   df_stacked |>
+#     filter(meta_country == countries[i]) |>
+#     distinct(q_eu_trust_com_raw) |>
+#     print()
+# }
+
 trust_7 <- c(
   "(7) Eher nicht vertrauen",
-  "(7) Vertraue ihr eher nicht"
+  "(7) Vertraue ihr eher nicht",
+  "(7) Plutôt pas confiance",
+  "(7) Eerder geen vertrouwen",
+  "(7) Не съм склонен да се доверя",
+  "(7) Nije sklon vjerovati",
+  "(7) Spíše nedůvěřuje",
+  "(7) Tilbøjelig til ikke at have tillid til dem",
+  "(7) Kaldun mitte usaldama",
+  "(7) Ei luota",
+  "(7) Τεινω να μην εμπιστευ ομαι",
+  "(7) Inkább nem bízik",
+  "(7) Tend not to trust",
+  "(7) Non ha fiducia",
+  "(7) Drīzāk neuzticos",
+  "(7) Drīzāk neuzticaties",
+  "(7) Linkęs (-usi) nepasitikėti",
+  "(7) Raczej nie ufam",
+  "(7) Tende a não confiar",
+  "(7) Tind să nu am încredere",
+  "(7)Tind să nu am încredere",
+  "(7) Skôr nedôveruje",
+  "(7) Bolj ne zaupa",
+  "(7) Tiende a desconfiar",
+  "(7) Inte benägen att lita på"
 )
 trust_6 <- c(
   "(6)"
@@ -2092,17 +2116,102 @@ trust_2 <- c(
 )
 trust_1 <- c(
   "(1) Eher vertrauen",
-  "(1) Vertraue ihr eher"
+  "(1) Vertraue ihr eher",
+  "(1) Plutôt confiance",
+  "(1) Eerder wel vertrouwen",
+  "(1) Склонен съм да се доверя",
+  "(1) Sklon vjerovati",
+  "(1) Spíše důvěřuje",
+  "(1) Tilbøjelig til at have tillid til dem",
+  "(1) Kaldun usaldama",
+  "(1) Luottaa",
+  "(1) Τεινω να εμπιστευ ομαι",
+  "(1) Inkább bízik",
+  "(1) Tend to trust",
+  "(1) Ha fiducia",
+  "1) Ha fiducia",
+  "(1) Drīzāk uzticos",
+  "(1) Drīzāk uzticaties",
+  "(1) Linkęs (-usi) pasitikėti",
+  "(1) Linkęs (-usi) pasitikėt",
+  "(1) Raczej ufam",
+  "(1) TRaczej ufam",
+  "(1) Tende a confiar",
+  "(1) Tind să am încredere",
+  "(1) Skôr dôveruje",
+  "(1) Bolj zaupa",
+  "(1) Tiende a confiar",
+  "(1) Benägen att lita på"
 )
 ```
 
 ```{r}
 #| label: recode-eu-trust
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_eu_trust_com = case_when(
+      q_eu_trust_com_raw %in% trust_1 ~ 1L,
+      q_eu_trust_com_raw %in% trust_2 ~ 2L,
+      q_eu_trust_com_raw %in% trust_3 ~ 3L,
+      q_eu_trust_com_raw %in% trust_4 ~ 4L,
+      q_eu_trust_com_raw %in% trust_5 ~ 5L,
+      q_eu_trust_com_raw %in% trust_6 ~ 6L,
+      q_eu_trust_com_raw %in% trust_7 ~ 7L,
+    ),
+    q_eu_trust_cou = case_when(
+      q_eu_trust_cou_raw %in% trust_1 ~ 1L,
+      q_eu_trust_cou_raw %in% trust_2 ~ 2L,
+      q_eu_trust_cou_raw %in% trust_3 ~ 3L,
+      q_eu_trust_cou_raw %in% trust_4 ~ 4L,
+      q_eu_trust_cou_raw %in% trust_5 ~ 5L,
+      q_eu_trust_cou_raw %in% trust_6 ~ 6L,
+      q_eu_trust_cou_raw %in% trust_7 ~ 7L,
+    ),
+    q_eu_trust_ep = case_when(
+      q_eu_trust_ep_raw %in% trust_1 ~ 1L,
+      q_eu_trust_ep_raw %in% trust_2 ~ 2L,
+      q_eu_trust_ep_raw %in% trust_3 ~ 3L,
+      q_eu_trust_ep_raw %in% trust_4 ~ 4L,
+      q_eu_trust_ep_raw %in% trust_5 ~ 5L,
+      q_eu_trust_ep_raw %in% trust_6 ~ 6L,
+      q_eu_trust_ep_raw %in% trust_7 ~ 7L,
+    ),
+    q_eu_trust_cjeu = case_when(
+      q_eu_trust_cjeu_raw %in% trust_1 ~ 1L,
+      q_eu_trust_cjeu_raw %in% trust_2 ~ 2L,
+      q_eu_trust_cjeu_raw %in% trust_3 ~ 3L,
+      q_eu_trust_cjeu_raw %in% trust_4 ~ 4L,
+      q_eu_trust_cjeu_raw %in% trust_5 ~ 5L,
+      q_eu_trust_cjeu_raw %in% trust_6 ~ 6L,
+      q_eu_trust_cjeu_raw %in% trust_7 ~ 7L,
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-eu-trust
+df_stacked_recoded |>
+  select(q_eu_trust_com, q_eu_trust_com_raw) |>
+  filter(is.na(q_eu_trust_com) & !is.na(q_eu_trust_com_raw)) |>
+  distinct(q_eu_trust_com_raw)
+
+df_stacked_recoded |>
+  select(q_eu_trust_cou, q_eu_trust_cou_raw) |>
+  filter(is.na(q_eu_trust_cou) & !is.na(q_eu_trust_cou_raw)) |>
+  distinct(q_eu_trust_cou_raw)
+
+df_stacked_recoded |>
+  select(q_eu_trust_ep, q_eu_trust_ep_raw) |>
+  filter(is.na(q_eu_trust_ep) & !is.na(q_eu_trust_ep_raw)) |>
+  distinct(q_eu_trust_ep_raw)
+
+df_stacked_recoded |>
+  select(q_eu_trust_cjeu, q_eu_trust_cjeu_raw) |>
+  filter(is.na(q_eu_trust_cjeu) & !is.na(q_eu_trust_cjeu_raw)) |>
+  distinct(q_eu_trust_cjeu_raw)
 ```
+
+## CJEU Abolish and Satis Questions
 
 ## Conjoint Behavioral Game Variables
 
