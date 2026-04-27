@@ -2064,6 +2064,36 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-eu-trust
+# helper print loop
+for (i in 1:length(countries)) {
+  df_stacked |>
+    filter(meta_country == countries[i]) |>
+    distinct(q_eu_trust_com_raw) |>
+    print()
+}
+trust_7 <- c(
+  "(7) Eher nicht vertrauen",
+  "(7) Vertraue ihr eher nicht"
+)
+trust_6 <- c(
+  "(6)"
+)
+trust_5 <- c(
+  "(5)"
+)
+trust_4 <- c(
+  "(4)"
+)
+trust_3 <- c(
+  "(3)"
+)
+trust_2 <- c(
+  "(2)"
+)
+trust_1 <- c(
+  "(1) Eher vertrauen",
+  "(1) Vertraue ihr eher"
+)
 ```
 
 ```{r}
