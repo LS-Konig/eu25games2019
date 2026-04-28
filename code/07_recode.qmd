@@ -3642,10 +3642,31 @@ euint_1_vec <- c(
 
 ```{r}
 #| label: recode-eu-self
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_euint_self = case_when(
+      q_euint_self_raw %in% euint_1_vec ~ 1L,
+      q_euint_self_raw %in% "(2)" ~ 2L,
+      q_euint_self_raw %in% "(3)" ~ 3L,
+      q_euint_self_raw %in% "(4)" ~ 4L,
+      q_euint_self_raw %in% "(5)" ~ 5L,
+      q_euint_self_raw %in% "(6)" ~ 6L,
+      q_euint_self_raw %in% "(7)" ~ 7L,
+      q_euint_self_raw %in% "(8)" ~ 8L,
+      q_euint_self_raw %in% "(9)" ~ 9L,
+      q_euint_self_raw %in% "(10)" ~ 10L,
+      q_euint_self_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-eu-self-recode
+df_stacked_recoded |>
+  select(q_euint_self, q_euint_self_raw) |>
+  filter(is.na(q_euint_self) & !is.na(q_euint_self_raw)) |>
+  distinct(q_euint_self_raw)
 ```
 
 ## EU Parties
