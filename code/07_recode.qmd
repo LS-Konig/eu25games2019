@@ -2512,6 +2512,7 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: eu-know-values
+# eu knowledge 1 ---------------------------------------------------------------
 tmp <- tibble()
 
 for (i in 1:length(countries)) {
@@ -2525,6 +2526,7 @@ for (i in 1:length(countries)) {
 
 tmp |> na.omit() |> pull()
 
+# create lookup vecs -----------------------------------------------------------
 true_vec <- c(
   "Richtig",
   "Vrai",
@@ -2548,7 +2550,8 @@ true_vec <- c(
   "Adevărat",
   "Drži",
   "Verdadera",
-  "Sant"
+  "Sant",
+  "Passer"
 )
 
 false_vec <- c(
@@ -2595,7 +2598,101 @@ dont_know_vec <- c(
   "No sabe",
   "No sé"
 )
+
+# check other eu knowledge items -----------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_know_2_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_eu_know_2_raw %in%
+      c(
+        true_vec,
+        false_vec,
+        dont_know_vec
+      ))
+  ) |>
+  distinct()
+
+# eu know 3 --------------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_know_3_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_eu_know_3_raw %in%
+      c(
+        true_vec,
+        false_vec,
+        dont_know_vec
+      ))
+  ) |>
+  distinct()
+
+# eu know 4 --------------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_know_4_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_eu_know_4_raw %in%
+      c(
+        true_vec,
+        false_vec,
+        dont_know_vec
+      ))
+  ) |>
+  distinct()
+
+# eu know 5 --------------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_know_5_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_eu_know_5_raw %in%
+      c(
+        true_vec,
+        false_vec,
+        dont_know_vec
+      ))
+  ) |>
+  distinct()
 ```
+
+
 
 ## Conjoint Behavioral Game Variables
 
