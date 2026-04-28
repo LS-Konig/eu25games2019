@@ -3673,14 +3673,333 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-eu-parties
+# EU int placement party 1 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_1_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp1
+
+# EU int placement party 2 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_2_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp2
+
+# EU int placement party 3 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_3_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp3
+
+# EU int placement party 4 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_4_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp4
+
+# EU int placement party 5 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_5_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp5
+
+# EU int placement party 6 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_6_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp6
+
+# EU int placement party 7 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_7_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp7
+
+# EU int placement party 8 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_party_8_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp8
+
+tmp_all <- unique(
+  c(tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8)
+)
+
+# now I can check which values are already stored in mappings from eu self
+tmp_all[
+  !(tmp_all %in% euint_1_vec) &
+    !(tmp_all %in% euint_11_vec) &
+    !(tmp_all %in% dont_know_vec)
+]
+
+euint_1_vec <- c(
+  euint_1_vec,
+  "Vollkommen dagegen (1)",
+  "Vastustan täysin (1)",
+  "Extremely opposed (1)",
+  "Fortemente contrario/a (1)",
+  "Sterk gekant tegen (1)",
+  "Extremamente contrário (1)",
+  "Ytterst negativt inställd (1)",
+  "Vollkommen dagegen  (1)",
+  "Sterk gekant tegen  (1)",
+  "Extrémně proti  (1)",
+  "I allerhøjeste grad imod (1)",
+  "Äärmiselt vastu  (1)",
+  "Extrêmement opposé(e) (1)",
+  "Έντονα κατά  (1)",
+  "Kifejezetten ellenzem  (1)",
+  "Fortemente contrario/a   (1)",
+  "Īpaši pretojos  (1)",
+  "Absoliučiai prieštarauju (1)",
+  "Skrajnie przeciwni  (1)",
+  "Extremamente contrário  (1)",
+  "(1)Opoziție extrem de puternică",
+  "Zásadne proti (1)",
+  "Ekstremno nasprotujem  (1)",
+  "Totalmente en contra (1)",
+  "Vollkommen gegen Europäische Integration  (1)",
+  "Изключително против  (1)"
+)
+
+
+euint_11_vec <- c(
+  euint_11_vec,
+  "Vollkommen dafür (11)",
+  "Kannatan erittäin paljon (11)",
+  "Extremely in favor (11)",
+  "Fortemente a favore (11)",
+  "Sterk vóór (11)",
+  "Extremamente a favor  (11)",
+  "Ytterst positivt inställd (11)",
+  "Vollkommen dafür  (11)",
+  "Sterk vóór  (11)",
+  "Extrémně pro (11)",
+  "I allerhøjeste grad fo (11)",
+  "Äärmiselt poolt (11)",
+  "Kannatan erittäin paljon  (11)",
+  "Extrêmement favorable (11)",
+  "Έντονα υπέρ  (11)",
+  "Kifejezetten támogatom (11)",
+  "Fortemente a favore  (11)",
+  "Īpaši atbalstu (11)",
+  "Absoliučiai pritariu (11)",
+  "Bardzo przychylni  (11)",
+  "(11)Favorizare extrem de puternică",
+  "Zásadne za  (11)",
+  "Ekstremno podpiram  (11)",
+  "Totalmente a favor (11)",
+  "Vollkommen für Europäische Integration  (11)",
+  "Изключително за (11)",
+  "Vollkommen für Europäische Integration (11)"
+)
 ```
 
 ```{r}
 #| label: recode-eu-parties
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_euint_party_1 = case_when(
+      q_euint_party_1_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_1_raw %in% "(2)" ~ 2L,
+      q_euint_party_1_raw %in% "(3)" ~ 3L,
+      q_euint_party_1_raw %in% "(4)" ~ 4L,
+      q_euint_party_1_raw %in% "(5)" ~ 5L,
+      q_euint_party_1_raw %in% "(6)" ~ 6L,
+      q_euint_party_1_raw %in% "(7)" ~ 7L,
+      q_euint_party_1_raw %in% "(8)" ~ 8L,
+      q_euint_party_1_raw %in% "(9)" ~ 9L,
+      q_euint_party_1_raw %in% "(10)" ~ 10L,
+      q_euint_party_1_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_2 = case_when(
+      q_euint_party_2_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_2_raw %in% "(2)" ~ 2L,
+      q_euint_party_2_raw %in% "(3)" ~ 3L,
+      q_euint_party_2_raw %in% "(4)" ~ 4L,
+      q_euint_party_2_raw %in% "(5)" ~ 5L,
+      q_euint_party_2_raw %in% "(6)" ~ 6L,
+      q_euint_party_2_raw %in% "(7)" ~ 7L,
+      q_euint_party_2_raw %in% "(8)" ~ 8L,
+      q_euint_party_2_raw %in% "(9)" ~ 9L,
+      q_euint_party_2_raw %in% "(10)" ~ 10L,
+      q_euint_party_2_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_3 = case_when(
+      q_euint_party_3_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_3_raw %in% "(2)" ~ 2L,
+      q_euint_party_3_raw %in% "(3)" ~ 3L,
+      q_euint_party_3_raw %in% "(4)" ~ 4L,
+      q_euint_party_3_raw %in% "(5)" ~ 5L,
+      q_euint_party_3_raw %in% "(6)" ~ 6L,
+      q_euint_party_3_raw %in% "(7)" ~ 7L,
+      q_euint_party_3_raw %in% "(8)" ~ 8L,
+      q_euint_party_3_raw %in% "(9)" ~ 9L,
+      q_euint_party_3_raw %in% "(10)" ~ 10L,
+      q_euint_party_3_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_4 = case_when(
+      q_euint_party_4_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_4_raw %in% "(2)" ~ 2L,
+      q_euint_party_4_raw %in% "(3)" ~ 3L,
+      q_euint_party_4_raw %in% "(4)" ~ 4L,
+      q_euint_party_4_raw %in% "(5)" ~ 5L,
+      q_euint_party_4_raw %in% "(6)" ~ 6L,
+      q_euint_party_4_raw %in% "(7)" ~ 7L,
+      q_euint_party_4_raw %in% "(8)" ~ 8L,
+      q_euint_party_4_raw %in% "(9)" ~ 9L,
+      q_euint_party_4_raw %in% "(10)" ~ 10L,
+      q_euint_party_4_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_5 = case_when(
+      q_euint_party_5_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_5_raw %in% "(2)" ~ 2L,
+      q_euint_party_5_raw %in% "(3)" ~ 3L,
+      q_euint_party_5_raw %in% "(4)" ~ 4L,
+      q_euint_party_5_raw %in% "(5)" ~ 5L,
+      q_euint_party_5_raw %in% "(6)" ~ 6L,
+      q_euint_party_5_raw %in% "(7)" ~ 7L,
+      q_euint_party_5_raw %in% "(8)" ~ 8L,
+      q_euint_party_5_raw %in% "(9)" ~ 9L,
+      q_euint_party_5_raw %in% "(10)" ~ 10L,
+      q_euint_party_5_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_6 = case_when(
+      q_euint_party_6_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_6_raw %in% "(2)" ~ 2L,
+      q_euint_party_6_raw %in% "(3)" ~ 3L,
+      q_euint_party_6_raw %in% "(4)" ~ 4L,
+      q_euint_party_6_raw %in% "(5)" ~ 5L,
+      q_euint_party_6_raw %in% "(6)" ~ 6L,
+      q_euint_party_6_raw %in% "(7)" ~ 7L,
+      q_euint_party_6_raw %in% "(8)" ~ 8L,
+      q_euint_party_6_raw %in% "(9)" ~ 9L,
+      q_euint_party_6_raw %in% "(10)" ~ 10L,
+      q_euint_party_6_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_7 = case_when(
+      q_euint_party_7_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_7_raw %in% "(2)" ~ 2L,
+      q_euint_party_7_raw %in% "(3)" ~ 3L,
+      q_euint_party_7_raw %in% "(4)" ~ 4L,
+      q_euint_party_7_raw %in% "(5)" ~ 5L,
+      q_euint_party_7_raw %in% "(6)" ~ 6L,
+      q_euint_party_7_raw %in% "(7)" ~ 7L,
+      q_euint_party_7_raw %in% "(8)" ~ 8L,
+      q_euint_party_7_raw %in% "(9)" ~ 9L,
+      q_euint_party_7_raw %in% "(10)" ~ 10L,
+      q_euint_party_7_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_party_8 = case_when(
+      q_euint_party_8_raw %in% euint_1_vec ~ 1L,
+      q_euint_party_8_raw %in% "(2)" ~ 2L,
+      q_euint_party_8_raw %in% "(3)" ~ 3L,
+      q_euint_party_8_raw %in% "(4)" ~ 4L,
+      q_euint_party_8_raw %in% "(5)" ~ 5L,
+      q_euint_party_8_raw %in% "(6)" ~ 6L,
+      q_euint_party_8_raw %in% "(7)" ~ 7L,
+      q_euint_party_8_raw %in% "(8)" ~ 8L,
+      q_euint_party_8_raw %in% "(9)" ~ 9L,
+      q_euint_party_8_raw %in% "(10)" ~ 10L,
+      q_euint_party_8_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-eu-parties-recode
+df_stacked_recoded |>
+  select(q_euint_party_1, q_euint_party_1_raw) |>
+  filter(is.na(q_euint_party_1) & !is.na(q_euint_party_1_raw)) |>
+  distinct(q_euint_party_1_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_2, q_euint_party_2_raw) |>
+  filter(is.na(q_euint_party_2) & !is.na(q_euint_party_2_raw)) |>
+  distinct(q_euint_party_2_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_3, q_euint_party_3_raw) |>
+  filter(is.na(q_euint_party_3) & !is.na(q_euint_party_3_raw)) |>
+  distinct(q_euint_party_3_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_4, q_euint_party_4_raw) |>
+  filter(is.na(q_euint_party_4) & !is.na(q_euint_party_4_raw)) |>
+  distinct(q_euint_party_4_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_5, q_euint_party_5_raw) |>
+  filter(is.na(q_euint_party_5) & !is.na(q_euint_party_5_raw)) |>
+  distinct(q_euint_party_5_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_6, q_euint_party_6_raw) |>
+  filter(is.na(q_euint_party_6) & !is.na(q_euint_party_6_raw)) |>
+  distinct(q_euint_party_6_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_7, q_euint_party_7_raw) |>
+  filter(is.na(q_euint_party_7) & !is.na(q_euint_party_7_raw)) |>
+  distinct(q_euint_party_7_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_8, q_euint_party_8_raw) |>
+  filter(is.na(q_euint_party_8) & !is.na(q_euint_party_8_raw)) |>
+  distinct(q_euint_party_8_raw)
+
+df_stacked_recoded |>
+  select(q_euint_party_8, q_euint_party_8_raw) |>
+  filter(is.na(q_euint_party_8) & !is.na(q_euint_party_8_raw)) |>
+  distinct(q_euint_party_8_raw)
 ```
 
 ## EU EU Bodies
