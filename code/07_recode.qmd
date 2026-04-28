@@ -2861,7 +2861,8 @@ lr_self_1_vec <- c(
   "(1) Ľavica",
   "(1) Levo",
   "(1) Izquierda",
-  "(1) Vänster"
+  "(1) Vänster",
+  "(1) Levica"
 )
 
 lr_self_11_vec <- c(
@@ -2886,7 +2887,8 @@ lr_self_11_vec <- c(
   "(11) Pravica",
   "(11) Desno",
   "(11) Derecha",
-  "(11) Höger"
+  "(11) Höger",
+  "(11) ´Labējie"
 )
 
 dont_know_vec <- c(dont_know_vec, "o\tVed ikke", "Δεν γνωρίζω", "Nu știu")
@@ -2927,7 +2929,6 @@ df_stacked_recoded |>
 #| label: value-labels-lr-parties
 # lr party 1 -------------------------------------------------------------------
 tmp <- tibble()
-
 
 tmp <- tmp |>
   bind_rows(
@@ -3410,6 +3411,154 @@ df_stacked_recoded |>
   distinct(q_lr_party_12_raw)
 ```
 
+
+
+## LR EU Bodies
+
+```{r}
+#| label: value-labels-lr-eu-bodies
+# lr Commission ----------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_com_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp1
+
+# lr council -------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_com_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp2
+
+# lr ep ------------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_com_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp3
+
+# lr cjeu ----------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_com_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp4
+
+tmp_all <- unique(
+  c(tmp1, tmp2, tmp3, tmp4)
+)
+
+# now I can check which values are already stored in mappings from lr self
+tmp_all[
+  !(tmp_all %in% lr_party_1_vec) &
+    !(tmp_all %in% lr_party_11_vec) &
+    !(tmp_all %in% dont_know_vec)
+]
+```
+
+```{r}
+#| label: recode-lr-eu-bodies
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_lr_com = case_when(
+      q_lr_com_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_com_raw %in% "(2)" ~ 2L,
+      q_lr_com_raw %in% "(3)" ~ 3L,
+      q_lr_com_raw %in% "(4)" ~ 4L,
+      q_lr_com_raw %in% "(5)" ~ 5L,
+      q_lr_com_raw %in% "(6)" ~ 6L,
+      q_lr_com_raw %in% "(7)" ~ 7L,
+      q_lr_com_raw %in% "(8)" ~ 8L,
+      q_lr_com_raw %in% "(9)" ~ 9L,
+      q_lr_com_raw %in% "(10)" ~ 10L,
+      q_lr_com_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_cou = case_when(
+      q_lr_cou_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_cou_raw %in% "(2)" ~ 2L,
+      q_lr_cou_raw %in% "(3)" ~ 3L,
+      q_lr_cou_raw %in% "(4)" ~ 4L,
+      q_lr_cou_raw %in% "(5)" ~ 5L,
+      q_lr_cou_raw %in% "(6)" ~ 6L,
+      q_lr_cou_raw %in% "(7)" ~ 7L,
+      q_lr_cou_raw %in% "(8)" ~ 8L,
+      q_lr_cou_raw %in% "(9)" ~ 9L,
+      q_lr_cou_raw %in% "(10)" ~ 10L,
+      q_lr_cou_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_ep = case_when(
+      q_lr_ep_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_ep_raw %in% "(2)" ~ 2L,
+      q_lr_ep_raw %in% "(3)" ~ 3L,
+      q_lr_ep_raw %in% "(4)" ~ 4L,
+      q_lr_ep_raw %in% "(5)" ~ 5L,
+      q_lr_ep_raw %in% "(6)" ~ 6L,
+      q_lr_ep_raw %in% "(7)" ~ 7L,
+      q_lr_ep_raw %in% "(8)" ~ 8L,
+      q_lr_ep_raw %in% "(9)" ~ 9L,
+      q_lr_ep_raw %in% "(10)" ~ 10L,
+      q_lr_ep_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_cjeu = case_when(
+      q_lr_cjeu_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_cjeu_raw %in% "(2)" ~ 2L,
+      q_lr_cjeu_raw %in% "(3)" ~ 3L,
+      q_lr_cjeu_raw %in% "(4)" ~ 4L,
+      q_lr_cjeu_raw %in% "(5)" ~ 5L,
+      q_lr_cjeu_raw %in% "(6)" ~ 6L,
+      q_lr_cjeu_raw %in% "(7)" ~ 7L,
+      q_lr_cjeu_raw %in% "(8)" ~ 8L,
+      q_lr_cjeu_raw %in% "(9)" ~ 9L,
+      q_lr_cjeu_raw %in% "(10)" ~ 10L,
+      q_lr_cjeu_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: validate-lr-eu-bodies-recode
+df_stacked_recoded |>
+  select(q_lr_com, q_lr_com_raw) |>
+  filter(is.na(q_lr_com) & !is.na(q_lr_com_raw)) |>
+  distinct(q_lr_com_raw)
+
+df_stacked_recoded |>
+  select(q_lr_cou, q_lr_cou_raw) |>
+  filter(is.na(q_lr_cou) & !is.na(q_lr_cou_raw)) |>
+  distinct(q_lr_cou_raw)
+
+df_stacked_recoded |>
+  select(q_lr_ep, q_lr_ep_raw) |>
+  filter(is.na(q_lr_ep) & !is.na(q_lr_ep_raw)) |>
+  distinct(q_lr_ep_raw)
+
+df_stacked_recoded |>
+  select(q_lr_cjeu, q_lr_cjeu_raw) |>
+  filter(is.na(q_lr_cjeu) & !is.na(q_lr_cjeu_raw)) |>
+  distinct(q_lr_cjeu_raw)
+```
+
 ```{r}
 #| label: rm-lr
 rm(
@@ -3419,22 +3568,6 @@ rm(
   lr_party_11_vec,
   lr_party_dk_vec
 )
-```
-
-## LR EU Bodies
-
-```{r}
-#| label: value-labels-lr-eu-bodies
-
-
-```
-
-```{r}
-#| label: recode-lr-eu-bodies
-```
-
-```{r}
-#| label: validate-lr-eu-bodies-recode
 ```
 
 ## EU Self
