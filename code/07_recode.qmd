@@ -106,6 +106,11 @@ groups_named <- future_map(df_by_country, compute_groups)
 plan(sequential)
 ```
 
+```{r}
+#| label: rm-collect-information
+rm(cols, df_by_country, col_names, compute_groups, groups_named)
+```
+
 ## Meta Variables {#sec-meta}
 
 ```{r}
@@ -215,6 +220,11 @@ df_stacked_recoded |>
   select(q_gender, q_gender_raw) |>
   filter(is.na(q_gender) & !is.na(q_gender_raw)) |>
   distinct(q_gender_raw)
+```
+
+```{r}
+#| label: rm-gender
+rm(male_vec, female_vec)
 ```
 
 ## Age {#sec-age}
@@ -1119,6 +1129,43 @@ df_stacked_recoded |>
   distinct(q_nationality_other_raw)
 ```
 
+```{r}
+#| label: rm-nationality
+rm(
+  austria_vec,
+  belgium_vec,
+  bulgaria_vec,
+  croatia_vec,
+  czechia_vec,
+  denmark_vec,
+  estonia_vec,
+  finland_vec,
+  france_vec,
+  germany_vec,
+  greece_vec,
+  hungary_vec,
+  ireland_vec,
+  italy_vec,
+  latvia_vec,
+  lithuania_vec,
+  luxembourg_vec,
+  malta_vec,
+  cyprus_vec,
+  netherlands_vec,
+  poland_vec,
+  portugal_vec,
+  romania_vec,
+  slovakia_vec,
+  slovenia_vec,
+  spain_vec,
+  sweden_vec,
+  united_kingdom_vec,
+  other_country_vec,
+  nat_lookup,
+  translate_nat
+)
+```
+
 ## Attachement to Pol. Entities 
 
 ```{r}
@@ -1354,6 +1401,17 @@ df_stacked_recoded |>
   select(q_identity_europe, q_identity_europe_raw) |>
   filter(is.na(q_identity_europe) & !is.na(q_identity_europe_raw)) |>
   distinct(q_identity_europe_raw)
+```
+
+```{r}
+#| label: rm-attachment
+rm(
+  very_attached_vec,
+  fairly_attached_vec,
+  moderately_attached_vec,
+  not_very_attached_vec,
+  not_at_all_attached_vec
+)
 ```
 
 ## Populist Attitude Items
@@ -2075,6 +2133,19 @@ df_stacked_recoded |>
   distinct(q_eu_informed_cjeu_raw)
 ```
 
+```{r}
+#| label: rm-eu-informed
+rm(
+  very_well_informed_1_vec,
+  informed_2_vec,
+  fairly_well_informed_3_vec,
+  informed_4_vec,
+  fairly_bad_informed_5_vec,
+  informed_6_vec,
+  very_badly_informed_7_vec
+)
+```
+
 ## EU Trust Items
 
 ```{r}
@@ -2224,6 +2295,11 @@ df_stacked_recoded |>
   select(q_eu_trust_cjeu, q_eu_trust_cjeu_raw) |>
   filter(is.na(q_eu_trust_cjeu) & !is.na(q_eu_trust_cjeu_raw)) |>
   distinct(q_eu_trust_cjeu_raw)
+```
+
+```{r}
+#| label: rm-eu-trust
+rm(trust_1, trust_2, trust_3, trust_4, trust_5, trust_6, trust_7)
 ```
 
 ## CJEU Abolish and Satis Questions
@@ -2739,6 +2815,11 @@ df_stacked_recoded |>
   distinct(q_eu_know_5_raw)
 ```
 
+```{r}
+#| label: rm-eu-knowledge
+rm(true_vec, false_vec)
+```
+
 ## LR Self
 
 ```{r}
@@ -2849,10 +2930,10 @@ tmp <- tibble()
 
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_1_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_1_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp1
 
@@ -2860,10 +2941,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp1
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_2_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_2_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp2
 
@@ -2871,10 +2952,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp2
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_3_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_3_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp3
 
@@ -2882,10 +2963,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp3
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_4_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_4_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp4
 
@@ -2893,10 +2974,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp4
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_5_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_5_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp5
 
@@ -2904,10 +2985,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp5
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_6_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_6_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp6
 
@@ -2915,10 +2996,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp6
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_7_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_7_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp7
 
@@ -2926,10 +3007,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp7
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_8_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_8_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp8
 
@@ -2937,10 +3018,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp8
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_9_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_9_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp9
 
@@ -2948,10 +3029,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp9
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_10_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_10_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp10
 
@@ -2959,10 +3040,10 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp10
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_11_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_11_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp11
 
@@ -2970,16 +3051,16 @@ tmp |> na.omit() |> distinct() |> pull() -> tmp11
 tmp <- tibble()
 
 tmp <- tmp |>
-    bind_rows(
-      df_stacked |>
-        distinct(q_lr_party_12_raw)
-    )
+  bind_rows(
+    df_stacked |>
+      distinct(q_lr_party_12_raw)
+  )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp12
 
 tmp_all <- unique(
   c(tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9, tmp10, tmp11, tmp12)
-  )
+)
 
 # now I can check which values are already stored in mappings from lr self
 tmp_all[!(tmp_all %in% lr_self_1_vec) & !(tmp_all %in% lr_self_11_vec)]
@@ -3074,8 +3155,21 @@ lr_party_dk_vec <- c(
 )
 
 rm(
+  tmp,
   tmp1,
-  tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9. tmp10, tmp11, tmp12, tmp_all)
+  tmp2,
+  tmp3,
+  tmp4,
+  tmp5,
+  tmp6,
+  tmp7,
+  tmp8,
+  tmp9,
+  tmp10,
+  tmp11,
+  tmp12,
+  tmp_all
+)
 ```
 
 ```{r}
@@ -3316,10 +3410,23 @@ df_stacked_recoded |>
   distinct(q_lr_party_12_raw)
 ```
 
+```{r}
+#| label: rm-lr
+rm(
+  lr_self_1_vec,
+  lr_self_11_vec,
+  lr_party_1_vec,
+  lr_party_11_vec,
+  lr_party_dk_vec
+)
+```
+
 ## LR EU Bodies
 
 ```{r}
 #| label: value-labels-lr-eu-bodies
+
+
 ```
 
 ```{r}
@@ -3885,6 +3992,11 @@ df_stacked_recoded |>
   select(cj_trust3_rel, cj_trust3_rel_raw) |>
   filter(is.na(cj_trust3_rel) & !is.na(cj_trust3_rel_raw)) |>
   distinct(cj_trust3_rel_raw)
+```
+
+```{r}
+#| label: rm-cj-rel
+rm(cj_muslim_vec, cj_protestant_vec, cj_catholic_vec, cj_nonreli_vec)
 ```
 
 # Save Full Recoded Wide EU25 Dataset
