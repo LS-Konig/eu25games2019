@@ -2844,14 +2844,476 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-lr-parties
+# lr party 1 -------------------------------------------------------------------
+tmp <- tibble()
+
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_1_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp1
+
+# lr party 2--------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_2_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp2
+
+# lr party 3--------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_3_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp3
+
+# lr party 4--------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_4_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp4
+
+# lr party 5 ------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_5_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp5
+
+# lr party 6 -------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_6_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp6
+
+# lr party 7 -------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_7_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp7
+
+# lr party 8 -------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_8_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp8
+
+# lr party 9 -------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_9_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp9
+
+# lr party 10 ------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_10_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp10
+
+# lr party 11 ------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_11_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp11
+
+# lr party 12 ------------------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        distinct(q_lr_party_12_raw)
+    )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp12
+
+tmp_all <- unique(
+  c(tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9, tmp10, tmp11, tmp12)
+  )
+
+# now I can check which values are already stored in mappings from lr self
+tmp_all[!(tmp_all %in% lr_self_1_vec) & !(tmp_all %in% lr_self_11_vec)]
+
+
+# value labels
+lr_party_1_vec <- c(
+  lr_self_1_vec,
+  "Links (1)",
+  "Gauche (1)",
+  "Levice (1)",
+  "Venstre (1)",
+  "Vasemmisto (1)",
+  "Αριστερά (1)",
+  "Left (1)",
+  "Sinistra (1)",
+  "Vänster (1)",
+  "(1) Levica",
+  "Izquierda (1)",
+  "Esquerda (1)",
+  "Links(1)"
+)
+
+lr_party_11_vec <- c(
+  lr_self_11_vec,
+  "Rechts (11)",
+  "Droite (11)",
+  "Pravice (11)",
+  "Højre (11)",
+  "Oikeisto (11)",
+  "σωστά (11)",
+  "Destra (11)",
+  "Derecha (11)",
+  "Direita (11)",
+  "Höger (11)",
+  "Right (11)",
+  "Rechts(11)"
+)
+
+lr_party_dk_vec <- c(
+  "Weiß nicht, wo ich die Partei platzieren soll",
+  "Kenne die Partei nicht",
+  "Ne sait pas où situer le parti",
+  "Ne connaît pas le parti",
+  "Ik weet niet waar ik de partij moet plaatsen",
+  "Ik ken de partij niet",
+  "Не познавам партията",
+  "Не знам къде да поставя партията",
+  "Ne znam kamo smjestiti stranku",
+  "Nisam upoznat/a sa strankom",
+  "(14) Ne znam kamo smjestiti stranku",
+  "(12) Nisam upoznat/a sa strankom",
+  "Nevím, kam mám tuto stranu umístit",
+  "Tuto stranu neznám",
+  "Neví, kam stranu umístit",
+  "Nezná tuto stranu",
+  "Ved ikke, hvor jeg skal placere partiet",
+  "Kender ikke partiet",
+  "Ei tea seda parteid",
+  "Ei tea, kuhu seda parteid paigutada",
+  "En tiedä, mihin asetan puolueen",
+  "En tunne puoluetta",
+  "Δεν ξέρω πού να τοποθετήσω το κόμμα",
+  "Δεν γνωρίζω το κόμμα",
+  "Nem tudom, hol helyezzem el a pártot",
+  "Nem ismerem ezt a pártot",
+  "Don't know where to place the party",
+  "Don't know the party",
+  "Non so dove posizionare il partito",
+  "Non conosco il partito",
+  "Nezinu partiju",
+  "Nezinu kur ievietot partiju",
+  "Nežinau, kur šią partiją dėti",
+  "Šios partijos nežinau",
+  "Nežinau, kur šią partiją dėti (14)",
+  "Šios partijos nežinau  (12)",
+  "Nie znam tej partii",
+  "Nie wiem gdzie umiejscowić tę partię",
+  "Não conheço o partido",
+  "Não sei onde colocar o partido",
+  "Nu știu unde să plasez acest partid.",
+  "Nu cunosc partidul",
+  "Nu știu unde să plasez acest partid",
+  "Neviem, kam mám túto stranu zaradiť",
+  "Túto stranu nepoznám",
+  "Ne vem, kam naj uvrstim stranko",
+  "Stranke ne poznam",
+  "No conozco el partido",
+  "No sé dónde situar el partido",
+  "Vet inte var jag ska placera partiet",
+  "Känner inte till partiet"
+)
+
+rm(
+  tmp1,
+  tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9. tmp10, tmp11, tmp12, tmp_all)
 ```
 
 ```{r}
 #| label: recode-lr-parties
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_lr_party_1 = case_when(
+      q_lr_party_1_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_1_raw %in% "(2)" ~ 2L,
+      q_lr_party_1_raw %in% "(3)" ~ 3L,
+      q_lr_party_1_raw %in% "(4)" ~ 4L,
+      q_lr_party_1_raw %in% "(5)" ~ 5L,
+      q_lr_party_1_raw %in% "(6)" ~ 6L,
+      q_lr_party_1_raw %in% "(7)" ~ 7L,
+      q_lr_party_1_raw %in% "(8)" ~ 8L,
+      q_lr_party_1_raw %in% "(9)" ~ 9L,
+      q_lr_party_1_raw %in% "(10)" ~ 10L,
+      q_lr_party_1_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_2 = case_when(
+      q_lr_party_2_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_2_raw %in% "(2)" ~ 2L,
+      q_lr_party_2_raw %in% "(3)" ~ 3L,
+      q_lr_party_2_raw %in% "(4)" ~ 4L,
+      q_lr_party_2_raw %in% "(5)" ~ 5L,
+      q_lr_party_2_raw %in% "(6)" ~ 6L,
+      q_lr_party_2_raw %in% "(7)" ~ 7L,
+      q_lr_party_2_raw %in% "(8)" ~ 8L,
+      q_lr_party_2_raw %in% "(9)" ~ 9L,
+      q_lr_party_2_raw %in% "(10)" ~ 10L,
+      q_lr_party_2_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_3 = case_when(
+      q_lr_party_3_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_3_raw %in% "(2)" ~ 2L,
+      q_lr_party_3_raw %in% "(3)" ~ 3L,
+      q_lr_party_3_raw %in% "(4)" ~ 4L,
+      q_lr_party_3_raw %in% "(5)" ~ 5L,
+      q_lr_party_3_raw %in% "(6)" ~ 6L,
+      q_lr_party_3_raw %in% "(7)" ~ 7L,
+      q_lr_party_3_raw %in% "(8)" ~ 8L,
+      q_lr_party_3_raw %in% "(9)" ~ 9L,
+      q_lr_party_3_raw %in% "(10)" ~ 10L,
+      q_lr_party_3_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_4 = case_when(
+      q_lr_party_4_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_4_raw %in% "(2)" ~ 2L,
+      q_lr_party_4_raw %in% "(3)" ~ 3L,
+      q_lr_party_4_raw %in% "(4)" ~ 4L,
+      q_lr_party_4_raw %in% "(5)" ~ 5L,
+      q_lr_party_4_raw %in% "(6)" ~ 6L,
+      q_lr_party_4_raw %in% "(7)" ~ 7L,
+      q_lr_party_4_raw %in% "(8)" ~ 8L,
+      q_lr_party_4_raw %in% "(9)" ~ 9L,
+      q_lr_party_4_raw %in% "(10)" ~ 10L,
+      q_lr_party_4_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_5 = case_when(
+      q_lr_party_5_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_5_raw %in% "(2)" ~ 2L,
+      q_lr_party_5_raw %in% "(3)" ~ 3L,
+      q_lr_party_5_raw %in% "(4)" ~ 4L,
+      q_lr_party_5_raw %in% "(5)" ~ 5L,
+      q_lr_party_5_raw %in% "(6)" ~ 6L,
+      q_lr_party_5_raw %in% "(7)" ~ 7L,
+      q_lr_party_5_raw %in% "(8)" ~ 8L,
+      q_lr_party_5_raw %in% "(9)" ~ 9L,
+      q_lr_party_5_raw %in% "(10)" ~ 10L,
+      q_lr_party_5_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_6 = case_when(
+      q_lr_party_6_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_6_raw %in% "(2)" ~ 2L,
+      q_lr_party_6_raw %in% "(3)" ~ 3L,
+      q_lr_party_6_raw %in% "(4)" ~ 4L,
+      q_lr_party_6_raw %in% "(5)" ~ 5L,
+      q_lr_party_6_raw %in% "(6)" ~ 6L,
+      q_lr_party_6_raw %in% "(7)" ~ 7L,
+      q_lr_party_6_raw %in% "(8)" ~ 8L,
+      q_lr_party_6_raw %in% "(9)" ~ 9L,
+      q_lr_party_6_raw %in% "(10)" ~ 10L,
+      q_lr_party_6_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_7 = case_when(
+      q_lr_party_7_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_7_raw %in% "(2)" ~ 2L,
+      q_lr_party_7_raw %in% "(3)" ~ 3L,
+      q_lr_party_7_raw %in% "(4)" ~ 4L,
+      q_lr_party_7_raw %in% "(5)" ~ 5L,
+      q_lr_party_7_raw %in% "(6)" ~ 6L,
+      q_lr_party_7_raw %in% "(7)" ~ 7L,
+      q_lr_party_7_raw %in% "(8)" ~ 8L,
+      q_lr_party_7_raw %in% "(9)" ~ 9L,
+      q_lr_party_7_raw %in% "(10)" ~ 10L,
+      q_lr_party_7_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_8 = case_when(
+      q_lr_party_8_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_8_raw %in% "(2)" ~ 2L,
+      q_lr_party_8_raw %in% "(3)" ~ 3L,
+      q_lr_party_8_raw %in% "(4)" ~ 4L,
+      q_lr_party_8_raw %in% "(5)" ~ 5L,
+      q_lr_party_8_raw %in% "(6)" ~ 6L,
+      q_lr_party_8_raw %in% "(7)" ~ 7L,
+      q_lr_party_8_raw %in% "(8)" ~ 8L,
+      q_lr_party_8_raw %in% "(9)" ~ 9L,
+      q_lr_party_8_raw %in% "(10)" ~ 10L,
+      q_lr_party_8_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_9 = case_when(
+      q_lr_party_9_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_9_raw %in% "(2)" ~ 2L,
+      q_lr_party_9_raw %in% "(3)" ~ 3L,
+      q_lr_party_9_raw %in% "(4)" ~ 4L,
+      q_lr_party_9_raw %in% "(5)" ~ 5L,
+      q_lr_party_9_raw %in% "(6)" ~ 6L,
+      q_lr_party_9_raw %in% "(7)" ~ 7L,
+      q_lr_party_9_raw %in% "(8)" ~ 8L,
+      q_lr_party_9_raw %in% "(9)" ~ 9L,
+      q_lr_party_9_raw %in% "(10)" ~ 10L,
+      q_lr_party_9_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_10 = case_when(
+      q_lr_party_10_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_10_raw %in% "(2)" ~ 2L,
+      q_lr_party_10_raw %in% "(3)" ~ 3L,
+      q_lr_party_10_raw %in% "(4)" ~ 4L,
+      q_lr_party_10_raw %in% "(5)" ~ 5L,
+      q_lr_party_10_raw %in% "(6)" ~ 6L,
+      q_lr_party_10_raw %in% "(7)" ~ 7L,
+      q_lr_party_10_raw %in% "(8)" ~ 8L,
+      q_lr_party_10_raw %in% "(9)" ~ 9L,
+      q_lr_party_10_raw %in% "(10)" ~ 10L,
+      q_lr_party_10_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_11 = case_when(
+      q_lr_party_11_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_11_raw %in% "(2)" ~ 2L,
+      q_lr_party_11_raw %in% "(3)" ~ 3L,
+      q_lr_party_11_raw %in% "(4)" ~ 4L,
+      q_lr_party_11_raw %in% "(5)" ~ 5L,
+      q_lr_party_11_raw %in% "(6)" ~ 6L,
+      q_lr_party_11_raw %in% "(7)" ~ 7L,
+      q_lr_party_11_raw %in% "(8)" ~ 8L,
+      q_lr_party_11_raw %in% "(9)" ~ 9L,
+      q_lr_party_11_raw %in% "(10)" ~ 10L,
+      q_lr_party_11_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_lr_party_12 = case_when(
+      q_lr_party_12_raw %in% lr_party_1_vec ~ 1L,
+      q_lr_party_12_raw %in% "(2)" ~ 2L,
+      q_lr_party_12_raw %in% "(3)" ~ 3L,
+      q_lr_party_12_raw %in% "(4)" ~ 4L,
+      q_lr_party_12_raw %in% "(5)" ~ 5L,
+      q_lr_party_12_raw %in% "(6)" ~ 6L,
+      q_lr_party_12_raw %in% "(7)" ~ 7L,
+      q_lr_party_12_raw %in% "(8)" ~ 8L,
+      q_lr_party_12_raw %in% "(9)" ~ 9L,
+      q_lr_party_12_raw %in% "(10)" ~ 10L,
+      q_lr_party_12_raw %in% lr_party_11_vec ~ 11L,
+      .default = NA
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-lr-parties-recode
+df_stacked_recoded |>
+  select(q_lr_party_1, q_lr_party_1_raw) |>
+  filter(is.na(q_lr_party_1) & !is.na(q_lr_party_1_raw)) |>
+  distinct(q_lr_party_1_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_2, q_lr_party_2_raw) |>
+  filter(is.na(q_lr_party_2) & !is.na(q_lr_party_2_raw)) |>
+  distinct(q_lr_party_2_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_3, q_lr_party_3_raw) |>
+  filter(is.na(q_lr_party_3) & !is.na(q_lr_party_3_raw)) |>
+  distinct(q_lr_party_3_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_4, q_lr_party_4_raw) |>
+  filter(is.na(q_lr_party_4) & !is.na(q_lr_party_4_raw)) |>
+  distinct(q_lr_party_4_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_5, q_lr_party_5_raw) |>
+  filter(is.na(q_lr_party_5) & !is.na(q_lr_party_5_raw)) |>
+  distinct(q_lr_party_5_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_6, q_lr_party_6_raw) |>
+  filter(is.na(q_lr_party_6) & !is.na(q_lr_party_6_raw)) |>
+  distinct(q_lr_party_6_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_7, q_lr_party_7_raw) |>
+  filter(is.na(q_lr_party_7) & !is.na(q_lr_party_7_raw)) |>
+  distinct(q_lr_party_7_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_8, q_lr_party_8_raw) |>
+  filter(is.na(q_lr_party_8) & !is.na(q_lr_party_8_raw)) |>
+  distinct(q_lr_party_8_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_9, q_lr_party_9_raw) |>
+  filter(is.na(q_lr_party_9) & !is.na(q_lr_party_9_raw)) |>
+  distinct(q_lr_party_9_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_10, q_lr_party_10_raw) |>
+  filter(is.na(q_lr_party_10) & !is.na(q_lr_party_10_raw)) |>
+  distinct(q_lr_party_10_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_11, q_lr_party_11_raw) |>
+  filter(is.na(q_lr_party_11) & !is.na(q_lr_party_11_raw)) |>
+  distinct(q_lr_party_11_raw)
+
+df_stacked_recoded |>
+  select(q_lr_party_12, q_lr_party_12_raw) |>
+  filter(is.na(q_lr_party_12) & !is.na(q_lr_party_12_raw)) |>
+  distinct(q_lr_party_12_raw)
 ```
 
 ## LR EU Bodies
