@@ -2508,6 +2508,95 @@ df_stacked_recoded |>
   distinct(q_nativ_cult_raw)
 ```
 
+## EU Knowledge Variables
+
+```{r}
+#| label: eu-know-values
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_know_1_raw)
+    )
+}
+
+tmp |> na.omit() |> pull()
+
+true_vec <- c(
+  "Richtig",
+  "Vrai",
+  "Vraie",
+  "Juist (1)",
+  "(1) Juist",
+  "Juist",
+  "Вярно",
+  "Točno",
+  "Pravdivý",
+  "Tõene",
+  "Pitää paikkansa",
+  "Αληθής",
+  "Igaz",
+  "True",
+  "Vera",
+  "Patiess",
+  "Teisingas",
+  "Prawdziwe",
+  "Verdadeira",
+  "Adevărat",
+  "Drži",
+  "Verdadera",
+  "Sant"
+)
+
+false_vec <- c(
+  "Falsch",
+  "Faux",
+  "Fausse",
+  "Onjuist (2)",
+  "(2) Onjuist",
+  "Onjuist",
+  "Невярно",
+  "Netočno",
+  "Nepravdivý",
+  "Passer ikke",
+  "Väär",
+  "Ei pidä paikkaansa",
+  "Ψευδής",
+  "Hamis",
+  "False",
+  "Falsa",
+  "Nepatiess",
+  "Klaidingas",
+  "Fałszywe",
+  "Fals",
+  "Ne drži",
+  "Falsa",
+  "Falskt"
+)
+
+# dont know vec already exists from nationality variables
+dont_know_vec <- c(
+  dont_know_vec,
+  "Weet niet (3)",
+  "(3) Weet niet",
+  "Не знам",
+  "Neví, bez odpovědi",
+  "Nevm",
+  "Ei tea",
+  "Ei osaa sanoa",
+  "Ne Sait Pas",
+  "δεν ξέρω",
+  "Δεν ξέρω",
+  "Non so",
+  "Trudno powiedzi eć",
+  "No sabe",
+  "No sé"
+)
+```
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
