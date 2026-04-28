@@ -2387,7 +2387,7 @@ df_stacked_recoded <- df_stacked_recoded |>
 ```
 
 ```{r}
-#| label: validate-eu-informed
+#| label: validate-cjeu-abolish-satis
 df_stacked_recoded |>
   select(q_cjeu_abolish, q_cjeu_abolish_raw) |>
   filter(is.na(q_cjeu_abolish) & !is.na(q_cjeu_abolish_raw)) |>
