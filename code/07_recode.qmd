@@ -2739,6 +2739,177 @@ df_stacked_recoded |>
   distinct(q_eu_know_5_raw)
 ```
 
+## LR Self
+
+```{r}
+#| label: value-labels-lr-self
+# lr self ----------------------------------------------------------------------
+
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_lr_self_raw)
+    )
+}
+
+tmp |> na.omit() |> distinct() |> pull()
+
+# value label vectors ----------------------------------------------------------
+lr_self_1_vec <- c(
+  "(1) Links",
+  "(1) Gauche",
+  "(1) Ляво",
+  "(1) Ljevica",
+  "(1) Levice",
+  "(1) Venstre",
+  "(1) Vasak",
+  "(1) Vasemmisto",
+  "(1) Αριστερά",
+  "(1) Bal",
+  "(1) Left",
+  "(1) Sinistra",
+  "(1) Kreiste",
+  "(1) Kairė",
+  "(1) Lewica",
+  "(1) Esquerda",
+  "(1) Stânga",
+  "(1) Ľavica",
+  "(1) Levo",
+  "(1) Izquierda",
+  "(1) Vänster"
+)
+
+lr_self_11_vec <- c(
+  "(11) Rechts",
+  "(11) Droite",
+  "(11) Дясно",
+  "(11) Desnica",
+  "(11) Pravice",
+  "(11) Højre",
+  "(11) Parem",
+  "(11) Oikeisto",
+  "(11) σωστά",
+  "(11) ∆εξιά",
+  "(11) Jobb",
+  "(11) Right",
+  "(11) Destra",
+  "(11) Labējie",
+  "(11) Dešinė",
+  "(11) Prawica",
+  "(11) Direita",
+  "(11) Dreapta",
+  "(11) Pravica",
+  "(11) Desno",
+  "(11) Derecha",
+  "(11) Höger"
+)
+
+dont_know_vec <- c(dont_know_vec, "o\tVed ikke", "Δεν γνωρίζω", "Nu știu")
+```
+
+```{r}
+#| label: recode-lr-self
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_lr_self = case_when(
+      q_lr_self_raw %in% lr_self_1_vec ~ 1L,
+      q_lr_self_raw %in% "(2)" ~ 2L,
+      q_lr_self_raw %in% "(3)" ~ 3L,
+      q_lr_self_raw %in% "(4)" ~ 4L,
+      q_lr_self_raw %in% "(5)" ~ 5L,
+      q_lr_self_raw %in% "(6)" ~ 6L,
+      q_lr_self_raw %in% "(7)" ~ 7L,
+      q_lr_self_raw %in% "(8)" ~ 8L,
+      q_lr_self_raw %in% "(9)" ~ 9L,
+      q_lr_self_raw %in% "(10)" ~ 10L,
+      q_lr_self_raw %in% lr_self_11_vec ~ 11L,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: validate-lr-self-recode
+df_stacked_recoded |>
+  select(q_lr_self, q_lr_self_raw) |>
+  filter(is.na(q_lr_self) & !is.na(q_lr_self_raw)) |>
+  distinct(q_lr_self_raw)
+```
+
+## LR Parties
+
+```{r}
+#| label: value-labels-lr-parties
+```
+
+```{r}
+#| label: recode-lr-parties
+```
+
+```{r}
+#| label: validate-lr-parties-recode
+```
+
+## LR EU Bodies
+
+```{r}
+#| label: value-labels-lr-eu-bodies
+```
+
+```{r}
+#| label: recode-lr-eu-bodies
+```
+
+```{r}
+#| label: validate-lr-eu-bodies-recode
+```
+
+## EU Self
+
+```{r}
+#| label: value-labels-eu-self
+```
+
+```{r}
+#| label: recode-eu-self
+```
+
+```{r}
+#| label: validate-eu-self-recode
+```
+
+## EU Parties
+
+```{r}
+#| label: value-labels-eu-parties
+```
+
+```{r}
+#| label: recode-eu-parties
+```
+
+```{r}
+#| label: validate-eu-parties-recode
+```
+
+## EU EU Bodies
+
+```{r}
+#| label: value-labels-eu-eu-bodies
+```
+
+```{r}
+#| label: recode-eu-eu-bodies
+```
+
+```{r}
+#| label: validate-eu-eu-bodies-recode
+```
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
