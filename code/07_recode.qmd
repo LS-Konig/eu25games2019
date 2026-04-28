@@ -2288,23 +2288,23 @@ rm(
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_cjeu_abolish = case_when(
-      q_cjeu_abolish_raw %in% strongly_disagree_vec ~ 1,
-      q_cjeu_abolish_raw %in% disagree_vec ~ 2,
-      q_cjeu_abolish_raw %in% somewhat_disagree_vec ~ 3,
-      q_cjeu_abolish_raw %in% neither_nor_vec ~ 4,
-      q_cjeu_abolish_raw %in% somewhat_agree_vec ~ 5,
-      q_cjeu_abolish_raw %in% agree_vec ~ 6,
-      q_cjeu_abolish_raw %in% strongly_agree_vec ~ 7,
+      q_cjeu_abolish_raw %in% strongly_disagree_vec ~ 1L,
+      q_cjeu_abolish_raw %in% disagree_vec ~ 2L,
+      q_cjeu_abolish_raw %in% somewhat_disagree_vec ~ 3L,
+      q_cjeu_abolish_raw %in% neither_nor_vec ~ 4L,
+      q_cjeu_abolish_raw %in% somewhat_agree_vec ~ 5L,
+      q_cjeu_abolish_raw %in% agree_vec ~ 6L,
+      q_cjeu_abolish_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_cjeu_satisfaction = case_when(
-      q_cjeu_satisfaction_raw %in% strongly_disagree_vec ~ 1,
-      q_cjeu_satisfaction_raw %in% disagree_vec ~ 2,
-      q_cjeu_satisfaction_raw %in% somewhat_disagree_vec ~ 3,
-      q_cjeu_satisfaction_raw %in% neither_nor_vec ~ 4,
-      q_cjeu_satisfaction_raw %in% somewhat_agree_vec ~ 5,
-      q_cjeu_satisfaction_raw %in% agree_vec ~ 6,
-      q_cjeu_satisfaction_raw %in% strongly_agree_vec ~ 7,
+      q_cjeu_satisfaction_raw %in% strongly_disagree_vec ~ 1L,
+      q_cjeu_satisfaction_raw %in% disagree_vec ~ 2L,
+      q_cjeu_satisfaction_raw %in% somewhat_disagree_vec ~ 3L,
+      q_cjeu_satisfaction_raw %in% neither_nor_vec ~ 4L,
+      q_cjeu_satisfaction_raw %in% somewhat_agree_vec ~ 5L,
+      q_cjeu_satisfaction_raw %in% agree_vec ~ 6L,
+      q_cjeu_satisfaction_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     )
   )
@@ -2443,43 +2443,43 @@ tmp |>
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_nat_int = case_when(
-      q_nat_int_raw %in% strongly_disagree_vec ~ 1,
-      q_nat_int_raw %in% disagree_vec ~ 2,
-      q_nat_int_raw %in% somewhat_disagree_vec ~ 3,
-      q_nat_int_raw %in% neither_nor_vec ~ 4,
-      q_nat_int_raw %in% somewhat_agree_vec ~ 5,
-      q_nat_int_raw %in% agree_vec ~ 6,
-      q_nat_int_raw %in% strongly_agree_vec ~ 7,
+      q_nat_int_raw %in% strongly_disagree_vec ~ 1L,
+      q_nat_int_raw %in% disagree_vec ~ 2L,
+      q_nat_int_raw %in% somewhat_disagree_vec ~ 3L,
+      q_nat_int_raw %in% neither_nor_vec ~ 4L,
+      q_nat_int_raw %in% somewhat_agree_vec ~ 5L,
+      q_nat_int_raw %in% agree_vec ~ 6L,
+      q_nat_int_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_eu_int = case_when(
-      q_eu_int_raw %in% strongly_disagree_vec ~ 1,
-      q_eu_int_raw %in% disagree_vec ~ 2,
-      q_eu_int_raw %in% somewhat_disagree_vec ~ 3,
-      q_eu_int_raw %in% neither_nor_vec ~ 4,
-      q_eu_int_raw %in% somewhat_agree_vec ~ 5,
-      q_eu_int_raw %in% agree_vec ~ 6,
-      q_eu_int_raw %in% strongly_agree_vec ~ 7,
+      q_eu_int_raw %in% strongly_disagree_vec ~ 1L,
+      q_eu_int_raw %in% disagree_vec ~ 2L,
+      q_eu_int_raw %in% somewhat_disagree_vec ~ 3L,
+      q_eu_int_raw %in% neither_nor_vec ~ 4L,
+      q_eu_int_raw %in% somewhat_agree_vec ~ 5L,
+      q_eu_int_raw %in% agree_vec ~ 6L,
+      q_eu_int_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_nativ_econ = case_when(
-      q_nativ_econ_raw %in% strongly_disagree_vec ~ 1,
-      q_nativ_econ_raw %in% disagree_vec ~ 2,
-      q_nativ_econ_raw %in% somewhat_disagree_vec ~ 3,
-      q_nativ_econ_raw %in% neither_nor_vec ~ 4,
-      q_nativ_econ_raw %in% somewhat_agree_vec ~ 5,
-      q_nativ_econ_raw %in% agree_vec ~ 6,
-      q_nativ_econ_raw %in% strongly_agree_vec ~ 7,
+      q_nativ_econ_raw %in% strongly_disagree_vec ~ 1L,
+      q_nativ_econ_raw %in% disagree_vec ~ 2L,
+      q_nativ_econ_raw %in% somewhat_disagree_vec ~ 3L,
+      q_nativ_econ_raw %in% neither_nor_vec ~ 4L,
+      q_nativ_econ_raw %in% somewhat_agree_vec ~ 5L,
+      q_nativ_econ_raw %in% agree_vec ~ 6L,
+      q_nativ_econ_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_nativ_cult = case_when(
-      q_nativ_cult_raw %in% strongly_disagree_vec ~ 1,
-      q_nativ_cult_raw %in% disagree_vec ~ 2,
-      q_nativ_cult_raw %in% somewhat_disagree_vec ~ 3,
-      q_nativ_cult_raw %in% neither_nor_vec ~ 4,
-      q_nativ_cult_raw %in% somewhat_agree_vec ~ 5,
-      q_nativ_cult_raw %in% agree_vec ~ 6,
-      q_nativ_cult_raw %in% strongly_agree_vec ~ 7,
+      q_nativ_cult_raw %in% strongly_disagree_vec ~ 1L,
+      q_nativ_cult_raw %in% disagree_vec ~ 2L,
+      q_nativ_cult_raw %in% somewhat_disagree_vec ~ 3L,
+      q_nativ_cult_raw %in% neither_nor_vec ~ 4L,
+      q_nativ_cult_raw %in% somewhat_agree_vec ~ 5L,
+      q_nativ_cult_raw %in% agree_vec ~ 6L,
+      q_nativ_cult_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     )
   )
@@ -2692,7 +2692,52 @@ tmp |>
   distinct()
 ```
 
+```{r}
+#| label: eu-knowledge-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(across(
+    .cols = q_eu_know_1_raw:q_eu_know_5_raw,
+    .fns = ~ factor(
+      case_when(
+        .x %in% true_vec ~ 1L,
+        .x %in% false_vec ~ 2L,
+        .x %in% dont_know_vec ~ 3L,
+        .default = NA
+      ),
+      levels = 1:3,
+      labels = c("True", "False", "Don't Know")
+    ),
+    .names = "{str_remove(.col, '_raw')}"
+  ))
+```
 
+```{r}
+#| label: eu-knowledge-validate
+df_stacked_recoded |>
+  select(q_eu_know_1, q_eu_know_1_raw) |>
+  filter(is.na(q_eu_know_1) & !is.na(q_eu_know_1_raw)) |>
+  distinct(q_eu_know_1_raw)
+
+df_stacked_recoded |>
+  select(q_eu_know_2, q_eu_know_2_raw) |>
+  filter(is.na(q_eu_know_2) & !is.na(q_eu_know_2_raw)) |>
+  distinct(q_eu_know_2_raw)
+
+df_stacked_recoded |>
+  select(q_eu_know_3, q_eu_know_3_raw) |>
+  filter(is.na(q_eu_know_3) & !is.na(q_eu_know_3_raw)) |>
+  distinct(q_eu_know_3_raw)
+
+df_stacked_recoded |>
+  select(q_eu_know_4, q_eu_know_4_raw) |>
+  filter(is.na(q_eu_know_4) & !is.na(q_eu_know_4_raw)) |>
+  distinct(q_eu_know_4_raw)
+
+df_stacked_recoded |>
+  select(q_eu_know_5, q_eu_know_5_raw) |>
+  filter(is.na(q_eu_know_5) & !is.na(q_eu_know_5_raw)) |>
+  distinct(q_eu_know_5_raw)
+```
 
 ## Conjoint Behavioral Game Variables
 
