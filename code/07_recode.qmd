@@ -1629,7 +1629,8 @@ strongly_agree_vec <- c(
   "(7) U potpunosti se slažem",
   "7)\tTout à fait d’accord",
   "(7)\tTäysin samaa mieltä",
-  "(7)\tΣυμφωνώ σε μεγάλο βαθμό"
+  "(7)\tΣυμφωνώ σε μεγάλο βαθμό",
+  "(7)Täysin samaa mieltä"
 )
 ```
 
@@ -2275,6 +2276,11 @@ map(
   compact()
 # only concerns 8, 10, 11 (so scale errors)
 # hence I can use 7scale agree disagree items
+
+rm(
+  abolish_vals,
+  satisf_vals
+)
 ```
 
 ```{r}
@@ -2319,6 +2325,188 @@ df_stacked_recoded |>
 
 ## Political Interest and Nativism
 
+The code below checks if existing 7scale agree/disagree value vectors cover the values of the political interest and nativism variables. It does so by collecting all distinct values country by country and then printing values not present in the lookup vectors. If only `NA` is printed, it means all values are covered.
+
+```{r}
+#| label: values-pol-interst-nativism
+# nat int ----------------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_nat_int_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_nat_int_raw %in%
+      c(
+        strongly_disagree_vec,
+        disagree_vec,
+        somewhat_disagree_vec,
+        neither_nor_vec,
+        somewhat_agree_vec,
+        agree_vec,
+        strongly_agree_vec
+      ))
+  ) |>
+  distinct()
+
+# eu int -----------------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_eu_int_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_eu_int_raw %in%
+      c(
+        strongly_disagree_vec,
+        disagree_vec,
+        somewhat_disagree_vec,
+        neither_nor_vec,
+        somewhat_agree_vec,
+        agree_vec,
+        strongly_agree_vec
+      ))
+  ) |>
+  distinct()
+
+# econ nativism ----------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_nativ_econ_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_nativ_econ_raw %in%
+      c(
+        strongly_disagree_vec,
+        disagree_vec,
+        somewhat_disagree_vec,
+        neither_nor_vec,
+        somewhat_agree_vec,
+        agree_vec,
+        strongly_agree_vec
+      ))
+  ) |>
+  distinct()
+
+# cult nativism ----------------------------------------------------------------
+tmp <- tibble()
+
+for (i in 1:length(countries)) {
+  tmp <- tmp |>
+    bind_rows(
+      df_stacked |>
+        filter(meta_country == countries[i]) |>
+        distinct(q_nativ_cult_raw)
+    )
+}
+
+tmp |>
+  filter(
+    !(q_nativ_cult_raw %in%
+      c(
+        strongly_disagree_vec,
+        disagree_vec,
+        somewhat_disagree_vec,
+        neither_nor_vec,
+        somewhat_agree_vec,
+        agree_vec,
+        strongly_agree_vec
+      ))
+  ) |>
+  distinct()
+```
+
+```{r}
+#| label: pol-interest-nativism-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_nat_int = case_when(
+      q_nat_int_raw %in% strongly_disagree_vec ~ 1,
+      q_nat_int_raw %in% disagree_vec ~ 2,
+      q_nat_int_raw %in% somewhat_disagree_vec ~ 3,
+      q_nat_int_raw %in% neither_nor_vec ~ 4,
+      q_nat_int_raw %in% somewhat_agree_vec ~ 5,
+      q_nat_int_raw %in% agree_vec ~ 6,
+      q_nat_int_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_eu_int = case_when(
+      q_eu_int_raw %in% strongly_disagree_vec ~ 1,
+      q_eu_int_raw %in% disagree_vec ~ 2,
+      q_eu_int_raw %in% somewhat_disagree_vec ~ 3,
+      q_eu_int_raw %in% neither_nor_vec ~ 4,
+      q_eu_int_raw %in% somewhat_agree_vec ~ 5,
+      q_eu_int_raw %in% agree_vec ~ 6,
+      q_eu_int_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_nativ_econ = case_when(
+      q_nativ_econ_raw %in% strongly_disagree_vec ~ 1,
+      q_nativ_econ_raw %in% disagree_vec ~ 2,
+      q_nativ_econ_raw %in% somewhat_disagree_vec ~ 3,
+      q_nativ_econ_raw %in% neither_nor_vec ~ 4,
+      q_nativ_econ_raw %in% somewhat_agree_vec ~ 5,
+      q_nativ_econ_raw %in% agree_vec ~ 6,
+      q_nativ_econ_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_nativ_cult = case_when(
+      q_nativ_cult_raw %in% strongly_disagree_vec ~ 1,
+      q_nativ_cult_raw %in% disagree_vec ~ 2,
+      q_nativ_cult_raw %in% somewhat_disagree_vec ~ 3,
+      q_nativ_cult_raw %in% neither_nor_vec ~ 4,
+      q_nativ_cult_raw %in% somewhat_agree_vec ~ 5,
+      q_nativ_cult_raw %in% agree_vec ~ 6,
+      q_nativ_cult_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: validate-interest-nativism
+df_stacked_recoded |>
+  select(q_nat_int, q_nat_int_raw) |>
+  filter(is.na(q_nat_int) & !is.na(q_nat_int_raw)) |>
+  distinct(q_nat_int_raw)
+
+df_stacked_recoded |>
+  select(q_eu_int, q_eu_int_raw) |>
+  filter(is.na(q_eu_int) & !is.na(q_eu_int_raw)) |>
+  distinct(q_eu_int_raw)
+
+df_stacked_recoded |>
+  select(q_nativ_econ, q_nativ_econ_raw) |>
+  filter(is.na(q_nativ_econ) & !is.na(q_nativ_econ_raw)) |>
+  distinct(q_nativ_econ_raw)
+
+df_stacked_recoded |>
+  select(q_nativ_cult, q_nativ_cult_raw) |>
+  filter(is.na(q_nativ_cult) & !is.na(q_nativ_cult_raw)) |>
+  distinct(q_nativ_cult_raw)
+```
 
 ## Conjoint Behavioral Game Variables
 
@@ -2849,132 +3037,6 @@ write_rds(
 )
 ```
 
-## CONTINUE
-
-```{r}
-#| label: continue
-#| eval: false
-
-# purrr::keep(groups_named[["FR"]], ~ any(grepl("_raw", .x)))
-
-# df_stacked_recoded <- df_stacked_recoded |>
-#   mutate(
-    # q_eu_longterm = ,
-    # q_eu_responsive = ,
-    # q_eu_efficacy_understand = ,
-    # q_eu_efficacy_care = ,
-    # q_eu_efficacy_nosay = ,
-    # q_eu_abolish = ,
-    # q_eu_satisfaction = ,
-    # q_party_id = ,
-    # q_eu_informed_com = ,
-    # q_eu_informed_cou = ,
-    # q_eu_informed_ep = ,
-    # q_eu_informed_cjeu = ,
-    # q_eu_trust_com = ,
-    # q_eu_trust_cou = ,
-    # q_eu_trust_ep = ,
-    # q_eu_trust_cjeu = ,
-    # q_cjeu_abolish = ,
-    # q_cjeu_satisfaction = ,
-    # q_nat_int = ,
-    # q_eu_int = ,
-    # q_nativ_econ = ,
-    # q_nativ_cult = ,
-    # q_eu_know_1 = ,
-    # q_eu_know_2 = ,
-    # q_eu_know_3 = ,
-    # q_eu_know_4 = ,
-    # q_eu_know_5 = ,
-    # q_lr_self = ,
-    # q_lr_party_1 = ,
-    # q_lr_party_2 = ,
-    # q_lr_party_3 = ,
-    # q_lr_party_4 = ,
-    # q_lr_party_5 = ,
-    # q_lr_party_6 = ,
-    # q_lr_party_7 = ,
-    # q_lr_party_8 = ,
-    # q_lr_com = ,
-    # q_lr_cou = ,
-    # q_lr_ep = ,
-    # q_lr_cjeu = ,
-    # q_euint_self = ,
-    # q_euint_party_1 = ,
-    # q_euint_party_2 = ,
-    # q_euint_party_3 = ,
-    # q_euint_party_4 = ,
-    # q_euint_party_5 = ,
-    # q_euint_party_6 = ,
-    # q_euint_party_7 = ,
-    # q_euint_party_8 = ,
-    # q_euint_com = ,
-    # q_euint_cou = ,
-    # q_euint_ep = ,
-    # q_euint_cjeu = ,
-    # q_edu_age_stop = ,
-    # q_occ_current = ,
-    # q_occ_last = ,
-    # meta_country = ,
-    # meta_psid = ,
-    # meta_pid = ,
-    # meta_device = ,
-    # q_news_tv = ,
-    # q_lr_party_9 = ,
-    # q_lr_party_10 = ,
-    # q_lr_party_11 = ,
-    # q_lr_party_12 = ,
-    # q_norm_tol_opposition = ,
-    # q_norm_order_over_freedom = ,
-    # q_norm_disobey_unjustlaw = ,
-    # q_norm_disobey_gov = ,
-    # q_norm_bypass_law = ,
-    # q_norm_gov_bend_law = ,
-    # q_religion = ,
-    # q_class = ,
-    # q_verif = ,
-    # q_verif2 = ,
-    # q_euint_pos = ,
-    # q_dem_compromise = ,
-    # q_dem_listen = ,
-    # q_tech_experts = ,
-    # q_tech_leaders = ,
-    # q_party_harm = ,
-    # q_people_incompetent = ,
-    # q_eu_imp_nat_econ = ,
-    # q_eu_imp_nat_cul = ,
-    # q_eu_imp_nat_pol = ,
-    # q_vote_turnout_likelihood = ,
-    # q_vote_choice_past = ,
-    # q_vote_choice_past_other = ,
-    # q_vote_choice_hypo = ,
-    # q_vote_choice_hypo_other = ,
-    # q_vote_choice_past2014 = ,
-    # q_vote_choice_past2014_other = ,
-    # q_party_id_other = ,
-    # q_eu_campaign_sources = ,
-    # q_eu_campaign_sources_other = ,
-    # prime_cjeu_firstclick = ,
-    # prime_cjeu_lastclick = ,
-    # prime_cjeu_pagesubmit = ,
-    # prime_cjeu_clickcount = ,
-    # q_cjeu_pos = ,
-    # q_eval_econ_eur = ,
-    # q_eval_econ_nat = ,
-    # q_eval_fin_household = ,
-    # q_eval_job = ,
-    # q_satis_demo_nat = ,
-    # q_satis_demo_eu = ,
-    # q_risk_taking = ,
-    # q_future_discount = ,
-    # q_eu_efficacy_understand_c = ,
-    # q_eu_efficacy_care_c = ,
-    # q_eff_external_nosay_c = ,
-    # q_rural_urban = ,
-    # q_postal_code = ,
-    # q_region = ,
-  )
-```
 
 
 
