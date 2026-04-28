@@ -1395,7 +1395,9 @@ strongly_disagree_vec <- c(
   "(1) Fortemente in disaccordo", # it
   "(1) Uopće se ne slažem",
   "1) Uopće se ne slažem",
-  "1)\tPas du tout d’accord"
+  "1)\tPas du tout d’accord",
+  "(1)\tTäysin eri mieltä",
+  "(1)\tΔιαφωνώ απόλυτα"
 )
 # 2
 disagree_vec <- c(
@@ -1431,7 +1433,9 @@ disagree_vec <- c(
   "(2)\tInstämmer inte", # sv (tab)
   "(2) In disaccordo", # it
   "(2) Ne slažem se",
-  "2)\tPas d’accord"
+  "2)\tPas d’accord",
+  "(2)\tEri mieltä",
+  "(2)\tΔιαφωνώ"
 )
 # 3
 somewhat_disagree_vec <- c(
@@ -1467,7 +1471,9 @@ somewhat_disagree_vec <- c(
   "(3)\tInstämmer inte i viss utsträckning", # sv (tab)
   "(3) Abbastanza in disaccordo", # it
   "(3) Djelomično se ne slažem",
-  "3)\tPlutôt pas d’accord"
+  "3)\tPlutôt pas d’accord",
+  "(3)\tJossain määrin eri mieltä",
+  "(3)\tΔιαφωνώ σε κάποιο βαθμό"
 )
 # 4
 neither_nor_vec <- c(
@@ -1507,7 +1513,9 @@ neither_nor_vec <- c(
   "(4) Niti se slažem niti ne  slažem", # hr (double space)
   "(4)  Нито съгласен/на, нито несъгласен/на",
   "4)\tNi d’accord, ni pas d’accord",
-  "4"
+  "4",
+  "(4)\tEi samaa eikä eri mieltä",
+  "(4)\tΟύτε συμφωνώ ούτε διαφωνώ"
 )
 # 5
 somewhat_agree_vec <- c(
@@ -1543,7 +1551,9 @@ somewhat_agree_vec <- c(
   "(5) Djelomično se slažem",
   "5)\tPlutôt d’accord",
   "(5) Abbastanza d’accordo",
-  "(5) Plutôt d’accord"
+  "(5) Plutôt d’accord",
+  "(5)\tJossain määrin samaa mieltä",
+  "(5)\tΣυμφωνώ σε κάποιο βαθμό"
 )
 # 6
 agree_vec <- c(
@@ -1579,7 +1589,9 @@ agree_vec <- c(
   "(6) D'accordo", # it
   "(6) D’accordo",
   "(6) Slažem se", # hr
-  "6)\tD’accord"
+  "6)\tD’accord",
+  "(6)\tSamaa mieltä",
+  "(6)\tΣυμφωνώ"
 )
 # 7
 strongly_agree_vec <- c(
@@ -1615,7 +1627,9 @@ strongly_agree_vec <- c(
   "(7) Molto d'accordo", # it
   "(7) Molto d’accordo",
   "(7) U potpunosti se slažem",
-  "7)\tTout à fait d’accord"
+  "7)\tTout à fait d’accord",
+  "(7)\tTäysin samaa mieltä",
+  "(7)\tΣυμφωνώ σε μεγάλο βαθμό"
 )
 ```
 
@@ -2212,6 +2226,99 @@ df_stacked_recoded |>
 ```
 
 ## CJEU Abolish and Satis Questions
+
+```{r}
+#| label: value-labels-cjeu-abolis-satis
+# helper print loop for visual inspection
+for (i in 1:length(countries)) {
+  df_stacked |>
+    filter(meta_country == countries[i]) |>
+    distinct(q_cjeu_abolish_raw) |>
+    print()
+}
+
+# code to computationally check differences in values
+abolish_vals <- map(
+  countries,
+  ~ df_stacked |>
+    filter(meta_country == .x) |>
+    distinct(q_cjeu_abolish_raw) |>
+    pull()
+) |>
+  setNames(countries)
+
+satisf_vals <- map(
+  countries,
+  ~ df_stacked |>
+    filter(meta_country == .x) |>
+    distinct(q_cjeu_satisfaction_raw) |>
+    pull()
+) |>
+  setNames(countries)
+
+# TRUE if all countries share identical distinct values
+identical(map(abolish_vals, sort), map(satisf_vals, sort))
+
+# print values present in one but not other
+map(
+  countries,
+  ~ {
+    a <- abolish_vals[[.x]]
+    s <- satisf_vals[[.x]]
+    diff <- list(
+      in_satisf_not_abolish = setdiff(s, a),
+      in_abolish_not_satisf = setdiff(a, s)
+    )
+    if (any(lengths(diff) > 0)) list(country = .x, diff = diff)
+  }
+) |>
+  compact()
+# only concerns 8, 10, 11 (so scale errors)
+# hence I can use 7scale agree disagree items
+```
+
+```{r}
+#| label: recode-cjeu-abolis-satis
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_cjeu_abolish = case_when(
+      q_cjeu_abolish_raw %in% strongly_disagree_vec ~ 1,
+      q_cjeu_abolish_raw %in% disagree_vec ~ 2,
+      q_cjeu_abolish_raw %in% somewhat_disagree_vec ~ 3,
+      q_cjeu_abolish_raw %in% neither_nor_vec ~ 4,
+      q_cjeu_abolish_raw %in% somewhat_agree_vec ~ 5,
+      q_cjeu_abolish_raw %in% agree_vec ~ 6,
+      q_cjeu_abolish_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    ),
+    q_cjeu_satisfaction = case_when(
+      q_cjeu_satisfaction_raw %in% strongly_disagree_vec ~ 1,
+      q_cjeu_satisfaction_raw %in% disagree_vec ~ 2,
+      q_cjeu_satisfaction_raw %in% somewhat_disagree_vec ~ 3,
+      q_cjeu_satisfaction_raw %in% neither_nor_vec ~ 4,
+      q_cjeu_satisfaction_raw %in% somewhat_agree_vec ~ 5,
+      q_cjeu_satisfaction_raw %in% agree_vec ~ 6,
+      q_cjeu_satisfaction_raw %in% strongly_agree_vec ~ 7,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: validate-eu-informed
+df_stacked_recoded |>
+  select(q_cjeu_abolish, q_cjeu_abolish_raw) |>
+  filter(is.na(q_cjeu_abolish) & !is.na(q_cjeu_abolish_raw)) |>
+  distinct(q_cjeu_abolish_raw)
+
+df_stacked_recoded |>
+  select(q_cjeu_satisfaction, q_cjeu_satisfaction_raw) |>
+  filter(is.na(q_cjeu_satisfaction) & !is.na(q_cjeu_satisfaction_raw)) |>
+  distinct(q_cjeu_satisfaction_raw)
+```
+
+## Political Interest and Nativism
+
 
 ## Conjoint Behavioral Game Variables
 
