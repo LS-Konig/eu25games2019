@@ -3701,7 +3701,7 @@ tmp <- tibble()
 tmp <- tmp |>
   bind_rows(
     df_stacked |>
-      distinct(q_euint_party_3_raw)
+      distinct(q_euint_ep_raw)
   )
 
 tmp |> na.omit() |> distinct() |> pull() -> tmp3
@@ -3967,9 +3967,9 @@ df_stacked_recoded |>
   distinct(q_euint_party_2_raw)
 
 df_stacked_recoded |>
-  select(q_euint_party_3, q_euint_party_3_raw) |>
-  filter(is.na(q_euint_party_3) & !is.na(q_euint_party_3_raw)) |>
-  distinct(q_euint_party_3_raw)
+  select(q_euint_3, q_euint_3_raw) |>
+  filter(is.na(q_euint_3) & !is.na(q_euint_3_raw)) |>
+  distinct(q_euint_3_raw)
 
 df_stacked_recoded |>
   select(q_euint_party_4, q_euint_party_4_raw) |>
@@ -4006,14 +4006,209 @@ df_stacked_recoded |>
 
 ```{r}
 #| label: value-labels-eu-eu-bodies
+# EU int placement COM ---------------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_com_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp1
+
+# EU int placement party 2 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_cou_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp2
+
+# EU int placement party 3 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_ep_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp3
+
+# EU int placement party 4 -----------------------------------------------------
+tmp <- tibble()
+
+tmp <- tmp |>
+  bind_rows(
+    df_stacked |>
+      distinct(q_euint_cjeu_raw)
+  )
+
+tmp |> na.omit() |> distinct() |> pull() -> tmp4
+
+tmp_all <- c(tmp1, tmp2, tmp3, tmp4)
+
+# now I can check which values are already stored in mappings from eu self
+tmp_all[
+  !(tmp_all %in% euint_1_vec) &
+    !(tmp_all %in% euint_11_vec) &
+    !(tmp_all %in% dont_know_vec)
+]
+
+euint_1_vec <- c(
+  euint_1_vec,
+  "(1) Lehnt Europäische Integration vollkommen ab",
+  "(1) Vollkommen gegen europäische Integration",
+  "(1) Fortement opposé(e) à l'intégration européenne",
+  "(1) Fortement opposé à l'intégration européenne",
+  "(1) Изключително се противопоставям на европейската интеграция",
+  "(1) изключително против невропейската интеграция",
+  "(1) iznimno se protiviti europskoj integraciji",
+  "(1) on äärmiselt vastu Euroopa integratsioonile",
+  "(1) On äärmiselt vastu Euroopa integratsioonile",
+  "(1) vastustan Euroopan integraatiota täysin",
+  "(1) εξαιρετικά κατά της ευρωπαϊκής ολοκλήρωσης",
+  "(1) erősen ellenzi az európai integrációt",
+  "(1) Extremely opposed to European integration",
+  "(1) īpaši pretojas Eiropas integrācijai",
+  "(1) Ekstremalnie przeciwne integracji europejskiej",
+  "(1) Extremamente contrário à integração europeia",
+  "Extremamente contrário à integração europeia (1)",
+  "(1) Zelo nasprotuje evropski integraciji",
+  "Ytterst negativt inställd till europeisk integration (1)",
+  "(1) I meget høj grad imod europæisk integration",
+  "(1) Fortemente contrari all'integrazione europea",
+  "(1) Europos integracijos atžvilgiu nusiteikę ypač priešiškai",
+  "(1) Byť zásadne proti európskej integrácii",
+  "(1) Extremadamente opuesto a la integración europea",
+  "(1) Är ytterst negativt inställd till europeisk integration",
+  "(1) Fortemente contrari all’integrazione europea"
+)
+
+euint_11_vec <- c(
+  euint_11_vec,
+  "(11) Vollkommen für europäische Integration",
+  "(11) Très favorable à l'intégration européenne",
+  "(11) Изключително подкрепям европейската интеграция",
+  "(11) изключително за европейската интеграция",
+  "(11) iznimno podržavati europsku integraciju",
+  "(11) I allerhøjeste grad for",
+  "(11) pooldab äärmiselt Euroopa integratsiooni",
+  "(11) Pooldab äärmiselt Euroopa integratsiooni",
+  "(11) hyväksyn Euroopan integraation täysin",
+  "(11) hyväksyn Euroopan integraation täysin n",
+  "(11) εξαιρετικά υπέρ της ευρωπαϊκής ολοκλήρωσης",
+  "(11) εξαιρετικά υπέρ της ευρωπαϊκής ολοκλήρωσηςn",
+  "(11) határozottan támogatja az európai integrációt",
+  "(11) Extremely in favor of European integration",
+  "(11) īpaši atbalsta Eiropas integrāciju",
+  "(11) Estremalnie przychylne integracji europejskiej",
+  "(11) Extremamente a favor da integração europeia",
+  "Extremamente a favor da integração europeia  (11)",
+  "(11) Zelo podpira evropsko integracijo",
+  "Ytterst positivt inställd till europeisk integration (11)",
+  "(11) I meget høj grad for europæisk integration",
+  "(11)  Fortemente a favore all'integrazione europea",
+  "(11) Europos integracijos atžvilgiu nusiteikę ypač palankiai",
+  "(11) Byť zásadne za európsku integráciu",
+  "(11) Extremadamente a favor de la integración europea",
+  "(11) Är ytterst positiv till europeisk integration",
+  "(11)  Fortemente a favore all’integrazione europea"
+)
 ```
 
 ```{r}
 #| label: recode-eu-eu-bodies
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_euint_com = case_when(
+      q_euint_com_raw %in% euint_1_vec ~ 1L,
+      q_euint_com_raw %in% "(2)" ~ 2L,
+      q_euint_com_raw %in% "(3)" ~ 3L,
+      q_euint_com_raw %in% "(4)" ~ 4L,
+      q_euint_com_raw %in% "(5)" ~ 5L,
+      q_euint_com_raw %in% "(6)" ~ 6L,
+      q_euint_com_raw %in% "(7)" ~ 7L,
+      q_euint_com_raw %in% "(8)" ~ 8L,
+      q_euint_com_raw %in% "(9)" ~ 9L,
+      q_euint_com_raw %in% "(10)" ~ 10L,
+      q_euint_com_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_cou = case_when(
+      q_euint_cou_raw %in% euint_1_vec ~ 1L,
+      q_euint_cou_raw %in% "(2)" ~ 2L,
+      q_euint_cou_raw %in% "(3)" ~ 3L,
+      q_euint_cou_raw %in% "(4)" ~ 4L,
+      q_euint_cou_raw %in% "(5)" ~ 5L,
+      q_euint_cou_raw %in% "(6)" ~ 6L,
+      q_euint_cou_raw %in% "(7)" ~ 7L,
+      q_euint_cou_raw %in% "(8)" ~ 8L,
+      q_euint_cou_raw %in% "(9)" ~ 9L,
+      q_euint_cou_raw %in% "(10)" ~ 10L,
+      q_euint_cou_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_ep = case_when(
+      q_euint_ep_raw %in% euint_1_vec ~ 1L,
+      q_euint_ep_raw %in% "(2)" ~ 2L,
+      q_euint_ep_raw %in% "(3)" ~ 3L,
+      q_euint_ep_raw %in% "(4)" ~ 4L,
+      q_euint_ep_raw %in% "(5)" ~ 5L,
+      q_euint_ep_raw %in% "(6)" ~ 6L,
+      q_euint_ep_raw %in% "(7)" ~ 7L,
+      q_euint_ep_raw %in% "(8)" ~ 8L,
+      q_euint_ep_raw %in% "(9)" ~ 9L,
+      q_euint_ep_raw %in% "(10)" ~ 10L,
+      q_euint_ep_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    ),
+    q_euint_cjeu = case_when(
+      q_euint_cjeu_raw %in% euint_1_vec ~ 1L,
+      q_euint_cjeu_raw %in% "(2)" ~ 2L,
+      q_euint_cjeu_raw %in% "(3)" ~ 3L,
+      q_euint_cjeu_raw %in% "(4)" ~ 4L,
+      q_euint_cjeu_raw %in% "(5)" ~ 5L,
+      q_euint_cjeu_raw %in% "(6)" ~ 6L,
+      q_euint_cjeu_raw %in% "(7)" ~ 7L,
+      q_euint_cjeu_raw %in% "(8)" ~ 8L,
+      q_euint_cjeu_raw %in% "(9)" ~ 9L,
+      q_euint_cjeu_raw %in% "(10)" ~ 10L,
+      q_euint_cjeu_raw %in% euint_11_vec ~ 11L,
+      .default = NA
+    )
+  )
 ```
 
 ```{r}
 #| label: validate-eu-eu-bodies-recode
+df_stacked_recoded |>
+  select(q_euint_com, q_euint_com_raw) |>
+  filter(is.na(q_euint_com) & !is.na(q_euint_com_raw)) |>
+  distinct(q_euint_com_raw) |>
+  print(n = 30)
+
+df_stacked_recoded |>
+  select(q_euint_cou, q_euint_cou_raw) |>
+  filter(is.na(q_euint_cou) & !is.na(q_euint_cou_raw)) |>
+  distinct(q_euint_cou_raw) |>
+  print(n = 30)
+
+df_stacked_recoded |>
+  select(q_euint_ep, q_euint_ep_raw) |>
+  filter(is.na(q_euint_ep) & !is.na(q_euint_ep_raw)) |>
+  distinct(q_euint_ep_raw) |>
+  print(n = 30)
+
+df_stacked_recoded |>
+  select(q_euint_cjeu, q_euint_cjeu_raw) |>
+  filter(is.na(q_euint_cjeu) & !is.na(q_euint_cjeu_raw)) |>
+  distinct(q_euint_cjeu_raw) |>
+  print(n = 30)
 ```
 
 ## Conjoint Behavioral Game Variables
