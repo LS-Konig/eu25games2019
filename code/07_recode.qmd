@@ -3967,9 +3967,9 @@ df_stacked_recoded |>
   distinct(q_euint_party_2_raw)
 
 df_stacked_recoded |>
-  select(q_euint_3, q_euint_3_raw) |>
-  filter(is.na(q_euint_3) & !is.na(q_euint_3_raw)) |>
-  distinct(q_euint_3_raw)
+  select(q_euint_party_3, q_euint_party_3_raw) |>
+  filter(is.na(q_euint_party_3) & !is.na(q_euint_party_3_raw)) |>
+  distinct(q_euint_party_3_raw)
 
 df_stacked_recoded |>
   select(q_euint_party_4, q_euint_party_4_raw) |>
@@ -4210,6 +4210,89 @@ df_stacked_recoded |>
   distinct(q_euint_cjeu_raw) |>
   print(n = 30)
 ```
+
+## Education
+
+```{r}
+#| label: edu-values
+noedu_vec <- c(
+  "Keine Schulausbildung", # de
+  "PAS D'ETUDE/NIET HEEFT GESTUDEERD;", # fr/nl
+  "PAS D'ETUDE", # fr
+  "БЕЗ ОБРАЗОВАНИЕ", # bg
+  "BEZ OSNOVNE ŠKOLE", # hr
+  "INGEN UDDANNELSE", # da
+  "EI OLE HARIDUST", # et
+  "En opiskellut lainkaan", # fi
+  "ΚΑΜΙΑ ΕΚΠΑΙΔΕΥΣΗ", # el
+  "NINCS VÉGZETTSÉGE", # hu
+  "No education", # en
+  "NESSUN TITOLO DI STUDIO", # it
+  "NAV IZGLĪTĪBAS", # lv
+  "Neturiu išsilavinimo", # lt
+  "Aš neturiu išsilavinimo", # lt
+  "GEEN OPLEIDING GENOTEN", # nl
+  "NIE MA WYKSZTAŁCENIA", # pl
+  "FĂRĂ STUDII", # ro
+  "ŽIADNE VZDELANIE OZNAČTE", # sk
+  "NOBENE DOSEŽENE IZOBRAZBE", # sl
+  "NO HA ESTUDIADO", # es
+  "SAKNAR UTBILDNING", # sv
+  "NESTUDUJI" # cs
+)
+
+still_studying_vec <- c(
+  "Studiere noch", # de
+  "ETUDIE ENCORE/NOG STUDEERT;", # fr/nl
+  "ETUDIE ENCORE", # fr
+  "ВСЕ ОЩЕ УЧИ", # bg
+  "JOŠ STUDIRAM IDEM U ŠKOLU", # hr
+  "STÁLE STUDUJI", # cs
+  "STADIG STUDERENDE", # da
+  "ÕPIB VEEL", # et
+  "Olen edelleen opiskelemassa", # fi
+  "ΑΚΟΜΑ ΣΠΟΥΔΑΖΕΙ", # el
+  "MÉG TANUL", # hu
+  "Still Studying", # en
+  "STUDIA ANCORA", # it
+  "JOPROJĀM MĀCĀS / STUDĒ", # lv
+  "Tebesimokau", # lt
+  "Aš vis dar mokosi", # lt
+  "NOG BEZIG MET OPLEIDING", # nl
+  "NADAL SIĘ UCZY/STUDIUJE", # pl
+  "AINDA ESTÁ A ESTUDAR", # pt
+  "ÎNCĂ STUDIAZĂ", # ro
+  "STÁLE ŠTUDUJE", # sk
+  "SE ŠE VEDNO REDNO IZOBRAŽUJE", # sl
+  "Todavía soy estudiante", # es
+  "FORTFARANDE STUDERAR" # sv
+)
+```
+
+```{r}
+#| label: edu-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_edu_age_stop = NA,
+    q_edu_age_stop = as.numeric(str_extract(q_edu_age_stop_raw, "\\d{1,2}")),
+    q_edu_age_stop = case_when(
+      is.na(q_edu_age_stop) & q_edu_age_stop_raw %in% noedu_vec ~ 0,
+      is.na(q_edu_age_stop) &
+        q_edu_age_stop_raw %in% still_studying_vec ~ q_age,
+      .default = q_edu_age_stop
+    )
+  )
+```
+
+```{r}
+#| label: edu-validate
+df_stacked_recoded |>
+  select(q_edu_age_stop, q_edu_age_stop_raw) |>
+  filter(is.na(q_edu_age_stop) & !is.na(q_edu_age_stop_raw)) |>
+  count(q_edu_age_stop_raw)
+```
+
+remainings have no `q_age` value, hence 28 leftovers
 
 ## Conjoint Behavioral Game Variables
 
