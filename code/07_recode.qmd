@@ -4294,6 +4294,586 @@ df_stacked_recoded |>
 
 remainings have no `q_age` value, hence 28 leftovers
 
+## Occupation 
+
+```{r}
+#| label: occ-values
+#| eval: false
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_occ_current_raw) |>
+  pull()
+
+# CONTINUE HERE CLAUDE
+```
+
+```{r}
+#| label: value-labels-occ
+#| eval: false
+# OCCUPATION -------------------------------------------------------------------
+farmer_vec <- c(
+  "Landwirt", # de
+  "Agriculteur exploitant", # fr
+  "Boer\\Tuinder", # nl
+  "Селски стопанин", # bg
+  "Poljoprivrednik", # hr
+  "Zemědělec", # cs
+  "Landmand", # da
+  "Talunik", # et
+  "Maanviljelijä", # fi
+  "Αγρότης", # el
+  "Mezőgazdasági gazdálkodó", # hu
+  "Farmer", # en
+  "Agricoltore", # it
+  "Zemnieks/ lauksaimnieks", # lv
+  "Ūkininkas", # lt
+  "Rolnik", # pl
+  "Agricultor", # pt
+  "Fermier, agricultor", # ro
+  "Poľnohospodár", # sk
+  "Kmet(-ica)", # sl
+  "Agricultor / Ganadero", # es
+  "Lantbrukare" # sv
+)
+fisherman_vec <- c(
+  "Fischer", # de
+  "Pêcheur", # fr
+  "Visser", # nl
+  "Рибар", # bg
+  "Ribar", # hr
+  "Fisker", # da
+  "Kalur", # et
+  "Kalastaja", # fi
+  # el: not present in data
+  "Halász", # hu
+  "Fisherman", # en
+  "Pescatore", # it
+  "Zvejnieks", # lv
+  "Žvejys", # lt
+  # pl: not present in data
+  # pt: not present in data
+  "Pescar", # ro
+  "Rybár", # sk
+  "Ribič", # sl
+  "Pescador", # es
+  "Fiskare" # sv
+)
+student_vec <- c(
+  "Student/Schüler", # de
+  "Etudiant", # fr
+  "Student", # nl, cs, en
+  "Учащ", # bg
+  "Student, učenik", # hr
+  "Studerende", # da
+  "Õpilane, üliõpilane", # et
+  "Opiskelija", # fi
+  "Μαθητής/τρια – Φοιτητής/τρια", # el
+  "Diák", # hu
+  "Studente", # it
+  "Students/ skolēns", # lv
+  "Moksleivis, studentas", # lt
+  "Student(ka), Uczeń (uczennica)", # pl
+  "Estudante", # pt
+  "Elev / Student", # ro
+  "Študent/-ka", # sk
+  "Dijak(-inja) ali študent(-ka)", # sl
+  "Estudiante", # es
+  "Studerande" # sv
+)
+retired_ill_vec <- c(
+  "Rentner / Pensionär / Frührentner / Invalidisiert", # de
+  "A la retraite ou en congé de maladie prolongé", # fr
+  "Gepensioneerd of arbeidsongeschikt", # nl
+  "Пенсионер или неработещ поради болест", # bg
+  "U mirovini ili nesposoban za rad zbog bolesti", # hr
+  "V penzi nebo neschopný(á) práce kvůli nemoci", # cs
+  "Pensioneret eller ude af stand til at arbejde pga. sygdom", # da
+  "Pensionär või isik, kes on haiguse tõttu töövõimetu, invaliid", # et
+  "Eläkkeellä tai työkyvytön sairauden vuoksi", # fi
+  "Συνταξιούχος ή ανίκανος για εργασία λόγω ασθένειας", # el
+  "Nyugdíjas, vagy betegség miatt munkaképtelen", # hu
+  "Retired or unable to work through illness", # en
+  "Pensionato o inabile al lavoro", # it
+  "Pensionārs vai darba nespējīgs veselības dēļ, invalīds", # lv
+  "Pensininkas ar nedarbingas dėl ligos, invalidum", # lt — "invalidum" artifact in raw data
+  "Emeryt lub niezdolny(a) do pracy z powodu choroby", # pl
+  "Reformado ou incapacitado por doença prolongada", # pt
+  "Pensionat(ă) sau în incapacitate de muncă pe caz de boală", # ro
+  "Na penzii alebo práceneschopný(á) kvôli chorobe", # sk
+  "Upokojen(-a) ali invalidsko upokojen(-a)", # sl
+  "Jubilado o de baja por enfermedad prolongada o crónica", # es
+  "Pensionerad eller sjukpensionär" # sv
+)
+unemployed_vec <- c(
+  "Zur Zeit arbeitslos", # de
+  "Au chômage, temporairement sans emploi", # fr
+  "Werkloos of tijdelijk zonder werk", # nl
+  "Безработен или временно без работа", # bg
+  "Nezaposlen ili privremeno bez posla", # hr
+  "Nezaměstnaný(á) nebo přechodně nepracující", # cs
+  "Arbejdsløs eller midlertidigt ude af arbejde", # da
+  "Töötu või ajutiselt töötu", # et
+  "Työtön tai tilapäisesti työelämän ulkopuolella", # fi
+  "Άνεργος ή προσωρινά δεν εργάζεται", # el
+  "Munkanélküli, vagy ideiglenesen nem dolgozik", # hu
+  "Unemployed or temporarily not working", # en
+  "Disoccupato, in cerca di prima occupazione", # it
+  "Bezdarbnieks vai uz laiku nestrādājošs", # lv
+  "Bedarbis ar laikinai nedirbantis", # lt
+  "Bezrobotny(a) lub czasowo niepracujący(a)", # pl
+  "Desempregado / temporariamente sem emprego", # pt
+  "Şomer sau temporar fără loc de muncă", # ro
+  "Nezamestnaný(á) alebo prechodne bez práce", # sk
+  "Nezaposlen(-a) ali začasno brez dela", # sl
+  "En paro o temporalmente sin empleo", # es
+  "Arbetslös, eller för närvarande utan arbete" # sv
+)
+homemaker_vec <- c(
+  "Hausfrau/Hausmann und verantwortlich für den Haushaltseinkauf und den Haushalt (ohne anderweitige Beschäftigung)", # de
+  "En charge des achats courants et des tâches ménagères ou sans aucune activité professionnelle", # fr
+  "Zorgend voor de dagelijkse boodschappen en het huishoudelijk werk, of zonder beroep", # nl
+  "Грижи се за пазаруването и поддържането на дома, без текущо занятие, неработещ/а", # bg
+  "Odgovoran za redovitu kupnju i brigu o kućanstvu, trenutačno nema nikakvo zanimanje, ne radi", # hr
+  "Stará se o běžné nákupy a domácnost nebo nemá žádné zaměstnání, nepracuje", # cs
+  "Ansvarlig for daglige indkøb og pasning af hjemmet eller uden beskæftigelse for tiden, ikke-arbejdende", # da
+  "Isik, kes vastutab igapäevaste sisseostude ning majapidamise korrashoiu eest või kel ei ole hetkel ametit, kes ei tööta", # et
+  "Vastuussa tavallisista ostoksista ja kodista huolehtimisesta, tai ilman mitään ammattia tällä hetkellä, ei työssä", # fi
+  "Υπεύθυνος/ η για τα συνήθη ψώνια και φροντίδα του σπιτιού, ή χωρίς επαγγελματική απασχόληση/ δεν εργάζεται", # el
+  "A szokásos háztartás körüli dolgokért, bevásárlásért felelős, vagy nincs foglalkozása, nem dolgozik", # hu
+  "Responsible for ordinary shopping and looking after the home, or without any current occupation, not working", # en
+  "Responsabile degli acquisti correnti e della conduzione della casa o senza alcuna attività professionale", # it
+  "NestrādāAtbildīgais par ikdienas iepirkumiem un mājsaimniecību, algotā darbā nestrādājošs", # lv — concatenation artifact in raw data
+  "Prižiūri namus, apsiperka (namų šeimininkė) arba be jokio užsiėmimo, nedirba", # lt
+  "Osoba zajmująca się domem, zakupami, aktualnie nigdzie niepracująca.", # pl
+  "Responsável pelas compras e pelas tarefas domésticas ou NÃO exercendo qualquer atividade profissional", # pt
+  "Responsabil(ă) cu treburile casei, efectuează cumpărăturile zilnice, sau fără niciun fel de ocupaţie curentă, fără un loc de  muncă", # ro
+  "Stará sa o bežné nákupy a domácnosť alebo nemá žiadne zamestnanie, nepracuje", # sk
+  "Opravlja redne nakupe in skrbi za dom, ali pa je trenutno brez zaposlitve, brez dela", # sl
+  "Responsabilidad de comprar y del cuidado de la casa o sin ninguna actividad actual, no trabaja", # es
+  "Hemarbetande hemmafru/hemmapappa, eller arbetssökande" # sv — CONFIRM: includes "eller arbetssökande" (or job-seeking)
+)
+skilled_manual_vec <- c(
+  "Facharbeiter", # de
+  "Ouvrier qualifié", # fr
+  "Geschoolde handarbeider", # nl
+  "Квалифициран работник (ръчен труд)", # bg
+  "Kvalificirani fizički radnik", # hr
+  "Kvalifikovaný dělník", # cs
+  "Faglært arbejder", # da
+  "Oskustööline", # et
+  "Ammattitaitoinen ruumiillisen työn tekijä", # fi
+  "Ειδικευμένοι εργάτες που ασχολούνται με χειρωνακτική εργασία", # el
+  "Szakmunkás", # hu
+  "Skilled manual worker", # en
+  "Operai specializzati", # it
+  "Kvalificēts strādnieks", # lv
+  "Kvalifikuotas darbininkas", # lt
+  "Robotnik wykwalifikowany", # pl
+  "Trabalhador manual qualificado", # pt
+  "Muncitor calificat", # ro
+  "Kvalifikovaný robotník", # sk
+  "Kvalificiran(-a) fizični(-a) delavec(-ka)", # sl
+  "Trabajador cualificado", # es
+  "Specialutbildad arbetare" # sv
+)
+unskilled_manual_vec <- c(
+  "Sonstige Arbeiter", # de
+  "Autre ouvrier (non qualifié), personnel de maison", # fr
+  "Ongeschoolde handarbeider, hulp in de huishouding", # nl
+  "Друг (неквалифициран) работник и неквалифициран обслужващ персонал", # bg
+  "Drugi (nekvalificirani) fizički radnik, posluga", # hr
+  "Jiní (nekvalifikovaní) dělníci, pomocné síly", # cs
+  "Øvrige manuel arbejder (ufaglært), tjenestefolk", # da
+  "Muu (liht)tööline, kes teeb füüsilist tööd; teenija", # et
+  "Muu (ammattitaidoton) ruumiillisen työn tekijä, palvelija", # fi
+  "Άλλοι (ανειδίκευτοι) εργάτες που ασχολούνται με χειρωνακτική εργασία, υπηρετικό προσωπικό", # el
+  "Segédmunkás, házi személyzet", # hu
+  "Other (unskilled) manual worker, servant", # en
+  "Altri operai (non specializzati) personale di servizio", # it
+  "Cits (nekvalificēts) strādnieks", # lv
+  "Nekvalifikuotas darbininkas", # lt
+  "Inni robotnicy niewykwalifikowani, pomoc domowa", # pl
+  "Outros trabalhadores manuais ( não qualificados, empregados domésticos)", # pt
+  "Muncitor necalificat, zilier, personal de serviciu", # ro
+  "Iní (nekvalifikovaní) robotníci, služobníctvo", # sk
+  "Ostali (polkvalificirani(-e) in nekvalificirani(-e) fizični(-e) delavci(-ke), strežno osebje)", # sl
+  "Trabajador no cualificado (Personal doméstico, etc.)", # es
+  "Arbetare, ej specialutbildad" # sv
+)
+supervisor_vec <- c(
+  "Meister, Vorarbeiter, Aufsichtstätigkeit", # de
+  "Contremaître, agent de maîtrise", # fr (Belgium only)
+  "Opzichter, voorman", # nl
+  "Супервайзер /бригадир", # bg
+  "Nadzornik", # hr
+  "Kontrolor", # cs
+  "Tilsynsførende, inspektør mv.", # da
+  "Töödejuhataja, järelvaataja", # et
+  "Työnjohtaja", # fi
+  "Επόπτες", # el
+  "Csoportvezető, művezető", # hu
+  "Supervisor", # en
+  "Supervisore, caporeparto", # it
+  "Uzraugs, brigadieris", # lv
+  "Brigadininkas, meistras (prižiūrintis kitus)", # lt
+  "Nadzór", # pl
+  "Contramestres / capatazes", # pt
+  "Maistru, şef de echipă", # ro
+  "Supervízor / majster", # sk
+  "Nadzornik(-ca)", # sl
+  "Encargados / Capataces", # es
+  "Arbetsledare" # sv
+)
+desk_employee_vec <- c(
+  "Sonstige Büroangestellte / Beamte", # de
+  "Employé travaillant la plupart du temps dans un bureau", # fr
+  "Werknemer, hoofdzakelijk werkend achter een bureau", # nl
+  "Административен служител, работещ в офис", # bg
+  "Zaposlenik koji uglavnom radi u uredu", # hr
+  "Zaměstnanec, pracující hlavně stacionárně (na jednom místě)", # cs
+  "Kontoransat, skrivebordsarbejde", # da
+  "Palgatöötaja, kes töötab peamiselt kontoris", # et
+  "Työntekijä, lähinnä toimistotyössä", # fi
+  "Υπάλληλος, κυρίως δουλειά γραφείου", # el
+  "Irodai munkát végző alkalmazott", # hu
+  "Employed position, working mainly at a desk", # en
+  "Impiegati di concetto (che lavorano per lo più davanti ad una scrivania)", # it
+  "Algots darbinieks, strādājošs galvenokārt pie rakstāmgalda vai birojā", # lv
+  "Samdomas darbuotojas, daugiausiai dirbantis biure", # lt
+  "Pracownicy niższego szczebla, pracujący głównie przy biurku", # pl
+  "Empregados escriturários trabalhando principalmente à secretária, empregados de escritório", # pt
+  "Angajat, lucrând majoritatea timpului în birou", # ro
+  "Zamestnanec, pracujúci hlavne v kancelárii (na jednom mieste)", # sk
+  "Zaposlen(-a), v glavnem pisarniško delo", # sl
+  "Empleado dedicado la mayor parte del tiempo a trabajos de oficina", # es
+  "Anställd, huvudsakligen med skrivbordsarbete" # sv
+)
+service_employee_vec <- c(
+  "Angestellte / Beamte ohne Bürotätigkeit z.B. im Dienstleistungsbetrieb (Krankenschwester, Bedienung in Restaurant, Polizist, Feuerwehrmann etc.)", # de
+  "Employé ne travaillant pas dans un bureau mais ayant une fonction de service (hôpital, restaurant, police, pompiers, etc.)", # fr
+  "Werknemer, niet werkend achter een bureau maar in dienstverlenend beroep (ziekenhuis, restaurant, politie, brandweer, en dergelijke)", # nl
+  "Работещ в сферата на услугите (болница, ресторант, полиция, пожарна и др.)", # bg
+  "Zaposlenik, ali ne u uredu već u uslužnom sektoru (bolnica, restoran, policija, vatrogasac, itd.)", # hr
+  "Zaměstnanec, ne stacionární, ve službách (nemocnice, restaurace, policie, hasiči)", # cs
+  "Ansat i servicejob, det vil sige ikke skrivebordsarbejde, (f.eks. hospital, restaurant, politi, brandvæsen osv.)", # da
+  "Palgatöötaja, kes peamiselt teenindab (haiglad, restoranid, politsei, tuletõrje jne)", # et
+  "Palvelutyöntekijä/toimihenkilö (sairaala, ravintola, poliisi, palomies)", # fi
+  "Υπάλληλος, δουλειά όχι γραφείου αλλά σε υπηρεσία (νοσοκομείο, εστιατόριο, αστυνομία, πυροσβεστική, . . . )", # el
+  "Szolgáltatás, közszolgáltatás {11}(pl. kórház, étterem, rendőrség, tűzoltóság, …)", # hu — "{11}" artifact in raw data
+  "Employed position, not at a desk, but in a service job (hospital, restaurant, police, fireman, etc.)", # en
+  "Impiegati che non lavorano davanti ad una scrivania ma che offrono servizi (ospedali, ristoranti, polizia, pompieri)", # it
+  "Algots darbinieks, kas strādā pakalpojumu sfērā, bet ne birojā (slimnīcā, restorānā, policists, ugunsdzēsējs u. tml.)", # lv
+  "Samdomas darbuotojas, dirbantis ne biure, o paslaugų sferoje (ligoninė, viešasis maitinimas, policininkas, gaisrininkas ir pan.)", # lt
+  "Pracownicy niższego szczebla, zatrudnieni w sektorze usługowym (w szpitalu, restauracji, policji, straży...)", # pl
+  "Empregados não escriturários mas tendo uma função de serviços em hospitais, restaurantes, polícia e bombeiros ...", # pt
+  "Angajat, lucrând în domeniul serviciilor publice dar nu la birou (spital, alimentaţie publică, poliţie, pompieri, etc.)", # ro
+  "Zamestnanec v službách (nemocnice, reštaurácie, polícia, hasiči)", # sk
+  "Zaposlen(-a), ne-pisarniško delo, toda v storitvenem sektorju (bolnišnice, restavracije, policija, gasilci, )", # sl
+  "Empleado, no en oficina sino en empresa de servicios (hospital, restaurante, policía, bomberos, etc.)", # es
+  "Anställd i servicenäringen (sjukhus, restaurang, polis, brandman...)" # sv
+)
+travelling_employee_vec <- c(
+  "Angestellte ohne Bürotätigkeit mit Schwerpunkt Reisetätigkeit (Vertreter, Fahrer etc.)", # de
+  "Employé ne travaillant pas dans un bureau mais voyageant (vendeur, chauffeur, représentant, etc.)", # fr
+  "Werknemer, niet werkend achter een bureau maar reizend (vertegenwoordiger, chauffeur, etcetera)", # nl
+  "Работещ извън офис, чиято работа е свързана с пътуване (търговски пътник, шофьор и др.)", # bg
+  "Zaposlenik, ali ne radi u uredu već putuje (trgovački putnik, vozač, itd.)", # hr
+  "Zaměstnanec, ne stacionární, ale na cestách (obchodní zástupce, řidič ..)", # cs
+  "Ansat, ikke skrivebordsarbejde, men rejser omkring (f.eks. sælger, chauffør)", # da
+  "Palgatöötaja, kellel on põhiliselt liikuv töö (müügiagent, autojuht, jne)", # et
+  "Matkustava työntekijä/toimihenkilö (myyntiedustaja, autonkuljettaja)", # fi
+  "Υπάλληλος, δουλειά όχι γραφείου αλλά ταξιδεύοντας (πωλητής, οδηγός, κλπ. )", # el
+  "Alkalmazott, aki nem irodai munkát végez, hanem utazik, (pl.: kereskedő, sofőr, utazó ügynök stb.)", # hu
+  "Employed position, not at a desk but travelling (salesmen, driver, etc.)", # en
+  "Impiegati che non lavorano davanti ad una scrivania (venditori, autisti, rappresentanti)", # it
+  "Algots darbinieks, kas strādā ārpus biroja (tirdzniecības aģents, šoferis u. tml.)", # lv
+  "Samdomas darbuotojas, daugiausiai keliaujantis (vairuotojas, prekybos agentas)", # lt
+  "Pracownicy niższego szczebla, praca związana z podróżami (sprzedawcy, kierowcy, …)", # pl
+  "Empregados não escriturários mas viajando ( vendedores, condutores, representantes de vendas, ...)", # pt
+  "Angajat, lucrând majoritatea timpului pe teren (agent de vânzări, şofer, etc.)", # ro
+  "Zamestnanec, ktorý nepracuje na jednom mieste, ale na cestách (obchodný cestujúci, vodič ..)", # sk
+  "Zaposlen(-a), ne-pisarniško delo, na terenu (trgovski(-a) potnik(ca), šofer(-ka), …)", # sl
+  "Empleado que no trabaja en oficina sino que viaja (vendedor, representante, chofer, etc.)", # es
+  "Anställd med rörligt arbete, (t.ex. försäljare, chaufför...)" # sv
+)
+middle_management_vec <- c(
+  "Mittlere Angestellte (Bereichsleiter, Abteilungsleiter, Gruppenleiter, Lehrer, Technischer Leiter)", # de
+  "Cadre moyen", # fr
+  "Middelbare leidinggevende functie (afdelingshoofden, leraren, junior managers en technici)", # nl
+  "Ръководител на средно равнище, ръководител на отдел, низов ръководител, учител, техник", # bg
+  "Srednji menadžment, ostali menadžment (voditelj odjela, mlađi menadžer, nastavnik, tehničar)", # hr
+  "Střední management, jiní manažeři (vedoucí oddělení, učitel, technik)", # cs
+  "Leder på mellemniveau (afdelingsledere, lærere, teknikere på lederniveau)", # da
+  "Kesktaseme juhtkond või muu juhtkond (osakonnajuhataja, juhataja asetäitja, õpetaja, meister, jne)", # et
+  "Keskijohto, muu johto (osastopäällikkö, opettaja, teknikko)", # fi
+  "Μεσαία βαθμίδα διοίκησης, άλλη διοίκηση (τμηματάρχης, κατώτεροι διευθυντές, εκπαιδευτικοί, τεχνικοί)", # el
+  "Középvezető, egyéb vezető (osztályvezető, főosztályvezető, tanár, technikus)", # hu
+  "Middle management, other management (department head, junior manager, teacher, technician)", # en
+  "Quadri intermedi (funzionari, insegnanti)", # it
+  "Vidējais menedžments, cits vadītājs (nodaļas vadītājs, menedžeris, skolotājs, speciālists)", # lv
+  "Vidurinės grandies vadovas, kiti vadovai (skyriaus vadovas, jaunesnysis vadybininkas, mokytojas, techninis darbuotojas)", # lt
+  "Średnia kadra kierownicza (kierownicy działów, zastępcy, młodszy kierownik, nauczyciele, inżynierowie)", # pl
+  "Quadro Médio ( Chefes de Departamento, Gerentes, Professores, Técnicos Especializados, ...)", # pt
+  "Persoană ocupând o funcţie de conducere la nivel mediu şi inferior (şef de departament, şef de birou, profesor, tehnician)", # ro
+  "Stredný manažment, iní manažéri (vedúci oddelenia, učiteľ, technik)", # sk
+  "Srednji(-a) vodstveni(-a) delavec(-ka), ostali vodilni položaji (vodja oddelka ali njegov(-a) namestnik(-ca), učitelj(-ica),  tehnik(-ca) …)", # sl
+  "Ejecutivo Medio, Gerente (Jefe de Departamento, Director Júnior, Profesor Técnico, etc.)", # es
+  "Annan ledande befattning t.ex. avdelningschef, lärare, tekniker" # sv
+)
+top_management_vec <- c(
+  "Leitende Angestellte / Beamte, Direktor oder Vorstandsmitglied", # de
+  "Cadre supérieur, dirigeant (PDG, DG, Directeur, etc.)", # fr
+  "Hogere leidinggevende functie (president-directeur, algemeen directeur, directeur)", # nl
+  "Изпълнителен директор, директор, мениджър или висш управленски кадър", # bg
+  "Viši menadžment, direktor ili visoki menadžment (izvršni direktor, generalni direktor, ostali direktori)", # hr
+  "Vrcholný management a ředitelé (generální ředitelé, ředitelé obecně, jiní ředitelé)", # cs
+  "Leder på højt niveau (administrerende direktør, direktør)", # da
+  "Tippjuhtkond (peadirektor, tegevdirektor, muu direktor)", # et
+  "Johtaja, ylin johto (toimitusjohtaja, pääjohtaja, muu johtaja)", # fi
+  "Γενική διοίκηση, διευθυντής ή υψηλά διευθυντικά στελέχη (διευθύνοντες σύμβουλοι, γενικοί διευθυντές, άλλοι διευθυντές)", # el
+  "Felső vezető, igazgató, vezérigazgató, általános igazgató - vagy ezek helyettese", # hu
+  "General management, director or top management (managing directors, director general, other director)", # en
+  "Quadri superiori/dirigenti (direttori generali, amministratori delegati, altri direttori)", # it
+  "Vadošais menedžments, uzņēmuma vadītājs (izpilddirektors, komercdirektors, cits direktors)", # lv
+  "Aukščiausio lygio vadovas, direktorius (vadovaujantys direktoriai, generaliniai direktoriai, kiti direktoriai)", # lt
+  "Zarząd, główni dyrektorzy, wyższa kadra kierownicza (Dyrektor Naczelny, Dyrektor Generalny, inny dyrektor)", # pl
+  "Quadro superior, diretor ou administração (administradores, diretor-geral, outros diretores)", # pt
+  "Manager general, director sau persoană care ocupă o funcţie de conducere la vârf", # ro
+  "Generálny riaditeľ, riaditeľ alebo vrcholový manažment (generálni riaditelia, riaditelia všeobecne, iní riaditelia)", # sk
+  "Najvišje vodstvo, direktor(-ca) ali upravnik(-ca) (upravnik(-a), generalni(-a) direktor(-ca), ostali direktorji)", # sl
+  "Alto Ejecutivo / Directivo (Presidente, Consejero Delegado, Director General, etc.)", # es
+  "Företagsledande ställning, direktör eller högsta ledningen (vd, generaldirektör, annan direktör)" # sv
+)
+shop_owner_vec <- c(
+  "Ladenbesitzer, Handwerker usw.", # de
+  "Commerçant ou propriétaire d'un magasin, artisan ou autre travailleur indépendant", # fr
+  "Eigenaar van een winkel, kleine zelfstandige", # nl
+  "Собственик на магазин, занаятчия, друго", # bg
+  "Vlasnik trgovine, obrtnik, neka druga samostalno zaposlena osoba", # hr
+  "Vlastník prodejny, řemeslník nebo jiná samostatně výdělečně činná osoba", # cs
+  "Butiksindehaver, håndværksmester, andre selvstændige", # da
+  "Poeomanik, käsitöömeister, muu üksikettevõtja", # et
+  "Kauppias, käsityöläinen, muu itsensä työllistävä henkilö", # fi
+  "Ιδιοκτήτης καταστήματος, τεχνίτης, άλλος ελεύθερος επαγγελματίας, έμπορος", # el
+  "Bolttulajdonos, kisiparos, egyéb önálló", # hu
+  "Owner of a shop, craftsmen, other self-employed person", # en
+  "Proprietario di un negozio, commerciante, artigiano o altro tipo di lavoro indipendente", # it
+  "Veikala īpašnieks, amatnieks, cita pašnodarbināta persona", # lv
+  "Parduotuvės savininkas, amatininkas, kita individuali veikla", # lt
+  "Właściciel sklepu, rzemieślnik, inna osoba pracująca na własny rachunek", # pl
+  "Comerciante, artífice ou outro trabalhador independente", # pt
+  "Proprietar de magazin, meseriaş, altă persoană care lucrează pe cont propriu", # ro
+  "Majiteľ predajne, remeselník alebo iná samostatne zárobkovo činná osoba", # sk
+  "Lastnik(-ca) trgovine, obrtnik(-ca), ostali samozaposleni", # sl
+  "Propietarios de tiendas / talleres de artesanía u otro tipo de trabajo por cuenta propia, autónomos", # es
+  "Butiksägare, hantverkare eller liknande" # sv
+)
+business_owner_vec <- c(
+  "Selbstständige Unternehmer, Fabrikbesitzer (Alleininhaber, Teilhaber)", # de
+  "Industriel, propriétaire (en tout ou en partie) d'une entreprise", # fr
+  "Eigenaar van een onderneming, (mede-) eigenaar van een bedrijf", # nl
+  "Бизнесмен, собственик (изцяло или частично) на фирма", # bg
+  "Vlasnik tvrtke (samostalno ili kao partner)", # hr
+  "Majitel firmy, vlastník (úplný nebo společník) podniku", # cs
+  "Ejer (eventuelt medejer) af en virksomhed", # da
+  "Eraettevõtja, firmaomanik (ainuomanik või osanik)", # et
+  "Yrityksen tai liikkeen omistaja (ainut tai osaomistaja)", # fi
+  "Επιχειρηματίας, ιδιοκτήτης (ολόκληρης ή συνέταιρος) εταιρείας", # el
+  "Cégtulajdonos (teljes mértékben, vagy partnerként)", # hu
+  "Business proprietors, owner (full or partner) of a company", # en
+  "Industriale, proprietario (unico o socio) di un'azienda", # it
+  "Uzņēmējs, uzņēmuma īpašnieks (pilnībā vai daļēji)", # lv
+  "Verslininkas, įmonės savininkas (vienas ar su partneriais)", # lt
+  "Właściciele, udziałowcy (całkowici lub częściowi) przedsiębiorstw", # pl
+  "Industrial, proprietário (na totalidade ou em parte) de uma empresa", # pt
+  "Deţinătorul unei afaceri, proprietarul (unic sau asociat) unei companii", # ro
+  "Majiteľ firmy, vlastník (úplný alebo spoločník) podniku", # sk
+  "Podjetnik(-ca), lastnik(-ca) ali solastnik podjetja oz. družbe", # sl
+  "Propietarios de un negocio (total o parcialmente) o de una empresa", # es
+  "Ägare/delägare av/i företag" # sv
+)
+self_employed_prof_vec <- c(
+  "Freie Berufe (z.B. Rechtsanwalt, Arzt, Steuerberater, Architekt usw.)", # de
+  "Profession libérale - INDEPENDANTS (avocat, médecin, expert comptable, architecte, etc.)", # fr
+  "Profession libérale - INDEPENDANTS  (avocat, médecin, expert comptable, architecte, etc.)", # fr (double-space variant)
+  "Zelfstandige beoefenaar van vrij beroep, bijv. advocaat, arts, accountant, architect en dergelijke", # nl
+  "Специалист на частна практика (лекар, адвокат, счетоводител, архитект)", # bg
+  "Stručnjak - SAMOSTALNO ZAPOSLEN (odvjetnik, zdravstveni djelatnik, računovođa, arhitekt, itd.)", # hr
+  "Profesionál (právník, lékař, účetní, architekt, …) - SAMOSTATNĚ VÝDĚLEČNĚ ČINNÝ(Á)", # cs
+  "Liberalt erhverv (advokat, praktiserende læge, revisor, arkitekt osv.) - SELVSTÆNDIG", # da
+  "Vabakutseline spetsialist (jurist, arst, raamatupidaja, arhitekt, jne)", # et
+  "Ammatinharjoittaja (lakimies, yksityisvastaanottoa pitävä lääkäri, kirjanpitäjä, arkkitehti) - ITSE ITSENSÄ TYÖLLISTÄVÄT", # fi
+  "Επαγγελματίας - ΕΛΕΥΘΕΡΟΙ (δικηγόρος, γιατρός, λογιστής, αρχιτέκτων, κλπ. . . )", # el
+  "Önálló magasan képzett értelmiségi (pl.: jogász, orvos, mérnök, könyvelő, ...)", # hu
+  "Professional (lawyer, medical practitioner, accountant, architect, etc.) - Self-employed", # en
+  "Self-employed professional (lawyer, medical practitioner, accountant, architect, etc.)", # en (variant)
+  "Libero professionista (avvocato, medico, commercialista, architetto, ecc.) - LAVORATORE AUTONOMO", # it
+  "Profesionālis, kuram ir privātprakse (jurists, praktizējošs ārsts, grāmatvedis, arhitekts u. tml.) - PAŠNODARBINĀTS", # lv
+  "Individualiai dirbantis specialistas (teisininkas, privačios praktikos gydytojas, buhalteris, architektas ir pan.) - pats sau darbdavys", # lt
+  "Specjalista wolnego zawodu (prawnik, prywatna praktyka lekarska, księgowy, architekt itd.)- PRACUJĄCY NA WŁASNY RACHUNEK", # pl
+  "Profissional liberal (advogado, médico, economista, arquiteto, contabilista, ...) - EMPREGADOS POR CONTA PRÓPRIA", # pt
+  "Profesiuni liberale - ACTIVITATE PE CONT PROPRIU (avocat, medic, contabil, arhitect, etc.)", # ro
+  "Odborník - SAMOSTATNE ZÁROBKOVO ČINNÝ(Á) (právnik, lekár, účtovník, architekt, …)", # sk
+  "Strokovnjak(-inja)  - SAMOZAPOSLEN(A) (odvetnik(-ca), zdravnik(-ca) splošne prakse, računovodja(-kinja), arhitekt(-ka), …)", # sl
+  "Profesionales - TRABAJA POR CUENTA PROPIA (Abogados, Médicos, Contables, Arquitecto, etc.)", # es
+  "Egen konsult/specialist t.ex. advokat, egen läkarpraktik, revisor, arkitekt" # sv
+)
+employed_prof_vec <- c(
+  "Freie Berufe im Angestelltenverhältnis (z.B. angestellte Ärzte, Anwälte, Steuerberater, Architekten usw.)", # de
+  "Profession libérale salariée (docteur, avocat, comptable, architecte, etc.)", # fr
+  "Vrije beroepen, zoals doctoren, advocaten, accountant, architect - IN LOONDIENST", # nl
+  "Нает специалист (лекари, адвокати, счетоводители, архитекти)", # bg
+  "Zaposlen stručnjak (zaposlen liječnik, odvjetnik, računovođa, arhitekt)", # hr
+  "Zaměstnaný profesionál (zaměstnaný lékař, právník, účetní, architekt)", # cs
+  "Liberalt erhverv (ansat læge, advokat, revisor, arkitekt) - LØNMODTAGER", # da
+  "Palgaline spetsialist (arst, jurist, raamatupidaja, arhitekt, jne)", # et
+  "Toisen palveluksessa/virassa oleva ammatinharjoittaja (lääkäri, lakimies, kirjanpitäjä, arkkitehti)", # fi
+  "Μισθωτός επαγγελματίας (γιατρός, δικηγόρος, λογιστής, αρχιτέκτων)", # el
+  "Alkalmazott magasan képzett értelmiségi (jogász, orvos, mérnök, könyvelő ...)", # hu
+  "Employed professional (employed doctor, lawyer, accountant, architect) - Employed", # en
+  "Employed professional (employed doctor, lawyer, accountant, architect)", # en (variant without suffix)
+  "Professionista dipendente (medico, avvocato, commercialista, avvocato) - LAVORATORE DIPENDENTE", # it
+  "Algots profesionālis (ārsts, jurists, grāmatvedis, arhitekts u. c.) - NODARBINĀTS", # lv
+  "Samdomas specialistas (gydytojas, teisininkas, buhalteris, architektas)", # lt
+  "Zatrudnieni na etacie specjaliści (zatrudnieni lekarze, prawnicy, architekci, księgowi)", # pl
+  "Profissional liberal por conta de outrem (médico, advogado, economista, arquiteto, contabilista, ...) - EMPREGADOS POR CONTA DE OUTREM", # pt
+  "Specialist cu studii superioare, salariat - ANGAJAT (medic, avocat, contabil, arhitect…)", # ro
+  "Zamestnaný odborník (zamestnaný lekár, právnik, účtovník, architekt)", # sk
+  "Zaposlen(-a) strokovnjak(-inja) (zdravnik-ca), odvetnik(-ca), računovodja(-kinja), arhitekt(-ka)…)", # sl
+  "Profesionales Empleados - TRABAJA POR CUENTA AJENA / ASALARIADO (Abogados, Médicos, Contables, Arquitecto, etc.)", # es
+  "Anställd konsult/specialist (t.ex. anställd läkare, advokat, revisor, arkitekt)" # sv
+)
+```
+
+```{r}
+#| label: occ-recode
+```
+
+```{r}
+#| label: occ-validate
+```
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
