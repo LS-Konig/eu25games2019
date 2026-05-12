@@ -4294,11 +4294,10 @@ df_stacked_recoded |>
 
 remainings have no `q_age` value, hence 28 leftovers
 
-## Occupation 
+## Occupation Current
 
 ```{r}
 #| label: occ-values
-#| eval: false
 # aus
 df_stacked |>
   filter(meta_country == "Austria") |>
@@ -4424,13 +4423,10 @@ df_stacked |>
   filter(meta_country == "United Kingdom") |>
   distinct(q_occ_current_raw) |>
   pull()
-
-# CONTINUE HERE CLAUDE
 ```
 
 ```{r}
 #| label: value-labels-occ
-#| eval: false
 # OCCUPATION -------------------------------------------------------------------
 farmer_vec <- c(
   "Landwirt", # de
@@ -4868,10 +4864,38 @@ employed_prof_vec <- c(
 
 ```{r}
 #| label: occ-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_occ_current = case_when(
+      q_occ_current_raw %in% farmer_vec ~ "farmer",
+      q_occ_current_raw %in% fisherman_vec ~ "fisher",
+      q_occ_current_raw %in% student_vec ~ "student",
+      q_occ_current_raw %in% retired_ill_vec ~ "retired",
+      q_occ_current_raw %in% unemployed_vec ~ "unemployed",
+      q_occ_current_raw %in% homemaker_vec ~ "homemaker",
+      q_occ_current_raw %in% skilled_manual_vec ~ "manual_skill",
+      q_occ_current_raw %in% unskilled_manual_vec ~ "manual_unskill",
+      q_occ_current_raw %in% supervisor_vec ~ "supervisor",
+      q_occ_current_raw %in% desk_employee_vec ~ "emp_desk",
+      q_occ_current_raw %in% service_employee_vec ~ "emp_service",
+      q_occ_current_raw %in% travelling_employee_vec ~ "emp_travel",
+      q_occ_current_raw %in% middle_management_vec ~ "mgmt_mid",
+      q_occ_current_raw %in% top_management_vec ~ "mgmt_top",
+      q_occ_current_raw %in% shop_owner_vec ~ "owner_shop",
+      q_occ_current_raw %in% business_owner_vec ~ "owner_biz",
+      q_occ_current_raw %in% self_employed_prof_vec ~ "prof_self",
+      q_occ_current_raw %in% employed_prof_vec ~ "prof_emp",
+      .default = NA_character_
+    )
+  )
 ```
 
 ```{r}
 #| label: occ-validate
+df_stacked_recoded |>
+  select(q_occ_current, q_occ_current_raw) |>
+  filter(is.na(q_occ_current) & !is.na(q_occ_current_raw)) |>
+  count(q_occ_current_raw)
 ```
 
 ## Conjoint Behavioral Game Variables
