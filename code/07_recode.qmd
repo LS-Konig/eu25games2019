@@ -4898,6 +4898,235 @@ df_stacked_recoded |>
   count(q_occ_current_raw)
 ```
 
+
+
+## Occupation Last
+
+```{r}
+#| label: occ-last-values
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_occ_last_raw) |>
+  pull()
+```
+
+
+```{r}
+#| label: occ-last-values
+never_worked_vec <- c(
+  "Nie berufstätig gewesen", # de
+  "Nooit betaald werk verricht", # nl
+  "Har aldrig haft lønnet arbejde", # da
+  "N'a jamais exercé d'activité professionnelle rémunérée", # fr
+  "Never did any paid work", # en
+  "Nekad nav strādājis algotu darbu", # lv
+  "Niekada nedirbo jokio apmokamo darbo", # lt
+  "Nunca exerceu atividade profissional remunerada" # pt
+)
+
+unemployed_vec <- c(
+  unemployed_vec,
+  "Au chômage", # fr
+  "Безработен", # bg
+  "Ne Zaposlen", # hr
+  "Nezaměstnaný(á)", # cs
+  "Töötu", # et
+  "Työtön", # fi
+  "Άνεργος", # el
+  "Munkanélküli", # hu
+  "Disoccupato", # it
+  "Bezrobotny(a)", # pl
+  "Şomer", # ro
+  "Nezamestnaný(á)", # sk
+  "Nezaposlen(-a)", # sl
+  "En paro", # es
+  "Arbetslös" # sv
+)
+
+fisherman_vec <- c(
+  fisherman_vec,
+  "Ψαράς", # el
+  "Rybář", # cs
+  "Rybak" # pl
+)
+
+business_owner_vec <- c(
+  business_owner_vec,
+  "Yrityksen tai liikkeen omistaja (ainut tai osaomistaja)\"", # fi — trailing quote artifact
+  "Deţinătorul unei afaceri, proprietarul (unic sau asociat) unei companii\"" # ro — trailing quote artifact
+)
+
+employed_prof_vec <- c(
+  employed_prof_vec,
+  "Specialist cu studii superioare, salariat - ANGAJAT  (medic, avocat, contabil, arhitect…)", # ro — double-space variant
+  "Profesionales Empleados  - TRABAJA POR CUENTA AJENA / ASALARIADO (Abogados, Médicos, Contables, Arquitecto, etc.)" # es — double-space variant
+)
+
+self_employed_prof_vec <- c(
+  self_employed_prof_vec,
+  "Specjalista wolnego zawodu (prawnik, prywatna praktyka lekarska, księgowy, architekt itd.) - PRACUJĄCY NA WŁASNY RACHUNEK" # pl — space-before-dash variant
+)
+```
+
+```{r}
+#| label: occ-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_occ_last = case_when(
+      q_occ_last_raw %in% farmer_vec ~ "farmer",
+      q_occ_last_raw %in% fisherman_vec ~ "fisher",
+      q_occ_last_raw %in% student_vec ~ "student",
+      q_occ_last_raw %in% retired_ill_vec ~ "retired",
+      q_occ_last_raw %in% unemployed_vec ~ "unemployed",
+      q_occ_last_raw %in% homemaker_vec ~ "homemaker",
+      q_occ_last_raw %in% skilled_manual_vec ~ "manual_skill",
+      q_occ_last_raw %in% unskilled_manual_vec ~ "manual_unskill",
+      q_occ_last_raw %in% supervisor_vec ~ "supervisor",
+      q_occ_last_raw %in% desk_employee_vec ~ "emp_desk",
+      q_occ_last_raw %in% service_employee_vec ~ "emp_service",
+      q_occ_last_raw %in% travelling_employee_vec ~ "emp_travel",
+      q_occ_last_raw %in% middle_management_vec ~ "mgmt_mid",
+      q_occ_last_raw %in% top_management_vec ~ "mgmt_top",
+      q_occ_last_raw %in% shop_owner_vec ~ "owner_shop",
+      q_occ_last_raw %in% business_owner_vec ~ "owner_biz",
+      q_occ_last_raw %in% self_employed_prof_vec ~ "prof_self",
+      q_occ_last_raw %in% employed_prof_vec ~ "prof_emp",
+      q_occ_last_raw %in% never_worked_vec ~ "never_worked",
+      .default = NA_character_
+    )
+  )
+```
+
+```{r}
+#| label: occ-validate
+df_stacked_recoded |>
+  select(q_occ_last, q_occ_last_raw) |>
+  filter(is.na(q_occ_last) & !is.na(q_occ_last_raw)) |>
+  count(q_occ_last_raw)
+```
+
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
