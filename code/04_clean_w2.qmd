@@ -29,7 +29,6 @@ execute:
 
 ```{r}
 #| label: setup
-
 start_time <- Sys.time()
 
 options(width = 80)
@@ -51,7 +50,6 @@ rm(p_required, p_to_install, packages)
 
 ```{r}
 #| label: load-data
-
 # wave 2 -----------------------------------------------------------------------
 df_wave2 <- readRDS(
   here(
@@ -142,7 +140,6 @@ Before coalescing, I need to check that respondents were shown at most one of th
 
 ```{r}
 #| label: w2-prime1-explore
-
 # Check respondents received only 1 prime max ----------------------------------
 
 df_wave2 |>
@@ -611,7 +608,6 @@ So france needs its own secondary variables...
 
 ```{r}
 #| label: w2-prime1-coalesce
-
 too_far_base <- "Please read the following information about the European Union (EU). Please take your time to read it carefully. Recently, many experts have argued that European integration has already gone too far. They say that to address the main challenges facing the EU and its member countries, their national governments should act independently to tailor their policies to the specific demands of their countries. Over time, the EU has expanded the range of its activities dramatically to cover almost every conceivable area of political, economic, and social life. A recent study by leading researchers also finds the evidence to support this view using an advanced statistical method. According to this research, the precise estimate of what they call \"EU competence\" is strikingly larger than what many people want."
 
 df_wave2 <- df_wave2 |>
@@ -861,7 +857,6 @@ Party rankings is a mess across countries:
 
 ```{r}
 #| label: tbl-party-rankings-q47
-
 wording_map |>
   filter(wave == 2 & str_detect(col_name, "Q47")) |>
   select(country, col_name) |>
@@ -870,7 +865,6 @@ wording_map |>
 
 ```{r}
 #| label: tbl-party-rankings-q48
-
 wording_map |>
   filter(wave == 2 & str_detect(col_name, "Q48")) |>
   select(country, col_name) |>
@@ -892,7 +886,6 @@ Q52_TEXT <- q_party_id_other_raw
 
 ```{r}
 #| label: w2-block2-explore
-
 # mutual exclusivity: at most 1 Q47/Q48 party column non-NA per respondent
 df_wave2 |>
   select(starts_with("Q47_"), starts_with("Q48_")) |>
@@ -908,7 +901,6 @@ df_wave2 |>
 
 ```{r}
 #| label: w2-block2-coalesce
-
 df_wave2 <- df_wave2 |>
   mutate(
     # fix dual-response anomaly for 2 Danish respondents
@@ -1099,7 +1091,6 @@ df_wave2 <- df_wave2 |>
 
 ```{r}
 #| label: w2-block2-rename
-
 df_wave2 <- df_wave2 |>
   rename(
     q_vote_turnout_likelihood_raw = Q42,
@@ -1141,7 +1132,6 @@ Q196_26
 
 ```{r}
 #| label: w2-check-thermo
-
 df_wave2 |>
   select(
     starts_with("Q196")
@@ -1154,7 +1144,6 @@ df_wave2 |>
 
 ```{r}
 #| label: w2-coalesce-thermo
-
 df_wave2 <- df_wave2 |>
   mutate(
     q_thermo_1_raw = Q196_1,
@@ -1335,7 +1324,7 @@ df_wave2 <- df_wave2 |>
 
 ## W2 Pol Participation, Campaign activity & Verification 2
 
-Q197_1 <- q_news_tv_raw
+Q197_1 <- q_news_tv_days_raw
 Q197_2 <- q_news_newspaper_raw
 Q197_3 <- q_news_radio_raw
 Q197_4 <- q_news_social_raw
@@ -1349,10 +1338,9 @@ Q198_TEXT <- q_eu_campaign_sources_other_raw
 
 ```{r}
 #| label: w2-polpart-rename
-
 df_wave2 <- df_wave2 |>
   rename(
-    q_news_tv_raw = Q197_1,
+    q_news_tv_days_raw = Q197_1,
     q_news_newspaper_raw = Q197_2,
     q_news_radio_raw = Q197_3,
     q_news_social_raw = Q197_4,
@@ -1376,7 +1364,6 @@ q215_2 <- q_cjeu_satisfaction_raw
 
 ```{r}
 #| label: w1-cjeu-rename
-
 df_wave2 <- df_wave2 |>
   mutate(
     prime_cjeu_condition = case_when(
@@ -1434,7 +1421,6 @@ Q228 <- q_future_discount
 
 ```{r}
 #| label: w2-next-block-renaming
-
 df_wave2 <- df_wave2 |>
   rename(
     q_eval_econ_eur_raw = Q216_1,
@@ -1469,7 +1455,6 @@ df_wave2 <- df_wave2 |>
 
 ```{r}
 #| label: w2-placements-coalesce
-
 df_wave2 <- df_wave2 |>
   mutate(
     # occupation in Finland Slovenia and with different Q-number ---------------
@@ -1486,7 +1471,6 @@ df_wave2 <- df_wave2 |>
 
 ```{r}
 #| label: w2-placements-renaming
-
 df_wave2 <- df_wave2 |>
   rename(
     # self placement ---------------------------------------------------------------
@@ -1562,7 +1546,6 @@ Hence check if these are mutually exclusive with the overall prime control condi
 
 ```{r}
 #| label: w2-french-prime-mess
-
 df_wave2 |>
   select(
     prime_cjeu_firstclick,
@@ -1650,7 +1633,6 @@ df_wave2 |>
   mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
   count(non_na_count)
 # yup, 206 did
-
 ```
 
 Overview:
@@ -1685,7 +1667,6 @@ and prime_cjeu_fra_condition and prime_cjeu_fra_text
 
 ```{r}
 #| label: w2-french-cjeu-coalesce-rename
-
 df_wave2 <- df_wave2 |>
   mutate(
     # condition label
@@ -1772,7 +1753,6 @@ df_wave2 <- df_wave2 |>
 
 ```{r}
 #| label: w2-rename-remainders
-
 df_wave2 <- df_wave2 |>
   rename(
     # french duplicates of existing items ------------------------------------
@@ -1813,14 +1793,12 @@ df_wave2 <- df_wave2 |>
     q_norm_bypass_law_fra_raw = Q218_5,
     q_norm_gov_bypass_fra_raw = Q218_6,
   )
-
 ```
 
 # Condensed W2 Question Wordings
 
 ```{r}
 #| label: w2-question-wordings
-
 rename_vec_w2 <- c(
   # meta
   meta_startdate = "StartDate",
@@ -2103,7 +2081,6 @@ wording_map_w2 <- wording_map |>
 ```{r}
 #| label: tbl-w2-wording-unmatched
 #| tbl-cap: "W2 variables with no wording match"
-
 cat("Distinct new_name values:", length(unique(names(rename_vec_w2))), "\n")
 cat("Matched rows in wording_map_w2:", nrow(wording_map_w2), "\n")
 
@@ -2117,7 +2094,6 @@ tibble(new_name = names(rename_vec_w2), col_name = rename_vec_w2) |>
 
 ```{r}
 #| label: save-cleaned-w1
-
 write_rds(
   df_wave2,
   file = here(
@@ -2143,7 +2119,6 @@ write_rds(
 ```{r}
 #| label: exec-time
 #| eval: true
-
 end_time <- Sys.time()
 cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```
@@ -2151,6 +2126,5 @@ cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```{r}
 #| label: session-info
 #| eval: true
-
 sessioninfo::session_info()
 ```

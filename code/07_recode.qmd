@@ -5127,6 +5127,364 @@ df_stacked_recoded |>
 ```
 
 
+## News TV {#sec-news-tv}
+
+```{r}
+#| label: q_news_tv-values
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_news_tv_raw) |>
+  pull()
+```
+
+```{r}
+#| label: value-labels-q_news_tv
+
+# Frequency-category format — days_*_vec moved to value-labels-q_news_tv_days ---
+
+# ⚠ de/it/sv/cs/da use a combined "daily or almost daily" label (no finer split
+# possible) — placed in every_day_vec and coded 7L.
+every_day_vec <- c(
+  "Täglich oder nahezu täglich", # de — combined
+  "Ogni Giorno o quasi", # it — combined
+  "Dagligen/ Nästan dagligen", # sv — combined
+  "Každý den / téměř každý den", # cs — combined
+  "Hver dag/ næsten hver dag", # da — combined
+  "Tous les jours", # fr
+  "Every day", # en
+  "Κάθε μέρα", # el
+  "Minden nap", # hu
+  "Svaki dan", # hr
+  "Codziennie", # pl
+  "Todos os dias", # pt
+  "Zilnic", # ro
+  "Každý deň", # sk
+  "Vsak dan", # sl
+  "Cada día", # es
+  "Iga päev", # et
+  "Joka päivä", # fi
+  "Katru dienu", # lv
+  "Kasdien", # lt
+  "Ledere dag", # nl
+  "Всеки ден" # bg
+)
+
+almost_every_day_vec <- c(
+  "Presque tous les jours", # fr
+  "Almost every day", # en
+  "Σχεδόν κάθε μέρα", # el
+  "Majd nem minden nap", # hu
+  "Gotovo svaki dan", # hr
+  "Prawie codziennie", # pl
+  "Quase todos os dias", # pt
+  "Aproape în fiecare zi", # ro
+  "Takmer každý deň", # sk
+  "Skoraj vsakdan", # sl
+  "Casi cada día", # es
+  "Peaaegu iga päev", # et
+  "Melkein joka päivä", # fi
+  "Gandrīz katru dienu", # lv
+  "Beveik kasdien", # lt
+  "Bijna iedere dag", # nl
+  "Почти всеки ден" # bg
+)
+
+several_pw_vec <- c(
+  "Mehrmals pro Woche", # de
+  "Plusieurs fois par semaine", # fr
+  "Several times a week", # en
+  "Più volte alla settimana", # it
+  "Αρκετές φορές την εβδομάδα", # el
+  "Hetente többször", # hu
+  "Nekoliko puta tjedno", # hr
+  "Kilka razy w tygodniu", # pl
+  "Várias vezes por semana", # pt
+  "De mai multe ori pe săptămână", # ro
+  "Niekoľko krát za týždeň", # sk
+  "Večkrat na teden", # sl
+  "Varias veces a la semana", # es
+  "Flera gånger i veckan", # sv
+  "Několikrát za týden", # cs
+  "Flere gange om ugen", # da
+  "Mitu korda nädalas", # et
+  "Useita kertoja viikossa", # fi
+  "Vairākas reizes nedēļā", # lv
+  "Kelis kartus per savaitę", # lt
+  "Meerdere keren per week", # nl
+  "Няколко пъти седмично" # bg
+)
+
+once_a_week_vec <- c(
+  "Einmal pro Woche", # de
+  "Une fois par semaine", # fr
+  "Once a week", # en
+  "Una volta alla settimana", # it
+  "Μία φορά την εβδομάδα", # el
+  "Hetente egyszer", # hu
+  "Jedanput tjedno", # hr
+  "Raz w tygodniu", # pl
+  "Uma vez por semana", # pt
+  "O dată pe săptămână", # ro
+  "Jedenkrát do týždňa", # sk
+  "Enkrat na teden", # sl
+  "Una vez a la semana", # es
+  "En gång i veckan", # sv
+  "Jednou týdně", # cs
+  "En gang om ugen", # da
+  "Kord nädalas", # et
+  "Kerran viikossa", # fi
+  "Vienu reizi nedēļā", # lv
+  "Kartą per savaitę", # lt
+  "Eén keer per week", # nl
+  "Веднъж седмично" # bg
+)
+
+less_than_1pw_vec <- c(
+  "Weniger als 1 Tag pro Woche", # de
+  "Moins d'un jour par semaine", # fr
+  "Less than 1 day per week", # en
+  "Meno di 1 giorno a settimana", # it
+  "Λιγότερο από 1 ημέρα την εβδομάδα", # el
+  "Ritkábban mint heti 1 nap", # hu
+  "Manje od 1 dan tjedno", # hr
+  "Rzadziej niż 1 dzień w tygodniu", # pl
+  "Menos de 1 dia por semana", # pt
+  "Mai puțin de 1 zi pe săptămână", # ro
+  "Menej ako 1 deň do týždňa", # sk
+  "Manj kot 1 dan tedensko", # sl
+  "Menos de 1 día a la semana", # es
+  "Mindre än 1 dag i veckan", # sv
+  "Méně než 1 den v týdnu", # cs
+  "Mindre end én dag om ugen", # da
+  "Vähem kui 1 päev nädalas", # et
+  "Harvemmin kuin 1 päivänä viikossa", # fi
+  "Mazāk nekā 1 dienu nedēļā", # lv
+  "Mažiau nei 1 dieną per savaitę", # lt
+  "Minder vaak dan 1 dag per week", # nl
+  "По-малко от 1 ден на седмица" # bg
+)
+
+once_a_month_vec <- c(
+  "Einmal pro Monat", # de
+  "Une fois par mois", # fr
+  "Once a month", # en
+  "Una volta al mese", # it
+  "Μία φορά το μήνα", # el
+  "Havonta egy alkalommal", # hu
+  "Jedanput mjesečno", # hr
+  "Raz w miesiącu", # pl
+  "Uma vez por mês", # pt
+  "O dată pe lună", # ro
+  "Jedenkrát do mesiaca", # sk
+  "Enkrat na mesec", # sl
+  "Una vez al mes", # es
+  "En gång i månaden", # sv
+  "Jednou za měsíc", # cs
+  "En gang om måneden", # da
+  "Kord kuus", # et
+  "Kerran kuukaudessa", # fi
+  "Reizi mēnesī", # lv
+  "Kartą per mėnesį", # lt
+  "Eén keer per maand", # nl
+  "Веднъж месечно" # bg
+)
+
+less_often_vec <- c(
+  "Seltener", # de
+  "Moins souvent", # fr
+  "Less often", # en
+  "Meno spesso", # it
+  "Λιγότερο συχνά", # el
+  "Ritkábban", # hu
+  "Rijetko", # hr
+  "Rzadziej", # pl
+  "Menos frequentemente", # pt
+  "Mai rar de atât", # ro
+  "Menej často", # sk
+  "Manj pogosto", # sl
+  "Con menor frecuencia", # es
+  "Mer sällan", # sv
+  "Méně často", # cs
+  "Sjældnere", # da
+  "Harvem", # et
+  "Vielä harvemmin", # fi
+  "Daudz retāk", # lv
+  "Rečiau", # lt
+  "Minder vaak", # nl
+  "По-рядко" # bg
+)
+
+never_vec <- c(
+  "Niemals", # de
+  "Jamais", # fr
+  "Never", # en
+  "Mai", # it
+  "Ποτέ", # el
+  "Soha", # hu
+  "Nikada", # hr
+  "Nigdy", # pl
+  "Nunca", # pt, es — same string
+  "Niciodată", # ro
+  "Nikdy", # cs, sk — same string
+  "Nikoli", # sl
+  "Aldrig", # sv, da — same string
+  "Mitte kunagi", # et
+  "Ei koskaan\"", # fi — trailing quote artifact in raw data
+  "Nekad", # lv
+  "Niekada", # lt
+  "Nooit", # nl
+  "Никога" # bg
+)
+```
+
+```{r}
+#| label: recode-q_news_tv
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_news_tv = case_when(
+      q_news_tv_raw %in% never_vec            ~ "never",
+      q_news_tv_raw %in% less_often_vec       ~ "less_often",
+      q_news_tv_raw %in% once_a_month_vec     ~ "once_a_month",
+      q_news_tv_raw %in% less_than_1pw_vec    ~ "less_than_1pw",
+      q_news_tv_raw %in% once_a_week_vec      ~ "once_a_week",
+      q_news_tv_raw %in% several_pw_vec       ~ "several_pw",
+      q_news_tv_raw %in% almost_every_day_vec ~ "almost_every_day",
+      q_news_tv_raw %in% every_day_vec        ~ "every_day",
+      .default = NA_character_
+    )
+  )
+```
+
+```{r}
+#| label: validate-q_news_tv
+df_stacked_recoded |>
+  select(q_news_tv, q_news_tv_raw) |>
+  filter(is.na(q_news_tv) & !is.na(q_news_tv_raw)) |>
+  distinct(q_news_tv_raw)
+```
+
+
 ## Conjoint Behavioral Game Variables
 
 ```{r}
