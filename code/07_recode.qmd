@@ -5119,7 +5119,7 @@ df_stacked_recoded <- df_stacked_recoded |>
 ```
 
 ```{r}
-#| label: occ-validate
+#| label: occ-last-validate
 df_stacked_recoded |>
   select(q_occ_last, q_occ_last_raw) |>
   filter(is.na(q_occ_last) & !is.na(q_occ_last_raw)) |>
@@ -5144,13 +5144,152 @@ The `pid` is the **Panelist ID** — a unique and static identifier for a paneli
 
 empty variable, can be dropped later
 
-## LR parties 9-12
 
-shown only in some countries 
+## Norm variables
+
 
 ```{r}
-#| label: lr-parties-extended-values
-df_stacked
+#| label: q-norms-labels-explore
+# combine all 7scale agree values
+agree_7scale <- c(
+  strongly_disagree_vec,
+  disagree_vec,
+  somewhat_disagree_vec,
+  neither_nor_vec,
+  somewhat_agree_vec,
+  agree_vec,
+  strongly_agree_vec
+)
+
+# combine all distinct values of norm items
+tmp <- c(
+  df_stacked_recoded |>
+    distinct(q_norm_bypass_law_raw) |>
+    pull(),
+  df_stacked_recoded |>
+    distinct(q_norm_order_over_freedom_raw) |>
+    pull(),
+  df_stacked_recoded |>
+    distinct(q_norm_disobey_unjustlaw_raw) |>
+    pull(),
+  df_stacked_recoded |>
+    distinct(q_norm_disobey_gov_raw) |>
+    pull(),
+  df_stacked_recoded |>
+    distinct(q_norm_bypass_law_raw) |>
+    pull(),
+  df_stacked_recoded |>
+    distinct(q_norm_gov_bend_law_raw) |>
+    pull()
+)
+
+# see which values are not yet present in 7scale vectors
+tmp[!tmp %in% agree_7scale]
+# only NA, 8, 9, 10, 11 (which should not exist)
+```
+
+```{r}
+#| label: q-norms-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_norm_tol_opposition = case_when(
+      q_norm_tol_opposition_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_tol_opposition_raw %in% disagree_vec ~ 2L,
+      q_norm_tol_opposition_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_tol_opposition_raw %in% neither_nor_vec ~ 4L,
+      q_norm_tol_opposition_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_tol_opposition_raw %in% agree_vec ~ 6L,
+      q_norm_tol_opposition_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_norm_order_over_freedom = case_when(
+      q_norm_order_over_freedom_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_order_over_freedom_raw %in% disagree_vec ~ 2L,
+      q_norm_order_over_freedom_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_order_over_freedom_raw %in% neither_nor_vec ~ 4L,
+      q_norm_order_over_freedom_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_order_over_freedom_raw %in% agree_vec ~ 6L,
+      q_norm_order_over_freedom_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_norm_disobey_unjustlaw = case_when(
+      q_norm_disobey_unjustlaw_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_disobey_unjustlaw_raw %in% disagree_vec ~ 2L,
+      q_norm_disobey_unjustlaw_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_disobey_unjustlaw_raw %in% neither_nor_vec ~ 4L,
+      q_norm_disobey_unjustlaw_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_disobey_unjustlaw_raw %in% agree_vec ~ 6L,
+      q_norm_disobey_unjustlaw_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_norm_disobey_gov = case_when(
+      q_norm_disobey_gov_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_disobey_gov_raw %in% disagree_vec ~ 2L,
+      q_norm_disobey_gov_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_disobey_gov_raw %in% neither_nor_vec ~ 4L,
+      q_norm_disobey_gov_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_disobey_gov_raw %in% agree_vec ~ 6L,
+      q_norm_disobey_gov_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_norm_bypass_law = case_when(
+      q_norm_bypass_law_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_bypass_law_raw %in% disagree_vec ~ 2L,
+      q_norm_bypass_law_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_bypass_law_raw %in% neither_nor_vec ~ 4L,
+      q_norm_bypass_law_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_bypass_law_raw %in% agree_vec ~ 6L,
+      q_norm_bypass_law_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_norm_gov_bend_law = case_when(
+      q_norm_gov_bend_law_raw %in% strongly_disagree_vec ~ 1L,
+      q_norm_gov_bend_law_raw %in% disagree_vec ~ 2L,
+      q_norm_gov_bend_law_raw %in% somewhat_disagree_vec ~ 3L,
+      q_norm_gov_bend_law_raw %in% neither_nor_vec ~ 4L,
+      q_norm_gov_bend_law_raw %in% somewhat_agree_vec ~ 5L,
+      q_norm_gov_bend_law_raw %in% agree_vec ~ 6L,
+      q_norm_gov_bend_law_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: q-norms-validate
+df_stacked_recoded |>
+  select(q_norm_tol_opposition, q_norm_tol_opposition_raw) |>
+  filter(is.na(q_norm_tol_opposition) & !is.na(q_norm_tol_opposition_raw)) |>
+  count(q_norm_tol_opposition_raw)
+
+df_stacked_recoded |>
+  select(q_norm_order_over_freedom, q_norm_order_over_freedom_raw) |>
+  filter(
+    is.na(q_norm_order_over_freedom) & !is.na(q_norm_order_over_freedom_raw)
+  ) |>
+  count(q_norm_order_over_freedom_raw)
+
+df_stacked_recoded |>
+  select(q_norm_disobey_unjustlaw, q_norm_disobey_unjustlaw_raw) |>
+  filter(
+    is.na(q_norm_disobey_unjustlaw) & !is.na(q_norm_disobey_unjustlaw_raw)
+  ) |>
+  count(q_norm_disobey_unjustlaw_raw)
+
+df_stacked_recoded |>
+  select(q_norm_disobey_gov, q_norm_disobey_gov_raw) |>
+  filter(is.na(q_norm_disobey_gov) & !is.na(q_norm_disobey_gov_raw)) |>
+  count(q_norm_disobey_gov_raw)
+
+df_stacked_recoded |>
+  select(q_norm_bypass_law, q_norm_bypass_law_raw) |>
+  filter(is.na(q_norm_bypass_law) & !is.na(q_norm_bypass_law_raw)) |>
+  count(q_norm_bypass_law_raw)
+
+df_stacked_recoded |>
+  select(q_norm_gov_bend_law, q_norm_gov_bend_law_raw) |>
+  filter(is.na(q_norm_gov_bend_law) & !is.na(q_norm_gov_bend_law_raw)) |>
+  count(q_norm_gov_bend_law_raw)
 ```
 
 ## News TV {#sec-news-tv}
