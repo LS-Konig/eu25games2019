@@ -5260,7 +5260,6 @@ df_stacked |>
 
 ```{r}
 #| label: value-labels-q_news_tv
-
 # Frequency-category format — days_*_vec moved to value-labels-q_news_tv_days ---
 
 # ⚠ de/it/sv/cs/da use a combined "daily or almost daily" label (no finer split
@@ -5463,14 +5462,14 @@ never_vec <- c(
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_news_tv = case_when(
-      q_news_tv_raw %in% never_vec            ~ "never",
-      q_news_tv_raw %in% less_often_vec       ~ "less_often",
-      q_news_tv_raw %in% once_a_month_vec     ~ "once_a_month",
-      q_news_tv_raw %in% less_than_1pw_vec    ~ "less_than_1pw",
-      q_news_tv_raw %in% once_a_week_vec      ~ "once_a_week",
-      q_news_tv_raw %in% several_pw_vec       ~ "several_pw",
+      q_news_tv_raw %in% never_vec ~ "never",
+      q_news_tv_raw %in% less_often_vec ~ "less_often",
+      q_news_tv_raw %in% once_a_month_vec ~ "once_a_month",
+      q_news_tv_raw %in% less_than_1pw_vec ~ "less_than_1pw",
+      q_news_tv_raw %in% once_a_week_vec ~ "once_a_week",
+      q_news_tv_raw %in% several_pw_vec ~ "several_pw",
       q_news_tv_raw %in% almost_every_day_vec ~ "almost_every_day",
-      q_news_tv_raw %in% every_day_vec        ~ "every_day",
+      q_news_tv_raw %in% every_day_vec ~ "every_day",
       .default = NA_character_
     )
   )
@@ -5484,6 +5483,326 @@ df_stacked_recoded |>
   distinct(q_news_tv_raw)
 ```
 
+
+## News TV (days) {#sec-news-tv-days}
+
+```{r}
+#| label: q-news-tv-days-values
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_news_tv_days_raw) |>
+  pull()
+```
+
+```{r}
+#| label: value-labels-news_tv_days
+# LESS THAN 1 DAY PER WEEK (→ 0) ----------------------------------------------
+less_than_1_day_vec <- c(
+  "Weniger als 1 Tag pro Woche", # de
+  "Minder vaak dan 1 dag per week", # nl
+  "По-малко от 1 ден на седмица", # bg
+  "Manje od 1 dan tjedno", # hr
+  "Méně než 1 den v týdnu", # cs
+  "Mindre end én dag om ugen", # da
+  "Vähem kui 1 päev nädalas", # et
+  "Harvemmin kuin 1 päivänä viikossa", # fi
+  "Moins d'un jour par semaine", # fr
+  "Λιγότερο από 1 ημέρα την εβδομάδα", # el
+  "Ritkábban mint heti 1 nap", # hu
+  "Less than 1 day per week", # en
+  "Meno di 1 giorno a settimana", # it
+  "Mazāk nekā 1 dienu nedēļā", # lv
+  "Mažiau nei 1 dieną per savaitę", # lt
+  "Rzadziej niż 1 dzień w tygodniu", # pl
+  "Menos de 1 dia por semana", # pt
+  "Mai puțin de 1 zi pe săptămână", # ro
+  "Menej ako 1 deň do týždňa", # sk
+  "Manj kot 1 dan tedensko", # sl
+  "Menos de 1 día a la semana", # es
+  "Mindre än 1 dag i veckan" # sv
+)
+# 1 DAY (→ 1) ------------------------------------------------------------------
+days_1_vec <- c(
+  "1 Tag", # de
+  "1 dag", # nl, sv
+  "1 ден", # bg
+  "1 dan", # hr, sl
+  "1 den", # cs
+  "Én dag", # da
+  "1 päev", # et
+  "1 päivänä", # fi
+  "1 jour", # fr
+  "1 ημέρα", # el
+  "1 nap", # hu
+  "1 day", # en
+  "1 giorno", # it
+  "1 dienu", # lv
+  "(1) 1 dieną", # lt
+  "1 dzień", # pl
+  "1 dia", # pt
+  "1 zi", # ro
+  "1 deň" # sk
+)
+# 2 DAYS (→ 2) -----------------------------------------------------------------
+days_2_vec <- c(
+  "2 Tage", # de
+  "2 dagen", # nl
+  "2 дни", # bg
+  "2 dana", # hr
+  "2 dní", # cs
+  "2 dage", # da
+  "2 päeva", # et
+  "2 päivänä", # fi
+  "2 jours", # fr
+  "2 ημέρες", # el
+  "2 nap", # hu
+  "2 days", # en
+  "2 giorni", # it
+  "2 dienas", # lv
+  "(2) 2 dienas", # lt
+  "2 dni", # pl, sk, sl
+  "2 dias", # pt
+  "2 zile", # ro
+  "2 días", # es
+  "2 dagar" # sv
+)
+# 3 DAYS (→ 3) -----------------------------------------------------------------
+days_3_vec <- c(
+  "3 Tage", # de
+  "3 dagen", # nl
+  "3 ден", # bg
+  "3 dana", # hr
+  "3 dní", # cs
+  "3 dage", # da
+  "3 päeva", # et
+  "3 päivänä", # fi
+  "3 jours", # fr
+  "3 ημέρες", # el
+  "3 nap", # hu
+  "3 days", # en
+  "3 giorni", # it
+  "3 dienas", # lv
+  "(3) 3 dienas", # lt
+  "3 dni", # pl, sk, sl
+  "3 dias", # pt
+  "3 zile", # ro
+  "3 días", # es
+  "3 dagar" # sv
+)
+# 4 DAYS (→ 4) -----------------------------------------------------------------
+days_4_vec <- c(
+  "4 Tage", # de
+  "4 dagen", # nl
+  "4 ден", # bg
+  "4 dana", # hr
+  "4 dní", # cs
+  "4 dage", # da
+  "4 päeva", # et
+  "4 päivänä", # fi
+  "4 jours", # fr
+  "4 ημέρες", # el
+  "4 nap", # hu
+  "4 days", # en
+  "4 giorni", # it
+  "4 dienas", # lv
+  "(4) 4 dienas", # lt
+  "4 dni", # pl, sk, sl
+  "4 dias", # pt
+  "4 zile", # ro
+  "4 días", # es
+  "4 dagar" # sv
+)
+# 5 DAYS (→ 5) -----------------------------------------------------------------
+days_5_vec <- c(
+  "5 Tage", # de
+  "5 dagen", # nl
+  "5 ден", # bg
+  "5 dana", # hr
+  "5 dní", # cs
+  "5 dage", # da
+  "5 päeva", # et
+  "5 päivänä", # fi
+  "5 jours", # fr
+  "5 ημέρες", # el
+  "5 nap", # hu
+  "5 days", # en
+  "5 giorni", # it
+  "5 dienas", # lv
+  "(5) 5 dienas", # lt
+  "5 dni", # pl, sk, sl
+  "5 dias", # pt
+  "5 zile", # ro
+  "5 días", # es
+  "5 dagar" # sv
+)
+# 6 DAYS (→ 6) -----------------------------------------------------------------
+days_6_vec <- c(
+  "6 Tage", # de
+  "6 dagen", # nl
+  "6 ден", # bg
+  "6 dana", # hr
+  "6 dní", # cs
+  "6 dage", # da
+  "6 päeva", # et
+  "6 päivänä", # fi
+  "6 jours", # fr
+  "6 ημέρες", # el
+  "6 nap", # hu
+  "6 days", # en
+  "6 giorni", # it
+  "6 dienas", # lv
+  "(6) 6 dienas", # lt
+  "6 dni", # pl, sk, sl
+  "6 dias", # pt
+  "6 zile", # ro
+  "6 días", # es
+  "6 dagar" # sv
+)
+# 7 DAYS (→ 7) -----------------------------------------------------------------
+days_7_vec <- c(
+  "7 Tage", # de
+  "7 dagen", # nl
+  "7 дни", # bg
+  "7 dana", # hr
+  "7 dní", # cs
+  "7 dage", # da
+  "7 päeva", # et
+  "7 päivänä", # fi
+  "7 jours", # fr
+  "7 ημέρες", # el
+  "7 nap", # hu
+  "7 days", # en
+  "7 giorni", # it
+  "7 dienas", # lv
+  "(7) 7 dienas", # lt
+  "7 dni", # pl, sk, sl
+  "7 dias", # pt
+  "7 zile", # ro
+  "7 días", # es
+  "7 dagar" # sv
+)
+```
 
 ## Conjoint Behavioral Game Variables
 
