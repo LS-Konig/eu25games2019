@@ -5126,6 +5126,32 @@ df_stacked_recoded |>
   count(q_occ_last_raw)
 ```
 
+## Meta Country Raw
+
+character variable, encodes the country from which respondent participated
+
+## Meta psid
+
+[Dynata Identifier Help Page](__https://help.dynata.com/s/article/Identifier-9cc7c84a__) describes `psid` as the **Session ID** — a unique identifier for a panelist *within a single survey*. Each time a panelist enters a survey, they receive a new `psid`. It identifies one survey-taking event (panelist × survey-entry), not the person.
+
+## Meta pid
+
+The `pid` is the **Panelist ID** — a unique and static identifier for a panelist across *all* surveys launched with Dynata. The same person carries the same `pid` from survey to survey and wave to wave, making it the correct key for tracking respondents across waves of a panel study.
+
+**Relationship:** `pid` ⊃ `psid` ⊃ `responseid`. In the stacked EU25 data, 78,060 unique `pid`s produced 102,766 unique `psid`s (~1.32 sessions per panelist, reflecting repeat participation across waves) and 103,685 raw response rows (~900 rows beyond unique sessions, indicating some `psid`s have multiple records — likely re-entries, partial+complete pairs, or duplicate exports worth checking before treating one row as one observation).
+
+## Meta device
+
+empty variable, can be dropped later
+
+## LR parties 9-12
+
+shown only in some countries 
+
+```{r}
+#| label: lr-parties-extended-values
+df_stacked
+```
 
 ## News TV {#sec-news-tv}
 
