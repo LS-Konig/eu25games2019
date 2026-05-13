@@ -5423,6 +5423,267 @@ df_stacked |>
   pull()
 ```
 
+```{r}
+#| label: value-labels-q_religion
+catholic_vec <- c(
+  "Katholisch",          # de
+  "Katholiek",           # nl
+  "Католик",             # bg
+  "Katolik",             # hr, da, sv
+  "katolíka",            # cs
+  "Roomalaiskatolinen",  # fi
+  "Catholique",          # fr
+  "Καθολικό",            # el
+  "Katolikus",           # hu
+  "Catholic",            # en, ro
+  "Cattolico/a",         # it
+  "Katolis",             # lv
+  "Kataliku",            # lt
+  "Katolika",            # pl
+  "Católico",            # pt, es
+  "Katolíka/(čku)",      # sk
+  "Katoličan(-ka)"       # sl
+)
+
+protestant_vec <- c(
+  "Protestantisch (Evangelisch)",                  # de
+  "Protestants Gereformeerd, Nederlands Hervormd", # nl
+  "Протестант",                                    # bg
+  "Protestant",                                    # hr, da, et, fr, en, sv
+  "protestanta",                                   # cs
+  "Protestantti (ml. luterilainen)",               # fi
+  "Protestáns",                                    # hu
+  "Protestante",                                   # it, pt, es
+  "Protestants",                                   # lv
+  "Protestanta",                                   # pl
+  "Protestant (ă)",                                # ro
+  "Protestanta(tku)",                              # sk
+  "Protestant(-ka)"                                # sl, svk (Slovenian form)
+)
+
+orthodox_vec <- c(
+  "Orthodox",                    # de, nl, en
+  "Православен християнин",      # bg
+  "Pripadnik pravoslavne vjere", # hr
+  "vyznavače pravoslaví",        # cs
+  "Ortodoks",                    # da
+  "Õigeusklik",                  # et
+  "Ortodoksi",                   # fi
+  "Orthodoxe",                   # fr
+  "Ορθόδοξο",                    # el
+  "Ortodox, görögkeleti",        # hu
+  "Ortodosso/a",                 # it
+  "Pareizticīgais",              # lv
+  "Stačiatikiu",                 # lt
+  "Prawosławnego",               # pl
+  "Ortodoxo",                    # pt, es
+  "Ortodox (ă)",                 # ro
+  "Pravoslavec(-vka)",           # sl, svk (Slovenian)
+  "Ortodoxného/(nú)",            # sk
+  "Ortodox"                      # sv
+)
+
+other_christian_vec <- c(
+  "Sonstige Christen",                      # de
+  "Anders christelijk",                     # nl
+  "Друг християнин",                        # bg
+  "Pripadnik neke druge kršćanske vjere",   # hr
+  "vyznavače jiné křesťanské církve",       # cs
+  "Anden kristen",                          # da
+  "Muu kristlane",                          # et
+  "Muu kristitty",                          # fi
+  "Autre chrétien",                         # fr
+  "Άλλο χριστιανό",                         # el
+  "Egyéb keresztény",                       # hu
+  "Other Christian",                        # en
+  "Altro cristiano/a",                      # it
+  "Citas kristīgās ticības piekritējs",     # lv
+  "Kitu krikščioniu",                       # lt
+  "Chrześcijanina innego wyznania",         # pl
+  "Outro tipo de Cristianismo",             # pt
+  "Altă formă de creştin",                  # ro
+  "Iného(nú) kresťana/(ku)",                # sk
+  "Druge krščanske vere",                   # sl, svk (Slovenian)
+  "Otra clase de cristiano",                # es
+  "Annan kristen"                           # sv
+)
+
+muslim_vec <- c(
+  "Muslimisch",    # de
+  "Moslim",        # nl
+  "Мюсюлманин",    # bg
+  "Musliman",      # hr
+  "Muslim",        # da, en, sv
+  "Moslem",        # et
+  "Muslimi",       # fi
+  "Musulman",      # fr
+  "Μουσουλμάνο",   # el
+  "Musulmano/a",   # it
+  "Musulmanis",    # lv
+  "Musulmonu",     # lt
+  "Muçulmano",     # pt
+  "Musulman (ă)",  # ro
+  "Moslima(ku)",   # sk
+  "Musliman(-ka)", # sl, svk (Slovenian)
+  "Musulmán"       # es
+)
+
+jewish_vec <- c(
+  "Jüdisch",       # de
+  "Joods",         # nl
+  "Юдей",          # bg
+  "Židov",         # hr
+  "Žida",          # cs
+  "Jøde",          # da
+  "Juudiusku",     # et
+  "Juutalainen",   # fi
+  "Juif",          # fr
+  "Εβραίο",        # el
+  "Zsidó",         # hu
+  "Jewish",        # en
+  "Ebreo/a",       # it
+  "Zyda",          # pl — possible encoding artifact for Żyda
+  "Judeu",         # pt
+  "Žida(Židovku)", # sk
+  "Žid(-inja)",    # sl, svk (Slovenian)
+  "Judío",         # es
+  "Judisk"         # sv
+)
+
+buddhist_vec <- c(
+  "Buddhist",      # de, en, da, sv
+  "Boeddhist",     # nl
+  "Будист",        # bg
+  "Budist",        # hr, et
+  "buddhistu",     # cs
+  "Buddhalainen",  # fi
+  "Bouddhiste",    # fr
+  "Buddhista",     # hu
+  "Buddista",      # it
+  "Budists",       # lv
+  "Budistu",       # lt
+  "Buddystę",      # pl
+  "Budista",       # pt, es
+  "Budist (ă)",    # ro
+  "Budhistu(tku)", # sk
+  "Budist(-ka)",   # sl, svk (Slovenian)
+  "Buddist"        # sv
+)
+
+hindu_vec <- c(
+  "Hindu",          # de, da, fi, en, pt, sv
+  "Hinduist",       # hr
+  "hinduistu",      # cs
+  "Hindouiste",     # fr
+  "Hindoe",         # nl
+  "Hinduists",      # lv
+  "Hinduistu(ku)",  # sk
+  "Hindujec(-jka)", # sl, svk (Slovenian)
+  "Hinduista"       # es
+)
+
+sikh_vec <- c(
+  "Sikh",  # de, nl, fr, en, sv
+  "sikha", # cs
+  "Sikhi", # fi
+  "Σίχ",   # el
+  "SIKH"   # pt — uppercase artifact
+)
+
+atheist_vec <- c(
+  "Atheist",     # de, en
+  "Atheïst",     # nl
+  "Атеист",      # bg
+  "Ateist",      # hr, da, et, sv
+  "ateistu",     # cs
+  "Ateisti",     # fi
+  "Athée",       # fr
+  "Άθεο",        # el
+  "Ateista",     # hu
+  "Ateo/a",      # it
+  "Ateists",     # lv
+  "Ateistu",     # lt
+  "Ateistę",     # pl
+  "Ateu",        # pt
+  "Ateu / atee", # ro
+  "Ateist(-ka)", # sl, svk (Slovenian)
+  "Ateistu(ku)", # sk
+  "Ateo"         # es
+)
+
+nonbeliever_agnostic_vec <- c(
+  "Ohne Bekenntnis\\ Agnostiker",       # de
+  "Niet gelovig\\ Agnostisch",          # nl
+  "Невярващ / агностик",                # bg
+  "Niste vjernik/agnostik",             # hr
+  "nevěřícího, agnostika",              # cs
+  "Ikke troende/agnostiker",            # da
+  "Agnostik/mitteuskuja",               # et
+  "Ei vakaumusta / agnostikko",         # fi
+  "Non croyant \\ agnostique",          # fr
+  "Μη πιστό/ Αγνωστικιστή",            # el
+  "Nem vallásos / agnosztikus",         # hu
+  "Non believer or Agnostic",           # en
+  "Non credente / agnosta",             # it
+  "Neticīgs/ Agnostiķis",               # lv
+  "Netikinčiu / agnostiku",             # lt
+  "Niewierzącego/ agnostyka",           # pl
+  "Não crente / Agnóstico",             # pt
+  "Liber cugetător(oare)\\agnostic(ă)", # ro
+  "Agnostik / niste verni",             # sl, svk (Slovenian)
+  "Neveriaceho(u)/Agnostika(čku)",      # sk
+  "No creyente / agnóstico",            # es
+  "Ingen tro/agnostiker"                # sv
+)
+
+other_religion_vec <- c(
+  "Sonstige",                     # de
+  "Anders",                       # nl
+  "Друго",                        # bg
+  "Nešto drugo",                  # hr
+  "vyznavače jiného náboženství", # cs
+  "Andet",                        # da
+  "Muu",                          # et, fi
+  "Autre",                        # fr
+  "Αλλο",                         # el
+  "Egyéb",                        # hu
+  "Other",                        # en
+  "Altro",                        # it
+  "Cits",                         # lv
+  "Kita",                         # lt
+  "Inne",                         # pl
+  "Outra",                        # pt
+  "Alta",                         # ro
+  "Ostalo",                       # sl, svk (Slovenian)
+  "Iné",                          # sk
+  "Otra",                         # es
+  "Annat"                         # sv
+)
+
+dont_know_vec <- c(dont_know_vec,
+  "Не знам",     # bg
+  "Ne znam",     # hr
+  "Nevím",       # cs
+  "Ved ikke",    # da
+  "Ei tea",      # et
+  "En tiedä",    # fi
+  "Ne sait pas", # fr
+  "δεν ξέρω",    # el
+  "Nem tudom",   # hu
+  "Don't know",  # en
+  "Non so",      # it
+  "Nezinu",      # lv
+  "Nežinau",     # lt
+  "Nie wiem",    # pl
+  "Não sei",     # pt
+  "Nu știu",     # ro
+  "Ne vem",      # sl, svk (Slovenian)
+  "Neviem",      # sk
+  "No sé",       # es
+  "Vet ej"       # sv
+)
+```
+
 ## News TV {#sec-news-tv}
 
 ```{r}
