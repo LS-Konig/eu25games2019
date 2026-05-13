@@ -5992,6 +5992,32 @@ dont_know_vec <- c(
 )
 ```
 
+```{r}
+#| label: recode-q_class
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_class = case_when(
+      q_class_raw %in% working_class_vec       ~ "working_class",
+      q_class_raw %in% lower_middle_class_vec  ~ "lower_middle_class",
+      q_class_raw %in% middle_class_vec        ~ "middle_class",
+      q_class_raw %in% upper_middle_class_vec  ~ "upper_middle_class",
+      q_class_raw %in% higher_class_vec        ~ "higher_class",
+      q_class_raw %in% other_class_vec         ~ "other",
+      q_class_raw %in% dont_know_vec           ~ "dont_know",
+      .default = NA_character_
+    )
+  )
+```
+
+```{r}
+#| label: validate-q_class
+df_stacked_recoded |>
+  select(q_class, q_class_raw) |>
+  filter(is.na(q_class) & !is.na(q_class_raw)) |>
+  distinct(q_class_raw) |>
+  print(n = 100)
+```
+
 ## News TV {#sec-news-tv}
 
 ```{r}
