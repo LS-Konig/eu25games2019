@@ -5662,7 +5662,8 @@ days_1_vec <- c(
   "1 dzień", # pl
   "1 dia", # pt
   "1 zi", # ro
-  "1 deň" # sk
+  "1 deň", # sk
+  "1 día"
 )
 # 2 DAYS (→ 2) -----------------------------------------------------------------
 days_2_vec <- c(
@@ -5802,6 +5803,32 @@ days_7_vec <- c(
   "7 días", # es
   "7 dagar" # sv
 )
+```
+
+```{r}
+#| label: recode-news_tv_days
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_news_tv_days = case_when(
+      q_news_tv_days_raw %in% less_than_1_day_vec ~ 0L,
+      q_news_tv_days_raw %in% days_1_vec ~ 1L,
+      q_news_tv_days_raw %in% days_2_vec ~ 2L,
+      q_news_tv_days_raw %in% days_3_vec ~ 3L,
+      q_news_tv_days_raw %in% days_4_vec ~ 4L,
+      q_news_tv_days_raw %in% days_5_vec ~ 5L,
+      q_news_tv_days_raw %in% days_6_vec ~ 6L,
+      q_news_tv_days_raw %in% days_7_vec ~ 7L,
+      .default = NA_integer_
+    )
+  )
+```
+
+```{r}
+#| label: validate-news_tv_days
+df_stacked_recoded |>
+  select(q_news_tv_days, q_news_tv_days_raw) |>
+  filter(is.na(q_news_tv_days) & !is.na(q_news_tv_days_raw)) |>
+  distinct(q_news_tv_days_raw)
 ```
 
 ## Conjoint Behavioral Game Variables
