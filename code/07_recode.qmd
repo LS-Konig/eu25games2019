@@ -5458,6 +5458,7 @@ protestant_vec <- c(
   "Protestanta", # pl
   "Protestant (ă)", # ro
   "Protestanta(tku)", # sk
+  "Προτεστάντη",
   "Protestant(-ka)" # sl, svk (Slovenian form)
 )
 
@@ -5687,8 +5688,8 @@ dont_know_vec <- c(
 
 ```{r}
 #| label: extend-vectors-q_religion
-catholic_vec   <- c(catholic_vec,   "Katoliiklane")  # et
-protestant_vec <- c(protestant_vec, "Protestantu")   # lt
+catholic_vec <- c(catholic_vec, "Katoliiklane") # et
+protestant_vec <- c(protestant_vec, "Protestantu") # lt
 ```
 
 ```{r}
@@ -5698,19 +5699,19 @@ df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     .q_rel = .norm(q_religion_raw),
     q_religion = case_when(
-      .q_rel %in% .norm(catholic_vec)             ~ "catholic",
-      .q_rel %in% .norm(protestant_vec)           ~ "protestant",
-      .q_rel %in% .norm(orthodox_vec)             ~ "orthodox",
-      .q_rel %in% .norm(other_christian_vec)      ~ "other_christian",
-      .q_rel %in% .norm(muslim_vec)               ~ "muslim",
-      .q_rel %in% .norm(jewish_vec)               ~ "jewish",
-      .q_rel %in% .norm(buddhist_vec)             ~ "buddhist",
-      .q_rel %in% .norm(hindu_vec)                ~ "hindu",
-      .q_rel %in% .norm(sikh_vec)                 ~ "sikh",
-      .q_rel %in% .norm(atheist_vec)              ~ "atheist",
+      .q_rel %in% .norm(catholic_vec) ~ "catholic",
+      .q_rel %in% .norm(protestant_vec) ~ "protestant",
+      .q_rel %in% .norm(orthodox_vec) ~ "orthodox",
+      .q_rel %in% .norm(other_christian_vec) ~ "other_christian",
+      .q_rel %in% .norm(muslim_vec) ~ "muslim",
+      .q_rel %in% .norm(jewish_vec) ~ "jewish",
+      .q_rel %in% .norm(buddhist_vec) ~ "buddhist",
+      .q_rel %in% .norm(hindu_vec) ~ "hindu",
+      .q_rel %in% .norm(sikh_vec) ~ "sikh",
+      .q_rel %in% .norm(atheist_vec) ~ "atheist",
       .q_rel %in% .norm(nonbeliever_agnostic_vec) ~ "nonbeliever_agnostic",
-      .q_rel %in% .norm(other_religion_vec)       ~ "other",
-      .q_rel %in% .norm(dont_know_vec)            ~ "dont_know",
+      .q_rel %in% .norm(other_religion_vec) ~ "other",
+      .q_rel %in% .norm(dont_know_vec) ~ "dont_know",
       .default = NA_character_
     ),
     .q_rel = NULL
