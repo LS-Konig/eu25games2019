@@ -5292,6 +5292,137 @@ df_stacked_recoded |>
   count(q_norm_gov_bend_law_raw)
 ```
 
+## Religion {#sec-religion}
+
+```{r}
+#| label: q_religion-values
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(q_religion_raw) |>
+  pull()
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_religion_raw) |>
+  pull()
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_religion_raw) |>
+  pull()
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_religion_raw) |>
+  pull()
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(q_religion_raw) |>
+  pull()
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(q_religion_raw) |>
+  pull()
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(q_religion_raw) |>
+  pull()
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(q_religion_raw) |>
+  pull()
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_religion_raw) |>
+  pull()
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_religion_raw) |>
+  pull()
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(q_religion_raw) |>
+  pull()
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_religion_raw) |>
+  pull()
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_religion_raw) |>
+  pull()
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(q_religion_raw) |>
+  pull()
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_religion_raw) |>
+  pull()
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(q_religion_raw) |>
+  pull()
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_religion_raw) |>
+  pull()
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(q_religion_raw) |>
+  pull()
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_religion_raw) |>
+  pull()
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_religion_raw) |>
+  pull()
+```
+
 ## News TV {#sec-news-tv}
 
 ```{r}
