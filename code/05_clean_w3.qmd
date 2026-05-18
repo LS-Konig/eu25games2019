@@ -29,7 +29,6 @@ execute:
 
 ```{r}
 #| label: setup
-
 start_time <- Sys.time()
 
 options(width = 80)
@@ -50,7 +49,6 @@ rm(p_required, p_to_install, packages)
 
 ```{r}
 #| label: load-data
-
 # wave 3 -----------------------------------------------------------------------
 df_wave3 <- readRDS(
   here(
@@ -109,7 +107,6 @@ No coalescing is needed within this block; all columns are mutually exclusive by
 
 ```{r}
 #| label: w3-block1-rename
-
 df_wave3 <- df_wave3 |>
   rename(
     # meta vars
@@ -192,7 +189,6 @@ Slot stability across waves is assumed; the mapping is copied verbatim from Wave
 
 ```{r}
 #| label: w3-check-thermo
-
 df_wave3 |>
   select(starts_with("Q196")) |>
   mutate(non_na_count = rowSums(!is.na(across(everything())))) |>
@@ -203,7 +199,6 @@ df_wave3 |>
 
 ```{r}
 #| label: w3-coalesce-thermo
-
 df_wave3 <- df_wave3 |>
   mutate(
     q_thermo_1_raw = Q196_1,
@@ -387,7 +382,6 @@ Q199 (EU campaign sources) and Q200 (campaign activity) are universal in Wave 3.
 
 ```{r}
 #| label: w3-campaign-rename
-
 df_wave3 <- df_wave3 |>
   rename(
     q_eu_campaign_sources_raw = Q199,
@@ -405,7 +399,6 @@ The coalesced columns are renamed to canonical non-suffixed names (no `_fra_`).
 
 ```{r}
 #| label: w3-cjeu-explore
-
 # timings: at most 1 arm per respondent
 df_wave3 |>
   select(
@@ -467,7 +460,6 @@ df_wave3 |>
 
 ```{r}
 #| label: w3-cjeu-coalesce
-
 df_wave3 <- df_wave3 |>
   mutate(
     # condition label
@@ -554,7 +546,6 @@ These are coalesced and the redundant columns dropped before the final rename.
 
 ```{r}
 #| label: w3-placements-coalesce
-
 df_wave3 <- df_wave3 |>
   mutate(
     # occupation duplicates
@@ -576,7 +567,6 @@ Q219–Q248 covers economic evaluations, nativism, satisfaction with democracy, 
 
 ```{r}
 #| label: w3-norms-rename
-
 df_wave3 <- df_wave3 |>
   rename(
     # norms battery
@@ -674,7 +664,6 @@ df_wave3 <- df_wave3 |>
 
 ```{r}
 #| label: w3-question-wordings
-
 rename_vec_w3 <- c(
   # meta
   meta_startdate = "StartDate",
@@ -709,8 +698,8 @@ rename_vec_w3 <- c(
   q_religion_raw = "Q6",
   q_religion_other_raw = "Q6_TEXT",
   q_class_raw = "Q7",
-  q_verif_raw = "Q8",
-  q_verif2_raw = "Q8_TEXT",
+  q_attn_check_raw = "Q8",
+  q_attn_check_text_raw = "Q8_TEXT",
   # outcome batteries
   q_eu_efficacy_understand_raw = "Q35_1",
   q_eu_efficacy_care_raw = "Q35_2",
@@ -869,7 +858,6 @@ wording_map_w3 <- wording_map |>
 ```{r}
 #| label: tbl-w3-wording-unmatched
 #| tbl-cap: "W3 variables with no wording match"
-
 cat("Distinct new_name values:", length(unique(names(rename_vec_w3))), "\n")
 cat("Matched rows in wording_map_w3:", nrow(wording_map_w3), "\n")
 
@@ -883,7 +871,6 @@ tibble(new_name = names(rename_vec_w3), col_name = rename_vec_w3) |>
 
 ```{r}
 #| label: save-cleaned-w3
-
 write_rds(
   df_wave3,
   file = here(
@@ -908,7 +895,6 @@ write_rds(
 ```{r}
 #| label: exec-time
 #| eval: true
-
 end_time <- Sys.time()
 cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```
@@ -916,6 +902,5 @@ cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
 ```{r}
 #| label: session-info
 #| eval: true
-
 sessioninfo::session_info()
 ```

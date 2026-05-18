@@ -1662,7 +1662,7 @@ df_wave1_renamed <- df_wave1 |>
     cj_task3_eval_f_raw = Q57_2,
     # attention check
     q_attn_check_raw = Q58,
-    q_attn_check_text = Q58_TEXT,
+    q_attn_check_text_raw = Q58_TEXT,
     # resp. priming — populism outcome battery
     q_pop_will_raw = Q60_1,
     q_pop_people_raw = Q60_2,
