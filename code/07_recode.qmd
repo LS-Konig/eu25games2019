@@ -1416,6 +1416,16 @@ rm(
 
 ## Attention Checks
 
+### Recoding Logic: Attention Check Validation
+
+The primary attention check variable (`der_att_check_3`) was decomposed into two distinct operational conditions to isolate logic errors and data quality issues. 
+
+- **Condition 1 (`der_att_check_1`):** Validates response conformity. Evaluates to `TRUE` if the raw categorical input (`q_attn_check_raw`) matches an expected value within the predefined vector `other_vec`.
+- **Condition 2 (`der_att_check_2`):** Validates data completeness. Evaluates to `TRUE` if the open-ended text string (`q_attn_check_text_raw`) contains data (`!is.na`).
+- **Composite Variable (`der_att_check_3`):** Evaluates to `TRUE` if and only if both individual criteria are simultaneously satisfied (`der_att_check_1 & der_att_check_2`). 
+
+This structural separation isolates respondents who selected the correct baseline categorical option but failed to provide the mandatory qualitative verification text (Condition 1 passed, Condition 2 failed), ensuring strict adherence to the validation criteria before data exclusion.
+
 ```{r}
 #| label: attention-check-values
 # att check variable (respondents were asked to select "Other") ----------------
@@ -6169,6 +6179,139 @@ df_stacked_recoded |>
   distinct(q_class_raw) |>
   print(n = 100)
 ```
+
+## EU integration position
+
+```{r}
+#| label: eu-int-pos-values
+df_stacked_recoded |>
+  filter(meta_country == "Austria") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Finland") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "France") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Germany") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Greece") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Italy") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Poland") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Romania") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Spain") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_euint_pos_raw)
+
+df_stacked_recoded |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_euint_pos_raw)
+
+# 1 = too far, 7 push further consistent across all languages
+```
+
+```{r}
+#| label: eu-int-pos-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_euint_pos = case_when(
+      str_detect(q_euint_pos_raw, "^\\(1\\)") ~ 1L,
+      str_detect(q_euint_pos_raw, "^\\(2\\)") ~ 2L,
+      str_detect(q_euint_pos_raw, "^\\(3\\)") ~ 3L,
+      str_detect(q_euint_pos_raw, "^\\(4\\)") ~ 4L,
+      str_detect(q_euint_pos_raw, "^\\(5\\)") ~ 5L,
+      str_detect(q_euint_pos_raw, "^\\(6\\)") ~ 6L,
+      str_detect(q_euint_pos_raw, "^\\(7\\)") ~ 7L,
+      TRUE ~ NA_integer_
+    )
+  )
+```
+
+```{r}
+#| label: eu-int-pos-validation
+df_stacked_recoded |>
+  select(q_euint_pos, q_euint_pos_raw) |>
+  filter(is.na(q_euint_pos) & !is.na(q_euint_pos_raw)) |>
+  distinct(q_euint_pos_raw)
+```
+
 
 
 ## News TV {#sec-news-tv}
