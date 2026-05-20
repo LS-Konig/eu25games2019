@@ -142,8 +142,8 @@ df_wave3 <- df_wave3 |>
     q_religion_raw = Q6,
     q_religion_other_raw = Q6_TEXT,
     q_class_raw = Q7,
-    q_verif_raw = Q8,
-    q_verif2_raw = Q8_TEXT,
+    q_attn_check_raw = Q8,
+    q_attn_check_text_raw = Q8_TEXT,
     # outcome batteries (universal in W3)
     q_eu_efficacy_understand_raw = Q35_1,
     q_eu_efficacy_care_raw = Q35_2,
