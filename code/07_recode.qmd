@@ -1414,6 +1414,158 @@ rm(
 )
 ```
 
+## Attention Checks
+
+```{r}
+#| label: attention-check-values
+# att check variable (respondents were asked to select "Other") ----------------
+df_stacked_recoded |>
+  filter(meta_country == "Austria") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Finland") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "France") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Germany") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Greece") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Italy") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Poland") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Romania") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Spain") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_attn_check_raw)
+df_stacked_recoded |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_attn_check_raw)
+
+other_vec <- c(
+  "Andere",
+  "Autres",
+  "(8) Overig",
+  "Други",
+  "Ostalo",
+  "Jiné",
+  "Andre",
+  "Muu",
+  "Muut",
+  "Άλλοι(ες)(α)",
+  "Egyéb",
+  "Others",
+  "Altri",
+  "Citi",
+  "Kita",
+  "Overig",
+  "Inne",
+  "Outros",
+  "Altele",
+  "Iné",
+  "Drugo",
+  "Otros",
+  "Andra"
+)
+
+# subsequently they should've written "I've read the instructions" -------------
+df_stacked_recoded |>
+  distinct(q_attn_check_text_raw) |>
+  print(n = 4000)
+
+# seems legit
+```
+
+```{r}
+#| label: attention-check-recode
+# create logical pass/fail variable
+
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    der_att_check_1 = if_else(q_attn_check_raw %in% other_vec, TRUE, FALSE),
+    der_att_check_2 = if_else(!is.na(q_attn_check_text_raw), TRUE, FALSE),
+    der_att_check_3 = if_else(der_att_check_1 & der_att_check_2, TRUE, FALSE)
+  )
+```
+
+```{r}
+#| label: attention-check-validate
+#| label: attention-check-validate
+# 1. Check logic matrix
+df_stacked_recoded |>
+  count(der_att_check_1, der_att_check_2, der_att_check_3)
+
+# 2. Results by group
+df_stacked_recoded |>
+  group_by(meta_country, meta_wave) |>
+  count(der_att_check_3) |>
+  print(n = 150)
+
+# 3. Inspect failed raw
+df_stacked_recoded |>
+  filter(!der_att_check_1 & !is.na(q_attn_check_raw)) |>
+  distinct(q_attn_check_raw) |>
+  print(n = 100)
+
+# 4. Inspect missing text
+df_stacked_recoded |>
+  filter(der_att_check_1 & !der_att_check_2) |>
+  distinct(q_attn_check_raw, q_attn_check_text_raw)
+```
+
 ## Populist Attitude Items
 
 ```{r}
@@ -5861,134 +6013,134 @@ df_stacked |>
 ```{r}
 #| label: value-labels-q_class
 working_class_vec <- c(
-  "Arbeiterklasse der Gesellschaft",         # de
-  "De arbeidersklasse van de maatschappij",  # nl
-  "Работническата класа на обществото",      # bg
-  "Radničkoj društvenoj klasi",              # hr
-  "Dělnické třídy",                          # cs
-  "Arbejderklassen",                         # da
-  "Ühiskonna töölisklassi",                  # et
-  "Työväenluokkaan",                         # fi
-  "La classe ouvrière de la société",        # fr
-  "Στην εργατική τάξη της κοινωνίας",       # el
-  "A társadalom munkásosztálya",             # hu
-  "The working class of society",            # en
-  "La classe operaia della società",         # it
-  "Sabiedrības strādnieku šķiras",           # lv
-  "Visuomenės darbininkų klasei",            # lt
-  "Klasy robotniczej",                       # pl
-  "Classe trabalhadora da sociedade",        # pt
-  "Robotníckej triede spoločnosti",          # sk
-  "Delovnemu razredu družbe",                # sl
-  "La clase trabajadora de la sociedad",     # es
-  "Arbetarklassen"                           # sv
+  "Arbeiterklasse der Gesellschaft", # de
+  "De arbeidersklasse van de maatschappij", # nl
+  "Работническата класа на обществото", # bg
+  "Radničkoj društvenoj klasi", # hr
+  "Dělnické třídy", # cs
+  "Arbejderklassen", # da
+  "Ühiskonna töölisklassi", # et
+  "Työväenluokkaan", # fi
+  "La classe ouvrière de la société", # fr
+  "Στην εργατική τάξη της κοινωνίας", # el
+  "A társadalom munkásosztálya", # hu
+  "The working class of society", # en
+  "La classe operaia della società", # it
+  "Sabiedrības strādnieku šķiras", # lv
+  "Visuomenės darbininkų klasei", # lt
+  "Klasy robotniczej", # pl
+  "Classe trabalhadora da sociedade", # pt
+  "Robotníckej triede spoločnosti", # sk
+  "Delovnemu razredu družbe", # sl
+  "La clase trabajadora de la sociedad", # es
+  "Arbetarklassen" # sv
 )
 lower_middle_class_vec <- c(
-  "Untere Mittelschicht der Gesellschaft",          # de
-  "De lagere middenklasse van de maatschappij",     # nl
-  "Долната средна класа на обществото",             # bg
-  "Nižoj srednjoj društvenoj klasi",                # hr
-  "Nižší střední třídy",                            # cs
-  "Lavere middelklasse",                            # da
-  "Ühiskonna madalamasse keskklassi",               # et
-  "Alempaan keskiluokkaan",                         # fi
-  "La classe moyenne inférieure de la société",     # fr
-  "Στην κατώτερη μεσαία τάξη της κοινωνίας",      # el
-  "A társadalom alsó középosztálya",                # hu
-  "The lower middle class of society",              # en
-  "Il ceto medio‐basso della società",              # it
-  "Sabiedrības zemākās vidusšķiras",                # lv
-  "Žemesnei viduriniajai visuomenės klasei",        # lt
-  "Niższej klasy średniej",                         # pl
-  "Classe média‐baixa da sociedade",                # pt
-  "Clasa de mijloc inferioară a societății",        # ro
-  "Nižšej strednej triede spoločnosti",             # sk
-  "Nižjemu srednjemu razredu družbe",               # sl
-  "La clase media‐baja de la sociedad",             # es
-  "Lägre medelklassen"                              # sv
+  "Untere Mittelschicht der Gesellschaft", # de
+  "De lagere middenklasse van de maatschappij", # nl
+  "Долната средна класа на обществото", # bg
+  "Nižoj srednjoj društvenoj klasi", # hr
+  "Nižší střední třídy", # cs
+  "Lavere middelklasse", # da
+  "Ühiskonna madalamasse keskklassi", # et
+  "Alempaan keskiluokkaan", # fi
+  "La classe moyenne inférieure de la société", # fr
+  "Στην κατώτερη μεσαία τάξη της κοινωνίας", # el
+  "A társadalom alsó középosztálya", # hu
+  "The lower middle class of society", # en
+  "Il ceto medio‐basso della società", # it
+  "Sabiedrības zemākās vidusšķiras", # lv
+  "Žemesnei viduriniajai visuomenės klasei", # lt
+  "Niższej klasy średniej", # pl
+  "Classe média‐baixa da sociedade", # pt
+  "Clasa de mijloc inferioară a societății", # ro
+  "Nižšej strednej triede spoločnosti", # sk
+  "Nižjemu srednjemu razredu družbe", # sl
+  "La clase media‐baja de la sociedad", # es
+  "Lägre medelklassen" # sv
 )
 middle_class_vec <- c(
-  "Mittelschicht der Gesellschaft",                 # de
-  "De middenklasse van de maatschappij",            # nl
-  "Средната класа на обществото",                   # bg
-  "Srednjoj društvenoj klasi",                      # hr
-  "Střední třídy",                                  # cs
-  "Middelklassen",                                  # da
-  "Ühiskonna keskklassi",                           # et
-  "Keskiluokkaan",                                  # fi
-  "La classe moyenne de la société",                # fr
-  "Στη μεσαία τάξη της κοινωνίας",                 # el
-  "A társadalom középosztálya",                     # hu
-  "The middle class of society",                    # en
-  "Il ceto medio della società",                    # it
-  "Sabiedrības vidusšķiras",                        # lv
-  "Visuomenės viduriniajai klasei",                 # lt
-  "Klasy średniej",                                 # pl
-  "Classe média da sociedade",                      # pt
-  "Clasa de mijloc a societăţii",                   # ro
-  "Strednej triede spoločnosti",                    # sk
-  "Srednjemu razredu družbe",                       # sl
-  "La clase media de la sociedad",                  # es
-  "Medelklassen"                                    # sv
+  "Mittelschicht der Gesellschaft", # de
+  "De middenklasse van de maatschappij", # nl
+  "Средната класа на обществото", # bg
+  "Srednjoj društvenoj klasi", # hr
+  "Střední třídy", # cs
+  "Middelklassen", # da
+  "Ühiskonna keskklassi", # et
+  "Keskiluokkaan", # fi
+  "La classe moyenne de la société", # fr
+  "Στη μεσαία τάξη της κοινωνίας", # el
+  "A társadalom középosztálya", # hu
+  "The middle class of society", # en
+  "Il ceto medio della società", # it
+  "Sabiedrības vidusšķiras", # lv
+  "Visuomenės viduriniajai klasei", # lt
+  "Klasy średniej", # pl
+  "Classe média da sociedade", # pt
+  "Clasa de mijloc a societăţii", # ro
+  "Strednej triede spoločnosti", # sk
+  "Srednjemu razredu družbe", # sl
+  "La clase media de la sociedad", # es
+  "Medelklassen" # sv
 )
 upper_middle_class_vec <- c(
-  "Obere Mittelschicht der Gesellschaft",           # de
-  "De hogere middenklasse van de maatschappij",     # nl
-  "Горната средна класа на обществото",             # bg
-  "Višoj srednjoj društvenoj klasi",                # hr
-  "Vyšší střední třídy",                            # cs
-  "Øvre middelklasse",                              # da
-  "Ühiskonna kõrgemasse keskklassi",                # et
-  "Ylempään keskiluokkaan",                         # fi
-  "La classe moyenne suppérieure de la société",    # fr
-  "Στην ανώτερη μεσαία τάξη της κοινωνίας",       # el
-  "A társadalom felső középosztálya",               # hu
-  "The upper middle class of society",              # en
-  "Il ceto medio‐alto della società",               # it
-  "Sabiedrības augstākās vidusšķiras",              # lv
+  "Obere Mittelschicht der Gesellschaft", # de
+  "De hogere middenklasse van de maatschappij", # nl
+  "Горната средна класа на обществото", # bg
+  "Višoj srednjoj društvenoj klasi", # hr
+  "Vyšší střední třídy", # cs
+  "Øvre middelklasse", # da
+  "Ühiskonna kõrgemasse keskklassi", # et
+  "Ylempään keskiluokkaan", # fi
+  "La classe moyenne suppérieure de la société", # fr
+  "Στην ανώτερη μεσαία τάξη της κοινωνίας", # el
+  "A társadalom felső középosztálya", # hu
+  "The upper middle class of society", # en
+  "Il ceto medio‐alto della società", # it
+  "Sabiedrības augstākās vidusšķiras", # lv
   "Aukštesniajai viduriniajai visuomeninei klasei", # lt
-  "Wyższej klasy średniej",                         # pl
-  "Classe média‐alta da sociedade",                 # pt
-  "Clasa de mijloc superioară a societăţii",        # ro
-  "Vyššej strednej triede spoločnosti",             # sk
-  "Višjemu srednjemu razredu družbe",               # sl
-  "La clase media‐alta de la sociedad",             # es
-  "Övre medelklassen"                               # sv
+  "Wyższej klasy średniej", # pl
+  "Classe média‐alta da sociedade", # pt
+  "Clasa de mijloc superioară a societăţii", # ro
+  "Vyššej strednej triede spoločnosti", # sk
+  "Višjemu srednjemu razredu družbe", # sl
+  "La clase media‐alta de la sociedad", # es
+  "Övre medelklassen" # sv
 )
 higher_class_vec <- c(
-  "Oberschicht der Gesellschaft",               # de
-  "De hogere klasse van de maatschappij",       # nl
-  "Висшата класа на обществото",                # bg
-  "Višoj društvenoj klasi",                     # hr
-  "Vyšší třídy",                                # cs
-  "Overklassen",                                # da
-  "Ühiskonna kõrgemasse klassi",                # et
-  "Ylempään sosiaaliluokkaan",                  # fi
-  "La classe la plus élevée de la société",     # fr
-  "Στην υψηλότερη τάξη της κοινωνίας",        # el
-  "A társadalom felső osztálya",                # hu
-  "The higher class of society",                # en
-  "Il ceto più elevato della società",          # it
-  "Sabiedrības augstākās šķiras",               # lv
-  "Visuomenės aukštesniajai klasei",            # lt
-  "Klasy wyższej",                              # pl
-  "Classe alta da sociedade",                   # pt
-  "Clasa superioară a societăţii",              # ro
-  "Vyššej triede spoločnosti",                  # sk
-  "Višji sloj",                                 # sl
-  "La clase alta de la sociedad",               # es
-  "Överklassen"                                 # sv
+  "Oberschicht der Gesellschaft", # de
+  "De hogere klasse van de maatschappij", # nl
+  "Висшата класа на обществото", # bg
+  "Višoj društvenoj klasi", # hr
+  "Vyšší třídy", # cs
+  "Overklassen", # da
+  "Ühiskonna kõrgemasse klassi", # et
+  "Ylempään sosiaaliluokkaan", # fi
+  "La classe la plus élevée de la société", # fr
+  "Στην υψηλότερη τάξη της κοινωνίας", # el
+  "A társadalom felső osztálya", # hu
+  "The higher class of society", # en
+  "Il ceto più elevato della società", # it
+  "Sabiedrības augstākās šķiras", # lv
+  "Visuomenės aukštesniajai klasei", # lt
+  "Klasy wyższej", # pl
+  "Classe alta da sociedade", # pt
+  "Clasa superioară a societăţii", # ro
+  "Vyššej triede spoločnosti", # sk
+  "Višji sloj", # sl
+  "La clase alta de la sociedad", # es
+  "Överklassen" # sv
 )
 other_class_vec <- c(
-  "Iets anders"  # nl — "something else", NLD only
+  "Iets anders" # nl — "something else", NLD only
 )
 dont_know_vec <- c(
   dont_know_vec,
-  "Не знам",  # bg
-  "Ei tea",   # et
+  "Не знам", # bg
+  "Ei tea", # et
   "δεν ξέρω", # el
-  "Non so",   # it
-  "No sé"     # es
+  "Non so", # it
+  "No sé" # es
 )
 ```
 
@@ -5997,13 +6149,13 @@ dont_know_vec <- c(
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_class = case_when(
-      q_class_raw %in% working_class_vec       ~ "working_class",
-      q_class_raw %in% lower_middle_class_vec  ~ "lower_middle_class",
-      q_class_raw %in% middle_class_vec        ~ "middle_class",
-      q_class_raw %in% upper_middle_class_vec  ~ "upper_middle_class",
-      q_class_raw %in% higher_class_vec        ~ "higher_class",
-      q_class_raw %in% other_class_vec         ~ "other",
-      q_class_raw %in% dont_know_vec           ~ "dont_know",
+      q_class_raw %in% working_class_vec ~ "working_class",
+      q_class_raw %in% lower_middle_class_vec ~ "lower_middle_class",
+      q_class_raw %in% middle_class_vec ~ "middle_class",
+      q_class_raw %in% upper_middle_class_vec ~ "upper_middle_class",
+      q_class_raw %in% higher_class_vec ~ "higher_class",
+      q_class_raw %in% other_class_vec ~ "other",
+      q_class_raw %in% dont_know_vec ~ "dont_know",
       .default = NA_character_
     )
   )
@@ -6017,6 +6169,7 @@ df_stacked_recoded |>
   distinct(q_class_raw) |>
   print(n = 100)
 ```
+
 
 ## News TV {#sec-news-tv}
 
