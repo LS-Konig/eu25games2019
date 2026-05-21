@@ -1859,63 +1859,63 @@ strongly_agree_vec <- c(
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_pop_will = case_when(
-      q_pop_will_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_will_raw %in% disagree_vec ~ 2,
-      q_pop_will_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_will_raw %in% neither_nor_vec ~ 4,
-      q_pop_will_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_will_raw %in% agree_vec ~ 6,
-      q_pop_will_raw %in% strongly_agree_vec ~ 7,
+      q_pop_will_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_will_raw %in% disagree_vec ~ 2L,
+      q_pop_will_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_will_raw %in% neither_nor_vec ~ 4L,
+      q_pop_will_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_will_raw %in% agree_vec ~ 6L,
+      q_pop_will_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_pop_people = case_when(
-      q_pop_people_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_people_raw %in% disagree_vec ~ 2,
-      q_pop_people_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_people_raw %in% neither_nor_vec ~ 4,
-      q_pop_people_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_people_raw %in% agree_vec ~ 6,
-      q_pop_people_raw %in% strongly_agree_vec ~ 7,
+      q_pop_people_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_people_raw %in% disagree_vec ~ 2L,
+      q_pop_people_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_people_raw %in% neither_nor_vec ~ 4L,
+      q_pop_people_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_people_raw %in% agree_vec ~ 6L,
+      q_pop_people_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_pop_citizen = case_when(
-      q_pop_citizen_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_citizen_raw %in% disagree_vec ~ 2,
-      q_pop_citizen_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_citizen_raw %in% neither_nor_vec ~ 4,
-      q_pop_citizen_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_citizen_raw %in% agree_vec ~ 6,
-      q_pop_citizen_raw %in% strongly_agree_vec ~ 7,
+      q_pop_citizen_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_citizen_raw %in% disagree_vec ~ 2L,
+      q_pop_citizen_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_citizen_raw %in% neither_nor_vec ~ 4L,
+      q_pop_citizen_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_citizen_raw %in% agree_vec ~ 6L,
+      q_pop_citizen_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_pop_reps = case_when(
-      q_pop_reps_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_reps_raw %in% disagree_vec ~ 2,
-      q_pop_reps_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_reps_raw %in% neither_nor_vec ~ 4,
-      q_pop_reps_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_reps_raw %in% agree_vec ~ 6,
-      q_pop_reps_raw %in% strongly_agree_vec ~ 7,
+      q_pop_reps_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_reps_raw %in% disagree_vec ~ 2L,
+      q_pop_reps_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_reps_raw %in% neither_nor_vec ~ 4L,
+      q_pop_reps_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_reps_raw %in% agree_vec ~ 6L,
+      q_pop_reps_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_pop_goodevil = case_when(
-      q_pop_goodevil_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_goodevil_raw %in% disagree_vec ~ 2,
-      q_pop_goodevil_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_goodevil_raw %in% neither_nor_vec ~ 4,
-      q_pop_goodevil_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_goodevil_raw %in% agree_vec ~ 6,
-      q_pop_goodevil_raw %in% strongly_agree_vec ~ 7,
+      q_pop_goodevil_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_goodevil_raw %in% disagree_vec ~ 2L,
+      q_pop_goodevil_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_goodevil_raw %in% neither_nor_vec ~ 4L,
+      q_pop_goodevil_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_goodevil_raw %in% agree_vec ~ 6L,
+      q_pop_goodevil_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
     q_pop_compromise = case_when(
-      q_pop_compromise_raw %in% strongly_disagree_vec ~ 1,
-      q_pop_compromise_raw %in% disagree_vec ~ 2,
-      q_pop_compromise_raw %in% somewhat_disagree_vec ~ 3,
-      q_pop_compromise_raw %in% neither_nor_vec ~ 4,
-      q_pop_compromise_raw %in% somewhat_agree_vec ~ 5,
-      q_pop_compromise_raw %in% agree_vec ~ 6,
-      q_pop_compromise_raw %in% strongly_agree_vec ~ 7,
+      q_pop_compromise_raw %in% strongly_disagree_vec ~ 1L,
+      q_pop_compromise_raw %in% disagree_vec ~ 2L,
+      q_pop_compromise_raw %in% somewhat_disagree_vec ~ 3L,
+      q_pop_compromise_raw %in% neither_nor_vec ~ 4L,
+      q_pop_compromise_raw %in% somewhat_agree_vec ~ 5L,
+      q_pop_compromise_raw %in% agree_vec ~ 6L,
+      q_pop_compromise_raw %in% strongly_agree_vec ~ 7L,
       .default = NA
     ),
   )
@@ -6312,7 +6312,853 @@ df_stacked_recoded |>
   distinct(q_euint_pos_raw)
 ```
 
+## Dem/Tech/People Items
 
+```{r}
+# q_dem_compromise_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_dem_compromise_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# q_dem_listen_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_dem_listen_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# q_tech_experts_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_tech_experts_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# q_tech_leaders_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_tech_leaders_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# q_party_harm_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_party_harm_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# q_people_incompetent_raw -------------------------------------------------------------
+(df_stacked_recoded |>
+  distinct(q_people_incompetent_raw) |>
+  na.omit() |>
+  pull()) %in%
+  agree_7scale
+
+# hence I can use existing 7scale agree vec for recoding
+```
+
+```{r}
+#| label: dem-tech-people-recode
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_dem_compromise = case_when(
+      q_dem_compromise_raw %in% strongly_disagree_vec ~ 1L,
+      q_dem_compromise_raw %in% disagree_vec ~ 2L,
+      q_dem_compromise_raw %in% somewhat_disagree_vec ~ 3L,
+      q_dem_compromise_raw %in% neither_nor_vec ~ 4L,
+      q_dem_compromise_raw %in% somewhat_agree_vec ~ 5L,
+      q_dem_compromise_raw %in% agree_vec ~ 6L,
+      q_dem_compromise_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_dem_listen = case_when(
+      q_dem_listen_raw %in% strongly_disagree_vec ~ 1L,
+      q_dem_listen_raw %in% disagree_vec ~ 2L,
+      q_dem_listen_raw %in% somewhat_disagree_vec ~ 3L,
+      q_dem_listen_raw %in% neither_nor_vec ~ 4L,
+      q_dem_listen_raw %in% somewhat_agree_vec ~ 5L,
+      q_dem_listen_raw %in% agree_vec ~ 6L,
+      q_dem_listen_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_tech_experts = case_when(
+      q_tech_experts_raw %in% strongly_disagree_vec ~ 1L,
+      q_tech_experts_raw %in% disagree_vec ~ 2L,
+      q_tech_experts_raw %in% somewhat_disagree_vec ~ 3L,
+      q_tech_experts_raw %in% neither_nor_vec ~ 4L,
+      q_tech_experts_raw %in% somewhat_agree_vec ~ 5L,
+      q_tech_experts_raw %in% agree_vec ~ 6L,
+      q_tech_experts_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_tech_leaders = case_when(
+      q_tech_leaders_raw %in% strongly_disagree_vec ~ 1L,
+      q_tech_leaders_raw %in% disagree_vec ~ 2L,
+      q_tech_leaders_raw %in% somewhat_disagree_vec ~ 3L,
+      q_tech_leaders_raw %in% neither_nor_vec ~ 4L,
+      q_tech_leaders_raw %in% somewhat_agree_vec ~ 5L,
+      q_tech_leaders_raw %in% agree_vec ~ 6L,
+      q_tech_leaders_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_party_harm = case_when(
+      q_party_harm_raw %in% strongly_disagree_vec ~ 1L,
+      q_party_harm_raw %in% disagree_vec ~ 2L,
+      q_party_harm_raw %in% somewhat_disagree_vec ~ 3L,
+      q_party_harm_raw %in% neither_nor_vec ~ 4L,
+      q_party_harm_raw %in% somewhat_agree_vec ~ 5L,
+      q_party_harm_raw %in% agree_vec ~ 6L,
+      q_party_harm_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+    q_people_incompetent = case_when(
+      q_people_incompetent_raw %in% strongly_disagree_vec ~ 1L,
+      q_people_incompetent_raw %in% disagree_vec ~ 2L,
+      q_people_incompetent_raw %in% somewhat_disagree_vec ~ 3L,
+      q_people_incompetent_raw %in% neither_nor_vec ~ 4L,
+      q_people_incompetent_raw %in% somewhat_agree_vec ~ 5L,
+      q_people_incompetent_raw %in% agree_vec ~ 6L,
+      q_people_incompetent_raw %in% strongly_agree_vec ~ 7L,
+      .default = NA
+    ),
+  )
+```
+
+```{r}
+#| label: dem-tech-pop-validate
+df_stacked_recoded |>
+  select(q_dem_compromise, q_dem_compromise_raw) |>
+  filter(is.na(q_dem_compromise) & !is.na(q_dem_compromise_raw)) |>
+  distinct(q_dem_compromise_raw)
+
+df_stacked_recoded |>
+  select(q_dem_listen, q_dem_listen_raw) |>
+  filter(is.na(q_dem_listen) & !is.na(q_dem_listen_raw)) |>
+  distinct(q_dem_listen_raw)
+
+df_stacked_recoded |>
+  select(q_tech_experts, q_tech_experts_raw) |>
+  filter(is.na(q_tech_experts) & !is.na(q_tech_experts_raw)) |>
+  distinct(q_tech_experts_raw)
+
+df_stacked_recoded |>
+  select(q_tech_leaders, q_tech_leaders_raw) |>
+  filter(is.na(q_tech_leaders) & !is.na(q_tech_leaders_raw)) |>
+  distinct(q_tech_leaders_raw)
+
+df_stacked_recoded |>
+  select(q_party_harm, q_party_harm_raw) |>
+  filter(is.na(q_party_harm) & !is.na(q_party_harm_raw)) |>
+  distinct(q_party_harm_raw)
+
+df_stacked_recoded |>
+  select(q_people_incompetent, q_people_incompetent_raw) |>
+  filter(is.na(q_people_incompetent) & !is.na(q_people_incompetent_raw)) |>
+  distinct(q_people_incompetent_raw)
+```
+
+## EU impact nat econ, nat culture, nat political influence
+
+```{r}
+#| label: eu-impact-values
+# q_eu_imp_nat_econ_raw -------------------------------------------------------
+
+# Austria
+df_stacked_recoded |>
+  filter(meta_country == "Austria") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Belgium
+df_stacked_recoded |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Bulgaria
+df_stacked_recoded |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Croatia
+df_stacked_recoded |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Czechia
+df_stacked_recoded |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Denmark
+df_stacked_recoded |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Estonia
+df_stacked_recoded |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Finland
+df_stacked_recoded |>
+  filter(meta_country == "Finland") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# France
+df_stacked_recoded |>
+  filter(meta_country == "France") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Germany
+df_stacked_recoded |>
+  filter(meta_country == "Germany") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Greece
+df_stacked_recoded |>
+  filter(meta_country == "Greece") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Hungary
+df_stacked_recoded |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Ireland
+df_stacked_recoded |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Italy
+df_stacked_recoded |>
+  filter(meta_country == "Italy") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Latvia
+df_stacked_recoded |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Lithuania
+df_stacked_recoded |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Netherlands
+df_stacked_recoded |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Poland
+df_stacked_recoded |>
+  filter(meta_country == "Poland") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Portugal
+df_stacked_recoded |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Romania
+df_stacked_recoded |>
+  filter(meta_country == "Romania") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Slovakia
+df_stacked_recoded |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Slovenia
+df_stacked_recoded |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Spain
+df_stacked_recoded |>
+  filter(meta_country == "Spain") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# Sweden
+df_stacked_recoded |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# United Kingdom
+df_stacked_recoded |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+# q_eu_imp_nat_cul_raw --------------------------------------------------------
+
+# Austria
+df_stacked_recoded |>
+  filter(meta_country == "Austria") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Belgium
+df_stacked_recoded |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Bulgaria
+df_stacked_recoded |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Croatia
+df_stacked_recoded |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Czechia
+df_stacked_recoded |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Denmark
+df_stacked_recoded |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Estonia
+df_stacked_recoded |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Finland
+df_stacked_recoded |>
+  filter(meta_country == "Finland") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# France
+df_stacked_recoded |>
+  filter(meta_country == "France") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Germany
+df_stacked_recoded |>
+  filter(meta_country == "Germany") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Greece
+df_stacked_recoded |>
+  filter(meta_country == "Greece") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Hungary
+df_stacked_recoded |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Ireland
+df_stacked_recoded |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Italy
+df_stacked_recoded |>
+  filter(meta_country == "Italy") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Latvia
+df_stacked_recoded |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Lithuania
+df_stacked_recoded |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Netherlands
+df_stacked_recoded |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Poland
+df_stacked_recoded |>
+  filter(meta_country == "Poland") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Portugal
+df_stacked_recoded |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Romania
+df_stacked_recoded |>
+  filter(meta_country == "Romania") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Slovakia
+df_stacked_recoded |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Slovenia
+df_stacked_recoded |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Spain
+df_stacked_recoded |>
+  filter(meta_country == "Spain") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# Sweden
+df_stacked_recoded |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# United Kingdom
+df_stacked_recoded |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+# q_eu_imp_nat_pol_raw --------------------------------------------------------
+
+# Austria
+df_stacked_recoded |>
+  filter(meta_country == "Austria") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Belgium
+df_stacked_recoded |>
+  filter(meta_country == "Belgium") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Bulgaria
+df_stacked_recoded |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Croatia
+df_stacked_recoded |>
+  filter(meta_country == "Croatia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Czechia
+df_stacked_recoded |>
+  filter(meta_country == "Czechia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Denmark
+df_stacked_recoded |>
+  filter(meta_country == "Denmark") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Estonia
+df_stacked_recoded |>
+  filter(meta_country == "Estonia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Finland
+df_stacked_recoded |>
+  filter(meta_country == "Finland") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# France
+df_stacked_recoded |>
+  filter(meta_country == "France") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Germany
+df_stacked_recoded |>
+  filter(meta_country == "Germany") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Greece
+df_stacked_recoded |>
+  filter(meta_country == "Greece") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Hungary
+df_stacked_recoded |>
+  filter(meta_country == "Hungary") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Ireland
+df_stacked_recoded |>
+  filter(meta_country == "Ireland") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Italy
+df_stacked_recoded |>
+  filter(meta_country == "Italy") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Latvia
+df_stacked_recoded |>
+  filter(meta_country == "Latvia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Lithuania
+df_stacked_recoded |>
+  filter(meta_country == "Lithuania") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Netherlands
+df_stacked_recoded |>
+  filter(meta_country == "Netherlands") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Poland
+df_stacked_recoded |>
+  filter(meta_country == "Poland") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Portugal
+df_stacked_recoded |>
+  filter(meta_country == "Portugal") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Romania
+df_stacked_recoded |>
+  filter(meta_country == "Romania") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Slovakia
+df_stacked_recoded |>
+  filter(meta_country == "Slovakia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Slovenia
+df_stacked_recoded |>
+  filter(meta_country == "Slovenia") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Spain
+df_stacked_recoded |>
+  filter(meta_country == "Spain") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# Sweden
+df_stacked_recoded |>
+  filter(meta_country == "Sweden") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# United Kingdom
+df_stacked_recoded |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(q_eu_imp_nat_pol_raw)
+
+# scale vectors ----------------------------------------------------------------
+
+very_positive_vec <- c(
+  # English
+  "Very positive",
+  # German
+  "Sehr positiv",
+  "Sehr gut",
+  "(1) Sehr positiv",
+  # Dutch
+  "Zeer positief",
+  "(1) Zeer positief",
+  # Bulgarian
+  "(1) Много положително",
+  # Croatian
+  "Vrlo pozitivno",
+  "Vrlo pozitivan",
+  # Czech
+  "(1) Velmi pozitivní",
+  "Velmi pozitivn",
+  # Danish
+  "Meget positiv",
+  # Estonian
+  "Väga positiivselt",
+  # Finnish
+  "Erittäin myönteinen",
+  # French
+  "Très positif",
+  # Greek
+  "Πολύ θετικά",
+  # Hungarian
+  "Nagyon pozitív",
+  # Italian
+  "Molto positiva",
+  "Molto positivo",
+  # Latvian
+  "(1)\tĻoti pozitīvi",
+  # Lithuanian
+  "Labai teigiamai",
+  # Polish
+  "Bardzo pozytywna",
+  # Portuguese
+  "Muito positivo",
+  # Romanian
+  "Puternic pozitiv",
+  # Slovak
+  "Veľmi kladne",
+  # Slovenian
+  "Zelo pozitivno",
+  # Spanish
+  "Muy positiva",
+  # Swedish
+  "Mycket positivt"
+)
+
+rather_positive_vec <- c(
+  # English
+  "Rather positive",
+  # German
+  "Eher positiv",
+  "Ziemlich gut",
+  "(2) Eher positiv",
+  # Dutch
+  "Vrij positief",
+  "(2) Vrij positief",
+  # Bulgarian
+  "(2) По-скоро положително",
+  # Croatian
+  "Prilično pozitivno",
+  "Prilično pozitivan",
+  # Czech
+  "(2) Spíše pozitivní",
+  "Spíše pozitivní",
+  # Danish
+  "Ret positiv",
+  # Estonian
+  "Pigem positiivselt",
+  # Finnish
+  "Melko myönteinen",
+  # French
+  "Plutôt positif",
+  # Greek
+  "Μάλλον θετικά",
+  # Hungarian
+  "Inkább pozitív",
+  # Italian
+  "Abbastanza positiva",
+  # Latvian
+  "(2)\tDiezgan pozitīvi",
+  # Lithuanian
+  "Veikiau teigiamai",
+  # Polish
+  "Raczej pozytywna",
+  # Portuguese
+  "Relativamente positive",
+  # Romanian
+  "Mai degrabă pozitiv",
+  # Slovak
+  "Pomerne kladne",
+  # Slovenian
+  "Precej pozitivno",
+  # Spanish
+  "Más bien positiva",
+  # Swedish
+  "Ganska positivt"
+)
+
+neither_pos_not_negative_vec <- c(
+  # English
+  "Neither positive nor negative",
+  # German
+  "Weder positiv noch negativ",
+  "Weder gut noch schlecht",
+  "(3) Weder positiv noch negativ",
+  # Dutch
+  "Noch positief noch negatief",
+  "(3) Noch positief noch negatief",
+  # Bulgarian
+  "(3) Нито положително, нито негативно",
+  "(3)Нито положително, нито негативно",
+  # Croatian
+  "Niti pozitivno niti negativno",
+  "Niti pozitivan niti negativan",
+  # Czech
+  "(3) Mám neutrální názor",
+  "Mám neutrální názor",
+  # Danish
+  "Hverken positiv eller negativ",
+  # Estonian
+  "Ei positiivselt ega negatiivselt",
+  # Finnish
+  "Ei myönteinen eikä kielteinen",
+  # French
+  "Ni positif ni négatif",
+  # Greek
+  "Ούτε θετικά ούτε αρνητικά",
+  # Hungarian
+  "Se nem pozitív, se nem negatív",
+  # Italian
+  "Né positiva né negativa",
+  # Latvian
+  "(3)\tNedz pozitīvi, nedz negatīvi",
+  # Lithuanian
+  "Nei teigiamai, nei neigiamai",
+  # Polish
+  "Ani pozytywna, ani negatywna",
+  # Portuguese
+  "Nem positivo nem negativo",
+  # Romanian
+  "Nici pozitiv, nici negativ",
+  # Slovak
+  "Ani kladne, ani záporne",
+  # Slovenian
+  "Niti pozitivno niti negativno",
+  # Spanish
+  "Ni positiva ni negativa",
+  # Swedish
+  "Varken positivt eller negativt"
+)
+
+rather_negative_vec <- c(
+  # English
+  "Rather negative",
+  # German
+  "Eher negativ",
+  "Ziemlich schlecht",
+  "(4) Eher negativ",
+  # Dutch
+  "Vrij negatief",
+  "(4) Vrij negatief",
+  # Bulgarian
+  "(4) По-скоро негативно",
+  "(4)По-скоро негативно",
+  # Croatian
+  "Prilično negativno",
+  "Prilično negativan",
+  # Czech
+  "(4) Spíše negativní",
+  "Spíše negativní",
+  # Danish
+  "Ret negativ",
+  # Estonian
+  "Pigem negatiivselt",
+  # Finnish
+  "Melko kielteinen",
+  # French
+  "Plutôt négatif",
+  # Greek
+  "Μάλλον αρνητικά",
+  # Hungarian
+  "Inkább negatív",
+  # Italian
+  "Abbastanza negativa",
+  # Latvian
+  "(4)\tDiezgan negatīvi",
+  # Lithuanian
+  "Veikiau neigiamai",
+  # Polish
+  "Raczej negatywna",
+  # Portuguese
+  "Relativamente negativo",
+  # Romanian
+  "Mai degrabă negativ",
+  # Slovak
+  "Pomerne záporne",
+  # Slovenian
+  "Precej negativno",
+  # Spanish
+  "Más bien negativa",
+  # Swedish
+  "Ganska negativt"
+)
+
+very_negative_vec <- c(
+  # English
+  "Very negative",
+  # German
+  "Sehr negativ",
+  "Sehr schlecht",
+  "(5) Sehr negativ",
+  # Dutch
+  "Zeer negatief",
+  "(5) Zeer negatief",
+  # Bulgarian
+  "(5) Много негативно",
+  # Croatian
+  "Vrlo negativno",
+  "Vrlo negativan",
+  # Czech
+  "(5) Velmi negativní",
+  "Velmi negativní",
+  # Danish
+  "Meget negativ",
+  # Estonian
+  "Väga negatiivselt",
+  # Finnish
+  "Erittäin kielteinen",
+  # French
+  "Très négatif",
+  # Greek
+  "Πολύ αρνητικά",
+  # Hungarian
+  "Nagyon negatív",
+  # Italian
+  "Molto negativa",
+  # Latvian
+  "(5)\tĻoti negatīvi",
+  # Lithuanian
+  "Labai neigiamai",
+  # Polish
+  "Bardzo negatywna",
+  # Portuguese
+  "Muito negativo",
+  # Romanian
+  "Puternic negativ",
+  # Slovak
+  "Veľmi záporne",
+  # Slovenian
+  "Zelo negativno",
+  # Spanish
+  "Muy negativa",
+  # Swedish
+  "Mycket negativt"
+)
+```
+
+```{r}
+#| label: eu-impact-recoding
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_eu_imp_nat_econ = case_when(
+      q_eu_imp_nat_econ_raw %in% very_positive_vec ~ 1L,
+      q_eu_imp_nat_econ_raw %in% rather_positive_vec ~ 2L,
+      q_eu_imp_nat_econ_raw %in% neither_pos_not_negative_vec ~ 3L,
+      q_eu_imp_nat_econ_raw %in% rather_negative_vec ~ 4L,
+      q_eu_imp_nat_econ_raw %in% very_negative_vec ~ 5L,
+      .default = NA
+    ),
+    q_eu_imp_nat_cul = case_when(
+      q_eu_imp_nat_cul_raw %in% very_positive_vec ~ 1L,
+      q_eu_imp_nat_cul_raw %in% rather_positive_vec ~ 2L,
+      q_eu_imp_nat_cul_raw %in% neither_pos_not_negative_vec ~ 3L,
+      q_eu_imp_nat_cul_raw %in% rather_negative_vec ~ 4L,
+      q_eu_imp_nat_cul_raw %in% very_negative_vec ~ 5L,
+      .default = NA
+    ),
+    q_eu_imp_nat_pol = case_when(
+      q_eu_imp_nat_pol_raw %in% very_positive_vec ~ 1L,
+      q_eu_imp_nat_pol_raw %in% rather_positive_vec ~ 2L,
+      q_eu_imp_nat_pol_raw %in% neither_pos_not_negative_vec ~ 3L,
+      q_eu_imp_nat_pol_raw %in% rather_negative_vec ~ 4L,
+      q_eu_imp_nat_pol_raw %in% very_negative_vec ~ 5L,
+      .default = NA
+    )
+  )
+```
+
+```{r}
+#| label: eu-imp-validation
+df_stacked_recoded |>
+  select(q_eu_imp_nat_econ, q_eu_imp_nat_econ_raw) |>
+  filter(is.na(q_eu_imp_nat_econ) & !is.na(q_eu_imp_nat_econ_raw)) |>
+  distinct(q_eu_imp_nat_econ_raw)
+
+df_stacked_recoded |>
+  select(q_eu_imp_nat_cul, q_eu_imp_nat_cul_raw) |>
+  filter(is.na(q_eu_imp_nat_cul) & !is.na(q_eu_imp_nat_cul_raw)) |>
+  distinct(q_eu_imp_nat_cul_raw)
+
+df_stacked_recoded |>
+  select(q_eu_imp_nat_pol, q_eu_imp_nat_pol_raw) |>
+  filter(is.na(q_eu_imp_nat_pol) & !is.na(q_eu_imp_nat_pol_raw)) |>
+  distinct(q_eu_imp_nat_pol_raw)
+```
 
 ## News TV {#sec-news-tv}
 
