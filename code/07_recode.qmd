@@ -7160,6 +7160,10 @@ df_stacked_recoded |>
   distinct(q_eu_imp_nat_pol_raw)
 ```
 
+## Vote and other Variables containing party values
+
+CONTINUE HERE @CLAUDE: Continue the recoding in @07_recode.qmd in line 7165. Your task is now to recode all variables that contain party values. I have an old notebook where I recoded parties from the same (but older version) dataset. Follow the strategy there, i.e. harmonize the party variables to add a new {var}_pf_id and {var}_pf_name foreach variable containing party names. You must first find out which variables are affected, i.e. containt party values in the first place. you can furthermore not rely on consistent spelling (hence the complicated old script in the first place)
+
 ## News TV {#sec-news-tv}
 
 ```{r}
