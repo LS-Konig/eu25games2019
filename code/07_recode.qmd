@@ -7162,7 +7162,2032 @@ df_stacked_recoded |>
 
 ## Vote and other Variables containing party values
 
-CONTINUE HERE @CLAUDE: Continue the recoding in @07_recode.qmd in line 7165. Your task is now to recode all variables that contain party values. I have an old notebook where I recoded parties from the same (but older version) dataset. Follow the strategy there, i.e. harmonize the party variables to add a new {var}_pf_id and {var}_pf_name foreach variable containing party names. You must first find out which variables are affected, i.e. containt party values in the first place. you can furthermore not rely on consistent spelling (hence the complicated old script in the first place)
+CONTINUE HERE @CLAUDE: Continue the recoding in @07_recode.qmd in line 7165. Your task is now to recode all variables that contain party values. I have an old notebook where I recoded parties from the same (but older version) dataset (the notebook is in). Follow the strategy there, i.e. harmonize the party variables to add a new {var}_pf_id and {var}_pf_name foreach variable containing party names. You must first find out which variables are affected, i.e. containt party values in the first place. you can furthermore not rely on consistent spelling (hence the complicated old script in the first place). Use R code to explore the data/02_processed/waves_stacked.rds data (the unrecoded dataset of all three waves) to identify the relevant variables. 
+
+### Identify party-bearing variables {#sec-party-vars-identify}
+
+Variables holding party-name values, confirmed for Party Facts harmonization.
+Scale placements (`q_lr_party_*`, `q_euint_party_*`), thermometer ratings (`q_thermo_*_raw`), conjoint policy-position strings (`cj_rand_party_*`), rank numbers (`q_vote_exp_rank_party_*`), turnout (`q_vote_eu_2014_raw`) and the attachment scale (`q_party_closeness_raw`) are excluded because they do not contain party names.
+
+```{r}
+#| label: party-vars-identify
+party_vars_closed <- c(
+  "q_party_id_raw",
+  "q_vote_choice_past_raw",
+  "q_vote_choice_past2014_raw",
+  "q_vote_choice_hypo_raw",
+  "q_vote_choice_intended_raw",
+  "q_eu_vote_2014_raw",
+  "q_vote_eu_2014_rec_raw",
+  "cj_dict1_party_raw", "cj_dict2_party_raw", "cj_dict3_party_raw",
+  "cj_trust1_party_raw", "cj_trust2_party_raw", "cj_trust3_party_raw",
+  # France-only fork columns
+  "q_party_id_fra_raw",
+  "q_vote_choice_past_fra_raw",
+  "q_vote_choice_hypo_fra_raw",
+  "q_vote_choice_ep2014_fra_raw"
+)
+
+party_vars_openend <- c(
+  "q_party_id_other_raw",
+  "q_vote_choice_past_other_raw",
+  "q_vote_choice_past2014_other_raw",
+  "q_vote_choice_hypo_other_raw",
+  "q_vote_choice_intended_other_raw",
+  "q_eu_vote_2014_raw_text",
+  "q_vote_eu_2014_rec_text_raw",
+  # France-only fork columns
+  "q_party_id_other_fra_raw",
+  "q_vote_choice_past_other_fra_raw",
+  "q_vote_choice_hypo_other_fra_raw",
+  "q_vote_choice_ep2014_other_fra_raw"
+)
+
+party_vars <- c(party_vars_closed, party_vars_openend)
+
+stopifnot(all(party_vars %in% names(df_stacked)))
+party_vars
+```
+
+### Thermometer party crosswalk {#sec-party-vars-thermo}
+
+The party rated in each `q_thermo_N_raw` slot is country-specific and lives only in the `Q196_*` question wording, not in a respondent column.
+The slot to `Q196_*` mapping is transcribed from the wave-cleaning notebooks (`04_clean_w2`, `05_clean_w3`; identical across waves), then joined to the wording lookup to recover the party shown in each slot.
+
+```{r}
+#| label: party-vars-thermo-crosswalk
+wording_map <- read_csv(
+  here("data", "02_processed", "question_wording_map.csv"),
+  show_col_types = FALSE
+)
+
+thermo_groupA <- c(
+  "Austria", "Belgium", "Croatia", "Czechia", "Estonia", "Finland", "France",
+  "Greece", "Italy", "Latvia", "Slovakia", "Slovenia", "Spain", "Sweden"
+)
+thermo_groupB <- c(
+  "Bulgaria", "Denmark", "Hungary", "Lithuania", "Netherlands", "Poland",
+  "United Kingdom"
+)
+
+thermo_slot_codes <- function(country) {
+  rest <- if (country %in% thermo_groupA) {
+    17:21
+  } else if (country %in% thermo_groupB) {
+    12:16
+  } else if (country == "Germany") {
+    22:26
+  } else if (country == "Ireland") {
+    7:11
+  } else if (country == "Portugal") {
+    27:31
+  } else if (country == "Romania") {
+    18:22
+  } else {
+    return(rep(NA_character_, 6))
+  }
+  c("Q196_1", paste0("Q196_", rest))
+}
+
+# longest common prefix of a character vector (the shared question instruction)
+lcp <- function(x) {
+  x <- x[!is.na(x)]
+  if (length(x) == 0) return("")
+  chars <- strsplit(x, "")
+  n <- min(lengths(chars))
+  out <- ""
+  for (i in seq_len(n)) {
+    ci <- unique(map_chr(chars, i))
+    if (length(ci) == 1L) out <- paste0(out, ci) else break
+  }
+  out
+}
+
+thermo_party_map <- map(sort(unique(wording_map$country)), function(ct) {
+  tibble(meta_country = ct, thermo_slot = 1:6, col_name = thermo_slot_codes(ct))
+}) |>
+  list_rbind() |>
+  crossing(wave = c(2, 3)) |>
+  left_join(
+    wording_map,
+    by = c("wave", "meta_country" = "country", "col_name")
+  ) |>
+  # party = wording suffix after the LAST " - " inside the common instruction
+  # prefix (hyphen-safe: keeps party names that themselves contain " - ")
+  group_by(wave, meta_country) |>
+  mutate(
+    .cp = lcp(wording),
+    .sep_end = {
+      pos <- str_locate_all(.cp, fixed(" - "))[[1]]
+      if (nrow(pos) == 0) 0L else pos[nrow(pos), "end"]
+    },
+    party_spelling = str_trim(str_sub(wording, .sep_end + 1))
+  ) |>
+  ungroup() |>
+  select(wave, meta_country, thermo_slot, party_spelling)
+
+thermo_party_map
+```
+
+### Collect distinct spellings {#sec-party-vars-collect}
+
+Stack the distinct `meta_country` x `party_spelling` combinations per source variable, then split closed-list from open-end fields and write both to disk as the input for the `party_recode_map` crosswalk.
+
+```{r}
+#| label: party-vars-collect-spellings
+party_list_for_stacking <- map(party_vars, ~ {
+  var_symbol <- sym(.x)
+  df_stacked |>
+    group_by(meta_country) |>
+    select(meta_country, {{ var_symbol }}) |>
+    distinct() |>
+    rename(party_spelling = {{ var_symbol }}) |>
+    mutate(source_variable = .x) |>
+    ungroup()
+})
+
+parties_for_recode <- party_list_for_stacking |>
+  list_rbind() |>
+  filter(!is.na(party_spelling) & party_spelling != "") |>
+  arrange(meta_country, party_spelling, source_variable) |>
+  distinct()
+
+# thermometer party labels (country-level constants) enter as a closed-list source
+parties_thermo <- thermo_party_map |>
+  distinct(meta_country, party_spelling) |>
+  filter(!is.na(party_spelling) & party_spelling != "") |>
+  mutate(source_variable = "q_thermo_party")
+
+parties_for_recode <- parties_for_recode |>
+  bind_rows(parties_thermo) |>
+  arrange(meta_country, party_spelling, source_variable) |>
+  distinct()
+
+parties_for_recode_openend <- parties_for_recode |>
+  filter(str_detect(source_variable, "other|text"))
+
+parties_for_recode_closed <- parties_for_recode |>
+  filter(!str_detect(source_variable, "other|text"))
+
+write_csv(
+  parties_for_recode_closed,
+  here("data", "02_processed", "parties_for_recode_closed.csv")
+)
+write_csv(
+  parties_for_recode_openend,
+  here("data", "02_processed", "parties_for_recode_openend.csv")
+)
+
+parties_for_recode |>
+  count(source_variable, name = "n_spellings") |>
+  arrange(desc(n_spellings))
+```
+
+### Party Facts crosswalk {#sec-party-recode-map}
+
+Paste the populated `party_recode_map` tribble into a chunk labelled `party-recode-map` directly below (schema `~meta_country, ~party_spelling, ~pf_name, ~pf_id`; one shared map joined against every variable, no `source_variable` column).
+
+```{r}
+#| label: party-recode-map
+
+#fmt: skip
+party_recode_map <- tribble(
+  ~meta_country, ~party_spelling, ~pf_name, ~pf_id,
+
+
+  # AUSTRIA ##### --------------------------------------------------------------
+  "Austria", "Andere (bitte ausfüllen)", "other", NA,
+  "Austria", "Bündnis Zukunft Österreich (BZÖ)", "Bündnis Zukunft Österreich", 599,
+  "Austria", "Bürgerforum Österreich (FRITZ)", "Bürgerforum Österreich — Liste Fritz Dinkhauser", 439,
+  "Austria", "Die Grünen - Die grüne Alternative", "Die Grünen — Die grüne Alternative", 1659,
+  "Austria", "Die Grünen - Grüne Alternative ( GRÜNE) ", "Die Grünen — Die grüne Alternative", 1659,
+  "Austria", "Die Grünen – Die grüne Alternative (GRÜNE)", "Die Grünen — Die grüne Alternative", 1659,
+  "Austria", "Die Reformkonservativen - REKOS", "Die Reformkonservativen", 2991,
+  "Austria", "EU-Austritt, Direkte Demokratie, Neutralität (EUStop)", "EU-Austritt, Direkte Demokratie, Neutralität (EUStop)[og]", NA,
+  "Austria", "EU-Austrittspartei (EUAUS)", "EU-Austrittspartei (EUAUS)[og]", NA,
+  "Austria", "EUROPA Jetzt – Initiative Johannes Voggenhuber", "EUROPA Jetzt – Initiative Johannes Voggenhuber[og]", NA,
+  "Austria", "Europa Anders: Kommunistische Partei Österreichs (KPÖ) + Piratenpartei + Der Wandel", "Europa Anders: Kommunistische Partei Österreichs (KPÖ) + Piratenpartei + Der Wandel[og]", NA,
+  "Austria", "Freiheitliche Partei Österreichs (FPÖ)", "Freiheitliche Partei Österreichs", 463,
+  "Austria", "Ich habe nicht gewählt", "did-not-vote", NA,
+  "Austria", "Ich kann mich nicht erinnern, ob ich gewählt habe", "dont-know", NA,
+  "Austria", "Ich war nicht wahlberechtigt", "not-eligible", NA,
+  "Austria", "JETZT - Liste Pilz (JETZT)", "Liste Peter Pilz", 6137, # 'JETZT - Liste Pilz' is the successor to 'Liste Peter Pilz'
+  "Austria", "KPÖ Plus – European Left, offene Liste", "KPÖ Plus – European Left, offene Liste[og]", NA,
+  "Austria", "Kommunistische Partei Österreichs (KPÖ)", "Kommunistische Partei Österreichs", 996,
+  "Austria", "Liberales Forum (LIF)", "Liberales Forum", 605,
+  "Austria", "NEOS - Das Neue Europa", "NEOS — Das Neue Österreich", 1970, # NEOS is the common party
+  "Austria", "NEOS - Das Neue Österreich", "NEOS — Das Neue Österreich", 1970,
+  "Austria", "NEOS – Das Neue Österreich und Liberales Forum (NEOS)", "NEOS — Das Neue Österreich", 1970,
+  "Austria", "Nein, ich stehe keiner politischen Partei nahe", "none", NA,
+  "Austria", "Piraten", "Piraten[og]", NA,
+  "Austria", "Sozialdemokratische Partei Österreich (SPÖ)", "Sozialdemokratische Partei Österreichs", 1384,
+  "Austria", "Sozialdemokratische Partei Österreichs ( SPÖ) ", "Sozialdemokratische Partei Österreichs", 1384,
+  "Austria", "Sozialdemokratische Partei Österreichs (SPÖ)", "Sozialdemokratische Partei Österreichs", 1384,
+  "Austria", "Weiß nicht", "dont-know", NA,
+  "Austria", "Österreichische Volkspartei (ÖVP)", "Österreichische Volkspartei", 1329,
+  "Austria", "Österreichische Volkspartei (ÖVP) ", "Österreichische Volkspartei", 1329,
+
+
+  # BELGIUM ##### --------------------------------------------------------------
+  "Belgium", "Anders (vul in)", "other", NA,
+  "Belgium", "CD&V (Christen-Democratisch en Vlaams)", "Christen-Democratisch en Vlaams", 604,
+  "Belgium", "CSP (Christlich Soziale Partei)", "Christlische Soziale Partei: Europäische Volkspartei", 6688,
+  "Belgium", "Centre démocrate humaniste (cdH)", "Parti Social Chrétien — Centre démocrate humaniste", 633,
+  "Belgium", "Christen-Democratisch en Vlaams (CD&V)", "Christen-Democratisch en Vlaams", 604,
+  "Belgium", "Droite Citoyenne (DC)", "Droite Citoyenne (DC)[og]", NA,
+  "Belgium", "DéFI - Démocrate Fédéraliste Indépendant", "Front Démocratique des Francophones / DéFI", 698,
+  "Belgium", "DéFI - Démocrate, Fédéraliste, Indépendant", "Front Démocratique des Francophones / DéFI", 698,
+  "Belgium", "Ecologistes Confédérés pour l'Organisation de Luttes Originales (Ecolo)", "Écologistes Confédérés pour l'organisation de luttes originales", 1563,
+  "Belgium", "FDF (Fédéralistes démocrates francophones)", "Front Démocratique des Francophones / DéFI", 698, # FDF is the former name of DéFI
+  "Belgium", "Groen", "Agalev — Groen", 528, # Groen is the successor/current iteration of Agalev - Groen
+  "Belgium", "Ik kan mij niet herinneren of ik heb gestemd", "dont-know", NA,
+  "Belgium", "Ik kwam niet in aanmerking om te stemmen", "not-eligible", NA,
+  "Belgium", "MR (Mouvement Réformateur)", "Mouvement Réformateur", 789,
+  "Belgium", "Mouvement Réformateur (MR)", "Mouvement Réformateur", 789,
+  "Belgium", "N-VA (Nieuw-Vlaamse Alliantie)", "Nieuw-Vlaamse Alliantie", 36,
+  "Belgium", "Nee, ik voel mij niet verbonden met een politieke partij", "none", NA,
+  "Belgium", "Niet gestemd", "did-not-vote", NA,
+  "Belgium", "Nieuw-Vlaamse Alliantie (N-VA)", "Nieuw-Vlaamse Alliantie", 36,
+  "Belgium", "Open VLD (Vlaamse Liberalen en Democraten)", "Partij voor Vrijheid en Vooruitgang — Open Vlaamse Liberalen en Democraten", 49,
+  "Belgium", "Open Vlaamse Liberalen en Democraten (Open Vld)", "Partij voor Vrijheid en Vooruitgang — Open Vlaamse Liberalen en Democraten", 49,
+  "Belgium", "PS (Parti Socialiste)", "Parti Socialiste", 500,
+  "Belgium", "PVDA+ | PTB-go! (Partij van de Arbeid –Parti du Travail de Belgique)", "Partij van de Arbeid van België — Parti du Travail de Belgique", 1753,
+  "Belgium", "Parti populaire (PP)", "Parti populaire", 639,
+  "Belgium", "Parti populaire - Personenpartij (PP)", "Parti populaire", 639,
+  "Belgium", "Parti socialiste (PS)", "Parti Socialiste", 500,
+  "Belgium", "Partij van de Arbeid van België (PVDA) - Parti du Travail de Belgique (PTB)", "Partij van de Arbeid van België — Parti du Travail de Belgique", 1753,
+  "Belgium", "Socialistische Partij Anders (sp.a)", "Socialistische Partij Anders — Vooruit", 1680,
+  "Belgium", "Vlaams Belang (VB)", "Vlaams Belang", 1968,
+  "Belgium", "Weet niet", "dont-know", NA,
+  "Belgium", "cdH (Centre Democrate Humaniste)", "Parti Social Chrétien — Centre démocrate humaniste", 633,
+  "Belgium", "sp.a (Socialistische Partij – Anders)", "Socialistische Partij Anders — Vooruit", 1680,
+  "Belgium", "Écologistes Confédérés pour l'organisation de luttes originales (Ecolo)", "Écologistes Confédérés pour l'organisation de luttes originales", 1563,
+
+
+  # BULGARIA ##### -------------------------------------------------------------
+  # Parties matched to Partyfacts
+  "Bulgaria", "Алтернатива за българско възраждане (АБВ)", "Alternativa za balgarsko vazrazhdane", 3187,
+  "Bulgaria", "Атака", "Natsionalen Sǎyuz Ataka", 1793,
+  "Bulgaria", "Българска социалистическа партия (БСП)", "Bălgarska Socialističeska Partija", 757,
+  "Bulgaria", "ВМРО – Българско Национално Движение", "VMRO — Bulgarsko Natsionalno Dvizhenie", 2056, # IMRO
+  "Bulgaria", "Воля", "Volya", 5863,
+  "Bulgaria", "Възраждане", "Vazrazhdane", 5862,
+  "Bulgaria", "Граждани за европейско развитие на България (ГЕРБ)", "Grazhdani za evropeysko razvitie na Balgariya", 760, # GERB
+  "Bulgaria", "Да България!", "Da Bulgaria", 5861,
+  "Bulgaria", "Да България! ", "Da Bulgaria", 5861, # Trailing space removed
+  "Bulgaria", "Движение за права и свободи (ДПС)", "Dvizhenie za prava i svobodi", 982, # DPS
+  "Bulgaria", "Демократи за силна България (ДСБ)", "Demokrati za Silna Balgarija", 1195, # DSB
+  "Bulgaria", "Зелените", "Zelena Partija", 659, # Green Party of Bulgaria
+  "Bulgaria", "Зелените ", "Zelena Partija", 659, # Trailing space removed
+  "Bulgaria", "Национален фронт за спасение на България (НФСБ)", "Natzionalen Front za Spasenie na Bulgaria", 2057, # NFSB
+  "Bulgaria", "Партия Атака", "Natsionalen Sǎyuz Ataka", 1793,
+  "Bulgaria", "Реформаторски блок", "Reformatorski Blok", 3189, # RB
+  "Bulgaria", "Синьо единство", "Sinyata koalitsia", 77, # Assuming "Blue Unity" refers to Blue Coalition (BC) given context/time.
+
+  # Coalitions / Combinations - No direct PF match (coded with original name [og])
+  "Bulgaria", "България без цензура + ВМРО–Българско Национално Движение", "България без цензура + ВМРО–Българско Национално Движение [og]", NA, # BBZ + IMRO coalition
+  "Bulgaria", "Демократична България (Да България! + Зелените + Демократи за силна България (ДСБ))", "Демократична България (Да България! + Зелените + Демократи за силна България (ДСБ)) [og]", NA, # Democratic Bulgaria coalition
+  "Bulgaria", "Коалиция за България (БСП и коалиция)", "Koalicija za Balgarija — BSP za Bŭlgariya", 1665, # KzB - BSP. The pf_name is specific to a recent coalition name, but the respondent spelling is a close match for the KzB grouping.
+
+  # Special Categories
+  "Bulgaria", "Друго [попълнете празното поле]", "other", NA, # Matches "other" (Друго)
+  "Bulgaria", "Не гласувах", "did-not-vote", NA, # "Did not vote"
+  "Bulgaria", "Не знам", "dont-know", NA, # "Don't know"
+  "Bulgaria", "Не помня дали гласувах", "dont-know", NA, # "I don't remember if I voted" (A form of 'dont-know')
+  "Bulgaria", "Не, не се чувствате близък/а до която и да е политическа партия", "none", NA, # "No, I don't feel close to any political party" (A form of 'none')
+  "Bulgaria", "Нямах право да гласувам", "not-eligible", NA, # "I was not eligible to vote"
+
+
+  # CROATIA #### ---------------------------------------------------------------
+  "Croatia", "Amsterdamska koalicija (Građansko-liberalni savez (GLAS), Istarski demokratski sabor (IDS), Primorsko-goranski savez (PGS), Hrvatska seljačka stranka  (HSS))", "Amsterdam Coalition [og]", NA_real_,
+  "Croatia", "Bandić Milan 365 - Stranka rada i solidarnosti (BM365)", "Bandić Milan 365 — Stranka rada i solidarnosti", 5452,
+  "Croatia", "Bandić Milan 365 - Stranka rada i solidarnosti (BM365) ", "Bandić Milan 365 — Stranka rada i solidarnosti", 5452,
+  "Croatia", "Bruna Esih – Zlatko Hasanbegović: Neovisni za Hrvatsku (NHR)", "Neovisni za Hrvatsku", 7422,
+  "Croatia", "Bruna Esih – Zlatko Hasanbegović: Neovisni za Hrvatsku (NHR) ", "Neovisni za Hrvatsku", 7422,
+  "Croatia", "Građansko-liberalni savez (Glas)", "Građansko-liberalni savez", 8178,
+  "Croatia", "Hrvatska demokratska zajednica (HDZ)", "Hrvatska demokratska zajednica", 1431,
+  "Croatia", "Hrvatska demokratska zajednica (HDZ) + Hrvatska stranka prava dr. Ante Starčević (HSP AS) + Blok umirovljenici zajedno (BUZ) + Hrvatska seljačka stranka (HSS) + Zagorska demokratska stranka (ZD…", "Patriotic Coalition (incl. HDZ, HSP-AS, HSS) [og]", NA_real_,
+  "Croatia", "Hrvatska demokršćanska stranka (HDS)", "Hrvatska demokršćanska stranka [og]", NA_real_,
+  "Croatia", "Hrvatska konzervativna stranka (HKS)", "Hrvatska konzervativna stranka", 9085,
+  "Croatia", "Hrvatska narodna stranka – Liberalni demokrati (HNS)", "Hrvatska narodna stranka — Liberalni Demokrati", 799,
+  "Croatia", "Hrvatska seljačka stranka  (HSS)", "Hrvatska seljačka stranka", 72,
+  "Croatia", "Hrvatska zora stranka naroda (HZ) + Hrvatski demokratski savez Slavonije i Baranje (HDSSB) + Akcija za bolju hrvatsku (ABH) + Autohtona - hrvatska seljačka stranka (AHSS) + Hrvatski rast (HRAST…", "Hrvatska zora-HDSSB-ABH-AHSS-HRAST Coalition [og]", NA_real_,
+  "Croatia", "Hrvatski laburisti - Stranka rada (HL-SR)", "Hrvatski laburisti — Stranka rada", 3143,
+  "Croatia", "Istarski demokratski sabor (IDS)", "Istarski demokratski sabor", 513,
+  "Croatia", "Most nezavisnih lista (MOST)", "Most nezavisnih lista", 4865,
+  "Croatia", "Most nezavisnih lista (Most)", "Most nezavisnih lista", 4865,
+  "Croatia", "Nacionalni forum (NF) + Hrvatska socijalno liberalna stranka (HSLS) + Primorsko goranski savez (PGS) + Lista za Rijeku (RI)", "National Forum Coalition [og]", NA_real_,
+  "Croatia", "Ne sjećam se jesam li glasao/la", "dont-know", NA_real_,
+  "Croatia", "Ne znam", "dont-know", NA_real_,
+  "Croatia", "Ne, ne osjećate bliskost prema nijednoj političkoj stranci", "none", NA_real_,
+  "Croatia", "Nisam glasao/la", "did-not-vote", NA_real_,
+  "Croatia", "Nisam imao/la biračko pravo", "not-eligible", NA_real_,
+  "Croatia", "Održivi Razvoj Hrvatske (ORaH)", "Održivi razvoj Hrvatske", 3201,
+  "Croatia", "Ostalo [upišite u prazninu]", "other", NA_real_,
+  "Croatia", "Pametno", "Pametno", 7336,
+  "Croatia", "Samostalna demokratska srpska stranka (SDSS (Самостална демократска српска странка (СДСС)))", "Samostalna demokratska srpska stranka", 2348,
+  "Croatia", "Socijaldemokratska partija Hrvatske  (SDP)", "Socijaldemokratska partija Hrvatske", 1475,
+  "Croatia", "Socijaldemokratska partija Hrvatske (SDP)", "Socijaldemokratska partija Hrvatske", 1475,
+  "Croatia", "Socijaldemokratska partija Hrvatske (SDP) + Hrvatska narodna stranka – Liberalni demokrati (HNS-LD) + Hrvatska stranka umirovljenika (HSU) + Samostalna demokratska srpska stranka (SDSS) + Istar…", "Kukuriku Coalition [og]", 2522, # This is the Kukuriku Coalition or a successor coalition
+  "Croatia", "Start - Stranka Antikorupcije, Razvoja i Transparentnosti (START)", "Start - Stranka Antikorupcije, Razvoja i Transparentnosti [og]", NA_real_,
+  "Croatia", "Živi zid", "Živi zid", 4867,
+  "Croatia", "Živi zid ", "Živi zid", 4867,
+
+
+  # CZECH REPUBLIC ##### -------------------------------------------------------
+  # Party Matches (pf_name from partyfacts "name" column)
+  "Czech Republic", "ANO 2011 (ANO)", "Akce nespokojených občanů", 2141,
+  "Czech Republic", "Hlas", "Hlas", 7337,
+  "Czech Republic", "Komunistická strana Čech a Moravy (KSČM)", "Komunistická strana Cech a Moravy", 1728,
+  "Czech Republic", "Křesťanská a demokratická unie - Československá strana lidová (KDU-ČSL)", "Křesťanská a demokratická unie / Československá strana lidová", 676,
+  "Czech Republic", "Křesťanská a demokratická unie – Československá strana lidová (KDU-ČSL)", "Křesťanská a demokratická unie / Československá strana lidová", 676, # Typo in hyphen, same party
+  "Czech Republic", "Občanská demokratická strana (ODS)", "Občanská demokratická strana", 466,
+  "Czech Republic", "Občanská demokratická strana (ODS) ", "Občanská demokratická strana", 466, # Trailing space, same party
+  "Czech Republic", "Občanská demokratická strana (ODS)         ", "Občanská demokratická strana", 466, # Trailing space, same party
+  "Czech Republic", "Starostové a nezávislí (STAN)", "Starostové a nezávislí", 1707,
+  "Czech Republic", "Strana svobodných občanů (Svobodní)", "Strana svobodných občanů", 254,
+  "Czech Republic", "Strana zelených (SZ)", "Strana zelených", 1554,
+  "Czech Republic", "Svoboda a přímá demokracie (SPD)", "Svoboda a přímá demokracie", 6125,
+  "Czech Republic", "Tradice Odpovědnost Prosperita 09 (TOP 09)", "Tradice Odpovědnost Prosperita 09", 223,
+  "Czech Republic", "Věci veřejné (VV)", "Věci veřejné", 1202,
+  "Czech Republic", "Úsvit přímé demokracie (Úsvit)", "Úsvit přímé demokracie", 2049,
+  "Czech Republic", "Česká pirátská strana (Piráti)", "Ceska piratska strana", 2047,
+  "Czech Republic", "Česká strana sociálně demokratická (ČSSD)", "Česká strana sociálně demokratická", 177,
+
+  # Coalitions/Groups with identifiable parties (best fit)
+  # Recoding 'TOP 09 + Starostové a nezávislí (STAN)' and 'TOP 09/Starostové a nezávislí (STAN)' to STAN (ID 1707) as they contain STAN. Could also be coded as coalition if separate ID existed. Using STAN as the most specific party in the grouping.
+  "Czech Republic", "TOP 09 + Starostové a nezávislí (STAN)", "Starostové a nezávislí", 1707,
+  "Czech Republic", "TOP 09/Starostové a nezávislí (STAN)", "Starostové a nezávislí", 1707,
+
+  # Party without Partyfacts Match (using [og] rule)
+  "Czech Republic", "Svobodní, Liberland a Radostné Česko - ODEJDEME BEZ PLACENÍ", "Svobodní, Liberland a Radostné Česko - ODEJDEME BEZ PLACENÍ [og]", NA,
+
+  # Special Categories (as per instructions)
+  # Other
+  "Czech Republic", "Jine", "other", NA,
+  "Czech Republic", "Jiné (uveďte)", "other", NA,
+
+  # None
+  "Czech Republic", "Ne, žádná politická strana vám nepřijde blízká", "none", NA,
+
+  # Not Eligible (non-voter/non-affiliate category)
+  "Czech Republic", "Nebyl/a jsem oprávněn/a volit", "not-eligible", NA,
+
+  # Did Not Vote (non-voter category)
+  "Czech Republic", "Nevolil", "did-not-vote", NA,
+  "Czech Republic", "Nevolil/a jsem", "did-not-vote", NA,
+
+  # Don't Know (non-voter/non-affiliate category)
+  "Czech Republic", "Nevzpomínám si, jestli jsem volil/a", "dont-know", NA,
+  "Czech Republic", "Nevím", "dont-know", NA,
+
+
+  # DENMARK ##### --------------------------------------------------------------
+  # Party Matches (Denmark)
+  "Denmark", "Alternativet (Å)", "Alternativet", 4070,
+  "Denmark", "Dansk Folkeparti (O)", "Dansk Folkeparti", 1022,
+  "Denmark", "Det Konservative Folkeparti (C)", "Konservative Folkeparti", 536,
+  "Denmark", "Det konservative Folkeparti (C)", "Konservative Folkeparti", 536, # Minor spelling variation/typo (lower-case 'k')
+  "Denmark", "Det Radikale Venstre (B)", "Det Radikale Venstre", 1507,
+  "Denmark", "Radikale Venstre (B)", "Det Radikale Venstre", 1507, # Abbreviated name
+  "Denmark", "Enhedslisten (Ø)", "Enhedslisten / De Rød-Grønne", 1527,
+  "Denmark", "Enhedslisten – De rød-grønne (Ø)", "Enhedslisten / De Rød-Grønne", 1527, # Full official name
+  "Denmark", "Folkebevægelsen mod EU (N)", "Folkebevægelsen mod EU", 333,
+  "Denmark", "Kristendemokraterne (K)", "Kristeligt Folkeparti / Kristendemokraterne", 53,
+  "Denmark", "Liberal Alliance (I)", "[Ny] Liberal Alliance", 212,
+  "Denmark", "Nye Borgerlige (D)", "Nye Borgerlige", 7339,
+  "Denmark", "Socialdemokraterne (A)", "Socialdemokraterne", 379,
+  "Denmark", "Socialdemokratiet (A)", "Socialdemokraterne", 379, # Common alternative name
+  "Denmark", "Socialistisk Folkeparti (F)", "Socialistisk Folkeparti", 329,
+  "Denmark", "Stram Kurs (P)", "Stram Kurs", 7338,
+  "Denmark", "Venstre (V)", "Venstre", 1204,
+
+  # No Partyfacts Match (using [og] rule)
+  # None found in the provided list.
+
+  # Special Categories
+  # Other
+  "Denmark", "Andet (udfyld tomt felt)", "other", NA,
+
+  # Did Not Vote
+  "Denmark", "Stemte ikke", "did-not-vote", NA,
+
+  # Don't Know
+  "Denmark", "Husker ikke om jeg stemte", "dont-know", NA,
+  "Denmark", "Ved ikke", "dont-know", NA,
+
+  # Not Eligible
+  "Denmark", "Jeg havde ikke stemmeret", "not-eligible", NA,
+
+  # None
+  "Denmark", "Nej, du føler ikke, at dine holdninger ligger tæt op ad et af de politiske partier", "none", NA,
+
+
+  # ESTONIA ##### --------------------------------------------------------------
+  # Party Matches (EST)
+  "Estonia", "Eesti 200", "Erakond Eesti 200", 7340,
+  "Estonia", "Eesti Iseseisvuspartei (EIP)", "Eesti Iseseisvuspartei", 8922,
+  "Estonia", "Eesti Keskerakond (KE)", "Eesti Keskerakond", 533,
+  "Estonia", "Eesti Konservatiivne Rahvaerakond (EKRE)", "Eesti Konservatiivne Rahvaerakond", 4094,
+  "Estonia", "Eesti Reformierakond (ER)", "Eesti Reformierakond", 821,
+  "Estonia", "Eesti Vabaerakond (EVA)", "Eesti Vabaerakond", 3271,
+  "Estonia", "Eestimaa Rahvaliit (Rahvaliit)", "Eestimaa Rahvalliit", 110,
+  "Estonia", "Elurikkuse Erakond", "Elurikkuse Erakond", 7341,
+  "Estonia", "Erakond Eestimaa Rohelised (EER)", "Erakonna Eestimaa Rohelised", 1040,
+  "Estonia", "Erakond Isamaa ja Res Publica Liit (IRL)", "Erakond Isamaa ja Res Publica Liit", 685,
+  # Note: 'Isamaa (I)' is the successor to 'Erakond Isamaa ja Res Publica Liit'. In the provided Partyfacts data, 
+  # the name 'Isamaa' itself is associated with 'Isamaaliit' (ID 779 or 7239), which merged to form IRL. 
+  # Since IRL (685) is explicitly listed and 'Isamaa' is the post-2018 name of IRL, using IRL's ID for the spelling 'Isamaa' is 
+  # the most consistent modern approach for this survey context, although 685 is the ID for the *longer* name.
+  # Given the ambiguity with older 'Isamaaliit' entries (779, 7239) and the common modern abbreviation, we use 685.
+  "Estonia", "Isamaa (I)", "Erakond Isamaa ja Res Publica Liit", 685, 
+  "Estonia", "Sotsiaaldemokraatlik Erakond (SDE)", "Sotsiaaldemokraatlik Erakond — Mõõdukad", 1150, # SDE is the current name of the party with ID 1150
+
+  # No Partyfacts Match (using [og] rule)
+  # The spelling "Indrek Tarand" is an independent politician, not a party, but is not one of the special categories.
+  "Estonia", "Indrek Tarand", "Indrek Tarand [og]", NA,
+
+  # Special Categories
+  # Other
+  "Estonia", "Muu [täitke väli]", "other", NA,
+
+  # Did Not Vote
+  "Estonia", "Ei hääletanud", "did-not-vote", NA,
+
+  # Don't Know
+  "Estonia", "Ei mäleta seda, kas ma hääletasin", "dont-know", NA,
+  "Estonia", "Ei tea", "dont-know", NA,
+
+  # Not Eligible
+  "Estonia", "Mul ei ole õigust hääletada", "not-eligible", NA,
+
+  # None
+  "Estonia", "Ei, Te ei tunne end lähedasena mitte ühegi poliitilise erakonnaga", "none", NA,
+
+  # FINLAND ##### --------------------------------------------------------------
+  # Party Matches (FIN)
+  "Finland", "Kansallinen Kokoomus (KOK)", "Kansallinen Kokoomus", 495,
+  "Finland", "Kristillisdemokraatit (KD)", "Kristillisdemokraatit", 703, # Using the short form KD match
+  "Finland", "Perussuomalaiset (PS)", "Suomen Puolue / Perussuomalaiset", 1689, # This ID encompasses the modern Finns Party (PS)
+  "Finland", "Piraattipuolue", "Piraattipuolue / Piratpartiet", 9148,
+  "Finland", "Sininen tulevaisuus (SIN)", "Uusi vaihtoehto / Sininen tulevaisuus", 5859, # Blue Reform, former split from PS
+  "Finland", "Suomen Keskusta (KESK)", "Maalaisliitto / Keskusta", 901, # Centre Party
+  "Finland", "Suomen Kommunistinen Puolue (SKP)", "Suomen Kommunistinen Puolue", 7030,
+  "Finland", "Suomen Kristillisdemokraatit (KD)", "Kristillisdemokraatit", 703, # Using the short form KD match
+  "Finland", "Suomen Sosialidemokraattinen Puolue (SDP)", "Suomen Sosialidemokraattinen Puolue", 1303,
+  "Finland", "Svenska folkpartiet i Finland (SFP (Suomen ruotsalainen kansanpuolue (RKP)))", "Ruotsalainen Kansanpuolue / Svenska Folkepartiet i Finland", 1229, # Swedish People's Party
+  "Finland", "Svenska folkpartiet i Finland (SFP, Suomen ruotsalainen kansanpuolue (RKP))", "Ruotsalainen Kansanpuolue / Svenska Folkepartiet i Finland", 1229, # Swedish People's Party (variant)
+  "Finland", "Vasemmistoliitto (VAS)", "Vasemmistoliitto", 1044, # Left Alliance
+  "Finland", "Vihreä liitto (VIHR)", "Vihreä Liitto", 479, # Green League
+
+  # No Partyfacts Match (using [og] rule)
+  "Finland", "Itsenäisyyspuolue (IPU)", "Itsenäisyyspuolue (IPU) [og]", NA, # Party of Independence (not in provided PF list)
+  "Finland", "Kansalaispuolue ", "Kansalaispuolue [og]", NA, # Citizens' Party (not in provided PF list)
+  "Finland", "Köyhien Asialla", "Köyhien Asialla [og]", NA, # For the Poor (not in provided PF list)
+  "Finland", "Liberaalipuolue - Vapaus valita ", "Liberaalipuolue - Vapaus valita [og]", NA, # Liberal Party (not in provided PF list)
+  "Finland", "Muutos 2011", "Muutos 2011 [og]", NA, # Change 2011 (not in provided PF list)
+  "Finland", "Sinivalkoinen Rintama", "Sinivalkoinen Rintama [og]", NA, # Blue and White Front (not in provided PF list)
+  "Finland", "Suomen Kansa Ensin", "Suomen Kansa Ensin [og]", NA, # Finland First (not in provided PF list)
+
+  # Special Categories
+  # Other
+  "Finland", "Muu [täytä tyhjä kenttä]", "other", NA,
+
+  # Did Not Vote
+  "Finland", "Ei äänestänyt", "did-not-vote", NA,
+
+  # Don't Know
+  "Finland", "En muista äänestinkö", "dont-know", NA,
+  "Finland", "En tiedä", "dont-know", NA,
+
+  # Not Eligible
+  "Finland", "Minulla ei ollut äänioikeutta", "not-eligible", NA,
+
+  # None
+  "Finland", "En tunne olevani läheinen minkään poliittisen puolueen kanssa", "none", NA,
+
+
+  # FRANCE ##### ---------------------------------------------------------------
+  "France", "Agir", "Agir, la droite constructive", 9132,
+  "France", "Alliance des régionalistes, écologistes et progressistes des Outre-Mer régions et peuples solidaires (ALE-RPS)", "Alliance des régionalistes, écologistes et progressistes des Outre-Mer régions et peuples solidaires (ALE-RPS) [og]", NA, # No match - long name, likely regional/minor alliance
+  "France", "Autre (veuillez compléter)", "other", NA,
+  "France", "Debout la France (DLF)", "Debout la France", 3207,
+  "France", "Debout la France (Le Courage De Défendre Les Français Avec Nicolas Dupont-aignan. Debout La France ! - Cnip)", "Debout la France", 3207, # Long spelling, matching to main DLF
+  "France", "Debout la République (DLR)", "Debout la France", 3207, # DLR is the former name of DLF (Debout la France)
+  "France", "Europe Écologie - Les Verts (EÉLV)", "Europe Écologie — Les Verts", 5650,
+  "France", "Europe Écologie Les Verts (Europe Écologie)", "Europe Écologie — Les Verts", 5650, # Different spelling/parentheses
+  "France", "Europe Écologie-Les Verts (EELV)", "Europe Écologie — Les Verts", 5650, # Different spelling/hyphen
+  "France", "Front National (FN)", "Front National / Rassemblement national", 433,
+  "France", "Front de gauche (Parti communiste + Parti de Gauche) (FG)", "Front de Gauche", 4363, # Matching to the alliance
+  "France", "Génération.s", "Génération.s, le mouvement", 7342,
+  "France", "Génération.s (Liste Citoyenne Du Printemps Europeen Avec Benoît Hamon Soutenue Par Génération.s Et Dème-diem 25)", "Génération.s, le mouvement", 7342, # Long spelling, matching to main G.s
+  "France", "Je n'avais pas le droit de vote", "not-eligible", NA,
+  "France", "Je ne me souviens pas de si j’ai voté", "dont-know", NA,
+  "France", "La France Insoumise", "La France Insoumise", 5858,
+  "France", "La France Insoumise (FI)", "La France Insoumise", 5858,
+  "France", "La République En Marche (REM)", "La République En Marche! / Renaissance", 5857,
+  "France", "La République En Marche (REM) ", "La République En Marche! / Renaissance", 5857, # Trailing space removed
+  "France", "La République En Marche!-MoDem (Renaissance Soutenue Par La République En Marche + Le MoDem + Ses Partenaires)", "La République En Marche! / Renaissance", 5857, # Major part of alliance
+  "France", "Les Patriotes (Ensemble Patriotes Et Gilets Jaunes)", "Ligue des Patriotes", 6712, # Matching to LP
+  "France", "Les Patriotes (LP)", "Ligue des Patriotes", 6712,
+  "France", "Les Républicains (LR)", "Les Républicains", 8168,
+  "France", "Lutte Ouvriere ", "Lutte ouvrière", 617, # Trailing space and missing accent/lowercase
+  "France", "Lutte Ouvrière (LO)", "Lutte ouvrière", 617,
+  "France", "Lutte ouvrière (LO)", "Lutte ouvrière", 617,
+  "France", "Mouvement Démocrate (MoDem)", "Mouvement démocrate", 496,
+  "France", "Mouvement radical (MR)", "Mouvement réformateur", 167, # Closest match for MR (Mouvement Radical/Socialiste is PR, but MR is often Reformers Movement)
+  "France", "Ne sait pas", "dont-know", NA,
+  "France", "Non, je ne me sens proche d’aucun parti politique", "none", NA,
+  "France", "Nouveau Parti anticapitaliste (NPA)", "Nouveau Parti Anticapitaliste", 6684,
+  "France", "Nouvelle Donne", "Nouvelle Donne [og]", NA, # No match in Partyfacts
+  "France", "N’a pas voté", "did-not-vote", NA,
+  "France", "Parti Communiste Francais (PCF)", "Parti communiste française", 1251, # Typo 'Francais'
+  "France", "Parti Socialiste (PS)", "Parti socialiste", 1478,
+  "France", "Parti Socialiste (PS) + Parti radical de gauche (PRG)", "Parti socialiste", 1478, # Choosing the major partner (PS)
+  "France", "Parti communiste français (Pour L'europe Des Gens Contre L'europe De L'argent)", "Parti communiste française", 1251,
+  "France", "Parti socialiste (Envie D'europe Écologique Et Sociale)", "Parti socialiste", 1478,
+  "France", "Rassemblement national (RN (ex. Front National (FN)))", "Front National / Rassemblement national", 433,
+  "France", "Résistons! (R!)", "Résistons! (R!) [og]", NA, # No direct match for 'Résistons!' (R! in PF is Reconquête, but the spelling is distinct)
+  "France", "Union Populaire Républicaine (Ensemble Pour Le Frexit)", "Union Populaire Républicaine", 7344,
+  "France", "Union Populaire Républicaine (UPR)", "Union Populaire Républicaine", 7344,
+  "France", "Union des Démocrates et Indépendants (UDI)", "Union des démocrates et indépendants", 3229,
+  "France", "Union des Démocrates et Indépendants (UDI) + Mouvement Démocrate (MoDem) + Le Parti Radical + Alliance centriste + Nouveau Centre", "Union des démocrates et indépendants", 3229, # Choosing the major component (UDI)
+  "France", "Union of Democrats and Independents (Les Européens)", "Union des démocrates et indépendants", 3229, # English name spelling
+  "France", "Union pour les Outre-Mer (UOM)", "Union pour les Outre-Mer (UOM) [og]", NA, # No match
+  "France", "Union pour un mouvement populaire (UMP)", "Union pour un mouvement populaire", 1595,
+  "France", "Urgence Écologie", "Urgence Écologie [og]", NA, # No match - Minor party/alliance
+
+
+  # GERMANY ##### --------------------------------------------------------------
+  "Germany", "Alternative für Deutschland (AfD)", "Alternative für Deutschland", 1976,
+  "Germany", "Alternative für Deutschland (AfD) ", "Alternative für Deutschland", 1976, # Trailing space handled
+  "Germany", "Andere (bitte ausfüllen)", "other", NA_integer_, # Special category
+  "Germany", "Bündnis 90 / Die Grünen (Grüne)", "Bündnis 90 / Die Grünen", 1816,
+  "Germany", "Bündnis C – Christen für Deutschland", "Bündnis C – Christen für Deutschland [og]", NA_integer_, # Not in Party Facts
+  "Germany", "Christlich Demokratische Union (CDU)", "Christlich Demokratische Union", 1375,
+  "Germany", "Christlich Demokratische Union Deutschlands (CDU)", "Christlich Demokratische Union", 1375, # Matched to CDU
+  "Germany", "Christlich Soziale Union (CSU)", "Christlich Soziale Union", 1731,
+  "Germany", "Christlich Soziale Union (CSU) ", "Christlich Soziale Union", 1731, # Trailing space handled
+  "Germany", "Christlich-Soziale Union (CSU)", "Christlich Soziale Union", 1731, # Hyphen/space variation handled
+  "Germany", "Die Linke (Linke", "Die Linke", 1545, # Missing parenthesis handled
+  "Germany", "Die Linke (Linke)", "Die Linke", 1545,
+  "Germany", "Die PARTEI", "Die PARTEI", 6126,
+  "Germany", "Die Republikaner (REP)", "Die Republikaner", 720,
+  "Germany", "Familien-Partei Deutschlands", "Familien-Partei Deutschlands [og]", NA_integer_, # Not in Party Facts
+  "Germany", "Familien-Partei Deutschlands ", "Familien-Partei Deutschlands [og]", NA_integer_, # Trailing space handled, Not in Party Facts
+  "Germany", "Freie Demokratische Partei (FDP)", "Freie Demokratische Partei", 573,
+  "Germany", "Freie Demokratische Partei (FDP) ", "Freie Demokratische Partei", 573, # Trailing space handled
+  "Germany", "Freie Wähler (FW)", "Freie Wähler", 1090,
+  "Germany", "Ich habe nicht gewählt", "did-not-vote", NA_integer_, # Special category
+  "Germany", "Ich kann mich nicht erinnern, ob ich gewählt habe", "dont-know", NA_integer_, # Special category
+  "Germany", "Ich war nicht wahlberechtigt", "not-eligible", NA_integer_, # Special category
+  "Germany", "Nationaldemokratische Partei Deutschlands (NPD)", "Nationaldemokratische Partei Deutschlands", 1723,
+  "Germany", "Nein, ich stehe keiner politischen Partei nahe", "none", NA_integer_, # Special category
+  "Germany", "Partei Bibeltreuer Christen (PBC)", "Partei Bibeltreuer Christen (PBC) [og]", NA_integer_, # Not in Party Facts
+  "Germany", "Partei Mensch Umwelt Tierschutz (Tierschutzpartei)", "Tierschutzpartei", 749, # Matched by long name/short name
+  "Germany", "Partei für Arbeit, Rechtsstaat, Tierschutz, Elitenförderung und basisdemokratische Initiative (Die PARTEI)", "Die PARTEI", 6126, # Full name of Die PARTEI
+  "Germany", "Piratenpartei Deutschland (PIRATEN)", "Piratenpartei Deutschland", 1287,
+  "Germany", "Piratenpartei Deutschland (Piraten)", "Piratenpartei Deutschland", 1287,
+  "Germany", "Piratenpartei Deutschland (Piraten) ", "Piratenpartei Deutschland", 1287, # Trailing space handled
+  "Germany", "Sozialdemokratische Partei Deutschlands (SPD)", "Sozialdemokratische Partei Deutschlands", 383,
+  "Germany", "Sozialdemokratische Partei Deutschlands (SPD) ", "Sozialdemokratische Partei Deutschlands", 383, # Trailing space handled
+  "Germany", "Tierschutzpartei - Partei Mensch Umwelt Tierschutz", "Tierschutzpartei", 749, # Matched by reversed order
+  "Germany", "Tierschutzpartei - Partei Mensch Umwelt Tierschutz ", "Tierschutzpartei", 749, # Trailing space handled
+  "Germany", "Weiß nicht", "dont-know", NA_integer_, # Matched to dont-know special category
+  "Germany", "ÖDP - Ökologisch-Demokratische Partei", "Ökologisch-Demokratische Partei", 7345, # Matched by full name
+
+
+  # GREECE ##### ---------------------------------------------------------------
+  "Greece", "Kομμουνιστικό Kόμμα Ελλάδας (KKΕ)", "Kommounistikó Kómma Elládas", 48,
+  "Greece", "Nέα Δημοκρατία (NΔ)", "Néa Đimokratía", 794,
+  "Greece", "Άλλο", "other", NA,
+  "Greece", "Άλλο (συμπληρώστε το κενό)", "other", NA,
+  "Greece", "Έλληνες Ευρωπαίοι Πολίτες", "Έλληνες Ευρωπαίοι Πολίτες [og]", NA, # Note: While 'Ellines Eyropaioi Polites' (3120) exists, the reported spelling is unique, so [og] is used as per instructions for an inexact/unlisted match.
+  "Greece", "Ένωση Κεντρώων (EK)", "Enosi Kentroon", 2510,
+  "Greece", "Όχι, δεν συμμερίζεστε τις απόψεις κανενός πολιτικού κόμματος", "none", NA,
+  "Greece", "Ανεξάρτητοι Έλληνες (ΑΝ.ΕΛ.)", "Anexartitoi Ellines", 1651,
+  "Greece", "Ανεξάρτητοι Έλληνες (ΑΝΕΛ)", "Anexartitoi Ellines", 1651,
+  "Greece", "Δεν γνωρίζω", "dont-know", NA,
+  "Greece", "Δεν είχα δικαίωμα ψήφου", "not-eligible", NA,
+  "Greece", "Δεν θυμάμαι αν ψήφισα", "dont-know", NA,
+  "Greece", "Δεν ψήφισα (σε αυτές τις εκλογές τον Μάιο)", "did-not-vote", NA,
+  "Greece", "Δημοκρατική Αριστερά (ΔΗM.ΑΡ.)", "Dimokratiki Aristera", 1160,
+  "Greece", "Δημοκρατική Αριστερά (ΔΗΜ.ΑΡ.)", "Dimokratiki Aristera", 1160,
+  "Greece", "Εθνική Ενότητα", "Εθνική Ενότητα [og]", NA, # No clear match, so [og] is used.
+  "Greece", "Ελιά – Δημοκρατική Παράταξη (Πανελλήνιο Σοσιαλιστικό Kίνημα (ΠΑΣΟK)) ", "Panellinio Sosialistikó Kínima", 1468, # Mapped to PASOK, as it's the core component.
+  "Greece", "Ελληνική Λύση", "Elliniki Lisi", 7347,
+  "Greece", "Κίνημα Αλλαγής (ΚΙΝΑΛ): Πανελλήνιο Σοσιαλιστικό ίνημα (ΠΑΣΟK) + Κίνημα Δημοκρατών Σοσιαλιστών (ΚΙΔΗΣΟ) + Κινήσεις Πολιτών για τη Σοσιαλδημοκρατία", "Kinima Allagis", 7909, # KINAL
+  "Greece", "Κίνημα Δημοκρατών Σοσιαλιστών (ΚΙΔΗΣΟ)", "Kinima Dimokraton Sosialiston", 3212,
+  "Greece", "Κίνημα Δημοκρατών Σοσιαλιστών (ΚΙΔΗΣΟ) ", "Kinima Dimokraton Sosialiston", 3212,
+  "Greece", "Κομμουνιστικό Κόμμα Ελλάδας (ΚΚΕ)", "Kommounistikó Kómma Elládas", 48,
+  "Greece", "Λαϊκή Ενότητα (ΛΑ.E.)", "Laïkí Enótita", 4512,
+  "Greece", "Λαϊκή Ενότητα (ΛΑ.E.) ", "Laïkí Enótita", 4512,
+  "Greece", "Λαϊκός Ορθόδοξος Συναγερμός (ΛΑ.Ο.Σ)", "Laïkós Orthódoxos Synagermós", 965,
+  "Greece", "Λαϊκός Ορθόδοξος Συναγερμός- Γ. Καρατζαφέρης (ΛΑΟΣ)", "Laïkós Orthódoxos Synagermós", 965,
+  "Greece", "Λαϊκός Σύνδεσμος -Χρυσή Αυγή (ΛΣ-ΧΑ)", "Laïkós Sýndesmos / Chrysí Avgí", 1660,
+  "Greece", "Λαϊκός Σύνδεσμος – Χρυσή Αυγή (ΛΣ-ΧΑ)", "Laïkós Sýndesmos / Chrysí Avgí", 1660,
+  "Greece", "Μέτωπο Ευρωπαϊκής Ρεαλιστικής Ανυπακοής (ΜέΡΑ25)", "Métopo Evropaikís Realistikís Anypakoís", 7348,
+  "Greece", "Νέα Δημοκρατία (Ν.Δ.)", "Néa Đimokratía", 794,
+  "Greece", "Οικολόγοι Πράσινοι (Ο.Π.)", "Oikologoi Prasinoi", 378,
+  "Greece", "Οικολόγοι Πράσινοι (ΟΠ)", "Oikologoi Prasinoi", 378,
+  "Greece", "Πανελλήνιο Σοσιαλιστικό ίνημα (ΠΑΣΟK)", "Panellinio Sosialistikó Kínima", 1468,
+  "Greece", "Πανελλήνιο Σοσιαλιστικό ίνημα (ΠΑΣΟK) ", "Panellinio Sosialistikó Kínima", 1468,
+  "Greece", "Πλεύση Ελευθερίας", "Plefsi Eleftherias", 9088,
+  "Greece", "Συνασπισμός Ριζοσπαστικής Αριστεράς (ΣΥ.ΡIΖ.Α)", "Synaspismós Rizospastikís Aristerás", 301,
+  "Greece", "Συνασπισμός Ριζοσπαστικής Αριστεράς (ΣΥ.ΡIΖ.Α) ", "Synaspismós Rizospastikís Aristerás", 301,
+  "Greece", "Συνασπισμός Ριζοσπαστικής Αριστεράς (ΣΥΡΙΖΑ)", "Synaspismós Rizospastikís Aristerás", 301,
+  "Greece", "Το Ποτάμι", "To Potami", 3118,
+  "Greece", "Το Ποτάμι ", "To Potami", 3118,
+
+
+  # HUNGARY ##### --------------------------------------------------------------
+  "Hungary", "A Haza Pártja (A Haza Nem Eladó Mozgalom Párt, HNEM)", "A Haza Pártja (A Haza Nem Eladó Mozgalom Párt, HNEM)[og]", NA,
+  "Hungary", "Civil Mozgalom (CM)", "Civil Mozgalom (CM)[og]", NA,
+  "Hungary", "Demokratikus Koalíció (DK)", "Demokratikus Koalíció", 469,
+  "Hungary", "Demokratikus Koalíció (DK) ", "Demokratikus Koalíció", 469,
+  "Hungary", "Egyéb (töltse ki)", "other", NA,
+  "Hungary", "Együtt 2014 - Párbeszéd Magyarországért (PM)", "Együtt — A Korszakváltók Pártja", 2458,
+  "Hungary", "Erdélyi Magyar Néppárt (EMNP)", "Erdélyi Magyar Néppárt (EMNP)[og]", NA,
+  "Hungary", "Fidesz - Magyar Polgári Szövetség - Kereszténydemokrata Néppárt (FIDESZ-KDNP)", "Fidesz — KDNP pártszövetség / Magyar Szolidaritás Szövetsége", 6366,
+  "Hungary", "Fidesz – Magyar Polgári Szövetség (FIDESZ)", "Fidesz — Magyar Polgári Szövetség", 1691,
+  "Hungary", "Fidesz – Magyar Polgári Szövetség (FIDESZ) ", "Fidesz — Magyar Polgári Szövetség", 1691,
+  "Hungary", "Fidesz – Magyar Polgári Szövetség (FIDESZ) - Kereszténydemokrata Néppárt (KDNP)", "Fidesz — KDNP pártszövetség / Magyar Szolidaritás Szövetsége", 6366,
+  "Hungary", "Jobbik Magyarországért Mozgalom (JOBBIK)", "Jobbik Magyarországért Mozgalom", 42,
+  "Hungary", "Jobbik Magyarországért Mozgalom (JOBBIK) ", "Jobbik Magyarországért Mozgalom", 42,
+  "Hungary", "Kereszténydemokrata Néppárt (KDNP)", "Kereszténydemokrata Néppárt", 1412,
+  "Hungary", "Lehet Más a Politika (LMP)", "Lehet Más a Politika — LMP – Magyarország Zöld Pártja", 1650,
+  "Hungary", "Magyar Kétfarkú Kutya Párt (MKKP)", "Magyar Kétfarkú Kutya Párt", 6129,
+  "Hungary", "Magyar Kétfarkú Kutya Párt (MKKP) ", "Magyar Kétfarkú Kutya Párt", 6129,
+  "Hungary", "Magyar Liberális Párt (MLP)", "Magyar Liberális Párt (MLP)[og]", NA,
+  "Hungary", "Magyar Szocialista Párt (MSZP)", "Magyar Szocialista Párt", 1408,
+  "Hungary", "Magyar Szocialista Párt (MSZP) ", "Magyar Szocialista Párt", 1408,
+  "Hungary", "Magyar Szocialista Párt (MSZP) - Párbeszéd Magyarországért (Párbeszéd) ", "Magyar Szocialista Párt", 1408,
+  "Hungary", "Mi Hazánk Mozgalom (Mi Hazánk)", "Mi Hazánk Mozgalom", 7349,
+  "Hungary", "Momentum Mozgalom (Momentum)", "Momentum Mozgalom", 8249,
+  "Hungary", "Momentum Mozgalom (Momentum) ", "Momentum Mozgalom", 8249,
+  "Hungary", "Munkáspárt", "Magyar Kommunista Munkáspárt", 859, # Closest match found based on Munkáspárt name.
+  "Hungary", "Nem emlékszem, hogy szavaztam-e", "dont-know", NA,
+  "Hungary", "Nem szavazhattam", "not-eligible", NA,
+  "Hungary", "Nem szavazott", "did-not-vote", NA,
+  "Hungary", "Nem tudom", "dont-know", NA,
+  "Hungary", "Nem, nem érzi magát közelinek egy politikai párthoz sem", "none", NA,
+  "Hungary", "Párbeszéd Magyarországért (Párbeszéd)", "Párbeszéd Magyarországért", 3115,
+  "Hungary", "Párbeszéd Magyarországért (Párbeszéd) ", "Párbeszéd Magyarországért", 3115,
+  "Hungary", "Tea Párt (TPM)", "Tea Párt (TPM)[og]", NA,
+
+
+  # IRELAND ##### --------------------------------------------------------------
+  "Ireland", "Catholic Democrats (The National Party)", "Catholic Democrats (The National Party) [og]", NA_real_,
+  "Ireland", "Direct Democracy Ireland (DDI)", "Direct Democracy Ireland", 3209,
+  "Ireland", "Don't know", "dont-know", NA_real_,
+  "Ireland", "Fianna Fáil (FF)", "Fianna Fáil", 1055,
+  "Ireland", "Fianna Fáil (FF) ", "Fianna Fáil", 1055, # Duplicate spacing
+  "Ireland", "Fine Gael (FG)", "Fine Gael", 1288,
+  "Ireland", "Green Party", "Green Party-Comhaontas Glas", 1775, # Matches "Green Party" in pf_name_english
+  "Ireland", "Green Party (GP)", "Green Party-Comhaontas Glas", 1775,
+  "Ireland", "I did not vote", "did-not-vote", NA_real_,
+  "Ireland", "I don't remember if I voted", "dont-know", NA_real_,
+  "Ireland", "I was not eligible to vote", "not-eligible", NA_real_,
+  "Ireland", "Independence 4 Change", "Neamhspleáigh ar son an Athraithe", 8181, # Matches "Independents 4 Change"
+  "Ireland", "Independent Alliance", "Independent Alliance", 8179,
+  "Ireland", "Independents 4 Change", "Neamhspleáigh ar son an Athraithe", 8181,
+  "Ireland", "Labour Party (LP)", "Páirti Lucht Oibre", 562, # Matches Labour Party
+  "Ireland", "No, I do not feel close to any political party", "none", NA_real_,
+  "Ireland", "Other (fill the blank)", "other", NA_real_,
+  "Ireland", "Renua Ireland (Renua)", "Renua Ireland", 4869,
+  "Ireland", "Sinn Féin (SF)", "Sinn Fein", 2507, # Matches Sinn Fein
+  "Ireland", "Sinn Féin (SF) ", "Sinn Fein", 2507, # Duplicate spacing
+  "Ireland", "Social Democrats (Daonlathaigh Shóisialta)", "Daonlathaigh Shóisialta", 4870, # Matches Social Democrats
+  "Ireland", "Solidarity - People Before Profit (Solidarity-PBP)", "Solidarity — People Before Profit", 8241, # Matches S-PBP
+  "Ireland", "Workers' Party (WP)", "Páirtí na nOibrithe", 208, # Matches Workers Party
+  "Ireland", "Workers’ Party (WP)", "Páirtí na nOibrithe", 208, # Typo/Alternative single quote
+
+
+  # ITALY ##### ----------------------------------------------------------------
+  "Italy", "'Sinistra': Rifondazione Comunista - Sinistra Europea, Sinistra Italiana", "Partito della Rifondazione Comunista", 1404,
+  "Italy", "+europa - Italia In Comune - Partito Democratico Europeo PDE Italia", "Più Europa", 6155,
+  "Italy", "Alternativa Popolare (AP)", "Alternativa Popolare", 9090,
+  "Italy", "Altro (completare)", "other", NA,
+  "Italy", "Articolo 1 – Movimento Democratico e Progressista (MDP)", "Articolo Uno", 8361,
+  "Italy", "Coalizione Nuovo Centro Destra (NCD) + Unión de Centro Democrático (UDC) + Popolari per l'Italia (PPI)", "Nuovo Centrodestra", 2052,
+  "Italy", "Coalizione Scelta Europea", "Scelta Civica", 2281,
+  "Italy", "Europa Verde (Federazione Dei Verdi)", "Europa Verde", 9110,
+  "Italy", "Forza Italia (FI)", "Forza Italia (2013)", 8058,
+  "Italy", "Forza Italia (FI) ", "Forza Italia (2013)", 8058,
+  "Italy", "Forza Italia (Fi)", "Forza Italia (2013)", 8058,
+  "Italy", "Fratelli d'Italia (FDI)", "Fratelli d'Italia", 2280,
+  "Italy", "Fratelli d'Italia - Centrodestra Nazionale", "Fratelli d'Italia", 2280,
+  "Italy", "Il Popolo della Libertà (PDL)", "Il Popolo della Libertà", 365,
+  "Italy", "Italia dei Valori (IdV)", "Lista di Pietro — Italia del Valori", 768,
+  "Italy", "Italia dei Valori - Di Pietro (IdV)", "Lista di Pietro — Italia del Valori", 768,
+  "Italy", "Lega (Lega Salvini Premier)", "Lega Nord", 1221,
+  "Italy", "Lega (Lega Salvini Premier) ", "Lega Nord", 1221,
+  "Italy", "Lega Nord", "Lega Nord", 1221,
+  "Italy", "L’Altra Europa - Con Tsipras (Sinistra Ecologia e Liberta (SEL))", "L'Altra Europa con Tsipras", 6685,
+  "Italy", "Movimento 5 Stelle (M5S)", "Movimento 5 Stelle", 2046,
+  "Italy", "Movimento 5 Stelle (M5S) ", "Movimento 5 Stelle", 2046,
+  "Italy", "Movimento 5 Stelle (MCS)", "Movimento 5 Stelle [og]", NA,
+  "Italy", "No, non mi sento vicino a nessun partito politico in particolare", "none", NA,
+  "Italy", "Noi con l'Italia (NcL)", "Noi con l'Italia", 9141,
+  "Italy", "Noi con l'Italia (NcL) ", "Noi con l'Italia", 9141,
+  "Italy", "Non avevo diritto al voto", "not-eligible", NA,
+  "Italy", "Non ho votato", "did-not-vote", NA,
+  "Italy", "Non ricordo di aver votato o meno", "dont-know", NA,
+  "Italy", "Non so", "dont-know", NA,
+  "Italy", "Partito Democratico (PD)", "Partito Democratico", 802,
+  "Italy", "Più Europa (+E)", "Più Europa", 6155,
+  "Italy", "Possibile (P)", "Possibile [og]", NA,
+  "Italy", "Potere al Popolo (PaP)", "Potere al Popolo", 8247,
+  "Italy", "Potere al Popolo (PaP) ", "Potere al Popolo", 8247,
+  "Italy", "Scelta Civica con Monti per l'Italia (SC)", "Scelta Civica", 2281,
+  "Italy", "Sinistra Italiana (SI)", "Sinistra Italiana", 1212,
+  "Italy", "Unione di Centro (UDC)", "Unione dei Democratici Cristiani e Democratici di Centro", 1758,
+
+
+  # LATVIA #### ----------------------------------------------------------------
+  "Latvia", "\"SUVERENITĀTE\"", "Suverēnā vara", 9138, # Match to 'Suverēnā vara' (Sovereign Power)
+  "Latvia", "'Kam pieder valsts' (KPV LV)", "Kam pieder valsts? — Par cilvēcīgu Latviju", 6356, # Match to 'Kam pieder valsts? — Par cilvēcīgu Latviju'
+  "Latvia", "Alternative ", "Alternative [og]", NA, # No direct Partyfacts match; part of coalition name "SV/A/TVS" but spelling is truncated. Assuming unlisted party.
+  "Latvia", "Attīstībai/Par!", "Attīstībai/Par!", 8393, # Direct match
+  "Latvia", "Cits (aizpildiet tukšo lauciņu)", "other", NA, # 'Cits' = Other
+  "Latvia", "Cits [aizpildiet tukšo lauciņu]", "other", NA, # 'Cits' = Other
+  "Latvia", "Es nebiju tiesīgs(-a) balsot", "not-eligible", NA, # 'nebiju tiesīgs(-a) balsot' = I was not eligible to vote
+  "Latvia", "Jaunā konservatīvā partija (JKP)", "Jaunā konservatīvā partija", 6355, # Direct match
+  "Latvia", "Kristīgi demokrātiskā savienība", "Kristīgi demokrātiskā savienība", 304, # Direct match (KDS)
+  "Latvia", "Kustība Par! (Par!)", "Kustība Par!", 7863, # Match to 'Kustība Par!' (Movement For!)
+  "Latvia", "Latviešu Nacionālisti", "Latviešu Nacionālisti [og]", NA, # No direct Partyfacts match.
+  "Latvia", "Latvijas Krievu savienība (LKS)", "Latvijas Krievu savienība / Русский союз Латвии", 5657, # Match to LKS/RSL
+  "Latvia", "Latvijas Reģionu Apvienība", "Latvijas Reģionu apvienība", 3194, # Match to 'Latvijas Reģionu apvienība' (Latvian Association of Regions)
+  "Latvia", "Latvijas Reģionu apvienība (LRA)", "Latvijas Reģionu apvienība", 3194, # Direct match (LRA)
+  "Latvia", "Latvijas Sociāldemokrātiskā strādnieku partija", "Latvijas Sociāldemokrātiskā Strādnieku Partija", 741, # Direct match (LSDSP)
+  "Latvia", "Latvijas Sociāldemokrātiskā strādnieku partija (LSDSP)", "Latvijas Sociāldemokrātiskā Strādnieku Partija", 741, # Direct match (LSDSP)
+  "Latvia", "Latvijas Sociālistiskā partija (LSP)", "Latvijas Sociālistiskā partija", 588, # Direct match (LSP)
+  "Latvia", "Latvijas attīstībai (LA)", "Latvijas attīstībai", 3213, # Match to 'Latvijas attīstībai' (Latvian Development)
+  "Latvia", "Latvijas attīstībai (LA) ", "Latvijas attīstībai", 3213, # Match to 'Latvijas attīstībai' (Latvian Development) - Trailing space ignored
+  "Latvia", "Nacionālā apvienība „Visu Latvijai!” – „Tēvzemei un Brīvībai/LNNK” (NA)", "Nacionālā apvienība", 7619, # Match to 'Nacionālā apvienība' (National Alliance)
+  "Latvia", "Neatceros, vai es balsoju", "dont-know", NA, # 'Neatceros' = I don't remember (if I voted)
+  "Latvia", "Nepiedalījos", "did-not-vote", NA, # 'Nepiedalījos' = Did not participate/vote
+  "Latvia", "Nezinu", "dont-know", NA, # 'Nezinu' = I don't know
+  "Latvia", "No sirds Latvijai (NSL)", "No sirds Latvijai", 3193, # Direct match (NsL)
+  "Latvia", "Nē, es nejūtos pietuvināts(-a) nevienai politiskajai partijai", "none", NA, # 'Nē, es nejūtos pietuvināts(-a) nevienai politiskajai partijai' = No, I don't feel close to any political party
+  "Latvia", "Nē_ es nejūtos pietuvināts(-a) nevienai politiskajai partijai", "none", NA, # Typo/Special character version of 'none'
+  "Latvia", "Progresīvie", "Progresīvie", 6357, # Direct match (The Progressive)
+  "Latvia", "Sociāldemokrātiskā partija „Saskaņa“ (SDP)", "Sociāldemokrātiskā Partija \"Saskaņa\"", 5976, # Match to 'Sociāldemokrātiskā Partija "Saskaņa"'
+  "Latvia", "Vienotība (V)", "Vienotība", 852, # Direct match (Unity)
+  "Latvia", "Zaļo un Zemnieku savienība (ZZS): Latvijas Zemnieku savienība (LZS) + Latvijas Zaļā partija (LZP)", "Zaļo un Zemnieku savienība", 701, # Match to 'Zaļo un Zemnieku savienība' (ZZS)
+  "Latvia", "Zaļo un Zemnieku savienība (ZZS: Latvijas Zemnieku savienība (LZS) + Latvijas Zaļā partija (LZP))", "Zaļo un Zemnieku savienība", 701, # Match to 'Zaļo un Zemnieku savienība' (ZZS)
+
+
+  # LITHUANIA #### -------------------------------------------------------------
+  "Lithuania", "Darbo Partija (DP)", "Darbo Partija", 102,
+  "Lithuania", "Darbo partija (DP)", "Darbo Partija", 102,
+  "Lithuania", "Drąsos Kelias", "Drąsos Kelias", 74,
+  "Lithuania", "Kita", "other", NA,
+  "Lithuania", "Liberalų ir centro sąjunga (LiCS) - Politinė partija \"Sąjunga TAIP\" (TAIP)", "Liberalų ir centro sąjunga", 1193,
+  "Lithuania", "Liberalų sąjūdis (LRLS)", "Lietuvos Respublikos Liberalų sąjūdis", 1744,
+  "Lithuania", "Lietuvių tautininkų sąjunga (LTS)", "Lietuvių tautininkų sąjunga", 377,
+  "Lithuania", "Lietuvos Respublikos liberalų sąjūdis", "Lietuvos Respublikos Liberalų sąjūdis", 1744,
+  "Lithuania", "Lietuvos Respublikos liberalų sąjūdis (LRLS)", "Lietuvos Respublikos Liberalų sąjūdis", 1744,
+  "Lithuania", "Lietuvos Valstiečių ir Žaliųjų Sąjunga (LVZS)", "Lietuvos valstiečių ir žaliųjų sąjunga / Lietuvos valstiečių liaudininkų sąjunga", 1490,
+  "Lithuania", "Lietuvos centro partija (LCP)", "Lietuvos Centro Partija", 5455,
+  "Lithuania", "Lietuvos laisvės sąjunga (liberalai)", "Lietuvos Laisvės Sąjunga (Liberalai)", 5456,
+  "Lithuania", "Lietuvos lenkų rinkimų akcija (LLRA/AWPL)", "Lietuvos lenkų rinkimų akcija", 556,
+  "Lithuania", "Lietuvos lenkų rinkimų akcija – Krikščioniškų šeimų sąjunga (LLRA–KŠS)", "Lietuvos lenkų rinkimų akcija", 556,
+  "Lithuania", "Lietuvos socialdemokratų darbo partija (LSDDP)", "Lietuvos socialdemokratų darbo partija — Lietuvos regionų partija", 7352,
+  "Lithuania", "Lietuvos socialdemokratų partija (LSDP)", "Lietuvos socialdemokratų partija", 64,
+  "Lithuania", "Lietuvos valstiečių ir žaliųjų sąjunga (LVŽS)", "Lietuvos valstiečių ir žaliųjų sąjunga / Lietuvos valstiečių liaudininkų sąjunga", 1490,
+  "Lithuania", "Lietuvos Žaliųjų Partija (LŽP)", "Lietuvos žalioji partija", 1407,
+  "Lithuania", "Lietuvos žaliųjų partija (LZP)", "Lietuvos žalioji partija", 1407,
+  "Lithuania", "Ne, Aš nesijaučiu artimas (-a) jokiai politinei partijai", "none", NA,
+  "Lithuania", "Nebalsavau ", "did-not-vote", NA,
+  "Lithuania", "Neprisimenu, ar balsavau", "dont-know", NA,
+  "Lithuania", "Neturėjau teisės balsuoti", "not-eligible", NA,
+  "Lithuania", "Nežinau", "dont-know", NA,
+  "Lithuania", "Partija “Tvarka ir teisingumas” (TT)", "Tvarka ir teisingumas", 237,
+  "Lithuania", "Tvarka ir teisingumas (TT)", "Tvarka ir teisingumas", 237,
+  "Lithuania", "Tvarka ir teisingumas (TT) ", "Tvarka ir teisingumas", 237,
+  "Lithuania", "Tėvynės sąjunga - Lietuvos krikščionys demokratai (TS-LKD)", "Tėvynės sąjunga — Lietuvos krikščionys demokratai", 193,
+  "Lithuania", "Tėvynės sąjunga – Lietuvos krikščionys demokratai (TS-LKD)", "Tėvynės sąjunga — Lietuvos krikščionys demokratai", 193,
+  "Lithuania", "Visuomeninis rinkimų komitetas „Aušros Maldeikienės traukinys“", "Visuomeninis rinkimų komitetas „Aušros Maldeikienės traukinys“ [og]", NA,
+  "Lithuania", "Visuomeninis rinkimų komitetas „Lemiamas šuolis“", "Visuomeninis rinkimų komitetas „Lemiamas šuolis“ [og]", NA,
+  "Lithuania", "Visuomeninis rinkimų komitetas „Prezidento Rolando Pakso judėjimas“", "Visuomeninis rinkimų komitetas „Prezidento Rolando Pakso judėjimas“ [og]", NA,
+  "Lithuania", "Visuomeninis rinkimų komitetas „Stipri Lietuva vieningoje Europoje“", "Visuomeninis rinkimų komitetas „Stipri Lietuva vieningoje Europoje“ [og]", NA,
+  "Lithuania", "Visuomeninis rinkimų komitetas „Vytautas Radžvilas: susigrąžinkime valstybę!“", "Visuomeninis rinkimų komitetas „Vytautas Radžvilas: susigrąžinkime valstybę!“ [og]", NA,
+  "Lithuania", "„Valdemaro Tomaševskio blokas“ – Krikščioniškų šeimų sąjungos ir Rusų aljanso koalicija\t", "Lietuvos lenkų rinkimų akcija", 556,
+
+
+  # NETHERLANDS #### -----------------------------------------------------------
+  "Netherlands", "50Plus", "50PLUS", 714,
+  "Netherlands", "Anders", "other", NA,
+  "Netherlands", "Anders (vul in)", "other", NA,
+  "Netherlands", "Christen-Democratisch Appèl (CDA)", "Christen Democratisch Appèl", 1157,
+  "Netherlands", "Christen-Democratisch Appèl (CDA) - Europese Volkspartij", "Christen-Democratisch Appèl (CDA) - Europese Volkspartij [og]", NA, # Coalition/EU spelling not an exact match in PF
+  "Netherlands", "ChristenUnie (CU)", "ChristenUnie", 1459,
+  "Netherlands", "ChristenUnie (CU) - Staatkundig Gereformeerde Partij (SGP)", "ChristenUnie — Staatkundig Gereformeerde Partij", 6758, # Exact match for the coalition
+  "Netherlands", "DENK", "Beweging DENK", 5856,
+  "Netherlands", "Democraten 66 (D66)", "Democraten 66", 45,
+  "Netherlands", "Forum voor Democratie (FvD)", "Forum voor Democratie", 5855,
+  "Netherlands", "GroenLinks (GL)", "GroenLinks", 1537,
+  "Netherlands", "Ik kan mij niet herinneren of ik heb gestemd", "dont-know", NA,
+  "Netherlands", "Ik kwam niet in aanmerking om te stemmen", "not-eligible", NA,
+  "Netherlands", "Nee, u voelt zich niet verbonden met één bepaalde politieke partij", "none", NA,
+  "Netherlands", "Niet gestemd", "did-not-vote", NA,
+  "Netherlands", "Partij van de Arbeid (PvdA)", "Partij van de Arbeid", 1234,
+  "Netherlands", "Partij van de Arbeid (PvdA)/Europese Sociaaldemocraten", "Partij van de Arbeid (PvdA)/Europese Sociaaldemocraten [og]", NA, # Coalition/EU spelling not an exact match in PF
+  "Netherlands", "Partij voor de Dieren (PvdD)", "Partij voor de Dieren", 1467,
+  "Netherlands", "Partij voor de Vrijheid (PVV)", "Partij voor de Vrijheid", 298,
+  "Netherlands", "Piratenpartij", "Piratenpartij [og]", NA, # Not in the provided PF list
+  "Netherlands", "Socialistische Partij (SP)", "Socialistiese Partij", 1363, # Note: PF uses 'Socialistiese'
+  "Netherlands", "Staatkundig Gereformeerde Partij (SGP)", "Staatkundig Gereformeerde Partij", 1178,
+  "Netherlands", "Staatkundig Gereformeerde Partij (SGP) ", "Staatkundig Gereformeerde Partij", 1178, # Handling trailing space
+  "Netherlands", "Volkspartij voor Vrijheid en Democratie (VVD)", "Volkspartij voor Vrijheid en Democratie", 828,
+  "Netherlands", "Weet niet", "dont-know", NA,
+
+
+  # POLAND ##### ---------------------------------------------------------------
+  "Poland", ".Nowoczesna (.N)", "Nowoczesna", 4630,
+  "Poland", "Inne (proszę uzupełnić)", "other", NA, # Special Category: Other
+  "Poland", "Koalicja Europa Plus: Twój Ruch (TR) + Partia Demokratyczna (PD) + Stronnictwo Demokratyczne (SD)", "Koalicja Europa Plus: Twój Ruch (TR) + Partia Demokratyczna (PD) + Stronnictwo Demokratyczne (SD) [og]", NA, # Coalition, not found as one entry in PF
+  "Poland", "Koalicja Europejska (Platforma Obywatelska (PO) + .Nowoczesna (.N) + Sojusz Lewicy Demokratycznej (SLD) + Polskie Stronnictwo Ludowe (PSL) + Partia Zieloni)", "Koalicja Obywatelska", 9122, # Mapped to Civic Coalition, as it represents a broad, similar coalition bloc.
+  "Poland", "Kolicja Sojusz Lewicy Demokratycznej (SLD) i Unia Pracy (UP)", "Sojusz Lewicy Demokratycznej — Unia Pracy", 6183, # Correcting "Kolicja" typo and matching coalition name
+  "Poland", "Konfederacja KORWiN Braun Liroy Narodowcy (KORWiN + Ruch Narodowy (RN))", "Konfederacja Wolność i Niepodległość", 9026, # Maps to the broader 'Konfederacja' entry
+  "Poland", "Kongres Nowej Prawicy (KNP)", "Kongres Nowej Prawicy", 4713,
+  "Poland", "Kukiz'15", "Kukiz'15", 4631,
+  "Poland", "Kukuiz'15", "Kukiz'15", 4631, # Typo correction: Kukuiz'15 -> Kukiz'15
+  "Poland", "Lewica Razem (Partia Razem (Razem) + Unia Pracy)", "[Lewica] Razem", 4871, # Mapping to the main component in Partyfacts
+  "Poland", "Mniejszość Niemiecka", "Mniejszość niemiecka w Polsce", 1439,
+  "Poland", "Mniejszość Niemiecka ", "Mniejszość niemiecka w Polsce", 1439, # Removing trailing space
+  "Poland", "Nie brałem(-am) udziału w wyborach", "did-not-vote", NA, # Special Category: Did not vote
+  "Poland", "Nie byłem(-am) uprawniony(-a) do głosowania", "not-eligible", NA, # Special Category: Not eligible
+  "Poland", "Nie pamiętam, czy brałem(-am) udział w tym głosowaniu", "dont-know", NA, # Special Category: Don't know/Can't remember
+  "Poland", "Nie wiem", "dont-know", NA, # Special Category: Don't know
+  "Poland", "Nie, żadna partia polityczna nie jest Panu(i) bliska", "none", NA, # Special Category: None
+  "Poland", "Partia Razem (Razem)", "[Lewica] Razem", 4871,
+  "Poland", "Partia Roberta Biedronia", "Spring", 7356, # Refers to 'Wiosna' (Spring) led by Robert Biedroń
+  "Poland", "Partia Zieloni", "Partia Zieloni [og]", NA, # Partyfacts has an entry for "Partia Zieloni" but without a pf_id, using [og] and NA
+  "Poland", "Platforma Obywatelska (PO)", "Platforma Obywatelska", 1117,
+  "Poland", "Platforma Obywatelska (PO) ", "Platforma Obywatelska", 1117, # Removing trailing space
+  "Poland", "Polska Razem Jaroslawa Gowina (PRJG)", "Polska Razem", 2992,
+  "Poland", "Polskie Stronnictwo Ludowe (PSL)", "Polskie Stronnictwo Ludowe", 6757, # Using the entry with the full name match
+  "Poland", "Porozumienie", "Porozumienie", 9025,
+  "Poland", "Prawo i Sprawiedliwość (PiS)", "Prawo i Sprawiedliwość", 1565,
+  "Poland", "Ruch Narodowy (RN)", "Ruch Narodowy", 3224,
+  "Poland", "Ruch Narodowy (RN) ", "Ruch Narodowy", 3224, # Removing trailing space
+  "Poland", "Samoobrona", "Samoobrona Rzeczypospolitej Polskiej", 727,
+  "Poland", "Sojusz Lewicy Demokratycznej (SLD)", "Sojusz Lewicy Demokratycznej", 57,
+  "Poland", "Solidarna Polska (SP)", "United Poland", 328, # Matching "Solidarna Polska" with pf_id 328 (United Poland)
+  "Poland", "Twój Ruch", "Ruch Palikota / Twój Ruch", 731, # Matching 'Twój Ruch'
+  "Poland", "Unia Europejskich Demokratów (UED)", "Unia Europejskich Demokratów (UED) [og]", NA, # Not found in PF
+  "Poland", "Unia Pracy", "Unia Pracy", 1104,
+  "Poland", "Wiosna", "Spring", 7356,
+  "Poland", "Wolność", "Koalicja Odnowy Rzeczypospolitej Wolność i Nadzieja KORWiN", 4629, # Wolność is the successor to KORWiN
+  "Poland", "Wolność ", "Koalicja Odnowy Rzeczypospolitej Wolność i Nadzieja KORWiN", 4629, # Removing trailing space
+
+
+  # PORTUGAL ##### -------------------------------------------------------------
+  "Portugal", "Aliança", "Aliança", 7357, # Matches Aliança (A)
+  "Portugal", "Basta!", "Basta! [og]", NA, # New party/No PF match in subset
+  "Portugal", "Bloco de Esquerda (BE)", "Bloco de Esquerda", 1310, # Matches Bloco de Esquerda (BE)
+  "Portugal", "Bloco de Esquerda (BE)        ", "Bloco de Esquerda", 1310, # Trailing spaces removed, matches BE
+  "Portugal", "Centro Democrático e Social – Partido Popular (CDS-PP)", "Centro Democrático e Social / Partido Popular", 1308, # Matches CDS/PP
+  "Portugal", "Centro Democrático e Social – Partido Popular (CDS–PP)", "Centro Democrático e Social / Partido Popular", 1308, # Matches CDS/PP (hyphen variation)
+  "Portugal", "Coligação Democrática Unitária (CDU): Partido Comunista Português (PCP) - Partido Ecologista os Verdes (PEV)", "Coligação Democrática Unitária", 284, # Matches CDU
+  "Portugal", "LIVRE", "Livre — Liberdade, Esquerda, Europa e Ecologia", 3225, # Matches L - LIVRE
+  "Portugal", "LIVRE (L)", "Livre — Liberdade, Esquerda, Europa e Ecologia", 3225, # Matches L - LIVRE
+  "Portugal", "Não me lembro se votei", "dont-know", NA, # Special category: Don't Know
+  "Portugal", "Não sei", "dont-know", NA, # Special category: Don't Know
+  "Portugal", "Não sou elegível para votar", "not-eligible", NA, # Special category: Not Eligible
+  "Portugal", "Não votei", "did-not-vote", NA, # Special category: Did Not Vote
+  "Portugal", "Não, não se sente próximo de nenhum partido político", "none", NA, # Special category: None
+  "Portugal", "Outro [preencha o espaço em branco]", "other", NA, # Special category: Other
+  "Portugal", "Partido Comunista Português (PCP)", "Partido Comunista Português", 310, # Matches PCP
+  "Portugal", "Partido Comunista dos Trabalhadores Portugueses/Movimento Reorganizativo do Partido do Proletariado (PCTP/MRPP)", "Comunista dos Trabalhadores Portugueses / Movimento Reorganizativo do Partido do Proletariado", 857, # Matches PCTP/MRPP
+  "Portugal", "Partido Democrático Republicano (PDR)", "Partido Democrático Republicano", 4513, # Matches PDR
+  "Portugal", "Partido Democrático Republicano (PDR)        ", "Partido Democrático Republicano", 4513, # Trailing spaces removed, matches PDR
+  "Portugal", "Partido Ecologista 'os Verdes' (PEV)", "Partido Ecologista — Os Verdes", 886, # Matches PEV
+  "Portugal", "Partido Popular Monárquico (PPM)", "Partido Popular Monárquico", 1480, # Matches PPM
+  "Portugal", "Partido Social Democrata (PSD)", "Partido Popular Democrático / Partido Social Democrata", 1359, # Matches PPD/PSD
+  "Portugal", "Partido Social Democrata (PSD)        ", "Partido Popular Democrático / Partido Social Democrata", 1359, # Trailing spaces removed, matches PPD/PSD
+  "Portugal", "Partido Social Democrata (PSD) + Centro Democrático e Social - Partido Popular (CDS-PP)", "Partido Social Democrata (PSD) + Centro Democrático e Social - Partido Popular (CDS-PP) [og]", NA, # Coalition, retain as [og] since no PF coalition ID is provided
+  "Portugal", "Partido Socialista (PS)", "Partido Socialista", 655, # Matches PS
+  "Portugal", "Partido Socialista (PS)        ", "Partido Socialista", 655, # Trailing spaces removed, matches PS
+  "Portugal", "Partido da Terra (MPT)", "Movimento Partido da Terra / Partido da Terra", 3226, # Matches MPT / PT
+  "Portugal", "Partido pelos Animais e pela Natureza (PAN)", "Partido pelos Animais e pela Natureza", 97, # Matches PAN
+  "Portugal", "People–Animals–Nature (PAN)        ", "Partido pelos Animais e pela Natureza", 97, # English spelling, matches PAN
+  "Portugal", "Pessoas-Animais-Natureza (PAN)", "Partido pelos Animais e pela Natureza", 97, # Matches PAN (Portuguese/full name variation)
+
+
+  # ROMANIA ##### --------------------------------------------------------------
+  "Romania", "Alianța 2020 USR PLUS        ", "Uniunea Salvați România", 5969, # Coalition of USR (5969) and PLUS
+  "Romania", "Alianța Liberalilor Și Democraților (ALDE) ", "Alianța Liberalilor și Democraților", 5662,
+  "Romania", "Alianța Liberalilor și Democraților (ALDE)", "Alianța Liberalilor și Democraților", 5662,
+  "Romania", "Altul", "other", NA,
+  "Romania", "Forţa Civică (PFC)", "Forța Civică", 2473,
+  "Romania", "M10", "M10 [og]", NA,
+  "Romania", "Mircea Diaconu", "Mircea Diaconu [og]", NA, # Candidate, not a party
+  "Romania", "Nu am avut drept de vot", "not-eligible", NA,
+  "Romania", "Nu am votat", "did-not-vote", NA,
+  "Romania", "Nu îmi aduc aminte dacă am votat", "dont-know", NA,
+  "Romania", "Nu știu", "dont-know", NA,
+  "Romania", "Nu, nu vă consideraţi apropiat(ă) de niciun partid politic", "none", NA,
+  "Romania", "PRO România (PRO)", "PRO România", 7359,
+  "Romania", "Partidul Democrat Liberal (PDL)", "Partidul Democrat-Liberal", 660,
+  "Romania", "Partidul Ecologist Român (PER)", "Partidul Ecologist Român", 1373,
+  "Romania", "Partidul Libertății Unității și Solidarității (PLUS)", "Partidul Libertății Unității și Solidarității (PLUS) [og]", NA, # Party that merged into USR PLUS
+  "Romania", "Partidul Mişcarea Populară (PMP)", "Partidul Mișcarea Populară", 3210,
+  "Romania", "Partidul Mișcarea Populară (PMP)", "Partidul Mișcarea Populară", 3210,
+  "Romania", "Partidul National Taranesc Creştin Democrat (PNȚ-CD)", "Partidul Naţional Ţărănesc Creştin Democrat", 1750,
+  "Romania", "Partidul Naţional Liberal (PNL)", "Partidul Naţional Liberal", 481,
+  "Romania", "Partidul Național Liberal (PNL)", "Partidul Naţional Liberal", 481,
+  "Romania", "Partidul Național Țărănesc Creștin Democrat (PNȚ-CD)", "Partidul Naţional Ţărănesc Creştin Democrat", 1750,
+  "Romania", "Partidul Noua Generație Creștin Democrat (PNG)", "Partidul Noua Generaţie — Creştin Democrat", 296,
+  "Romania", "Partidul Noua Republică", "Partidul Noua Republică [og]", NA,
+  "Romania", "Partidul Poporului - Dan Diaconescu (PPDD)", "Partidul Poporului — Dan Diaconescu", 2474,
+  "Romania", "Partidul România Mare (PRM)", "Partidul România Mare", 1305,
+  "Romania", "Partidul Social Democrat (PSD)", "Partidul Social Democrat", 120,
+  "Romania", "Partidul Socialist Român (PSR)", "Partidul Socialist din România", 6773, # Assuming PSR is the same as PS (6773)
+  "Romania", "Partidul Verde (Verzil)", "Partidul Verde", 7033,
+  "Romania", "Pro România (PRO)", "PRO România", 7359,
+  "Romania", "Uniunea Democrată Maghiară Din România (UDMR)", "Uniunea Democrată Maghiară din România / Romániai Magyar Demokrata Szövetség", 1105,
+  "Romania", "Uniunea Democrată Maghiară din România (UDMR - Romániai Magyar Demokrata Szövetség (RMDSZ))", "Uniunea Democrată Maghiară din România / Romániai Magyar Demokrata Szövetség", 1105,
+  "Romania", "Uniunea Democrată Maghiară din România (UDMR)", "Uniunea Democrată Maghiară din România / Romániai Magyar Demokrata Szövetség", 1105,
+  "Romania", "Uniunea Salvați România (USR)", "Uniunea Salvați România", 5969,
+  "Romania", "Uniunea Social Democrată: Partidul Social Democrat (PSD), Partidul Conservator (PC), Uniunea Nationala pentru Progresul Romaniei (UNPR)", "Uniunea Social Democrată: PSD, PC, UNPR [og]", NA, # This is an electoral alliance/union, not a single party in PartyFacts
+
+
+  # SLOVAKIA ##### -------------------------------------------------------------
+  "Slovakia", "Demokratická Strana", "Democratic Party", 983,
+  "Slovakia", "Doma Dobre", "Doma Dobre [og]", NA,
+  "Slovakia", "Doprava", "Doprava [og]", NA,
+  "Slovakia", "Európska Demokratická Strana", "Európska Demokratická Strana [og]", NA,
+  # Special Category: Other
+  "Slovakia", "Iné [vyplňte prázdne miesto]", "other", NA,
+  "Slovakia", "Koalícia Komunistická Strana Slovenska, Vzdor - Strana Práce", "Koalícia Komunistická Strana Slovenska, Vzdor - Strana Práce [og]", NA,
+  # This coalition matches 'Progresívne Slovensko A Spolu - Občianska Demokracia'
+  "Slovakia", "Koalícia Progresívne Slovensko A Spolu - Občianska Demokracia", "Progressive Slovakia and Together - Civic Democracy [og]", NA, # Coalition of PS (7361) and SPOLU (8177)
+  # KSS match
+  "Slovakia", "Komunistická strana Slovenska (KSS)", "Komunistická strana Slovenska", 340,
+  # ĽSNS match, matching "Ľudová strana Naše Slovensko" (LsNS)
+  "Slovakia", "Kotleba – Ľudová strana Naše Slovensko (ĽSNS)", "Ľudová strana Naše Slovensko", 656,
+  # KDH match
+  "Slovakia", "Kresťanskodemokratické hnutie (KDH)", "Kresťanskodemokratické hnutie", 63,
+  # Maďarská Kresťanskodemokratická Aliancia - Magyar Kereszténydemokrata Szövetség - No direct Partyfacts match
+  "Slovakia", "Maďarská Kresťanskodemokratická Aliancia - Magyar Kereszténydemokrata Szövetség", "Maďarská Kresťanskodemokratická Aliancia - Magyar Kereszténydemokrata Szövetség [og]", NA,
+  # MOST-HÍD match, various spellings
+  "Slovakia", "Most - Híd", "MOST-HID", 258,
+  "Slovakia", "Most-Híd (Most)", "MOST-HID", 258,
+  "Slovakia", "Most–Híd", "MOST-HID", 258,
+  # Special Category: Not Eligible (Nemal/-a som hlasovacie [právo])
+  "Slovakia", "Nemal/-a som hlasovacie", "not-eligible", NA,
+  # Special Category: Don't Know (Nepamätám sa, či som volil(-a))
+  "Slovakia", "Nepamätám sa, či som volil(-a)", "dont-know", NA,
+  # Special Category: Don't Know (Neviem) - common general "I don't know"
+  "Slovakia", "Neviem", "dont-know", NA,
+  # Special Category: Did Not Vote (Nezúčastnil(a) som sa)
+  "Slovakia", "Nezúčastnil(a) som sa", "did-not-vote", NA,
+  # Special Category: None (Nie, necítim afinitu k žiadnej politickej strane)
+  "Slovakia", "Nie, necítim afinitu k žiadnej politickej strane", "none", NA,
+  # NOVA match
+  "Slovakia", "Nová väčšina - Dohoda (NOVA)", "Nová väčšina", 6686,
+  # OĽaNO match, various spellings
+  "Slovakia", "Obyčajní Ľudia A Nezávislé Osobnosti (Oľano)", "Obyčajní Ľudia a Nezávislé Osobnosti", 2130,
+  "Slovakia", "Obyčajní Ľudia a nezávislé osobnosti (OĽaNO)", "Obyčajní Ľudia a Nezávislé Osobnosti", 2130,
+  # PS match, various spellings
+  "Slovakia", "Progresívne Slovensko", "Progresívne Slovensko", 7361,
+  "Slovakia", "Progresívne Slovensko (PS)", "Progresívne Slovensko", 7361,
+  # Prosperita Slovenska (PS) - different party, no direct Partyfacts match
+  "Slovakia", "Prosperita Slovenska (PS)", "Prosperita Slovenska (PS) [og]", NA,
+  # PaS match
+  "Slovakia", "Právo a Spravodlivosť (PaS)", "Právo a spravodlivost", 3208,
+  # Sme Rodina match
+  "Slovakia", "SME RODINA – Boris Kollár (SME RODINA)", "Sme Rodina — Boris Kollár", 4873,
+  # SMER-SD match, various spellings
+  "Slovakia", "SMER - Sociálna demokracia (SMER-SD)", "Smer — sociálna demokracia", 311,
+  # SPOLU match
+  "Slovakia", "SPOLU - občianska demokracia (SPOLU)", "Spolu — občianska demokracia", 8177,
+  # SaS match
+  "Slovakia", "Sloboda a Solidarita (SaS)", "Sloboda a Solidarita", 1386,
+  # Slovenská Konzervatívna Strana (SKS) - likely part of Siet — Slovenská konzervatívna strana
+  "Slovakia", "Slovenská Konzervatívna Strana", "Sieť — Slovenská konzervatívna strana", 4872,
+  # SDKÚ-DS match, various spellings
+  "Slovakia", "Slovenská demokratická a kresťanská únia - Demokratická strana (SDKÚ-DS)", "Slovenská demokratická a kresťanská únia — Demokratická strana", 1617,
+  "Slovakia", "Slovenská demokratická a kresťanská únia – Demokratická strana (SDKÚ–DS)", "Slovenská demokratická a kresťanská únia — Demokratická strana", 1617,
+  # SNS match
+  "Slovakia", "Slovenská národná strana (SNS)", "Slovenská národná strana", 730,
+  # Slovenská Ľudová Strana Andreja Hlinku - likely related to Hlinkova slovenská ľudová strana (HSĽS) - using original name as it specifies "Andreja Hlinku" which might be a different entity/era
+  "Slovakia", "Slovenská Ľudová Strana Andreja Hlinku", "Slovenská Ľudová Strana Andreja Hlinku [og]", NA,
+  # Slovenská ľudová strana (SĽS) - No direct Partyfacts match found by name/acronym
+  "Slovakia", "Slovenská ľudová strana (SĽS)", "Slovenská ľudová strana (SĽS) [og]", NA,
+  # SMER-SD match, various spellings
+  "Slovakia", "Smer – sociálna demokracia (Smer-SD)", "Smer — sociálna demokracia", 311,
+  # TIP match
+  "Slovakia", "Strana TIP - Tvoríme Inú Politiku (TIP)", "Strana TIP — Tvoríme inú politiku", 3222,
+  # Strana Zelených Slovenska - No direct Partyfacts match found by this exact name
+  "Slovakia", "Strana Zelených Slovenska", "Strana Zelených Slovenska [og]", NA,
+  # Strana demokratického Slovenska (SDS) - No direct Partyfacts match found by name/acronym
+  "Slovakia", "Strana demokratického Slovenska (SDS)", "Strana demokratického Slovenska (SDS) [og]", NA,
+  # SMK-MKP match, various spellings/typos ("mad'arskej" vs "maďarskej")
+  "Slovakia", "Strana mad'arskej komunity - Magyar Közösség Pártja (SMK-MPK)", "Strana maďarskej koalície / Strana maďarskej komunity", 349,
+  "Slovakia", "Strana maďarskej komunity - Magyar Közösség Pártja (SMK-MPK)", "Strana maďarskej koalície / Strana maďarskej komunity", 349,
+  # Strana zelených (SZ) match
+  "Slovakia", "Strana zelených (SZ)", "Strana zelených", 5849,
+  # Zmena zdola - demokratická únia (Zmena zdola DÚ) - matches 'Zmena zdola, Demokratická únia Slovenska' (ZZ-DS)
+  "Slovakia", "Zmena zdola - demokratická únia (Zmena zdola DÚ)", "Zmena zdola, Demokratická únia Slovenska", 1181,
+  # ĽSNS match, variation in spelling/acronym
+  "Slovakia", "Ľudová strana Naše Slovensko (ĽSNS)", "Ľudová strana Naše Slovensko", 656,
+
+
+  # SLOVENIA ##### -------------------------------------------------------------
+  "Slovenia", "Andrej Čuš in Zeleni Slovenije (AČZS)", "Zeleni Slovenije [og]", NA,
+  "Slovenia", "Demokratična stranka upokojencev Slovenije (DeSUS)", "Demokratična stranka upokojencev Slovenije", 467,
+  "Slovenia", "Dobra država", "Dobra Drzava", 6133,
+  "Slovenia", "Drugo (izpolnite)", "other", NA,
+  "Slovenia", "Drugo [izpolnite]", "other", NA,
+  "Slovenia", "Državljanska lista (DL)", "Državljanska lista", 98,
+  "Slovenia", "Glas za otroke in družine (ZA OTROKE!)", "Glas za otroke in družine [og]", NA,
+  "Slovenia", "Kacin - Konkretno ", "Konkretno", 9068,
+  "Slovenia", "Koalicija Nova Slovenija (NSi) + Slovenska ljudska stranka (SLS)", "Nova Slovenija — Krščanska ljudska stranka + Slovenska ljudska stranka [og]", NA,
+  "Slovenia", "Levica", "Levica", 6131,
+  "Slovenia", "Lista Marjana Šarca (LMŠ)", "Lista Marjana Šarca", 6132,
+  "Slovenia", "Lista Marjana Šarca (LMŠ) ", "Lista Marjana Šarca", 6132,
+  "Slovenia", "Ne počutite se blizu nobeni politični stranki", "none", NA,
+  "Slovenia", "Ne spomnim se, ali sem glasoval/-a", "dont-know", NA,
+  "Slovenia", "Ne vem", "dont-know", NA,
+  "Slovenia", "Nisem bil/-a upravičen/-a do udeležbe na volitvah", "not-eligible", NA,
+  "Slovenia", "Nisem glasoval/-a", "did-not-vote", NA,
+  "Slovenia", "Nova Slovenija - Krščanski demokrati (N.Si)", "Nova Slovenija — Krščanska ljudska stranka", 1618,
+  "Slovenia", "Piratska stranka", "Piratska stranka Slovenije", 3099,
+  "Slovenia", "Piratska stranka Slovenije (Pirati)", "Piratska stranka Slovenije", 3099,
+  "Slovenia", "Povežimo Se", "Povežimo se", 7363,
+  "Slovenia", "Pozitivna Slovenija (PS)", "Lista Zorana Jankovića — Pozitivna Slovenija", 1773,
+  "Slovenia", "Pozitivna Slovenija (PS) ", "Lista Zorana Jankovića — Pozitivna Slovenija", 1773,
+  "Slovenia", "Sanjska služba", "Sanjska služba", 3204,
+  "Slovenia", "Slovenska Nacionalna Stranka (SNS)", "Slovenska nacionalna stranka", 96,
+  "Slovenia", "Slovenska demokratska stranka (SDS)", "Slovenska demokratska stranka", 472,
+  "Slovenia", "Slovenska demokratska stranka (SDS) ", "Slovenska demokratska stranka", 472,
+  "Slovenia", "Slovenska demokratska stranka (SDS) in Slovenska ljudska stranka (SLS)", "Slovenska demokratska stranka + Slovenska ljudska stranka [og]", NA,
+  "Slovenia", "Slovenska ljudska stranka (SLS)", "Slovenska ljudska stranka", 764,
+  "Slovenia", "Slovenska nacionalna stranka (SNS)", "Slovenska nacionalna stranka", 96,
+  "Slovenia", "Socialni demokrati (SD)", "Socialni demokrati / Združena lista socialnih demokratov", 1403,
+  "Slovenia", "Socialni demokrati (SD) ", "Socialni demokrati / Združena lista socialnih demokratov", 1403,
+  "Slovenia", "Solidarnost", "Solidarnost", 3220,
+  "Slovenia", "Stranka Alenke Bratušek", "Zavezništvo Alenke Bratušek / Stranka Alenke Bratušek", 3114,
+  "Slovenia", "Stranka Slovenskega naroda (SSN)", "Stranka Slovenskega naroda [og]", NA,
+  "Slovenia", "Stranka modernega centra (SMC)", "Stranka Mira Cerarja / Stranka modernega centra", 3098,
+  "Slovenia", "Verjamem", "Verjamem", 3205,
+  "Slovenia", "Verjamem ", "Verjamem", 3205,
+  "Slovenia", "Zares - socialno liberalni (Zares)", "Zares", 474,
+  "Slovenia", "Združena levica (ZL)", "Združena levica", 4714,
+  "Slovenia", "Zeleni Slovenije", "Zeleni Slovenije", 1494,
+  "Slovenia", "Zeleni Slovenije (ZS)", "Zeleni Slovenije", 1494,
+
+
+  # SPAIN ##### ----------------------------------------------------------------
+  "Spain", "Ahora Repúblicas (Esquerra Republicana de Catalunya (ERC) + Euskal Herria Bildu (EH Bildu) + Bloque Nacionalista Galego (BNG))", "Ahora Repúblicas [og]", NA,
+  "Spain", "Bloque Nacionalista Galego (BNG)", "Bloque Nacionalista Galego", 1011,
+  "Spain", "Ciudadanos - Partido de la Ciudadanía (C's)", "Ciudadanos — Partido de la Ciudadanía", 3217,
+  "Spain", "Ciudadanos - Partido de la Ciudadanía (C's)        ", "Ciudadanos — Partido de la Ciudadanía", 3217,
+  "Spain", "Coalición por Europa (CEU): Convergència Democràtica de Catalunya (Convergència) + Euzko Alderdi Jeltzalea (EAJ-PNV) + Unió Democràtica de Catalunya (Unió/UDC)+ Coalición Canaria (CC) + Compromiso por Galicia (GxC)", "Coalición por Europa [og]", NA,
+  "Spain", "Coalición por una Europa Solidaria (CEUS: Euzko Alderdi Jeltzalea (EAJ/PNV)) + Coalición Canaria (CC) + Compromiso por Galicia (CxG) + otros)", "Coalición por una Europa Solidaria [og]", NA,
+  "Spain", "Compromiso por Europa", "Compromiso por Europa [og]", NA,
+  "Spain", "Esquerra Republicana de Catalunya (ERC)", "Esquerra Republicana de Catalunya", 848,
+  "Spain", "Euskal Herria Bildu (EH Bildu)", "Euskal Herria Bildu / Reunir Euskal Herria", 5668,
+  "Spain", "Euzko Alderdi Jeltzalea (EAJ/PNV)", "Partido Nacionalista Vasco — Euzko Alderdi Jeltzalea", 1637,
+  "Spain", "Izquierda Plural (IP): Izquierda Unida (IU) + Iniciativa per Catalunya - Verds (ICV) + Anova–Irmandade Nacionalista (Anova)", "Izquierda Plural [og]", NA,
+  "Spain", "Izquierda Unida (IU)", "Izquierda Unida", 247,
+  "Spain", "Junts per Catalunya (Partit Demòcrata Europeo Català (PDeCAT) + Convergència Democràtica de Catalunya (CDC))", "Junts per Catalunya — Partit Demòcrata Europeu Català", 9097,
+  "Spain", "L'Esquerra pel Dret a Decidir (EPDD): Esquerra Republicana de Catalunya (ERC) + Nova Esquerra Catalana (NECat) + Independientes", "L'Esquerra pel Dret a Decidir [og]", NA,
+  "Spain", "Los Pueblos Deciden (LPD): Bloque Nacionalista Galego (BNG) + Euskal Herria Bildu (EH Bildu)", "Los Pueblos Deciden [og]", NA,
+  "Spain", "No lo sé", "dont-know", NA,
+  "Spain", "No podía votar", "not-eligible", NA,
+  "Spain", "No recuerdo si voté", "dont-know", NA,
+  "Spain", "No voté", "did-not-vote", NA,
+  "Spain", "No, no me siento próximo/a a ningún partido", "none", NA,
+  "Spain", "Otro (escríbalo en el espacio en blanco)", "other", NA,
+  "Spain", "Partido Animalista Contra el Maltrato Animal (PACMA)", "Partido Animalista Contra el Maltrato Animal", 3219,
+  "Spain", "Partido Popular (PP)", "Alianza-Partido Popular / Partido Popular", 441,
+  "Spain", "Partido Socialista Obrero Español (PSOE)", "Partido Socialista Obrero Español", 1338,
+  "Spain", "Partido Socialista Obrero Español (PSOE) ", "Partido Socialista Obrero Español", 1338,
+  "Spain", "Partit Demòcrata Europeo Català (PDeCAT)", "Partit Demòcrata Europeu Català", 6027,
+  "Spain", "Partit dels Socialistes de Catalunya (PSC)", "Partit dels Socialistes de Catalunya", 586,
+  "Spain", "Podemos", "Podemos", 3203,
+  "Spain", "Podemos: Por la Democracia Social ", "Podemos", 3203,
+  "Spain", "Primavera Europea: Compromís + Equo + Chunta Aragonesista (CHA)", "Primavera Europea [og]", NA,
+  "Spain", "Unidas Podemos (Izquierda Unida + Podemos)", "Unidas Podemos", 7656,
+  "Spain", "Unión Progreso y Democracia (UPyD)", "Unión Progreso y Democracia", 55,
+  "Spain", "VOX", "Vox", 3218,
+  "Spain", "Vox", "Vox", 3218,
+
+
+  # SWEDEN ##### ---------------------------------------------------------------
+  "Sweden", "Annat (fyll i)", "other", NA,
+  "Sweden", "Centerpartiet (C)", "Bondeförbundet / Centerpartiet", 199,
+  "Sweden", "Centerpartiet (C) ", "Bondeförbundet / Centerpartiet", 199,
+  "Sweden", "Feministiskt initiativ (FI)", "Feministiskt initiativ", 1240,
+  "Sweden", "Folkpartiet liberalerna (FP)", "Folkpartiet liberalerna / Liberalerna", 1274,
+  "Sweden", "Jag var inte röstberättigad", "not-eligible", NA,
+  "Sweden", "Junilistan", "Junilistan", 1093,
+  "Sweden", "Kristdemokraterna (KD)", "Kristdemokraterna", 651,
+  "Sweden", "Kristdemokraterna (KD) ", "Kristdemokraterna", 651,
+  "Sweden", "Liberalerna (L)", "Folkpartiet liberalerna / Liberalerna", 1274,
+  "Sweden", "Liberalerna (L) ", "Folkpartiet liberalerna / Liberalerna", 1274,
+  "Sweden", "Miljöpartiet de Gröna (MP)", "Miljöpartiet de gröna", 456,
+  "Sweden", "Miljöpartiet de Gröna (MP) ", "Miljöpartiet de gröna", 456,
+  "Sweden", "Minns inte om jag röstade", "dont-know", NA,
+  "Sweden", "Moderata samlingspartiet (M)", "Allmänna valmansförbundet / Högern / Högerpartiet / Moderata samlingspartiet", 690,
+  "Sweden", "Nej, du anser dig inte stå nära något politiskt", "none", NA,
+  "Sweden", "Piratpartiet (PP)", "Piratpartiet", 1485,
+  "Sweden", "Röstade inte", "did-not-vote", NA,
+  "Sweden", "Socialdemokratiska arbetarpartiet (SAP)", "Socialdemokraterna / Sveriges socialdemokratiska arbetareparti", 487,
+  "Sweden", "Socialdemokratiska arbetarpartiet (SP)        ", "Socialdemokraterna / Sveriges socialdemokratiska arbetareparti", 487,
+  "Sweden", "Sverigedemokraterna (SD)", "Sverigedemokraterna", 409,
+  "Sweden", "Sverigedemokraterna (SD) ", "Sverigedemokraterna", 409,
+  "Sweden", "Vet inte", "dont-know", NA,
+  "Sweden", "Vänsterpartiet (V)", "Vänsterpartiet / Sveriges Komunistiska Parti", 830,
+  "Sweden", "Vänsterpartiet (V) ", "Vänsterpartiet / Sveriges Komunistiska Parti", 830,
+
+
+  # UK ##### -------------------------------------------------------------------
+  "United Kingdom", "Brexit Party", "Brexit Party", 7364,
+  "United Kingdom", "British National Party (BNP)", "British National Party", 855,
+  "United Kingdom", "Change UK – The Independent Group", "Change UK", 7365,
+  "United Kingdom", "Conservative (Cons)", "Conservatives", 1567,
+  "United Kingdom", "Conservative and Unionist Party (Conservative Party)", "Conservatives", 1567,
+  "United Kingdom", "Democratic Unionist Party (DUP)", "Democratic Unionist Party", 335,
+  "United Kingdom", "Don't know", "dont-know", NA,
+  "United Kingdom", "Green Party (GP)", "Green Party of England and Wales", 1794,
+  "United Kingdom", "Green Party of England and Wales (GP)", "Green Party of England and Wales", 1794,
+  "United Kingdom", "I did not vote", "did-not-vote", NA,
+  "United Kingdom", "I don't remember if I voted", "dont-know", NA,
+  "United Kingdom", "I was not eligible to vote", "not-eligible", NA,
+  "United Kingdom", "Labour Party (Lab)", "Labour Party", 1516,
+  "United Kingdom", "Labour Party (Labour)", "Labour Party", 1516,
+  "United Kingdom", "Liberal Democrats (LD)", "Liberal Democrats", 1388,
+  "United Kingdom", "Liberal Democrats (Lib Dem)", "Liberal Democrats", 1388,
+  "United Kingdom", "No, I do not feel close to any political party", "none", NA,
+  "United Kingdom", "Other (fill the blank)", "other", NA,
+  "United Kingdom", "Plaid Cymru (Plaid)", "Plaid Cymru — the Party of Wales", 1002,
+  "United Kingdom", "Plaid Cymru – Party of Wales (PL-PW)", "Plaid Cymru — the Party of Wales", 1002,
+  "United Kingdom", "Scotish National Party (SNP)", "Scottish National Party", 986,
+  "United Kingdom", "Scottish National Party (SNP)", "Scottish National Party", 986,
+  "United Kingdom", "Sinn Féin (SF)", "Sinn Féin", 963,
+  "United Kingdom", "Social Democratic & Labour Party (SDLP)", "Social Democratic and Labour Party", 762,
+  "United Kingdom", "Socialist Labour Party", "Socialist Labour Party", 1277,
+  "United Kingdom", "The British National Party (BNP)", "British National Party", 855,
+  "United Kingdom", "UK Independence Party (UKIP)", "United Kingdom Independence Party", 601,
+  "United Kingdom", "Ulster Unionist Party (UUP)", "Ulster Unionist Party", 1366,
+  "United Kingdom", "Ulster Unionist Party \\ Conservative & Ulster Unionist Alliance (UUP)", "Ulster Unionist Party", 1366,
+  "United Kingdom", "United Kingdom Independence Party (UKIP)", "United Kingdom Independence Party", 601
+)
+```
+
+The crosswalk codes Czech parties under `meta_country == "Czech Republic"`, but the survey data uses `"Czechia"`; align the two so the Czech rows match.
+
+```{r}
+#| label: party-recode-map-fix
+party_recode_map <- party_recode_map |>
+  mutate(
+    meta_country = if_else(
+      meta_country == "Czech Republic", "Czechia", meta_country
+    )
+  )
+```
+
+Spelling / format variants and response options found in this dataset but missing from the crosswalk above.
+Real parties reuse the `pf_name` / `pf_id` of their canonical match; parties absent from Party Facts take `"<name> [og]"` with `NA`; non-party responses get a harmonized English category label (`none`, `dont-know`, `did-not-vote`, `will-not-vote`, `not-eligible`, `other`, `other-country`) with `NA` id.
+`will-not-vote` (future-tense abstention in the vote-intention items) and `other-country` (respondent votes in another country) are added on top of the old notebook's category set.
+
+```{r}
+#| label: party-recode-map-extend
+party_recode_map_ext <- tribble(
+  ~meta_country, ~party_spelling, ~pf_name, ~pf_id,
+
+  # AUSTRIA
+  "Austria", "Nein, ich fühle mich keiner Partei nahe", "none", NA,
+  "Austria", "Ich werde nicht wählen", "will-not-vote", NA,
+  "Austria", "Ich bin nicht wahlberechtigt", "not-eligible", NA,
+  "Austria", "Die Reformkonservativen - REKOS (REKOS)", "Die Reformkonservativen", 2991,
+  "Austria", "Europa Anders (Kommunistische Partei Österreichs (KPÖ) + Piratenpartei + Der Wandel)", "Europa Anders [og]", NA,
+  "Austria", "Der Wandel", "Der Wandel [og]", NA,
+
+  # BELGIUM
+  "Belgium", "Non, je ne me sens proche d’aucun parti politique", "none", NA,
+  "Belgium", "Je ne sais pas", "dont-know", NA,
+  "Belgium", "Ne sait pas", "dont-know", NA,
+  "Belgium", "Je ne voterai pas", "will-not-vote", NA,
+  "Belgium", "Je n'ai pas le droit de vote", "not-eligible", NA,
+  "Belgium", "Autre (veuillez compléter)", "other", NA,
+  "Belgium", "Autres partis", "other", NA,
+  "Belgium", "Autre pays (veuillez compléter)", "other-country", NA,
+
+  # BULGARIA
+  "Bulgaria", "Коалиция за България (БСП)", "Koalicija za Balgarija — BSP za Bŭlgariya", 1665,
+  "Bulgaria", "Да, България!", "Da Bulgaria", 5861,
+  "Bulgaria", "Обединени патриоти (ОП)", "Obedineni Patrioti [og]", NA,
+  "Bulgaria", "България без цензура + ВМРО – Българско Национално Движение", "България без цензура + ВМРО–Българско Национално Движение [og]", NA,
+  "Bulgaria", "Няма да гласувам", "will-not-vote", NA,
+  "Bulgaria", "Нямам право да гласувам", "not-eligible", NA,
+
+  # CROATIA
+  "Croatia", "Socijaldemokratska partija Hrvatske (SDP) + Hrvatska narodna stranka – Liberalni demokrati (HNS-LD) + Hrvatska stranka umirovljenika (HSU) + Samostalna demokratska srpska stranka (SDSS) + Istarski demokratski sabor (IDS)", "Kukuriku Coalition [og]", 2522,
+  "Croatia", "Hrvatska demokratska zajednica (HDZ) + Hrvatska stranka prava dr. Ante Starčević (HSP AS) + Blok umirovljenici zajedno (BUZ) + Hrvatska seljačka stranka (HSS) + Zagorska demokratska stranka (ZDS) + Hrvatska demokršćanska stranka (HDS)", "Patriotic Coalition (incl. HDZ, HSP-AS, HSS) [og]", NA,
+  "Croatia", "Hrvatska zora stranka naroda (HZ) + Hrvatski demokratski savez Slavonije i Baranje (HDSSB) + Akcija za bolju hrvatsku (ABH) + Autohtona - hrvatska seljačka stranka (AHSS) + Hrvatski rast (HRAST) + Hrvatska stranka prava (HSP) + Obiteljska stranka (OS) + Zavjet za Hrvatsku (ZZH)", "Hrvatska zora-HDSSB-ABH-AHSS-HRAST Coalition [og]", NA,
+  "Croatia", "Održivi Razvoj Hrvatske(ORaH)", "Održivi razvoj Hrvatske", 3201,
+  "Croatia", "Samostalna demokratska srpska stranka (SDSS, Самостална демократска српска странка, СДСС)", "Samostalna demokratska srpska stranka", 2348,
+  "Croatia", "Neću glasati", "will-not-vote", NA,
+  "Croatia", "Nemam biračko pravo", "not-eligible", NA,
+
+  # CZECHIA
+  "Czechia", "TOP 09", "Tradice Odpovědnost Prosperita 09", 223,
+  "Czechia", "Nebudu volit", "will-not-vote", NA,
+  "Czechia", "Nejsem oprávněn/oprávněná volit", "not-eligible", NA,
+
+  # DENMARK
+  "Denmark", "Venstre, Danmarks Liberale Parti (V)", "Venstre", 1204,
+  "Denmark", "Venstre", "Venstre", 1204,
+  "Denmark", "Socialdemokraterne", "Socialdemokraterne", 379,
+  "Denmark", "Dansk Folkeparti", "Dansk Folkeparti", 1022,
+  "Denmark", "Socialistisk Folkeparti (SF)", "Socialistisk Folkeparti", 329,
+  "Denmark", "Folkebevægelsen mod EU", "Folkebevægelsen mod EU", 333,
+  "Denmark", "Ø. Enhedslisten - de rød-grønne", "Enhedslisten / De Rød-Grønne", 1527,
+  "Denmark", "Det konservative Folkeparti", "Konservative Folkeparti", 536,
+  "Denmark", "Det Radikale Venstre", "Det Radikale Venstre", 1507,
+  "Denmark", "Liberal Alliance", "[Ny] Liberal Alliance", 212,
+  "Denmark", "K. Kristendemokraterne", "Kristeligt Folkeparti / Kristendemokraterne", 53,
+  "Denmark", "Nej, du føler ikke, at dine holdninger ligger tæt op ad et af de politiske partier?", "none", NA,
+  "Denmark", "Jeg vil ikke stemme", "will-not-vote", NA,
+  "Denmark", "Jeg har ikke stemmeret", "not-eligible", NA,
+
+  # ESTONIA
+  "Estonia", "Ma ei hääleta", "will-not-vote", NA,
+  "Estonia", "Erakond Eesti Kristlikud Demokraadid (EKD)", "Eesti Kristlikud Demokraadid [og]", NA,
+  "Estonia", "Vene Erakond Eestis", "Vene Erakond Eestis [og]", NA,
+  "Estonia", "Eestimaa Ühendatud Vasakpartei", "Eestimaa Ühendatud Vasakpartei [og]", NA,
+
+  # FINLAND
+  "Finland", "Ruotsalainen kansanpuolue (RKP)", "Ruotsalainen Kansanpuolue / Svenska Folkepartiet i Finland", 1229,
+  "Finland", "Sinivalkoinen Rintama (Vapauspuolue – Suomen tulevaisuus)", "Sinivalkoinen Rintama [og]", NA,
+  "Finland", "Ei osaa sanoa", "dont-know", NA,
+  "Finland", "En äänestä", "will-not-vote", NA,
+  "Finland", "Minulla ei ole äänioikeutta", "not-eligible", NA,
+
+  # FRANCE
+  "France", "Rassemblement national (RN, ex. Front National (FN))", "Front National / Rassemblement national", 433,
+  "France", "La liste de La République En Marche (REM), du MoDem (Mouvement Démocrate) et d’Agir", "La République En Marche! / Renaissance", 5857,
+  "France", "Union des Démocrates et Indépendants + Mouvement Démocrate (UDI + MoDem)", "Union des démocrates et indépendants", 3229,
+  "France", "Nouveau centre", "Nouveau Centre [og]", NA,
+  "France", "Parti radical de gauche", "Parti radical de gauche [og]", NA,
+  "France", "Alliance centriste", "Alliance centriste [og]", NA,
+  "France", "Divers gauche", "other", NA,
+  "France", "Divers droite", "other", NA,
+  "France", "Régionalistes", "other", NA,
+  "France", "Je ne sais pas", "dont-know", NA,
+  "France", "Je ne voterai pas", "will-not-vote", NA,
+  "France", "Je n'ai pas le droit de vote", "not-eligible", NA,
+
+  # GERMANY
+  "Germany", "Nein, ich fühle mich keiner Partei nahe", "none", NA,
+  "Germany", "Ich werde nicht wählen", "will-not-vote", NA,
+  "Germany", "Ich bin nicht wahlberechtigt", "not-eligible", NA,
+  "Germany", "Freie Wähler(FW)", "Freie Wähler", 1090,
+  # thermometer slot label: CDU/CSU joint list -> first-listed party (CDU)
+  "Germany", "Christlich Demokratische Union (CDU)/Christlich Soziale Union (CSU)", "Christlich Demokratische Union", 1375,
+
+  # GREECE
+  "Greece", "Κίνημα Αλλαγής (ΚΙΝΑΛ): Πανελλήνιο Σοσιαλιστικό ίνημα (ΠΑΣΟK) + Δημοκρατική Αριστερά (ΔΗM.ΑΡ.) + Κίνημα Δημοκρατών Σοσιαλιστών (ΚΙΔΗΣΟ) + Κινήσεις Πολιτών για τη Σοσιαλδημοκρατία", "Kinima Allagis", 7909,
+  "Greece", "Πανελλήνιο Σοσιαλιστικό Kίνημα (ΠΑΣΟK)", "Panellinio Sosialistikó Kínima", 1468,
+  "Greece", "Ελιά – Δημοκρατική Παράταξη (Ελιά ΔΠ)", "Panellinio Sosialistikó Kínima", 1468,
+  "Greece", "Δημιουργία, Ξανά!", "Dimiourgia Xana [og]", NA,
+  "Greece", "Δεν θα ψηφίσω", "will-not-vote", NA,
+  "Greece", "Δεν έχω δικαίωμα ψήφου", "not-eligible", NA,
+
+  # HUNGARY
+  "Hungary", "Nem fogok szavazni", "will-not-vote", NA,
+  "Hungary", "Nem szavazhatok", "not-eligible", NA,
+  "Hungary", "Egyéb", "other", NA,
+
+  # IRELAND
+  "Ireland", "People Before Profit Alliance (PBP)", "Solidarity — People Before Profit", 8241,
+  "Ireland", "Labour Party (Labour)", "Páirti Lucht Oibre", 562,
+  "Ireland", "IA (Independent Alliance)", "Independent Alliance", 8179,
+  "Ireland", "Green Party (Green)", "Green Party-Comhaontas Glas", 1775,
+  "Ireland", "Fís Nua", "Fís Nua [og]", NA,
+  "Ireland", "Socialist Party (SP)", "Socialist Party [og]", NA,
+  "Ireland", "South Kerry Independent Alliance (SKIA)", "South Kerry Independent Alliance [og]", NA,
+  "Ireland", "Christian Solidarity (CS)", "Christian Solidarity [og]", NA,
+  "Ireland", "I will not vote", "will-not-vote", NA,
+  "Ireland", "I am not eligible to vote", "not-eligible", NA,
+
+  # ITALY
+  "Italy", "Lega Nord (LN)", "Lega Nord", 1221,
+  "Italy", "L’Altra Europa - Con Tsipras (Sinistra Ecologia e Liberta (SEL) )", "L'Altra Europa con Tsipras", 6685,
+  "Italy", "Coalizione Nuovo Centro Destra (NCD) + Unión de Centro Democratico (UDC) + Popolari per l'Italia (PPI)", "Nuovo Centrodestra", 2052,
+  "Italy", "Rivoluzione Civile", "Rivoluzione Civile [og]", NA,
+  "Italy", "Südtiroler Volkspartei (SVP)", "Südtiroler Volkspartei [og]", NA,
+  "Italy", "Südtiroler Volkspartei (SVP, Partito popolare sudtirolese)", "Südtiroler Volkspartei [og]", NA,
+  "Italy", "Non voterò", "will-not-vote", NA,
+  "Italy", "Non ho diritto al voto", "not-eligible", NA,
+
+  # LATVIA
+  "Latvia", "Zaļo un Zemnieku savienība (ZZS, Latvijas Zemnieku savienība (LZS) + Latvijas Zaļā partija (LZP))", "Zaļo un Zemnieku savienība", 701,
+  "Latvia", "\"Kam pieder valsts\" (KPV LV)", "Kam pieder valsts? — Par cilvēcīgu Latviju", 6356,
+  "Latvia", "Attīstībai/Par! (AP!, Latvijas attīstībai (LA) + Kustība Par! (Par!) + \"Izaugsme\")", "Attīstībai/Par!", 8393,
+  "Latvia", "Vienoti Latvijai (VL)", "Vienoti Latvijai [og]", NA,
+  "Latvia", "\"Par prezidentālu republiku\"", "Par prezidentālu republiku [og]", NA,
+  "Latvia", "Latvijas Atdzimšanas partija", "Latvijas Atdzimšanas partija [og]", NA,
+  "Latvia", "Nē", "none", NA,
+  "Latvia", "es nejūtos pietuvināts(-a) nevienai politiskajai partijai", "none", NA,
+  "Latvia", "Nē, Jūs nejūtaties tuvs/-a nevienai politiskajai partijai", "none", NA,
+  "Latvia", "Es nebalsošu", "will-not-vote", NA,
+  "Latvia", "Es neesmu tiesīgs(-a) balsot", "not-eligible", NA,
+
+  # LITHUANIA
+  "Lithuania", "Liberalų ir centro sąjunga (LiCS)", "Liberalų ir centro sąjunga", 1193,
+  "Lithuania", "Lietuvos lenkų rinkimų akcija (LLRA (AWPL))", "Lietuvos lenkų rinkimų akcija", 556,
+  "Lithuania", "Sąjunga „TAIP“ (Tėvynės atgimimas ir perspektyva)", "Sąjunga TAIP [og]", NA,
+  "Lithuania", "Nebalsuosiu", "will-not-vote", NA,
+  "Lithuania", "Neturiu teisės balsuoti", "not-eligible", NA,
+
+  # NETHERLANDS
+  "Netherlands", "Nee, ik voel mij niet verbonden met een politieke partij", "none", NA,
+  "Netherlands", "Ik zal niet stemmen", "will-not-vote", NA,
+  "Netherlands", "Ik kom niet in aanmerking om te stemmen", "not-eligible", NA,
+
+  # POLAND
+  "Poland", "Koalicja Obywatelska (Platforma Obywatelska (PO) + .Nowoczesna (.N))", "Koalicja Obywatelska", 9122,
+  "Poland", "Ruch Palikota", "Ruch Palikota / Twój Ruch", 731,
+  "Poland", "Polska jest Najważniejsza", "Polska jest Najważniejsza [og]", NA,
+  "Poland", "Nie będę głosować", "will-not-vote", NA,
+  "Poland", "Nie jestem uprawniony(-a) do głosowania", "not-eligible", NA,
+  "Poland", "Inne", "other", NA,
+  "Poland", "Inny kraj [proszę uzupełnić]", "other-country", NA,
+
+  # PORTUGAL
+  "Portugal", "Partido Social Democrata (PPD-PSD)", "Partido Popular Democrático / Partido Social Democrata", 1359,
+  "Portugal", "Coligação Democrática Unitária (CDU: Partido Comunista Português (PCP) + Partido Ecologista \"os Verdes\" (PEV) + Intervenção Democrática)", "Coligação Democrática Unitária", 284,
+  "Portugal", "Coligação Democrática Unitária (CDU) (PCP/PEV)", "Coligação Democrática Unitária", 284,
+  "Portugal", "Centro Democrático e Social - Partido Popular (CDS-PP)", "Centro Democrático e Social / Partido Popular", 1308,
+  "Portugal", "Partido Ecologista \"os Verdes\" (PEV)", "Partido Ecologista — Os Verdes", 886,
+  "Portugal", "Partido Ecologista os Verdes (PEV)", "Partido Ecologista — Os Verdes", 886,
+  "Portugal", "Partido Social Democrata + Centro Democrático Social/Partido Popular (PSD + CDS-PP)", "Partido Social Democrata (PSD) + Centro Democrático e Social - Partido Popular (CDS-PP) [og]", NA,
+  "Portugal", "Intervenção Democrática", "Intervenção Democrática [og]", NA,
+  "Portugal", "Não vou votar", "will-not-vote", NA,
+  "Portugal", "Outro país [preencha o espaço em branco]", "other-country", NA,
+
+  # ROMANIA
+  "Romania", "Uniunea Democrată Maghiară din România (UDMR, Romániai Magyar Demokrata Szövetség (RMDSZ))", "Uniunea Democrată Maghiară din România / Romániai Magyar Demokrata Szövetség", 1105,
+  "Romania", "Partidul Libertății Unității și Solidarității (PLUS)/ Mișcarea România Împreună (RO+)", "Partidul Libertății Unității și Solidarității (PLUS) [og]", NA,
+  "Romania", "Uniunea Social Democrată (Partidul Social Democrat (PSD), Partidul Conservator (PC), Uniunea Nationala pentru Progresul Romaniei (UNPR))", "Uniunea Social Democrată: PSD, PC, UNPR [og]", NA,
+  "Romania", "Partidul România Unită (PRU)", "Partidul România Unită [og]", NA,
+  "Romania", "Nu voi vota", "will-not-vote", NA,
+  "Romania", "Nu am drept de vot", "not-eligible", NA,
+
+  # SLOVAKIA
+  "Slovakia", "Smer - Sociálna demokracia (Smer-SD)", "Smer — sociálna demokracia", 311,
+  "Slovakia", "NOVA", "Nová väčšina", 6686,
+  "Slovakia", "Strana demokratického Slovenska", "Strana demokratického Slovenska [og]", NA,
+  "Slovakia", "Národ a Spravodlivosť - Naša strana (NaS-ns)", "Národ a Spravodlivosť - Naša strana [og]", NA,
+  "Slovakia", "Nie, necítite sa byť blízko ku žiadnej politickej strane", "none", NA,
+  "Slovakia", "Nebudem hlasovať", "will-not-vote", NA,
+  "Slovakia", "Nemám hlasovacie právo", "not-eligible", NA,
+  "Slovakia", "Iné [vyplňte prázdne miesto ]", "other", NA,
+
+  # SLOVENIA
+  "Slovenia", "Kacin - Konkretno (Kacin-Konkretno)", "Konkretno", 9068,
+  "Slovenia", "Koalicija Nova Slovenija + Slovenska ljudska stranka (Koalicija NSi + SLS)", "Nova Slovenija — Krščanska ljudska stranka + Slovenska ljudska stranka [og]", NA,
+  "Slovenia", "Ne bom volil/-a.", "will-not-vote", NA,
+  "Slovenia", "Nisem upravičen/-a do udeležbe na volitvah.", "not-eligible", NA,
+
+  # SPAIN
+  "Spain", "Unidos Podemos (Izquierda Unida + Podemos)", "Unidas Podemos", 7656,
+  "Spain", "Euzko Alderdi Jeltzalea (EAJ/PNV))", "Partido Nacionalista Vasco — Euzko Alderdi Jeltzalea", 1637,
+  "Spain", "Coalición Canaria (CC)", "Coalición Canaria [og]", NA,
+  "Spain", "Coalición por Europa (CEU): Convergència Democràtica de Catalunya (Convergència)+ Euzko Alderdi Jeltzalea (EAJ-PNV) + Unió Democràtica de Catalunya (Unió/UDC)+ Coalición Canaria (CC) + Compromiso por Galicia (GxC)", "Coalición por Europa [og]", NA,
+  "Spain", "No, no se considera próximo/a a ningún partido", "none", NA,
+  "Spain", "No voy a votar", "will-not-vote", NA,
+  "Spain", "No puedo votar", "not-eligible", NA,
+
+  # SWEDEN
+  "Sweden", "Vänsterpartiet (VP)", "Vänsterpartiet / Sveriges Komunistiska Parti", 830,
+  "Sweden", "Centerpartiet [C]", "Bondeförbundet / Centerpartiet", 199,
+  "Sweden", "Nej, du anser dig inte stå nära något politiskt parti", "none", NA,
+  "Sweden", "Vet ej", "dont-know", NA,
+  "Sweden", "Jag kommer inte att rösta", "will-not-vote", NA,
+  "Sweden", "Jag är inte röstberättigad", "not-eligible", NA,
+
+  # UNITED KINGDOM
+  "United Kingdom", "Conservative (Con)", "Conservatives", 1567,
+  "United Kingdom", "English Democrats", "English Democrats [og]", NA,
+  "United Kingdom", "I will not vote", "will-not-vote", NA,
+  "United Kingdom", "I am not eligible to vote", "not-eligible", NA
+)
+
+party_recode_map <- bind_rows(party_recode_map, party_recode_map_ext)
+```
+
+Open-end ("Other, specify") and free-text responses (recurring values, n >= 2).
+Matching is case-insensitive, so one representative spelling per concept covers its case variants.
+Recognized parties take their `pf_name` / `pf_id` (or `"<name> [og]"` when absent from Party Facts); protest / non-disclosure responses take a category label with `NA` id.
+Category labels extend the earlier set with `blank-invalid` (blank or spoilt ballot), `refused` (declines to disclose / secret ballot), and `independent` (independent candidate).
+Individual candidates' names and gibberish are left to fall through to `NA`.
+
+```{r}
+#| label: party-recode-map-openend
+party_recode_map_open_ext <- tribble(
+  ~meta_country, ~party_spelling, ~pf_name, ~pf_id,
+
+  # AUSTRIA
+  "Austria", "ungültig", "blank-invalid", NA,
+  "Austria", "Wahlgeheimnis", "refused", NA,
+  "Austria", "Wahlgeheimnis!", "refused", NA,
+  "Austria", "Keine Angabe", "refused", NA,
+  "Austria", "keine antwort", "refused", NA,
+  "Austria", "sag ich nicht", "refused", NA,
+  "Austria", "sage ich nicht", "refused", NA,
+  "Austria", "Keine", "none", NA,
+  "Austria", "keiner", "none", NA,
+  "Austria", "für keine, prinzipiell", "none", NA,
+
+  # BELGIUM
+  "Belgium", "blanco", "blank-invalid", NA,
+  "Belgium", "ongeldig", "blank-invalid", NA,
+  "Belgium", "ongeldig gestemd", "blank-invalid", NA,
+  "Belgium", "geen", "none", NA,
+  "Belgium", "geen enkele", "none", NA,
+  "Belgium", "dat gaat jullie niet aan", "refused", NA,
+  "Belgium", "geen zaken mee", "refused", NA,
+  "Belgium", "ik beroep met op het geheimhoudingsrecht", "refused", NA,
+  "Belgium", "zeg ik liever niet", "refused", NA,
+  "Belgium", "oublié", "dont-know", NA,
+  "Belgium", "PTB", "Partij van de Arbeid van België — Parti du Travail de Belgique", 1753,
+  "Belgium", "ecolo", "Écologistes Confédérés pour l'organisation de luttes originales", 1563,
+  "Belgium", "vlaams belang", "Vlaams Belang", 1968,
+  "Belgium", "Volt", "Volt [og]", NA,
+  "Belgium", "dieranimal", "DierAnimal [og]", NA,
+  "Belgium", "Liste Destexhe", "Liste Destexhe [og]", NA,
+  "Belgium", "Nation", "Nation [og]", NA,
+
+  # BULGARIA
+  "Bulgaria", "независим кандидат", "independent", NA,
+  "Bulgaria", "независим", "independent", NA,
+  "Bulgaria", "не желая да отговоря", "refused", NA,
+  "Bulgaria", "не искам да отговоря", "refused", NA,
+  "Bulgaria", "Предпочитам да не казвам", "refused", NA,
+  "Bulgaria", "лично", "refused", NA,
+  "Bulgaria", "лично е", "refused", NA,
+  "Bulgaria", "Вота е таен", "refused", NA,
+  "Bulgaria", "не е коректно", "refused", NA,
+  "Bulgaria", "не помня", "dont-know", NA,
+  "Bulgaria", "не съм решила", "dont-know", NA,
+  "Bulgaria", "не съм решил", "dont-know", NA,
+  "Bulgaria", "не съм решила още", "dont-know", NA,
+  "Bulgaria", "никоя", "none", NA,
+  "Bulgaria", "никой", "none", NA,
+  "Bulgaria", "за никого", "none", NA,
+  "Bulgaria", "за нито една", "none", NA,
+  "Bulgaria", "не подкрепям никого", "none", NA,
+  "Bulgaria", "Гласувах с недействителна бюлетина (против всички)", "blank-invalid", NA,
+  "Bulgaria", "ДСБ", "Demokrati za Silna Balgarija", 1195,
+  "Bulgaria", "Възраждане", "Vazrazhdane", 5862,
+  "Bulgaria", "Демократична България", "Демократична България [og]", NA,
+  "Bulgaria", "СДС", "Sayuz na Demokratichnite Sili [og]", NA,
+  "Bulgaria", "Движение 21", "Dvizhenie 21 [og]", NA,
+  "Bulgaria", "ВОЛТ", "Volt [og]", NA,
+  "Bulgaria", "Глас народен", "Glas Naroden [og]", NA,
+  "Bulgaria", "Обединени патриоти (ОП)", "Obedineni Patrioti [og]", NA,
+  "Bulgaria", "Път на младите", "Pat na mladite [og]", NA,
+  "Bulgaria", "Идея за България", "Ideya za Bulgaria [og]", NA,
+  "Bulgaria", "МИР", "MIR [og]", NA,
+
+  # CROATIA
+  "Croatia", "ne želim odgovoriti", "refused", NA,
+  "Croatia", "ne želim reći", "refused", NA,
+  "Croatia", "glasanje je bilo tajno", "refused", NA,
+  "Croatia", "ne sjećam se", "dont-know", NA,
+  "Croatia", "nisam glasala", "did-not-vote", NA,
+  "Croatia", "nitko", "none", NA,
+  "Croatia", "niti jednu", "none", NA,
+  "Croatia", "nikoga", "none", NA,
+  "Croatia", "poništila bih listić", "blank-invalid", NA,
+  "Croatia", "nevazeci listic", "blank-invalid", NA,
+  "Croatia", "ostalo", "other", NA,
+  "Croatia", "živi zid", "Živi zid", 4867,
+  "Croatia", "most", "Most nezavisnih lista", 4865,
+  "Croatia", "pametno", "Pametno", 7336,
+  "Croatia", "Hrvatski laburisti", "Hrvatski laburisti — Stranka rada", 3143,
+  "Croatia", "SDSS", "Samostalna demokratska srpska stranka", 2348,
+  "Croatia", "IDS", "Istarski demokratski sabor", 513,
+  "Croatia", "START", "Start - Stranka Antikorupcije, Razvoja i Transparentnosti [og]", NA,
+  "Croatia", "HSLS", "Hrvatska socijalno-liberalna stranka [og]", NA,
+  "Croatia", "HSP", "Hrvatska stranka prava [og]", NA,
+  "Croatia", "Hrvatska Stranka Prava", "Hrvatska stranka prava [og]", NA,
+  "Croatia", "Radnička fronta", "Radnička fronta [og]", NA,
+  "Croatia", "SNAGA", "Snaga [og]", NA,
+  "Croatia", "Možemo!", "Možemo! [og]", NA,
+  "Croatia", "Hrvatski suverenisti", "Hrvatski suverenisti [og]", NA,
+  "Croatia", "nova ljevica", "Nova ljevica [og]", NA,
+  "Croatia", "Hrast", "Hrast [og]", NA,
+  "Croatia", "Reformisti", "Reformisti [og]", NA,
+  "Croatia", "Slobodna Hrvatska", "Slobodna Hrvatska [og]", NA,
+  "Croatia", "Zelena stranka", "Zelena stranka [og]", NA,
+  "Croatia", "hrvatska stranka umirovljenika", "Hrvatska stranka umirovljenika [og]", NA,
+  "Croatia", "Nezavisna lista Marijane Petir", "Nezavisna lista Marijane Petir [og]", NA,
+
+  # CZECHIA
+  "Czechia", "nepamatuji se", "dont-know", NA,
+  "Czechia", "už si nepamatuji", "dont-know", NA,
+  "Czechia", "už nevím", "dont-know", NA,
+  "Czechia", "nechci uvádět", "refused", NA,
+  "Czechia", "moje osobní věc", "refused", NA,
+  "Czechia", "neřeknu", "refused", NA,
+  "Czechia", "žádnou", "none", NA,
+  "Czechia", "SPD", "Svoboda a přímá demokracie", 6125,
+  "Czechia", "Rozumní", "Rozumní [og]", NA,
+  "Czechia", "Národní demokracie", "Národní demokracie [og]", NA,
+  "Czechia", "Alternativa", "Alternativa [og]", NA,
+  "Czechia", "ESO", "ESO [og]", NA,
+  "Czechia", "Republikány", "Republikáni [og]", NA,
+  "Czechia", "Moravané", "Moravané [og]", NA,
+  "Czechia", "SPR-RSČ", "Sdružení pro republiku — Republikánská strana Československa [og]", NA,
+  "Czechia", "List Jaromíra Soukupa", "List Jaromíra Soukupa [og]", NA,
+  "Czechia", "dělnická", "Dělnická strana [og]", NA,
+
+  # DENMARK
+  "Denmark", "ved ikke", "dont-know", NA,
+  "Denmark", "husker ikke", "dont-know", NA,
+  "Denmark", "ved det ikke", "dont-know", NA,
+  "Denmark", "Vil ikke oplyse", "refused", NA,
+  "Denmark", "vil ikke svare", "refused", NA,
+  "Denmark", "Ønsker ikke at oplyse", "refused", NA,
+  "Denmark", "Ønsker ikke at svare", "refused", NA,
+  "Denmark", "ønsker ikke at opgive", "refused", NA,
+  "Denmark", "ønsker ikke oplyse", "refused", NA,
+  "Denmark", "sagen uvedkommende", "refused", NA,
+  "Denmark", "rager ikke jer", "refused", NA,
+  "Denmark", "Blankt", "blank-invalid", NA,
+  "Denmark", "stemte blankt", "blank-invalid", NA,
+  "Denmark", "Jeg stemte blankt.", "blank-invalid", NA,
+  "Denmark", "blank", "blank-invalid", NA,
+  "Denmark", "ugyldig stemmeseddel", "blank-invalid", NA,
+  "Denmark", "Enhedslisten", "Enhedslisten / De Rød-Grønne", 1527,
+  "Denmark", "Stram Kurs", "Stram Kurs", 7338,
+  "Denmark", "Alternativet", "Alternativet", 4070,
+  "Denmark", "kristendemokrater", "Kristeligt Folkeparti / Kristendemokraterne", 53,
+
+  # ESTONIA
+  "Estonia", "Üksikkandidaat", "independent", NA,
+  "Estonia", "üksik kandidaat", "independent", NA,
+  "Estonia", "ei mäleta", "dont-know", NA,
+  "Estonia", "ei hääletanud", "did-not-vote", NA,
+  "Estonia", "Ei valinud", "did-not-vote", NA,
+  "Estonia", "ei vasta sellele küsimusele", "refused", NA,
+  "Estonia", "Ei avalda", "refused", NA,
+  "Estonia", "Muu", "other", NA,
+  "Estonia", "Rohelised", "Erakonna Eestimaa Rohelised", 1040,
+  "Estonia", "Elurikkuse erakond", "Elurikkuse Erakond", 7341,
+  "Estonia", "Rahva Ühtsuse Erakond", "Rahva Ühtsuse Erakond [og]", NA,
+
+  # FINLAND
+  "Finland", "En halua kertoa", "refused", NA,
+  "Finland", "en kerro", "refused", NA,
+  "Finland", "ei kuulu sulle", "refused", NA,
+  "Finland", "EI tarvitse vastata", "refused", NA,
+  "Finland", "VAALISALAISUUS", "refused", NA,
+  "Finland", "en muista", "dont-know", NA,
+  "Finland", "en äänestä", "will-not-vote", NA,
+  "Finland", "SKP", "Suomen Kommunistinen Puolue", 7030,
+  "Finland", "piraattipuolue", "Piraattipuolue / Piratpartiet", 9148,
+  "Finland", "Eläinoikeuspuolue", "Eläinoikeuspuolue [og]", NA,
+  "Finland", "Eläinoikeuspuolue (EOP)", "Eläinoikeuspuolue [og]", NA,
+  "Finland", "Eop", "Eläinoikeuspuolue [og]", NA,
+  "Finland", "Liike Nyt", "Liike Nyt [og]", NA,
+  "Finland", "Feministinen puolue", "Feministinen puolue [og]", NA,
+  "Finland", "Kansallissosialistit", "Kansallissosialistit [og]", NA,
+  "Finland", "7 tähteä", "Seitsemän tähden liike [og]", NA,
+  "Finland", "Seitsemäntähden liike", "Seitsemän tähden liike [og]", NA,
+  "Finland", "Suomi Nyt", "Suomi Nyt [og]", NA,
+
+  # FRANCE
+  "France", "blanc", "blank-invalid", NA,
+  "France", "vote blanc", "blank-invalid", NA,
+  "France", "Blanc ou nul", "blank-invalid", NA,
+  "France", "Nul", "blank-invalid", NA,
+  "France", "aucun", "none", NA,
+  "France", "aucune", "none", NA,
+  "France", "NSP", "dont-know", NA,
+  "France", "abstention", "will-not-vote", NA,
+  "France", "personnel", "refused", NA,
+  "France", "vie privée", "refused", NA,
+  "France", "parti animaliste", "Parti animaliste [og]", NA,
+  "France", "animaliste", "Parti animaliste [og]", NA,
+  "France", "la france insoumise", "La France Insoumise", 5858,
+  "France", "la republique en marche", "La République En Marche! / Renaissance", 5857,
+  "France", "REM", "La République En Marche! / Renaissance", 5857,
+  "France", "lr", "Les Républicains", 8168,
+  "France", "gilets jaunes", "Gilets jaunes [og]", NA,
+  "France", "gilet jaune", "Gilets jaunes [og]", NA,
+  "France", "alliance jaune", "Alliance jaune [og]", NA,
+  "France", "EDE", "Europe Démocratie Espéranto [og]", NA,
+
+  # GERMANY
+  "Germany", "keine", "none", NA,
+  "Germany", "keine Angabe", "refused", NA,
+  "Germany", "keine Antwort", "refused", NA,
+  "Germany", "kein Kommentar", "refused", NA,
+  "Germany", "möchte ich nicht sagen", "refused", NA,
+  "Germany", "Wahlgeheimnis", "refused", NA,
+  "Germany", "es gibt ein Wahlgeheimnis", "refused", NA,
+  "Germany", "kA", "refused", NA,
+  "Germany", "ungültig", "blank-invalid", NA,
+  "Germany", "ich habe ungültig gewählt", "blank-invalid", NA,
+  "Germany", "Tierschutzpartei", "Tierschutzpartei", 749,
+  "Germany", "Tierschutz", "Tierschutzpartei", 749,
+  "Germany", "ÖDP", "Ökologisch-Demokratische Partei", 7345,
+  "Germany", "Die Partei", "Die PARTEI", 6126,
+  "Germany", "Volt", "Volt [og]", NA,
+  "Germany", "Die Grauen", "Die Grauen [og]", NA,
+  "Germany", "Graue Panther", "Die Grauen [og]", NA,
+  "Germany", "Bündnis Grundeinkommen", "Bündnis Grundeinkommen [og]", NA,
+  "Germany", "BGE", "Bündnis Grundeinkommen [og]", NA,
+  "Germany", "MTP", "Menschliche Welt [og]", NA,
+  "Germany", "DKP", "Deutsche Kommunistische Partei [og]", NA,
+  "Germany", "DIEM 25", "DiEM25 [og]", NA,
+  "Germany", "Partei der Humanisten", "Partei der Humanisten [og]", NA,
+  "Germany", "AUF-Partei", "AUF-Partei [og]", NA,
+  "Germany", "Bündnis C", "Bündnis C [og]", NA,
+
+  # GREECE
+  "Greece", "Δεν απαντώ", "refused", NA,
+  "Greece", "Δεν το γνωστοποιω", "refused", NA,
+  "Greece", "Δεν κοινοποιώ την ψήφο μου", "refused", NA,
+  "Greece", "Η ψήφος είναι μυστική", "refused", NA,
+  "Greece", "προτιμώ να μην απαντήσω", "refused", NA,
+  "Greece", "Δεν θυμάμαι", "dont-know", NA,
+  "Greece", "ΛΕΥΚΟ", "blank-invalid", NA,
+  "Greece", "ΑΚΥΡΟ", "blank-invalid", NA,
+  "Greece", "ΚΑΝΕΝΑ", "none", NA,
+  "Greece", "ΑΝΤΑΡΣΥΑ", "Antarsya [og]", NA,
+  "Greece", "ΔΗΜΙΟΥΡΓΙΑ ΞΑΝΑ", "Dimiourgia Xana [og]", NA,
+  "Greece", "ΜΕΡΑ25", "Métopo Evropaikís Realistikís Anypakoís", 7348,
+  "Greece", "ΜΕΡΑ 25", "Métopo Evropaikís Realistikís Anypakoís", 7348,
+  "Greece", "mera25", "Métopo Evropaikís Realistikís Anypakoís", 7348,
+  "Greece", "MERA 25", "Métopo Evropaikís Realistikís Anypakoís", 7348,
+  "Greece", "ΕΠΑΜ", "Eniaio Palaiko Metopo [og]", NA,
+  "Greece", "ΕΝΩΣΗ ΚΕΝΤΡΩΩΝ", "Enosi Kentroon", 2510,
+  "Greece", "ΑΝΕΛ", "Anexartitoi Ellines", 1651,
+  "Greece", "ΟΙΚΟΛΟΓΟΙ ΠΡΑΣΙΝΟΙ", "Oikologoi Prasinoi", 378,
+  "Greece", "ΝΕΑ ΔΕΞΙΑ", "Nea Dexia [og]", NA,
+  "Greece", "ΑΚΚΕΛ", "Agrotiko Ktinotrofiko Komma Ellados [og]", NA,
+  "Greece", "ΕΛΛΗΝΩΝ ΣΥΝΕΛΕΥΣΙΣ", "Ellinon Syneleysis [og]", NA,
+  "Greece", "ΕΛΛΑΔΑ Ο ΑΛΛΟΣ ΔΡΟΜΟΣ", "Ellada o Allos Dromos [og]", NA,
+
+  # HUNGARY
+  "Hungary", "nem szavaztam", "did-not-vote", NA,
+  "Hungary", "Nem válaszolok", "refused", NA,
+  "Hungary", "nem nyilatkozok", "refused", NA,
+  "Hungary", "nem mondom meg", "refused", NA,
+  "Hungary", "A szavazás titkos", "refused", NA,
+  "Hungary", "Magánügy", "refused", NA,
+  "Hungary", "nem tudom", "dont-know", NA,
+  "Hungary", "nem válaszolnék", "refused", NA,
+  "Hungary", "egyikre sem", "none", NA,
+  "Hungary", "Egyik sem", "none", NA,
+  "Hungary", "egyikhez sem", "none", NA,
+
+  # IRELAND
+  "Ireland", "Independent", "independent", NA,
+  "Ireland", "an independant", "independent", NA,
+  "Ireland", "An independent candidate", "independent", NA,
+  "Ireland", "Individual not affiliated to any party", "independent", NA,
+  "Ireland", "private", "refused", NA,
+  "Ireland", "Prefer not to say", "refused", NA,
+  "Ireland", "not saying", "refused", NA,
+  "Ireland", "other", "other", NA,
+  "Ireland", "local", "independent", NA,
+  "Ireland", "Aontú", "Aontú [og]", NA,
+  "Ireland", "Animal Party", "Animal Party [og]", NA,
+
+  # ITALY
+  "Italy", "il voto è segreto", "refused", NA,
+  "Italy", "Voto segreto", "refused", NA,
+  "Italy", "non sono fatti vostri", "refused", NA,
+  "Italy", "preferisco non dirlo", "refused", NA,
+  "Italy", "privato", "refused", NA,
+  "Italy", "non ricordo", "dont-know", NA,
+  "Italy", "indeciso", "dont-know", NA,
+  "Italy", "nessuno", "none", NA,
+  "Italy", "non ho votato", "did-not-vote", NA,
+  "Italy", "scheda nulla", "blank-invalid", NA,
+  "Italy", "scheda bianca", "blank-invalid", NA,
+  "Italy", "Lega", "Lega Nord", 1221,
+  "Italy", "potere al popolo", "Potere al Popolo", 8247,
+  "Italy", "rifondazione-sinistra europea", "Partito della Rifondazione Comunista", 1404,
+  "Italy", "Partito Comunista", "Partito Comunista [og]", NA,
+  "Italy", "casa pound", "CasaPound [og]", NA,
+  "Italy", "movimento animalista", "Movimento Animalista [og]", NA,
+  "Italy", "liberi e uguali", "Liberi e Uguali [og]", NA,
+  "Italy", "Partito Pirata", "Partito Pirata [og]", NA,
+  "Italy", "Popolo della Famiglia", "Il Popolo della Famiglia [og]", NA,
+  "Italy", "PdF", "Il Popolo della Famiglia [og]", NA,
+  "Italy", "Verdi", "Federazione dei Verdi [og]", NA,
+  "Italy", "ppe", "Partito Popolare Europeo [og]", NA,
+
+  # LATVIA
+  "Latvia", "neatceros", "dont-know", NA,
+  "Latvia", "vēl neesmu izlēmusi", "dont-know", NA,
+  "Latvia", "neesmu vēl izlēmusi", "dont-know", NA,
+  "Latvia", "Nevēlos atbildēt", "refused", NA,
+  "Latvia", "nevēlos atklāt", "refused", NA,
+  "Latvia", "Nepaudīšu", "refused", NA,
+  "Latvia", "Nevēlos izpaust", "refused", NA,
+  "Latvia", "neatklāšu", "refused", NA,
+  "Latvia", "negribu atbildēt", "refused", NA,
+  "Latvia", "neteikšu", "refused", NA,
+  "Latvia", "Konfidenciāla informācija", "refused", NA,
+  "Latvia", "nebalsoju", "did-not-vote", NA,
+  "Latvia", "nevienai", "none", NA,
+  "Latvia", "nevienu", "none", NA,
+  "Latvia", "neviena", "none", NA,
+  "Latvia", "nav par ko balsot", "none", NA,
+  "Latvia", "KPV LV", "Kam pieder valsts? — Par cilvēcīgu Latviju", 6356,
+  "Latvia", "KPV", "Kam pieder valsts? — Par cilvēcīgu Latviju", 6356,
+  "Latvia", "JKP", "Jaunā konservatīvā partija", 6355,
+  "Latvia", "progresīvie", "Progresīvie", 6357,
+  "Latvia", "согласие", "Sociāldemokrātiskā Partija \"Saskaņa\"", 5976,
+  "Latvia", "Jaunā vienotība", "Jaunā vienotība [og]", NA,
+  "Latvia", "Rīcības partija", "Rīcības partija [og]", NA,
+  "Latvia", "GKR", "Gods kalpot Rīgai [og]", NA,
+  "Latvia", "Par alternatīvu", "Par alternatīvu [og]", NA,
+
+  # LITHUANIA
+  "Lithuania", "neatsimenu", "dont-know", NA,
+  "Lithuania", "nepamenu", "dont-know", NA,
+  "Lithuania", "neprisimenu", "dont-know", NA,
+  "Lithuania", "Nebepamenu", "dont-know", NA,
+  "Lithuania", "dar neapsisprendžiau", "dont-know", NA,
+  "Lithuania", "dar nenusprendziau", "dont-know", NA,
+  "Lithuania", "dar svarstau", "dont-know", NA,
+  "Lithuania", "nenoriu nurodyti", "refused", NA,
+  "Lithuania", "nesakysiu", "refused", NA,
+  "Lithuania", "Neatskleisiu", "refused", NA,
+  "Lithuania", "Neketinu viešinti", "refused", NA,
+  "Lithuania", "cia asmeninis reikalas", "refused", NA,
+  "Lithuania", "nenurodysiu", "refused", NA,
+  "Lithuania", "nei uz viena", "none", NA,
+  "Lithuania", "Laisvės partija", "Laisvės partija [og]", NA,
+  "Lithuania", "Lietuvių tautininkų ir respublikonų sąjunga", "Lietuvių tautininkų sąjunga", 377,
+  "Lithuania", "Tautininkų sąjunga", "Lietuvių tautininkų sąjunga", 377,
+  "Lithuania", "Lietuvos laisvės sąjunga", "Lietuvos Laisvės Sąjunga (Liberalai)", 5456,
+
+  # NETHERLANDS
+  "Netherlands", "Volt", "Volt [og]", NA,
+  "Netherlands", "blanco", "blank-invalid", NA,
+  "Netherlands", "Ongeldig gestemd", "blank-invalid", NA,
+  "Netherlands", "zeg ik liever niet", "refused", NA,
+  "Netherlands", "zeg ik niet", "refused", NA,
+  "Netherlands", "gaat niemand wat aan", "refused", NA,
+  "Netherlands", "ik heb stemgeheim", "refused", NA,
+  "Netherlands", "stemgeheim", "refused", NA,
+  "Netherlands", "vertel ik niet", "refused", NA,
+  "Netherlands", "geen", "none", NA,
+  "Netherlands", "niet", "none", NA,
+  "Netherlands", "Christen Unie", "ChristenUnie", 1459,
+  "Netherlands", "FVD", "Forum voor Democratie", 5855,
+  "Netherlands", "sp", "Socialistiese Partij", 1363,
+
+  # POLAND
+  "Poland", "KORWiN", "Koalicja Odnowy Rzeczypospolitej Wolność i Nadzieja KORWiN", 4629,
+  "Poland", "kukiz15", "Kukiz'15", 4631,
+  "Poland", "kukiz", "Kukiz'15", 4631,
+  "Poland", "wiosna", "Spring", 7356,
+  "Poland", "Polska Fair Play", "Polska Fair Play [og]", NA,
+  "Poland", "partia Gwiazdowskiego", "Polska Fair Play [og]", NA,
+  "Poland", "nie pamiętam", "dont-know", NA,
+
+  # PORTUGAL
+  "Portugal", "Branco", "blank-invalid", NA,
+  "Portugal", "Em branco", "blank-invalid", NA,
+  "Portugal", "Voto em branco", "blank-invalid", NA,
+  "Portugal", "Votei em branco", "blank-invalid", NA,
+  "Portugal", "nulo", "blank-invalid", NA,
+  "Portugal", "O voto é secreto", "refused", NA,
+  "Portugal", "secreto", "refused", NA,
+  "Portugal", "Confidencial", "refused", NA,
+  "Portugal", "Resposta privada", "refused", NA,
+  "Portugal", "Não pretendo dizer", "refused", NA,
+  "Portugal", "Reservo o direito de não dizer", "refused", NA,
+  "Portugal", "prefiro não dizer", "refused", NA,
+  "Portugal", "não vou dizer, é secreto", "refused", NA,
+  "Portugal", "Nao responde", "refused", NA,
+  "Portugal", "Não me lembro", "dont-know", NA,
+  "Portugal", "Nenhum", "none", NA,
+  "Portugal", "Livre", "Livre — Liberdade, Esquerda, Europa e Ecologia", 3225,
+  "Portugal", "PDR", "Partido Democrático Republicano", 4513,
+  "Portugal", "PNR", "Partido Nacional Renovador [og]", NA,
+  "Portugal", "Iniciativa Liberal", "Iniciativa Liberal [og]", NA,
+  "Portugal", "IL", "Iniciativa Liberal [og]", NA,
+  "Portugal", "Nós Cidadãos", "Nós Cidadãos [og]", NA,
+  "Portugal", "Partido Pirata", "Partido Pirata [og]", NA,
+  "Portugal", "Partido Pirata Portugues (PPP)", "Partido Pirata [og]", NA,
+  "Portugal", "Frente Civica", "Frente Cívica [og]", NA,
+
+  # ROMANIA
+  "Romania", "independent", "independent", NA,
+  "Romania", "candidat independent", "independent", NA,
+  "Romania", "un independent", "independent", NA,
+  "Romania", "nu spun", "refused", NA,
+  "Romania", "nu am votat", "did-not-vote", NA,
+  "Romania", "Vot nul", "blank-invalid", NA,
+  "Romania", "O alta formatiune politica", "other", NA,
+  "Romania", "USR", "Uniunea Salvați România", 5969,
+  "Romania", "alde", "Alianța Liberalilor și Democraților", 5662,
+  "Romania", "psd", "Partidul Social Democrat", 120,
+  "Romania", "Partidul România Unită (PRU)", "Partidul România Unită [og]", NA,
+  "Romania", "MISCAREA MERITOCRATA", "Mișcarea Meritocrată [og]", NA,
+  "Romania", "PNS", "PNS [og]", NA,
+  "Romania", "Prodemo", "Prodemo [og]", NA,
+  "Romania", "pcr", "Partidul Comunist Român [og]", NA,
+
+  # SLOVAKIA
+  "Slovakia", "nevolila som", "did-not-vote", NA,
+  "Slovakia", "nevolil som", "did-not-vote", NA,
+  "Slovakia", "neodpoviem", "refused", NA,
+  "Slovakia", "nechcem odpovedať", "refused", NA,
+  "Slovakia", "neviem", "dont-know", NA,
+  "Slovakia", "žiadna", "none", NA,
+  "Slovakia", "k žiadnej", "none", NA,
+  "Slovakia", "Nic", "none", NA,
+  "Slovakia", "iné", "other", NA,
+  "Slovakia", "nezavisly", "independent", NA,
+  "Slovakia", "KSS", "Komunistická strana Slovenska", 340,
+  "Slovakia", "Sme rodina", "Sme Rodina — Boris Kollár", 4873,
+  "Slovakia", "Strana zelených", "Strana zelených", 5849,
+  "Slovakia", "Kresťanská únia", "Kresťanská únia [og]", NA,
+  "Slovakia", "Národná koalícia", "Národná koalícia [og]", NA,
+  "Slovakia", "SKOK", "SKOK [og]", NA,
+  "Slovakia", "Za ľudí", "Za ľudí [og]", NA,
+  "Slovakia", "Hlas ľudu", "Hlas ľudu [og]", NA,
+  "Slovakia", "NAJ", "NAJ [og]", NA,
+
+  # SLOVENIA
+  "Slovenia", "nisem glasoval", "did-not-vote", NA,
+  "Slovenia", "nisem glasovala", "did-not-vote", NA,
+  "Slovenia", "nisem volila", "did-not-vote", NA,
+  "Slovenia", "nisem volil", "did-not-vote", NA,
+  "Slovenia", "nisem", "did-not-vote", NA,
+  "Slovenia", "ne želim odgovoriti", "refused", NA,
+  "Slovenia", "ne želim povedati", "refused", NA,
+  "Slovenia", "se ne spomnim", "dont-know", NA,
+  "Slovenia", "nobene", "none", NA,
+  "Slovenia", "nobena", "none", NA,
+  "Slovenia", "nobeno", "none", NA,
+  "Slovenia", "Nobenega", "none", NA,
+  "Slovenia", "Domovinska liga", "Domovinska liga [og]", NA,
+  "Slovenia", "DOM", "Domovinska liga [og]", NA,
+  "Slovenia", "Zedinjena Slovenija", "Zedinjena Slovenija [og]", NA,
+  "Slovenia", "Gibanje Zedinjena Slovenija", "Zedinjena Slovenija [og]", NA,
+  "Slovenia", "Za zdravo družbo", "Za zdravo družbo [og]", NA,
+  "Slovenia", "Lista kolesarjev in pešcev", "Lista kolesarjev in pešcev [og]", NA,
+
+  # SPAIN
+  "Spain", "blanco", "blank-invalid", NA,
+  "Spain", "en blanco", "blank-invalid", NA,
+  "Spain", "vote en blanco", "blank-invalid", NA,
+  "Spain", "el voto es secreto", "refused", NA,
+  "Spain", "Voto privado", "refused", NA,
+  "Spain", "informacion personal", "refused", NA,
+  "Spain", "no recuerdo", "dont-know", NA,
+  "Spain", "No lo recuerdo", "dont-know", NA,
+  "Spain", "No recuerdo a quién voté", "dont-know", NA,
+  "Spain", "Ninguno", "none", NA,
+  "Spain", "otro", "other", NA,
+  "Spain", "pacma", "Partido Animalista Contra el Maltrato Animal", 3219,
+  "Spain", "Compromís", "Compromís [og]", NA,
+  "Spain", "nueva canarias", "Nueva Canarias [og]", NA,
+  "Spain", "CUP", "Candidatura d'Unitat Popular [og]", NA,
+  "Spain", "mas madrid", "Más Madrid [og]", NA,
+  "Spain", "Anticapitalistas", "Anticapitalistas [og]", NA,
+  "Spain", "Més per Menorca", "Més per Menorca [og]", NA,
+  "Spain", "Partido verde", "Los Verdes [og]", NA,
+  "Spain", "los verdes", "Los Verdes [og]", NA,
+  "Spain", "VOLT", "Volt [og]", NA,
+  "Spain", "pcpe", "Partido Comunista de los Pueblos de España [og]", NA,
+  "Spain", "PARTIDO COMUNISTA", "Partido Comunista [og]", NA,
+
+  # SWEDEN
+  "Sweden", "Alternativ för Sverige", "Alternativ för Sverige [og]", NA,
+  "Sweden", "AFS", "Alternativ för Sverige [og]", NA,
+  "Sweden", "Direktdemokraterna", "Direktdemokraterna [og]", NA,
+  "Sweden", "Nordiska motståndsrörelsen", "Nordiska motståndsrörelsen [og]", NA,
+  "Sweden", "Djurens Parti", "Djurens parti [og]", NA,
+  "Sweden", "Enhet", "Enhet [og]", NA,
+  "Sweden", "Medborgerlig samling", "Medborgerlig samling [og]", NA,
+  "Sweden", "kommunisterna", "Kommunistiska Partiet [og]", NA,
+  "Sweden", "blankt", "blank-invalid", NA,
+  "Sweden", "vill ej uppge", "refused", NA,
+  "Sweden", "Det är min hemlighet", "refused", NA,
+  "Sweden", "hemligt", "refused", NA,
+  "Sweden", "inget", "none", NA,
+  "Sweden", "minns inte", "dont-know", NA,
+
+  # UNITED KINGDOM
+  "United Kingdom", "Not prepared to say", "refused", NA,
+  "United Kingdom", "Refused", "refused", NA,
+  "United Kingdom", "none", "none", NA,
+  "United Kingdom", "other", "other", NA,
+  "United Kingdom", "Green", "Green Party of England and Wales", 1794,
+  "United Kingdom", "Alliance", "Alliance Party of Northern Ireland [og]", NA,
+  "United Kingdom", "Alliance Party of N Ireland", "Alliance Party of Northern Ireland [og]", NA
+)
+
+party_recode_map <- bind_rows(party_recode_map, party_recode_map_open_ext)
+```
+
+### Join Party Facts ids {#sec-party-recode-join}
+
+Join the shared crosswalk onto each party-name variable, adding `ext_<var>_pf_name` / `ext_<var>_pf_id` siblings (raw columns untouched).
+The thermometer party shown in each slot is matched per `(meta_wave, meta_country)` via `thermo_party_map`.
+
+```{r}
+#| label: party-recode-join
+# match on a normalized key: collapse runs of whitespace and fold Unicode line/
+# paragraph separators and non-breaking spaces to a single space, so trailing /
+# double-space /   spelling variants match without enumerating each one
+norm_key <- function(x) {
+  x |>
+    str_replace_all("[   ]", " ") |>
+    str_squish() |>
+    str_to_lower()
+}
+
+map_join <- party_recode_map |>
+  transmute(meta_country, join_key = norm_key(party_spelling), pf_name, pf_id) |>
+  distinct()
+
+# a normalized key must map to a single pf within a country, else the left_join
+# would multiply rows
+stopifnot(max(count(map_join, meta_country, join_key)$n) == 1)
+
+party_vars_to_join <- c(party_vars_closed, party_vars_openend)
+
+df_stacked_recoded <- reduce(
+  party_vars_to_join,
+  function(df, var) {
+    stub <- str_remove(var, "_raw")
+    df |>
+      mutate(.join_key = norm_key(.data[[var]])) |>
+      left_join(map_join, by = c("meta_country", ".join_key" = "join_key")) |>
+      select(-.join_key) |>
+      rename(
+        !!paste0("ext_", stub, "_pf_name") := pf_name,
+        !!paste0("ext_", stub, "_pf_id")   := pf_id
+      )
+  },
+  .init = df_stacked_recoded
+)
+
+# thermometer: party shown per (wave, country, slot) -> pf via the shared map
+thermo_pf <- thermo_party_map |>
+  mutate(join_key = norm_key(party_spelling)) |>
+  left_join(map_join, by = c("meta_country", "join_key")) |>
+  pivot_wider(
+    id_cols = c(wave, meta_country),
+    names_from = thermo_slot,
+    values_from = c(pf_name, pf_id),
+    names_glue = "ext_q_thermo_{thermo_slot}_{.value}"
+  )
+
+df_stacked_recoded <- df_stacked_recoded |>
+  left_join(thermo_pf, by = c("meta_wave" = "wave", "meta_country"))
+```
+
+### Validate Party Facts join {#sec-party-recode-validate}
+
+For each variable, list spellings that are non-missing but received no `pf_name` (unmatched in the crosswalk).
+A clean result is no output beyond legitimate gaps.
+
+```{r}
+#| label: party-recode-validate
+walk(c(party_vars_closed, party_vars_openend), function(var) {
+  pf <- paste0("ext_", str_remove(var, "_raw"), "_pf_name")
+  unmatched <- df_stacked_recoded |>
+    filter(!is.na(.data[[var]]) & .data[[var]] != "" & is.na(.data[[pf]])) |>
+    count(meta_country, .data[[var]], sort = TRUE)
+  if (nrow(unmatched) > 0) {
+    cat("\n--- unmatched:", var, "(", nrow(unmatched), "spellings ) ---\n")
+    print(unmatched, n = 25)
+  }
+})
+
+# thermometer slots with no Party Facts match
+thermo_party_map |>
+  left_join(
+    party_recode_map |> select(meta_country, party_spelling, pf_id),
+    by = c("meta_country", "party_spelling")
+  ) |>
+  filter(is.na(pf_id)) |>
+  distinct(meta_country, party_spelling)
+```
 
 ## News TV {#sec-news-tv}
 
