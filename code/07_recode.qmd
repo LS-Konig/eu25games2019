@@ -1553,7 +1553,6 @@ df_stacked_recoded <- df_stacked_recoded |>
 
 ```{r}
 #| label: attention-check-validate
-#| label: attention-check-validate
 # 1. Check logic matrix
 df_stacked_recoded |>
   count(der_att_check_1, der_att_check_2, der_att_check_3)
@@ -5195,7 +5194,7 @@ df_stacked |>
 
 
 ```{r}
-#| label: occ-last-values
+#| label: value-labels-occ-last
 never_worked_vec <- c(
   "Nie berufstätig gewesen", # de
   "Nooit betaald werk verricht", # nl
@@ -5252,7 +5251,7 @@ self_employed_prof_vec <- c(
 ```
 
 ```{r}
-#| label: occ-recode
+#| label: occ-last-recode
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     q_occ_last = case_when(
@@ -9220,6 +9219,31 @@ thermo_party_map |>
   distinct(meta_country, party_spelling)
 ```
 
+### Known closed-list artifacts {#sec-party-recode-artifacts}
+
+The validation above leaves exactly eight closed-list spellings unmatched.
+These are **survey-data errors, not crosswalk gaps**, so they are deliberately left unmapped (`pf_name` / `pf_id` stay `NA`); the original responses remain intact in their `_raw` columns.
+Open-ended free-text spellings are matched only where a clean mapping exists; the long unmatched free-text tail is left as-is by design (see `### Party Facts crosswalk`).
+
+Seven of the eight are conjoint cells where an **Irish party label appears under the wrong `meta_country`** (Latvia / Romania) — these party names exist in the crosswalk under Ireland but are not matched country-agnostically — and one is stray text input.
+The remaining `q_eu_vote_2014_raw == "13"` (Ireland) is a stray numeric code, and `"sdfsd"` is test garbage.
+
+```{r}
+#| label: party-recode-artifacts
+party_recode_artifacts <- tribble(
+  ~meta_country, ~party_spelling                             , ~source_variable      , ~note,
+  "Ireland"    , "13"                                        , "q_eu_vote_2014_raw"  , "stray numeric code",
+  "Latvia"     , "Independent Alliance"                      , "cj_trust1_party_raw" , "Irish party under wrong country (conjoint)",
+  "Latvia"     , "Social Democrats (Daonlathaigh Shóisialta)", "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)",
+  "Latvia"     , "Worker's Party (WP)"                       , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)",
+  "Latvia"     , "sdfsd"                                     , "cj_dict1_party_raw"  , "test garbage",
+  "Romania"    , "Green Party"                               , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)",
+  "Romania"    , "Renua Ireland (Renua)"                     , "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)",
+  "Romania"    , "Social Democrats (Daonlathaigh Shóisialta)", "cj_dict2_party_raw"  , "Irish party under wrong country (conjoint)"
+)
+party_recode_artifacts
+```
+
 ## News TV {#sec-news-tv}
 
 ```{r}
@@ -10442,6 +10466,191 @@ df_stacked_recoded |>
 ```{r}
 #| label: rm-cj-rel
 rm(cj_muslim_vec, cj_protestant_vec, cj_catholic_vec, cj_nonreli_vec)
+```
+
+# Remaining Numbered Scales {#sec-remaining-scales}
+
+The remaining ordinal scale items all share the same Qualtrics value format: the
+response code is embedded as the leading number of the label string, e.g.
+`"(5) Stimme eher zu"`, `"Links (1)"`, `"7)\tTout à fait d'accord"`,
+`"(11) Vollkommen für europäische Integration"`.
+The numeric code therefore equals the first digit-run of the string, and
+don't-know / refusal options (`"Weiß nicht"`, `"Ne sait pas"`,
+`"Ne connaît pas le parti"`, …) contain no digit, so they map to `NA`.
+
+Rather than enumerate every translation per item (as the earlier batteries do),
+these are coded with one shared rule, `scale_code()`, which extracts the leading
+code and keeps it only inside the item's intended range; out-of-range values are
+scale-entry errors and become `NA`.
+This rule was validated to reproduce the existing vector-based coding **exactly**
+(0 mismatches on `q_pop_will`, `q_dem_compromise`, `q_eu_longterm`, `q_nativ_econ`,
+`q_eu_trust_com`, `q_eu_informed_com`, `q_lr_self`, `q_euint_self`, `q_lr_party_1`),
+and it additionally recovers a handful of responses the explicit vectors missed
+(a tab-separated French label variant `"N)\t…"`).
+
+Ranges by family (confirmed from English source labels):
+7-point agree / informed / trust / responsibility / efficacy / interest / norms /
+populism / policy positions / globalisation; 11-point left–right and
+EU-integration placements; 5-point policy-composition, election-importance and
+economic-evaluation items; 4-point satisfaction-with-democracy items.
+
+```{r}
+#| label: value-labels-remaining-scales
+# leading scale code, kept only within [lo, hi]; DK/refusal (no digit) -> NA;
+# out-of-range entries (scale errors) -> NA
+scale_code <- function(x, lo, hi) {
+  k <- suppressWarnings(as.integer(str_extract(x, "\\d+")))
+  if_else(!is.na(k) & k >= lo & k <= hi, k, NA_integer_)
+}
+
+# 7-point items (1-7) -----------------------------------------------------------
+scale7_vars <- c(
+  "q_cjeu_abolish_fra_raw", "q_cjeu_satisfaction_fra_raw",
+  "q_dem_compromise_fra_raw", "q_dem_listen_fra_raw",
+  "q_econ_resp_eu_raw", "q_econ_resp_global_raw", "q_econ_resp_imm_raw",
+  "q_econ_resp_natgov_raw",
+  "q_eff_external_nosay_c_raw", "q_eff_external_nosay_raw",
+  "q_eff_external_resp_raw", "q_eff_internal_raw",
+  "q_eu_abolish_fra_raw", "q_eu_benefit_nat_raw",
+  "q_eu_efficacy_care_c_raw", "q_eu_efficacy_care_fra_raw",
+  "q_eu_efficacy_nosay_fra_raw", "q_eu_efficacy_understand_c_raw",
+  "q_eu_efficacy_understand_fra_raw",
+  "q_eu_informed_cjeu_fra_raw", "q_eu_informed_com_fra_raw",
+  "q_eu_informed_cou_fra_raw", "q_eu_informed_ecb_raw",
+  "q_eu_informed_ep_fra_raw", "q_eu_int_fra_raw",
+  "q_eu_longterm_fra_raw", "q_eu_longterm_gre_raw",
+  "q_eu_pos_personal_raw", "q_eu_responsive_fra_raw",
+  "q_eu_responsive_gre_raw", "q_eu_satisfaction_fra_raw",
+  "q_eu_trust_cjeu_fra_raw", "q_eu_trust_com_fra_raw",
+  "q_eu_trust_cou_fra_raw", "q_eu_trust_ecb_raw", "q_eu_trust_ep_fra_raw",
+  "q_euint_pos_fra_raw", "q_future_discount_fra_raw",
+  "q_global_control_raw", "q_global_cult_raw", "q_global_nat_econ_raw",
+  "q_global_nosay_raw", "q_gridlock_manip_raw",
+  "q_nat_efficacy_care_raw", "q_nat_efficacy_nosay_raw",
+  "q_nat_efficacy_understand_raw", "q_nat_int_fra_raw",
+  "q_natcourt_1_raw", "q_natcourt_2_raw", "q_natcourt_informed_raw",
+  "q_nativ_3_fra_raw", "q_nativ_4_fra_raw", "q_nativ_cult_b_fra_raw",
+  "q_nativ_cult_fra_raw", "q_nativ_econ_b_fra_raw", "q_nativ_econ_fra_raw",
+  "q_norm_bypass_law_fra_raw", "q_norm_gov_bypass_fra_raw",
+  "q_norm_order_fra_raw", "q_norm_tolerance_fra_raw",
+  "q_norm_unjust_law_fra_raw", "q_norm_unvoted_gov_fra_raw",
+  "q_party_harm_fra_raw", "q_people_incompetent_fra_raw",
+  "q_pol_agriculture_raw", "q_pol_environment_raw", "q_pol_immigration_raw",
+  "q_pol_market_raw", "q_pol_security_raw", "q_pol_trade_raw",
+  "q_pop_citizen_fra_raw", "q_pop_compromise_fra_raw", "q_pop_elite_raw",
+  "q_pop_goodevil_fra_raw", "q_pop_people_fra_raw", "q_pop_reps_fra_raw",
+  "q_pop_will_fra_raw", "q_risk_taking_fra_raw",
+  "q_tech_experts_fra_raw", "q_tech_leaders_fra_raw"
+)
+
+# 11-point left-right & EU-integration placements (1-11) ------------------------
+scale11_vars <- c(
+  "q_euint_ecb_raw", "q_euint_party_10_raw", "q_euint_party_9_raw",
+  "q_lr_court_nat_raw", "q_lr_ecb_raw", "q_lr_gov_nat_raw", "q_lr_party_13_raw"
+)
+
+# 5-point policy-composition / election-importance / econ-evaluation (1-5) ------
+scale5_vars <- c(
+  "q_election_challenge_polgroups_raw", "q_election_impact_eu_raw",
+  "q_election_importance_self_raw",
+  "q_eval_econ_eur_fra_raw", "q_eval_econ_eur_raw",
+  "q_eval_econ_nat_fra_raw", "q_eval_econ_nat_raw",
+  "q_eval_fin_household_fra_raw", "q_eval_fin_household_raw",
+  "q_eval_job_fra_raw", "q_eval_job_raw",
+  "q_policy_comp_eu_natgov_raw",
+  "q_policy_comp_pos_agriculture_raw", "q_policy_comp_pos_environment_raw",
+  "q_policy_comp_pos_immigration_raw", "q_policy_comp_pos_market_raw",
+  "q_policy_comp_pos_security_raw", "q_policy_comp_pos_trade_raw",
+  "q_policy_comp_val_agriculture_raw", "q_policy_comp_val_environment_raw",
+  "q_policy_comp_val_immigration_raw", "q_policy_comp_val_market_raw",
+  "q_policy_comp_val_security_raw", "q_policy_comp_val_trade_raw"
+)
+
+# 4-point satisfaction-with-democracy (1-4) ------------------------------------
+scale4_vars <- c(
+  "q_satis_demo_eu_fra_raw", "q_satis_demo_eu_raw",
+  "q_satis_demo_nat_fra_raw", "q_satis_demo_nat_raw"
+)
+```
+
+```{r}
+#| label: recode-remaining-scales
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    across(
+      all_of(scale7_vars), ~ scale_code(.x, 1L, 7L),
+      .names = "{str_remove(.col, '_raw')}"
+    ),
+    across(
+      all_of(scale11_vars), ~ scale_code(.x, 1L, 11L),
+      .names = "{str_remove(.col, '_raw')}"
+    ),
+    across(
+      all_of(scale5_vars), ~ scale_code(.x, 1L, 5L),
+      .names = "{str_remove(.col, '_raw')}"
+    ),
+    across(
+      all_of(scale4_vars), ~ scale_code(.x, 1L, 4L),
+      .names = "{str_remove(.col, '_raw')}"
+    )
+  )
+```
+
+Pure numeric items: feeling thermometers (0–100), conjoint candidate ages
+(years), and party-ranking numbers — coerced to integer.
+
+```{r}
+#| label: recode-remaining-numeric
+thermo_vars <- paste0("q_thermo_", 1:6, "_raw")
+age_vars <- c(
+  "cj_dict1_age_raw", "cj_dict2_age_raw", "cj_dict3_age_raw",
+  "cj_trust1_age_raw", "cj_trust2_age_raw", "cj_trust3_age_raw"
+)
+rank_vars <- paste0("q_vote_exp_rank_party_", 1:6, "_raw")
+
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    across(
+      all_of(c(thermo_vars, age_vars, rank_vars)),
+      ~ suppressWarnings(as.integer(str_extract(.x, "\\d+"))),
+      .names = "{str_remove(.col, '_raw')}"
+    )
+  )
+```
+
+```{r}
+#| label: validate-remaining-scales
+# 1. coded distinct values must stay within each family's intended range
+list(
+  s7 = scale7_vars, s11 = scale11_vars, s5 = scale5_vars, s4 = scale4_vars
+) |>
+  imap(function(vars, fam) {
+    coded <- str_remove(vars, "_raw")
+    rng <- range(unlist(map(coded, ~ df_stacked_recoded[[.x]])), na.rm = TRUE)
+    tibble(family = fam, n_vars = length(vars),
+           min = rng[1], max = rng[2])
+  }) |>
+  list_rbind()
+```
+
+```{r}
+#| label: validate-remaining-scales-dropped
+# 2. every raw value that became NA should be a don't-know / refusal / scale
+#    error — i.e. contain no in-range digit. List anything unexpected.
+all_scale_vars <- c(scale7_vars, scale11_vars, scale5_vars, scale4_vars)
+ranges <- c(rep(7L, length(scale7_vars)), rep(11L, length(scale11_vars)),
+            rep(5L, length(scale5_vars)), rep(4L, length(scale4_vars)))
+
+map2(all_scale_vars, ranges, function(v, hi) {
+  coded <- str_remove(v, "_raw")
+  df_stacked_recoded |>
+    filter(!is.na(.data[[v]]) & .data[[v]] != "" & is.na(.data[[coded]])) |>
+    distinct(.data[[v]]) |>
+    mutate(var = v)
+}) |>
+  list_rbind() |>
+  rename(dropped_raw = 1) |>
+  count(dropped_raw, sort = TRUE)
 ```
 
 # Save Full Recoded Wide EU25 Dataset
