@@ -1,0 +1,367 @@
+---
+title: |
+  Code Notebook 3
+subtitle: |
+  EU 25 Behavioral Games Survey Experiment 2019: Variable Codebook
+author:
+  - name: Tristan Muno
+    email: tristan.muno@uni-mannheim.de
+    affiliations:
+      - name: University of Mannheim
+        department: School of Social Sciences
+date: last-modified
+date-format: MMMM D, YYYY
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: true
+  eval: true
+  message: true
+---
+
+# Setup {#sec-setup}
+
+```{r}
+#| label: setup
+start_time <- Sys.time()
+
+options(width = 80)
+
+p_required <- c(
+  "tidyverse", # data wrangling
+  "here", # relative paths
+  "knitr", # kable tables
+  "sessioninfo" # session info
+)
+packages <- rownames(installed.packages())
+p_to_install <- p_required[!(p_required %in% packages)]
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+sapply(p_required, require, character.only = TRUE)
+rm(p_required, p_to_install, packages)
+```
+
+# About this codebook {#sec-about}
+
+This document is generated programmatically from the final dataset and its metadata.
+For every variable in `data/03_final/eu25games2019.rds` — taken in the saved column
+order — it reports the renamed name and its `_raw` sibling, the original Dynata
+code(s), the waves in which the variable carries data, the question wording in every
+available language (English first), and the meaning of the values derived directly
+from the data (coded ↔ raw mapping for coded variables, range and endpoints for
+numeric scales, the category set for categorical variables, or an explicit note for
+raw-only / free-text fields).
+
+```{r}
+#| label: load-data
+df <- read_rds(here("data", "03_final", "eu25games2019.rds"))
+crosswalk <- read_csv(
+  here("data", "03_final", "variable_crosswalk.csv"),
+  show_col_types = FALSE
+)
+wording <- read_csv(
+  here("data", "02_processed", "question_wording_map.csv"),
+  show_col_types = FALSE
+)
+
+cat("dataset:", nrow(df), "rows x", ncol(df), "columns\n")
+```
+
+```{r}
+#| label: helpers
+# reduce any column to the stem that links a raw var to its derived siblings
+deriv_stem <- function(cols) {
+  cols |>
+    str_remove("^ext_") |>
+    str_remove("_pf_(name|id)$") |>
+    str_remove("_raw$")
+}
+
+# make a string safe for a pipe-table cell (no pipes / newlines)
+clean_cell <- function(x) {
+  x |>
+    as.character() |>
+    str_replace_all("[\r\n]+", " ") |>
+    str_replace_all("\\|", "/") |>
+    str_squish()
+}
+
+# truncate a character vector of distinct values to a single readable string
+join_capped <- function(x, cap = 12) {
+  x <- x[!is.na(x)]
+  x <- clean_cell(x)
+  x <- x[x != ""]
+  if (length(x) == 0) {
+    return("—")
+  }
+  if (length(x) > cap) {
+    paste0(paste(head(x, cap), collapse = "; "), " … (+", length(x) - cap, " more)")
+  } else {
+    paste(x, collapse = "; ")
+  }
+}
+
+# category label from the variable prefix
+var_category <- function(g) {
+  p <- str_extract(g, "^[^_]+")
+  dplyr::case_when(
+    p == "meta" ~ "Metadata & paradata",
+    p == "q" ~ "Survey questions",
+    p == "cj" ~ "Conjoint experiment",
+    p == "prime" ~ "Priming experiment",
+    p == "der" ~ "Derived variables",
+    p == "ext" ~ "External (Party Facts)",
+    .default = "Other"
+  )
+}
+
+# anchor id safe for HTML
+anchor_id <- function(g) {
+  paste0("var-", str_replace_all(str_to_lower(g), "[^a-z0-9]+", "-"))
+}
+
+english_first <- function(tbl) {
+  tbl |>
+    mutate(.rank = dplyr::case_when(
+      country == "United Kingdom" ~ 1L,
+      country == "Ireland" ~ 2L,
+      .default = 3L
+    )) |>
+    arrange(.rank, country) |>
+    select(-.rank)
+}
+
+# build the ordered list of variable groups (saved column order)
+all_cols <- names(df)
+gk <- deriv_stem(all_cols)
+gk[str_detect(all_cols, "^cj_att_pos_")] <- "cj_attr_order"
+groups <- tibble(col = all_cols, gk = gk, ord = seq_along(all_cols)) |>
+  group_by(gk) |>
+  summarise(first = min(ord), cols = list(col), .groups = "drop") |>
+  arrange(first)
+
+# per-column class string
+col_class <- map_chr(df, ~ class(.x)[1])
+
+cat("variable groups:", nrow(groups), "\n")
+```
+
+# Variables {#sec-variables}
+
+```{r}
+#| label: codebook
+#| results: asis
+cur_cat <- ""
+
+for (i in seq_len(nrow(groups))) {
+  g <- groups$gk[i]
+  members <- groups$cols[[i]]
+
+  # category header
+  cat_g <- var_category(g)
+  if (cat_g != cur_cat) {
+    cat("\n\n## ", cat_g, "\n\n", sep = "")
+    cur_cat <- cat_g
+  }
+
+  cat("\n\n### `", g, "` {#", anchor_id(g), "}\n\n", sep = "")
+
+  # ---- classify member columns ----------------------------------------------
+  raw_col <- members[str_detect(members, "_raw$")]
+  raw_col <- if (length(raw_col) > 0) raw_col[1] else NA_character_
+  coded_col <- if (g %in% members) g else NA_character_
+  ext_name <- members[str_detect(members, "^ext_.*_pf_name$")]
+  ext_id <- members[str_detect(members, "^ext_.*_pf_id$")]
+  pos_cols <- members[str_detect(members, "^cj_att_pos_")]
+
+  primary <- dplyr::coalesce(
+    coded_col, raw_col,
+    members[!str_detect(members, "^ext_|^cj_att_pos_")][1],
+    members[1]
+  )
+
+  # ---- crosswalk lookup ------------------------------------------------------
+  xw <- crosswalk |> filter(renamed_var == g)
+  orig_codes <- xw |>
+    distinct(original_col) |>
+    filter(!is.na(original_col)) |>
+    pull(original_col)
+  eng_wording <- xw |>
+    distinct(question_wording) |>
+    filter(!is.na(question_wording)) |>
+    pull(question_wording)
+
+  # ---- waves present (empirical) ---------------------------------------------
+  waves_present <- df |>
+    filter(!is.na(.data[[primary]])) |>
+    distinct(meta_wave) |>
+    arrange(meta_wave) |>
+    pull(meta_wave)
+
+  # ---- metadata table --------------------------------------------------------
+  meta_tbl <- tibble::tribble(
+    ~Field, ~Value,
+    "Variable (renamed)", paste0("`", g, "`"),
+    "Columns in dataset", paste0("`", members, "` (", col_class[members], ")", collapse = ", "),
+    "Raw column", if (is.na(raw_col)) "— (no `_raw` sibling)" else paste0("`", raw_col, "`"),
+    "Original Dynata code(s)", if (length(orig_codes) == 0) "—" else paste(orig_codes, collapse = ", "),
+    "Waves present", if (length(waves_present) == 0) "—" else paste(waves_present, collapse = ", "),
+    "English wording", if (length(eng_wording) == 0) "—" else clean_cell(eng_wording[1])
+  )
+  cat(knitr::kable(meta_tbl, format = "pipe"), sep = "\n")
+  cat("\n\n")
+
+  # ---- multilingual wording --------------------------------------------------
+  if (length(orig_codes) > 0) {
+    wtab <- wording |>
+      filter(col_name %in% orig_codes) |>
+      distinct(country, wording) |>
+      filter(!is.na(wording))
+    if (nrow(wtab) > 0) {
+      wtab <- english_first(wtab) |>
+        transmute(Country = country, Wording = clean_cell(wording))
+      cat("**Question wording by language**\n\n")
+      cat(knitr::kable(wtab, format = "pipe"), sep = "\n")
+      cat("\n\n")
+    }
+  }
+
+  # ---- value / scale meaning -------------------------------------------------
+  cat("**Values**\n\n")
+
+  if (!is.na(coded_col)) {
+    v <- df[[coded_col]]
+    nd <- dplyr::n_distinct(v[!is.na(v)])
+
+    if (!is.na(raw_col) && (is.numeric(v) || is.integer(v)) && nd > 25) {
+      # continuous numeric coded from a raw string
+      rng <- range(v, na.rm = TRUE)
+      cat(
+        "Numeric, derived from the raw string. Range **", rng[1], "–", rng[2],
+        "**; ", nd, " distinct non-missing values; ",
+        sum(is.na(v)), " missing (don't-know / refusal / not asked).\n\n",
+        sep = ""
+      )
+    } else if (!is.na(raw_col)) {
+      # coded <-> raw empirical mapping
+      mp <- tibble(
+        coded = as.character(v),
+        raw = as.character(df[[raw_col]])
+      ) |>
+        filter(!(is.na(coded) & is.na(raw))) |>
+        group_by(coded) |>
+        summarise(
+          n = dplyr::n(),
+          raw_values = join_capped(unique(raw)),
+          .groups = "drop"
+        ) |>
+        mutate(coded = ifelse(is.na(coded), "NA (missing / don't-know)", coded)) |>
+        arrange(coded != "NA (missing / don't-know)", coded) |>
+        transmute(`Coded value` = coded, `n` = n, `Raw value(s)` = raw_values)
+      cat(knitr::kable(mp, format = "pipe"), sep = "\n")
+      cat("\n\n")
+    } else if (is.numeric(v) || is.integer(v)) {
+      rng <- range(v, na.rm = TRUE)
+      cat(
+        "Numeric. Range **", rng[1], "–", rng[2], "**; ", nd,
+        " distinct non-missing values; ", sum(is.na(v)), " missing.\n\n",
+        sep = ""
+      )
+    } else if (is.logical(v)) {
+      tb <- as.data.frame(table(v, useNA = "ifany"))
+      names(tb) <- c("Value", "n")
+      cat(knitr::kable(tb, format = "pipe"), sep = "\n")
+      cat("\n\n")
+    } else {
+      lv <- df |>
+        count(.data[[coded_col]], name = "n") |>
+        rename(Value = 1) |>
+        mutate(Value = ifelse(is.na(Value), "NA (missing)", as.character(Value))) |>
+        arrange(desc(n))
+      cat("Categorical, ", nrow(lv), " distinct values:\n\n", sep = "")
+      cat(knitr::kable(head(lv, 60), format = "pipe"), sep = "\n")
+      cat("\n\n")
+    }
+
+    # position integers attached to cj_attr_order
+    if (length(pos_cols) > 0) {
+      cat(
+        "Companion display-slot integers (1–7): ",
+        paste0("`", pos_cols, "`", collapse = ", "), ".\n\n",
+        sep = ""
+      )
+    }
+  } else if (length(ext_name) > 0) {
+    # party-name variable harmonised to Party Facts (no plain coded sibling)
+    pf <- df[[ext_name[1]]]
+    nd <- dplyr::n_distinct(pf[!is.na(pf)])
+    cat(
+      "Party identity is harmonised to Party Facts in `", ext_name[1],
+      "` (name) and `", ext_id[1], "` (id). The `_raw` column holds the original ",
+      "party spelling (free text). ", nd, " distinct Party Facts names; examples: ",
+      join_capped(unique(pf), cap = 15), ".\n\n",
+      sep = ""
+    )
+  } else if (!is.na(raw_col)) {
+    rv <- df[[raw_col]]
+    nd <- dplyr::n_distinct(rv[!is.na(rv)])
+    cat(
+      "Raw only (kept verbatim, no coded sibling). ", nd,
+      " distinct non-missing values. Examples: ",
+      join_capped(unique(rv), cap = 8), ".\n\n",
+      sep = ""
+    )
+  } else {
+    # no coded, no raw: metadata / paradata / design column
+    v <- df[[primary]]
+    if (is.numeric(v) || is.integer(v)) {
+      rng <- suppressWarnings(range(v, na.rm = TRUE))
+      cat(
+        "Numeric/paradata. Range **", rng[1], "–", rng[2], "**; ",
+        dplyr::n_distinct(v[!is.na(v)]), " distinct non-missing values.\n\n",
+        sep = ""
+      )
+    } else if (inherits(v, "POSIXct") || inherits(v, "Date")) {
+      rng <- suppressWarnings(range(v, na.rm = TRUE))
+      cat("Timestamp. Range **", as.character(rng[1]), "** to **",
+        as.character(rng[2]), "**.\n\n",
+        sep = ""
+      )
+    } else if (is.logical(v)) {
+      tb <- as.data.frame(table(v, useNA = "ifany"))
+      names(tb) <- c("Value", "n")
+      cat(knitr::kable(tb, format = "pipe"), sep = "\n")
+      cat("\n\n")
+    } else {
+      nd <- dplyr::n_distinct(v[!is.na(v)])
+      cat(
+        nd, " distinct non-missing values. Examples: ",
+        join_capped(unique(v), cap = 10), ".\n\n",
+        sep = ""
+      )
+    }
+  }
+}
+```
+
+# Session Info {#sec-session}
+
+```{r}
+#| label: exec-time
+#| eval: true
+end_time <- Sys.time()
+cat("Execution time:", round(end_time - start_time, 2), "seconds\n")
+```
+
+```{r}
+#| label: session-info
+#| eval: true
+sessioninfo::session_info()
+```
