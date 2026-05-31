@@ -11879,7 +11879,108 @@ df_stacked_recoded <- df_stacked_recoded |>
   left_join(attr_order_map, by = "cj_attr_order_raw")
 ```
 
+```{r}
+#| label: validate-cj_attr_order
+# any non-empty raw left uncoded: the only leftover is a single Latvia W2 row whose
+# raw value is a stray policy-attribute list ("Security and defense,European
+# integration,Trade policy,...") rather than the 7 profile attributes — a data bug,
+# correctly left NA by design.
+df_stacked_recoded |>
+  filter(!is.na(cj_attr_order_raw) & cj_attr_order_raw != "" & is.na(cj_attr_order)) |>
+  distinct(cj_attr_order_raw)
+
+# sanity: every coded order is a permutation of all 7 attributes, and each
+# position column is fully populated exactly when the order string is
+df_stacked_recoded |>
+  filter(!is.na(cj_attr_order)) |>
+  summarise(
+    n = n(),
+    all_seven = mean(str_count(cj_attr_order, ",") == 6),
+    pos_complete = mean(
+      !is.na(cj_att_pos_nat) & !is.na(cj_att_pos_age) &
+        !is.na(cj_att_pos_party) & !is.na(cj_att_pos_sex) &
+        !is.na(cj_att_pos_rel) & !is.na(cj_att_pos_class) &
+        !is.na(cj_att_pos_eupos)
+    )
+  )
+```
+
 # Save Full Recoded Wide EU25 Dataset
+
+Reorder columns (only — no rows added, dropped, or renamed) so every derived column
+sits next to the raw column it came from. The anchor is `names(df_stacked)` (the
+pre-recode coverage-then-survey order); each base column is followed by its derived
+siblings — coded sibling (`str_remove(base, "_raw")`), Party Facts `ext_*` siblings,
+and any other column reducing to the same stem. Anything not reachable from the
+anchor (e.g. the freshly added `cj_att_pos_*` integers and `der_*` columns) is
+appended afterwards in its current order.
+
+```{r}
+#| label: order-final-columns
+recoded_cols <- names(df_stacked_recoded)
+anchor <- names(df_stacked)
+
+# reduce any column to the stem linking a raw var to its derived siblings:
+#   ext_<stem>_pf_(name|id) -> <stem>;  <stem>_raw -> <stem>;  else itself
+deriv_stem <- function(cols) {
+  cols |>
+    str_remove("^ext_") |>
+    str_remove("_pf_(name|id)$") |>
+    str_remove("_raw$")
+}
+stem_of <- deriv_stem(recoded_cols)
+
+# within a stem group: raw first, coded / other derived next, ext name, ext id
+emit_order <- function(cols) {
+  rank <- case_when(
+    str_detect(cols, "_raw$") ~ 1L,
+    str_detect(cols, "^ext_.*_pf_name$") ~ 3L,
+    str_detect(cols, "^ext_.*_pf_id$") ~ 4L,
+    .default = 2L
+  )
+  cols[order(rank, cols)]
+}
+
+emitted <- character(0)
+final_order <- character(0)
+for (base in anchor) {
+  if (!base %in% recoded_cols || base %in% emitted) next
+  grp <- recoded_cols[stem_of == deriv_stem(base) & !(recoded_cols %in% emitted)]
+  grp <- c(base, setdiff(emit_order(grp), base))
+  final_order <- c(final_order, grp)
+  emitted <- c(emitted, grp)
+}
+# append any columns not reachable from the anchor, in their current order
+final_order <- c(final_order, setdiff(recoded_cols, final_order))
+
+# keep the cj_att_pos_* position integers next to their source coded column
+pos_cols <- str_subset(final_order, "^cj_att_pos_")
+if (length(pos_cols) > 0 && "cj_attr_order" %in% final_order) {
+  final_order <- final_order[!final_order %in% pos_cols]
+  final_order <- append(final_order, pos_cols, after = match("cj_attr_order", final_order))
+}
+
+# assertions (print before applying)
+cat("setequal:", setequal(final_order, names(df_stacked_recoded)), "\n")
+cat("no duplicates:", !any(duplicated(final_order)), "\n")
+cat(
+  "length match:",
+  length(final_order) == ncol(df_stacked_recoded),
+  "(", length(final_order), "vs", ncol(df_stacked_recoded), ")\n"
+)
+cat("\nfirst 40 of final_order:\n")
+print(head(final_order, 40))
+
+stopifnot(
+  setequal(final_order, names(df_stacked_recoded)),
+  !any(duplicated(final_order)),
+  length(final_order) == ncol(df_stacked_recoded)
+)
+
+# apply (reorder only)
+df_stacked_recoded <- df_stacked_recoded |>
+  select(all_of(final_order))
+```
 
 ```{r}
 #| label: save
