@@ -8,7 +8,8 @@ $notebooks = @(
     "code/04_clean_w2.qmd",
     "code/05_clean_w3.qmd",
     "code/06_stack.qmd",
-    "code/07_recode.qmd"
+    "code/07_recode.qmd",
+    "code/08_codebook.qmd"
 )
 $failed = $false
 foreach ($notebook in $notebooks) {

@@ -1,0 +1,686 @@
+renamed_var,renamed_col,original_col,wave,question_wording,wording_source
+cj_rand_issue_order,cj_rand_issue_order,Q6_1,1,Q6 - Click to write Form field 1,United Kingdom
+cj_rand_party_a,cj_rand_party_a,Q6_2,1,Q6 - Click to write Form field 2,United Kingdom
+cj_rand_party_b,cj_rand_party_b,Q6_3,1,Q6 - Click to write Form field 3,United Kingdom
+cj_rand_party_c,cj_rand_party_c,Q6_4,1,Q6 - Click to write Form field 4,United Kingdom
+cj_rand_party_d,cj_rand_party_d,Q6_5,1,Q6 - Click to write Form field 5,United Kingdom
+cj_rand_party_e,cj_rand_party_e,Q6_6,1,Q6 - Click to write Form field 6,United Kingdom
+cj_rand_party_f,cj_rand_party_f,Q6_7,1,Q6 - Click to write Form field 7,United Kingdom
+cj_task1_choice,cj_task1_choice_raw,Q46,1,"Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.",United Kingdom
+cj_task1_eval_a,cj_task1_eval_a_raw,Q47_1,1,How do you evaluate the political parties A and B overall? - Party A,United Kingdom
+cj_task1_eval_b,cj_task1_eval_b_raw,Q47_2,1,How do you evaluate the political parties A and B overall? - Party B,United Kingdom
+cj_task2_choice,cj_task2_choice_raw,Q51,1,"Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.",United Kingdom
+cj_task2_eval_c,cj_task2_eval_c_raw,Q52_1,1,How do you evaluate the political parties C and D overall? - Party C,United Kingdom
+cj_task2_eval_d,cj_task2_eval_d_raw,Q52_2,1,How do you evaluate the political parties C and D overall? - Party D,United Kingdom
+cj_task3_choice,cj_task3_choice_raw,Q56,1,"Which party would you support? Even if you are not entirely sure, please indicate which of the two you would be most inclined to support.",United Kingdom
+cj_task3_eval_e,cj_task3_eval_e_raw,Q57_1,1,How do you evaluate the political parties E and F overall? - Party E,United Kingdom
+cj_task3_eval_f,cj_task3_eval_f_raw,Q57_2,1,How do you evaluate the political parties E and F overall? - Party F,United Kingdom
+meta_country,meta_country_raw,Country,2,Country,United Kingdom
+meta_country,meta_country_raw,Country,3,Country,United Kingdom
+meta_device,meta_device,Device,2,Device,United Kingdom
+meta_device,meta_device,Device,3,Device,United Kingdom
+meta_distchannel,meta_distchannel,DistributionChannel,2,Distribution Channel,United Kingdom
+meta_distchannel,meta_distchannel,DistributionChannel,3,Distribution Channel,United Kingdom
+meta_duration_s,meta_duration_s,Duration..in.seconds.,2,Duration (in seconds),United Kingdom
+meta_duration_s,meta_duration_s,Duration..in.seconds.,3,Duration (in seconds),United Kingdom
+meta_enddate,meta_enddate,EndDate,2,End Date,United Kingdom
+meta_enddate,meta_enddate,EndDate,3,End Date,United Kingdom
+meta_external_ref,meta_external_ref,ExternalReference,2,External Data Reference,United Kingdom
+meta_external_ref,meta_external_ref,ExternalReference,3,External Data Reference,United Kingdom
+meta_finished,meta_finished,Finished,2,Finished,United Kingdom
+meta_finished,meta_finished,Finished,3,Finished,United Kingdom
+meta_ipaddress,meta_ipaddress,IPAddress,2,IP Address,United Kingdom
+meta_ipaddress,meta_ipaddress,IPAddress,3,IP Address,United Kingdom
+meta_lang,meta_lang,UserLanguage,2,User Language,United Kingdom
+meta_lang,meta_lang,UserLanguage,3,User Language,United Kingdom
+meta_latitude,meta_latitude,LocationLatitude,2,Location Latitude,United Kingdom
+meta_latitude,meta_latitude,LocationLatitude,3,Location Latitude,United Kingdom
+meta_longitude,meta_longitude,LocationLongitude,2,Location Longitude,United Kingdom
+meta_longitude,meta_longitude,LocationLongitude,3,Location Longitude,United Kingdom
+meta_pid,meta_pid,PID,2,PID,United Kingdom
+meta_pid,meta_pid,PID,3,PID,United Kingdom
+meta_progress,meta_progress,Progress,2,Progress,United Kingdom
+meta_progress,meta_progress,Progress,3,Progress,United Kingdom
+meta_psid,meta_psid,PSID,2,PSID,United Kingdom
+meta_psid,meta_psid,PSID,3,PSID,United Kingdom
+meta_recipient_email,meta_recipient_email,RecipientEmail,2,Recipient Email,United Kingdom
+meta_recipient_email,meta_recipient_email,RecipientEmail,3,Recipient Email,United Kingdom
+meta_recipient_firstname,meta_recipient_firstname,RecipientFirstName,2,Recipient First Name,United Kingdom
+meta_recipient_firstname,meta_recipient_firstname,RecipientFirstName,3,Recipient First Name,United Kingdom
+meta_recipient_lastname,meta_recipient_lastname,RecipientLastName,2,Recipient Last Name,United Kingdom
+meta_recipient_lastname,meta_recipient_lastname,RecipientLastName,3,Recipient Last Name,United Kingdom
+meta_recordeddate,meta_recordeddate,RecordedDate,2,Recorded Date,United Kingdom
+meta_recordeddate,meta_recordeddate,RecordedDate,3,Recorded Date,United Kingdom
+meta_responseid,meta_responseid,ResponseId,2,Response ID,United Kingdom
+meta_responseid,meta_responseid,ResponseId,3,Response ID,United Kingdom
+meta_startdate,meta_startdate,StartDate,2,Start Date,United Kingdom
+meta_startdate,meta_startdate,StartDate,3,Start Date,United Kingdom
+meta_status,meta_status,Status,2,Response Type,United Kingdom
+meta_status,meta_status,Status,3,Response Type,United Kingdom
+prime_cjeu_clickcount,prime_cjeu_clickcount,Q213_Click.Count,2,Timing - Click Count,United Kingdom
+prime_cjeu_clickcount,prime_cjeu_clickcount,Q201_Click.Count,3,Timing - Click Count,United Kingdom
+prime_cjeu_condition,prime_cjeu_condition,prime_cjeu_condition,2,NA,NA
+prime_cjeu_condition,prime_cjeu_condition,prime_cjeu_condition,3,NA,NA
+prime_cjeu_firstclick,prime_cjeu_firstclick,Q213_First.Click,2,Timing - First Click,United Kingdom
+prime_cjeu_firstclick,prime_cjeu_firstclick,Q201_First.Click,3,Timing - First Click,United Kingdom
+prime_cjeu_fra_clickcount,prime_cjeu_fra_clickcount,Q201_Click.Count,2,Timing - Cliquer sur le décompte,France
+prime_cjeu_fra_condition,prime_cjeu_fra_condition,prime_cjeu_fra_condition,2,NA,NA
+prime_cjeu_fra_firstclick,prime_cjeu_fra_firstclick,Q201_First.Click,2,Timing - Premier clic,France
+prime_cjeu_fra_lastclick,prime_cjeu_fra_lastclick,Q201_Last.Click,2,Timing - Dernier clic,France
+prime_cjeu_fra_pagesubmit,prime_cjeu_fra_pagesubmit,Q201_Page.Submit,2,Timing - Envoi de page,France
+prime_cjeu_fra_text,prime_cjeu_fra_text,prime_cjeu_fra_text,2,NA,NA
+prime_cjeu_lastclick,prime_cjeu_lastclick,Q213_Last.Click,2,Timing - Last Click,United Kingdom
+prime_cjeu_lastclick,prime_cjeu_lastclick,Q201_Last.Click,3,Timing - Last Click,United Kingdom
+prime_cjeu_pagesubmit,prime_cjeu_pagesubmit,Q213_Page.Submit,2,Timing - Page Submit,United Kingdom
+prime_cjeu_pagesubmit,prime_cjeu_pagesubmit,Q201_Page.Submit,3,Timing - Page Submit,United Kingdom
+prime_cjeu_text,prime_cjeu_text,prime_cjeu_text,2,NA,NA
+prime_cjeu_text,prime_cjeu_text,prime_cjeu_text,3,NA,NA
+prime_moreeu_clickcount,prime_moreeu_clickcount,Q9_Click.Count,2,Timing - Click Count,United Kingdom
+prime_moreeu_condition,prime_moreeu_condition,prime_moreeu_condition,2,NA,NA
+prime_moreeu_firstclick,prime_moreeu_firstclick,Q9_First.Click,2,Timing - First Click,United Kingdom
+prime_moreeu_lastclick,prime_moreeu_lastclick,Q9_Last.Click,2,Timing - Last Click,United Kingdom
+prime_moreeu_pagesubmit,prime_moreeu_pagesubmit,Q9_Page.Submit,2,Timing - Page Submit,United Kingdom
+prime_moreeu_text,prime_moreeu_text,prime_moreeu_text,2,NA,NA
+q_age,q_age_raw,Q3_1,1,How old are you?,United Kingdom
+q_age,q_age_raw,Q3_1,2,How old are you?,United Kingdom
+q_age,q_age_raw,Q3_1,3,How old are you?,United Kingdom
+q_approval_eu,q_approval_eu_raw,Q97,1,"Do you approve, disapprove, or neither approve nor disapprove of the way the EU handles this situation?",United Kingdom
+q_approval_natgov,q_approval_natgov_raw,Q93,1,"Do you approve, disapprove, or neither approve nor disapprove of the way the UK government handles this situation?",United Kingdom
+q_attn_check,q_attn_check_raw,Q58,1,"We appreciate your participation in this survey. We value your time and effort. However, we have to make sure that our data are valid and accurate. Specifically, we are interested in whether you actually take the time to read instructions closely; if not, our data based on your responses will be invalid. In order to demonstrate that you have read instructions, please ignore the next question, and simply write ""I read the instructions"" in the box labeled ""Others"". Thank you very much.
+Where would you place YOURSELF on this scale? - Selected Choice",United Kingdom
+q_attn_check,q_attn_check_raw,Q8,3,"We appreciate your participation in this survey. We value your time and effort. However, we have to make sure that our data are valid and accurate. Specifically, we are interested in whether you actually take the time to read instructions closely; if not, our data based on your responses will be invalid. In order to demonstrate that you have read instructions, please ignore the next question, and simply write ""I read the instructions"" in the box labeled ""Others"". Thank you very much.
+Where would you place YOURSELF on this scale? - Selected Choice",United Kingdom
+q_attn_check_text,q_attn_check_text,Q58_TEXT,1,NA,NA
+q_attn_check_text,q_attn_check_text_raw,Q8_TEXT,3,NA,NA
+q_campaign_activity,q_campaign_activity_raw,Q200,3,"We find that many people participate in politics in other ways besides voting. They support a candidate, political party, or political issue in various ways. 
+Please tell us if you have done the following during the election campaign. Please indicate all that apply. - Selected Choice",United Kingdom
+q_campaign_activity_fra,q_campaign_activity_fra_raw,Q200,2,"Nous avons constaté que beaucoup participent à la politique autrement qu'en votant. Ils soutiennent un candidat, un parti politique ou un enjeu politique de diverses façons. 
+ Veuillez nous dire si vous avez fait ce qui suit pendant la campagne électorale. Veuillez sélectionner toutes les réponses qui s'appliquent - Selected Choice",France
+q_campaign_activity_other,q_campaign_activity_other_raw,Q200_TEXT,3,NA,NA
+q_campaign_activity_other_fra,q_campaign_activity_other_fra_raw,Q200_TEXT,2,NA,NA
+q_cjeu_abolish,q_cjeu_abolish_raw,Q133_1,1,"Please tell me to what extent you agree or disagree with each of the following statements. - If the Court of Justice of the European Union (CJEU) started making a lot of decisions that most people disagreed with, it might be better to do away with the CJEU altogether",United Kingdom
+q_cjeu_abolish,q_cjeu_abolish_raw,Q215_1,2,"Please tell me to what extent you agree or disagree with each of the following statements. - If the Court of Justice of the European Union (CJEU) started making a lot of decisions that most people disagreed with, it might be better to do away with the CJEU altogether",United Kingdom
+q_cjeu_abolish,q_cjeu_abolish_raw,Q203_1,3,"Please tell me to what extent you agree or disagree with each of the following statements. - If the Court of Justice of the European Union (CJEU) started making a lot of decisions that most people disagreed with, it might be better to do away with the CJEU altogether",United Kingdom
+q_cjeu_abolish_fra,q_cjeu_abolish_fra_raw,Q203_1,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Si la Cour de justice de l'Union européenne (CJUE) commençait à prendre de nombreuses décisions rejetées par la plupart des gens, il serait peut-être préférable de supprimer complètement la CJUE",France
+q_cjeu_pos,q_cjeu_pos_raw,Q214,2,"In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission. 
+Which comes closest to your view?",United Kingdom
+q_cjeu_pos,q_cjeu_pos_raw,Q208,3,"In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission. 
+Which comes closest to your view?",United Kingdom
+q_cjeu_pos_fra,q_cjeu_pos_fra_raw,Q208,2,"En ce qui concerne les décisions de la Cour de justice de l’Union européenne (CJUE) de manière plus générale, certaines personnes font valoir qu'elles ont tendance à favoriser les mesures prises par la Commission européenne aux dépens des partis ou des groupes opposés à la Commission européenne lorsqu'elle statue. D'autres personnes soutiennent que la CJUE a tendance à protéger les partis ou les groupes opposés à la Commission européenne, même si cela implique l'invalidation des mesures prises par la Commission européenne. 
+ Qu'est-ce qui se rapproche le plus de votre point de vue?",France
+q_cjeu_satisfaction,q_cjeu_satisfaction_raw,Q133_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the Court of Justice of the EU (CJEU),United Kingdom
+q_cjeu_satisfaction,q_cjeu_satisfaction_raw,Q215_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the Court of Justice of the EU (CJEU),United Kingdom
+q_cjeu_satisfaction,q_cjeu_satisfaction_raw,Q203_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the Court of Justice of the EU (CJEU),United Kingdom
+q_cjeu_satisfaction_fra,q_cjeu_satisfaction_fra_raw,Q203_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je suis satisfait(e) des performances de la Cour de justice de l'Union européenne (CJUE),France
+q_class,q_class_raw,Q7,2,Do you see yourself and your household belonging to...?,United Kingdom
+q_class,q_class_raw,Q7,3,Do you see yourself and your household belonging to...?,United Kingdom
+q_compliance_verif,q_compliance_verif_raw,Q130,1,"In the scenario you just read about, you read about the EU and its decisions. Please indicate all the correct option(s).",United Kingdom
+q_court_pos,q_court_pos_raw,Q141,1,"In thinking about the Supreme Court's decisions more generally, some people argue that it tends to favor actions taken by the government at the expense of parties or groups that are opposed to the government when it rules. Others contend that the Court tends to protect parties or groups that are opposed to the government even if it means striking down actions taken by the government. 
+Which comes closest to your view?",United Kingdom
+q_dem_compromise,q_dem_compromise_raw,Q23_1,2,Please indicate how much you agree with each of the following statements. - In a democracy it is important to make compromises among differing viewpoints.,United Kingdom
+q_dem_compromise,q_dem_compromise_raw,Q37_1,3,Please indicate how much you agree with each of the following statements. - In a democracy it is important to make compromises among differing viewpoints.,United Kingdom
+q_dem_compromise_fra,q_dem_compromise_fra_raw,Q37_1,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Dans une démocratie, il est important de faire des compromis entre les différents points de vue.",France
+q_dem_listen,q_dem_listen_raw,Q23_2,2,Please indicate how much you agree with each of the following statements. - It is important to listen to the opinion of other groups.,United Kingdom
+q_dem_listen,q_dem_listen_raw,Q37_2,3,Please indicate how much you agree with each of the following statements. - It is important to listen to the opinion of other groups.,United Kingdom
+q_dem_listen_fra,q_dem_listen_fra_raw,Q37_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Il est important d'écouter l'opinion des autres groupes.,France
+q_econ_eval_retro,q_econ_eval_retro_raw,Q163,1,"What do you think about the economy? Compared to 12 months ago, do you think that the general economic situation in the United Kingdom...?",United Kingdom
+q_econ_resp_eu,q_econ_resp_eu_raw,Q164_2,1,"Now I would like to ask you some questions about how much responsibility the different institutions have in the current economic situation in the United Kingdom. 
+Please use a scale from 1 to 7, where '1' means that you think they have ""no responsibility"" and '7' means that they have ""full responsibility"" - European Union (EU)",United Kingdom
+q_econ_resp_global,q_econ_resp_global_raw,Q164_4,1,"Now I would like to ask you some questions about how much responsibility the different institutions have in the current economic situation in the United Kingdom. 
+Please use a scale from 1 to 7, where '1' means that you think they have ""no responsibility"" and '7' means that they have ""full responsibility"" - Global economy",United Kingdom
+q_econ_resp_imm,q_econ_resp_imm_raw,Q164_3,1,"Now I would like to ask you some questions about how much responsibility the different institutions have in the current economic situation in the United Kingdom. 
+Please use a scale from 1 to 7, where '1' means that you think they have ""no responsibility"" and '7' means that they have ""full responsibility"" - Asylum seekers and immigrants",United Kingdom
+q_econ_resp_natgov,q_econ_resp_natgov_raw,Q164_1,1,"Now I would like to ask you some questions about how much responsibility the different institutions have in the current economic situation in the United Kingdom. 
+Please use a scale from 1 to 7, where '1' means that you think they have ""no responsibility"" and '7' means that they have ""full responsibility"" - UK government",United Kingdom
+q_edu_age_stop,q_edu_age_stop_raw,Q172_1,1,How old were you when you stopped full-time education?,United Kingdom
+q_edu_age_stop,q_edu_age_stop_raw,Q243_1,2,How old were you when you stopped full-time education?,United Kingdom
+q_edu_age_stop,q_edu_age_stop_raw,Q243_1,3,How old were you when you stopped full-time education?,United Kingdom
+q_eff_external_nosay,q_eff_external_nosay_raw,Q157_3,1,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the UK government does,United Kingdom
+q_eff_external_nosay_c,q_eff_external_nosay_c_raw,Q239_3,2,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the UK government does,United Kingdom
+q_eff_external_resp,q_eff_external_resp_raw,Q157_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the UK care about what people like me think,United Kingdom
+q_eff_internal,q_eff_internal_raw,Q157_1,1,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political issues about the UK,United Kingdom
+q_elec_issue_imp_pos,q_elec_issue_imp_pos_raw,Q148,1,What are the important issues that personally matter to you in the upcoming European election? Please select all that apply.,United Kingdom
+q_elec_issue_imp_val,q_elec_issue_imp_val_raw,Q150,1,What are the important issues that personally matter to you in the upcoming European election? Please select all that apply.,United Kingdom
+q_election_challenge_polgroups,q_election_challenge_polgroups_raw,Q49_1,2,What is your opinion? - How likely do you think the upcoming elections will challenge the existing political groups and members of the European Parliament?,United Kingdom
+q_election_impact_eu,q_election_impact_eu_raw,Q49_2,2,What is your opinion? - How likely do you think the upcoming elections will play a big role in shaping the European Parliament and the EU's next five years?,United Kingdom
+q_election_importance_self,q_election_importance_self_raw,Q50,2,How important is the outcome of the upcoming election to you personally?,United Kingdom
+q_eu_abolish,q_eu_abolish_raw,Q74_1,1,"Please tell me to what extent you agree or disagree with each of the following statements. - If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether",United Kingdom
+q_eu_abolish,q_eu_abolish_raw,Q26_1,2,"Please tell me to what extent you agree or disagree with each of the following statements. - If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether",United Kingdom
+q_eu_abolish,q_eu_abolish_raw,Q40_1,3,"Please tell me to what extent you agree or disagree with each of the following statements. - If the EU started making a lot of decisions that most people disagreed with, it might be better to do away with the EU altogether",United Kingdom
+q_eu_abolish_fra,q_eu_abolish_fra_raw,Q40_1,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Si l’UE commençait à prendre de nombreuses décisions allant à l’encontre de la volonté de la majorité de la population, il serait alors peut-être préférable de mettre directement fin à l’UE.",France
+q_eu_benefit_nat,q_eu_benefit_nat_raw,Q147_1,1,"Please tell me to what extent you agree or disagree with each of the following statements. - Taking everything into consideration, the UK has on balance benefited from being a member of the European Union",United Kingdom
+q_eu_campaign_sources,q_eu_campaign_sources_raw,Q198,2,From which of the following sources have you heard anything about the upcoming European election campaign? Please indicate all that apply. - Selected Choice,United Kingdom
+q_eu_campaign_sources,q_eu_campaign_sources_raw,Q199,3,"On Thursday, May 23 2019, the European elections were held. People use a variety of methods to gather and share information about political candidates, campaigns or political issues. 
+Please tell us if you have done the following during the election campaign. Please indicate all that apply. - Selected Choice",United Kingdom
+q_eu_campaign_sources_fra,q_eu_campaign_sources_fra_raw,Q199,2,"Les élections européennes ont eu lieu le 26 mai 2019. Les citoyens utilisent diverses méthodes pour recueillir et partager des informations sur les candidats, les campagnes ou les enjeux politiques. 
+Veuillez nous dire si vous avez fait ce qui suit pendant la campagne électorale. Veuillez sélectionner toutes les réponses qui s'appliquent. - Selected Choice",France
+q_eu_campaign_sources_other,q_eu_campaign_sources_other_raw,Q198_TEXT,2,NA,NA
+q_eu_campaign_sources_other,q_eu_campaign_sources_other_raw,Q199_TEXT,3,NA,NA
+q_eu_campaign_sources_other_fra,q_eu_campaign_sources_other_fra_raw,Q199_TEXT,2,NA,NA
+q_eu_efficacy_care,q_eu_efficacy_care_raw,Q73_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the EU care about what people like me think,United Kingdom
+q_eu_efficacy_care,q_eu_efficacy_care_raw,Q21_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the EU care about what people like me think,United Kingdom
+q_eu_efficacy_care,q_eu_efficacy_care_raw,Q35_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the EU care about what people like me think,United Kingdom
+q_eu_efficacy_care_c,q_eu_efficacy_care_c_raw,Q239_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the UK care about what people like me think,United Kingdom
+q_eu_efficacy_care_fra,q_eu_efficacy_care_fra_raw,Q35_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les politiciens dans l'UE s'intéressent à ce que pensent les personnes comme moi,France
+q_eu_efficacy_nosay,q_eu_efficacy_nosay_raw,Q73_3,1,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the EU does,United Kingdom
+q_eu_efficacy_nosay,q_eu_efficacy_nosay_raw,Q21_3,2,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the EU does,United Kingdom
+q_eu_efficacy_nosay,q_eu_efficacy_nosay_raw,Q35_3,3,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the EU does,United Kingdom
+q_eu_efficacy_nosay_fra,q_eu_efficacy_nosay_fra_raw,Q35_3,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les personnes comme moi n'ont pas leur mot à dire sur ce que fait l'UE,France
+q_eu_efficacy_understand,q_eu_efficacy_understand_raw,Q73_1,1,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political questions about the EU,United Kingdom
+q_eu_efficacy_understand,q_eu_efficacy_understand_raw,Q21_1,2,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political questions about the EU,United Kingdom
+q_eu_efficacy_understand,q_eu_efficacy_understand_raw,Q35_1,3,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political questions about the EU,United Kingdom
+q_eu_efficacy_understand_c,q_eu_efficacy_understand_c_raw,Q239_1,2,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political issues about the UK,United Kingdom
+q_eu_efficacy_understand_fra,q_eu_efficacy_understand_fra_raw,Q35_1,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je peux comprendre et évaluer des questions politiques importantes concernant l'UE,France
+q_eu_imp_nat_cul,q_eu_imp_nat_cul_raw,Q25_2,2,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - Our culture and identity,United Kingdom
+q_eu_imp_nat_cul,q_eu_imp_nat_cul_raw,Q39_2,3,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - Our culture and identity,United Kingdom
+q_eu_imp_nat_cul_fra,q_eu_imp_nat_cul_fra_raw,Q39_2,2,Pouvez-vous me dire si vous pensez que l'UE a un effet plutôt positif ou plutôt négatif sur chacun des domaines suivants? - Notre culture et notre identité,France
+q_eu_imp_nat_econ,q_eu_imp_nat_econ_raw,Q25_1,2,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - UK economy,United Kingdom
+q_eu_imp_nat_econ,q_eu_imp_nat_econ_raw,Q39_1,3,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - UK's economy,United Kingdom
+q_eu_imp_nat_econ_fra,q_eu_imp_nat_econ_fra_raw,Q39_1,2,Pouvez-vous me dire si vous pensez que l'UE a un effet plutôt positif ou plutôt négatif sur chacun des domaines suivants? - L'économie de la France,France
+q_eu_imp_nat_pol,q_eu_imp_nat_pol_raw,Q25_3,2,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - UK's political status and influence,United Kingdom
+q_eu_imp_nat_pol,q_eu_imp_nat_pol_raw,Q39_3,3,Could you tell me whether you think that the EU has a rather positive or rather negative effect on each of the following domains? - UK's political status and influence,United Kingdom
+q_eu_imp_nat_pol_fra,q_eu_imp_nat_pol_fra_raw,Q39_3,2,Pouvez-vous me dire si vous pensez que l'UE a un effet plutôt positif ou plutôt négatif sur chacun des domaines suivants? - Le statut et l'influence politique de la France,France
+q_eu_informed_cjeu,q_eu_informed_cjeu_raw,Q131_4,1,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Court of Justice of the European Union",United Kingdom
+q_eu_informed_cjeu,q_eu_informed_cjeu_raw,Q225_4,2,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Court of Justice of the European Union",United Kingdom
+q_eu_informed_cjeu,q_eu_informed_cjeu_raw,Q232_4,3,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Court of Justice of the European Union",United Kingdom
+q_eu_informed_cjeu_fra,q_eu_informed_cjeu_fra_raw,Q232_4,2,"Pour chacune des institutions suivantes, estimez-vous être très bien informé(e), assez bien informé(e), mal informé(e) ou très mal informé(e) ? - La Cour de justice de l'Union européenne",France
+q_eu_informed_com,q_eu_informed_com_raw,Q131_1,1,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Commission",United Kingdom
+q_eu_informed_com,q_eu_informed_com_raw,Q225_1,2,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Commission",United Kingdom
+q_eu_informed_com,q_eu_informed_com_raw,Q232_1,3,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Commission",United Kingdom
+q_eu_informed_com_fra,q_eu_informed_com_fra_raw,Q232_1,2,"Pour chacune des institutions suivantes, estimez-vous être très bien informé(e), assez bien informé(e), mal informé(e) ou très mal informé(e) ? - La Commission européenne",France
+q_eu_informed_cou,q_eu_informed_cou_raw,Q131_2,1,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Council of the European Union",United Kingdom
+q_eu_informed_cou,q_eu_informed_cou_raw,Q225_2,2,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Council of the European Union",United Kingdom
+q_eu_informed_cou,q_eu_informed_cou_raw,Q232_2,3,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - Council of the European Union",United Kingdom
+q_eu_informed_cou_fra,q_eu_informed_cou_fra_raw,Q232_2,2,"Pour chacune des institutions suivantes, estimez-vous être très bien informé(e), assez bien informé(e), mal informé(e) ou très mal informé(e) ? - Le Conseil de l'Union européenne",France
+q_eu_informed_ecb,q_eu_informed_ecb_raw,Q131_5,1,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Central Bank",United Kingdom
+q_eu_informed_ep,q_eu_informed_ep_raw,Q131_3,1,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Parliament",United Kingdom
+q_eu_informed_ep,q_eu_informed_ep_raw,Q225_3,2,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Parliament",United Kingdom
+q_eu_informed_ep,q_eu_informed_ep_raw,Q232_3,3,"I would like to ask you a question about certain institutions. For each of the following institutions, do you consider that you are very well, fairly well, fairly badly or very badly informed about it? - European Parliament",United Kingdom
+q_eu_informed_ep_fra,q_eu_informed_ep_fra_raw,Q232_3,2,"Pour chacune des institutions suivantes, estimez-vous être très bien informé(e), assez bien informé(e), mal informé(e) ou très mal informé(e) ? - Le Parlement européen",France
+q_eu_int,q_eu_int_raw,Q145_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in European politics,United Kingdom
+q_eu_int,q_eu_int_raw,Q222_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in European politics,United Kingdom
+q_eu_int,q_eu_int_raw,Q229_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in European politics,United Kingdom
+q_eu_int_fra,q_eu_int_fra_raw,Q229_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je suis très intéressé(e) par la politique européenne,France
+q_eu_know_1,q_eu_know_1_raw,Q146_1,1,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Donald Tusk is the current President of the European Commission",United Kingdom
+q_eu_know_1,q_eu_know_1_raw,Q224_1,2,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Each Member State elects the same number of representatives to the European Parliament",United Kingdom
+q_eu_know_1,q_eu_know_1_raw,Q231_1,3,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The European Council is officially called the Council of the European Union.",United Kingdom
+q_eu_know_1_fra,q_eu_know_1_fra_raw,Q231_1,2,"Pour chacune des affirmations suivantes sur l'Union européenne, pourriez-vous me dire si elle vous semble vraie ou fausse. Si vous ne savez pas, vous pouvez simplement le dire et nous passerons à la suivante. - Le nom officiel du Conseil européen est le Conseil de l'Union européenne.",France
+q_eu_know_2,q_eu_know_2_raw,Q146_2,1,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The European Union currently has 28 member states",United Kingdom
+q_eu_know_2,q_eu_know_2_raw,Q224_2,2,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Antonio Tajani is the current President of the Euroepan Commission",United Kingdom
+q_eu_know_2,q_eu_know_2_raw,Q231_2,3,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - There are 1125 members in the European Parliament",United Kingdom
+q_eu_know_2_fra,q_eu_know_2_fra_raw,Q231_2,2,"Pour chacune des affirmations suivantes sur l'Union européenne, pourriez-vous me dire si elle vous semble vraie ou fausse. Si vous ne savez pas, vous pouvez simplement le dire et nous passerons à la suivante. - Le Parlement européen compte 1125 membres",France
+q_eu_know_3,q_eu_know_3_raw,Q146_3,1,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The EU has an army",United Kingdom
+q_eu_know_3,q_eu_know_3_raw,Q224_3,2,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The presidency of the Council of the European Union is currently held by Romania",United Kingdom
+q_eu_know_3,q_eu_know_3_raw,Q231_3,3,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Vassilios Skouris is the current President of the Court of Justice of the European Union",United Kingdom
+q_eu_know_3_fra,q_eu_know_3_fra_raw,Q231_3,2,"Pour chacune des affirmations suivantes sur l'Union européenne, pourriez-vous me dire si elle vous semble vraie ou fausse. Si vous ne savez pas, vous pouvez simplement le dire et nous passerons à la suivante. - Vassilios Skouris est l'actuel Président de la Cour de justice de l'Union européenne",France
+q_eu_know_4,q_eu_know_4_raw,Q146_4,1,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Members of the European Parliament (MEPs) do have the right to propose new laws",United Kingdom
+q_eu_know_4,q_eu_know_4_raw,Q224_4,2,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Only national courts have a say in determining whether a national law or practice is compatible with EU law",United Kingdom
+q_eu_know_4,q_eu_know_4_raw,Q231_4,3,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The Euro area currently consists of 19 Member States",United Kingdom
+q_eu_know_4_fra,q_eu_know_4_fra_raw,Q231_4,2,"Pour chacune des affirmations suivantes sur l'Union européenne, pourriez-vous me dire si elle vous semble vraie ou fausse. Si vous ne savez pas, vous pouvez simplement le dire et nous passerons à la suivante. - La zone euro est actuellement composée de 19 Etats membres",France
+q_eu_know_5,q_eu_know_5_raw,Q146_5,1,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - The Court of Justice is made up of one judge from each EU member state",United Kingdom
+q_eu_know_5,q_eu_know_5_raw,Q224_5,2,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - There are 975 members in the House of Commons",United Kingdom
+q_eu_know_5,q_eu_know_5_raw,Q231_5,3,"For each of the following statements about the EU, could you please tell me whether you think it is true or false. If you don't know, just say so and we will skip to the next. - Theresa May	belongs to	the Conservatives",United Kingdom
+q_eu_know_5_fra,q_eu_know_5_fra_raw,Q231_5,2,"Pour chacune des affirmations suivantes sur l'Union européenne, pourriez-vous me dire si elle vous semble vraie ou fausse. Si vous ne savez pas, vous pouvez simplement le dire et nous passerons à la suivante. - Édouard Philippe est issu du parti Les Républicains (LR)",France
+q_eu_longterm,q_eu_longterm_raw,Q71_1,1,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion? - The EU tends to act upon its long-term goals",United Kingdom
+q_eu_longterm,q_eu_longterm_raw,Q24_1,2,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it should act upon its long-term goals without pandering to the demand of the people. On the other hand, others argue that the EU should listen to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU should act upon its long-term goals or it should listen to the demand of the people, what is your opinion? - The EU should act upon its long-term goals",United Kingdom
+q_eu_longterm,q_eu_longterm_raw,Q38_1,3,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it should act upon its long-term goals without pandering to the demand of the people. On the other hand, others argue that the EU should listen to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU should act upon its long-term goals or it should listen to the demand of the people, what is your opinion? - The EU should act upon its long-term goals",United Kingdom
+q_eu_longterm_fra,q_eu_longterm_fra_raw,Q38_1,2,"En ce qui concerne l'Union européenne (UE) et ses décisions de manière plus générale, certaines personnes affirment que l'UE devrait agir en fonction de ses objectifs sur le long terme, sans se plier aux demandes pressantes de la population. D'autre part, d'autres personnes soutiennent que l'UE devrait écouter les demandes de la population plutôt qu'agir en fonction de ses objectifs sur le long terme.
+Quelle est votre opinion sur la question de savoir si l'UE devrait agir en fonction de ses objectifs sur le long terme ou écouter les demandes de la population? - L'UE devrait agir en fonction de ses objectifs sur le long terme",France
+q_eu_longterm_gre,q_eu_longterm_gre_raw,Q65_1,1,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion? - The EU tends to act upon its long-term goals",United Kingdom
+q_eu_pos_personal,q_eu_pos_personal_raw,Q147_2,1,"Please tell me to what extent you agree or disagree with each of the following statements. - In general, the EU has affected my personal situation in a positive way",United Kingdom
+q_eu_responsive,q_eu_responsive_raw,Q71_2,1,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion? - The EU tends to pander to the demand of the people",United Kingdom
+q_eu_responsive,q_eu_responsive_raw,Q24_2,2,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it should act upon its long-term goals without pandering to the demand of the people. On the other hand, others argue that the EU should listen to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU should act upon its long-term goals or it should listen to the demand of the people, what is your opinion? - The EU should listen to the demand of the people",United Kingdom
+q_eu_responsive,q_eu_responsive_raw,Q38_2,3,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it should act upon its long-term goals without pandering to the demand of the people. On the other hand, others argue that the EU should listen to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU should act upon its long-term goals or it should listen to the demand of the people, what is your opinion? - The EU should listen to the demand of the people",United Kingdom
+q_eu_responsive_fra,q_eu_responsive_fra_raw,Q38_2,2,"En ce qui concerne l'Union européenne (UE) et ses décisions de manière plus générale, certaines personnes affirment que l'UE devrait agir en fonction de ses objectifs sur le long terme, sans se plier aux demandes pressantes de la population. D'autre part, d'autres personnes soutiennent que l'UE devrait écouter les demandes de la population plutôt qu'agir en fonction de ses objectifs sur le long terme.
+Quelle est votre opinion sur la question de savoir si l'UE devrait agir en fonction de ses objectifs sur le long terme ou écouter les demandes de la population? - L'UE devrait écouter les demandes de la population",France
+q_eu_responsive_gre,q_eu_responsive_gre_raw,Q65_2,1,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to act upon its long-term goals without listening to the pressing demand of the people. On the other hand, others contend that the EU tends to pander to the demand of people, rather than to act upon its long-term goals.
+When it comes to the question of whether the EU tends to act upon its long-term goals or it tends to pander to the demand of the people, what is your opinion? - The EU tends to pander to the demand of the people",United Kingdom
+q_eu_satisfaction,q_eu_satisfaction_raw,Q74_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the EU,United Kingdom
+q_eu_satisfaction,q_eu_satisfaction_raw,Q26_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the EU,United Kingdom
+q_eu_satisfaction,q_eu_satisfaction_raw,Q40_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the EU,United Kingdom
+q_eu_satisfaction_fra,q_eu_satisfaction_fra_raw,Q40_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je suis satisfait(e) des performances de l'UE,France
+q_eu_trust_cjeu,q_eu_trust_cjeu_raw,Q132_4,1,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Court of Justice of the European Union",United Kingdom
+q_eu_trust_cjeu,q_eu_trust_cjeu_raw,Q226_4,2,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Court of Justice of the European Union",United Kingdom
+q_eu_trust_cjeu,q_eu_trust_cjeu_raw,Q233_4,3,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Court of Justice of the European Union",United Kingdom
+q_eu_trust_cjeu_fra,q_eu_trust_cjeu_fra_raw,Q233_4,2,Et pourriez-vous me dire si vous avez plutôt confiance ou plutôt pas confiance en ces institutions européennes. - La Cour de justice de l'Union européenne,France
+q_eu_trust_com,q_eu_trust_com_raw,Q132_1,1,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Commission",United Kingdom
+q_eu_trust_com,q_eu_trust_com_raw,Q226_1,2,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Commission",United Kingdom
+q_eu_trust_com,q_eu_trust_com_raw,Q233_1,3,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Commission",United Kingdom
+q_eu_trust_com_fra,q_eu_trust_com_fra_raw,Q233_1,2,Et pourriez-vous me dire si vous avez plutôt confiance ou plutôt pas confiance en ces institutions européennes. - La Commission européenne,France
+q_eu_trust_cou,q_eu_trust_cou_raw,Q132_2,1,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Council of the European Union",United Kingdom
+q_eu_trust_cou,q_eu_trust_cou_raw,Q226_2,2,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Council of the European Union",United Kingdom
+q_eu_trust_cou,q_eu_trust_cou_raw,Q233_2,3,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - Council of the European Union",United Kingdom
+q_eu_trust_cou_fra,q_eu_trust_cou_fra_raw,Q233_2,2,Et pourriez-vous me dire si vous avez plutôt confiance ou plutôt pas confiance en ces institutions européennes. - Le Conseil de l'Union Européenne,France
+q_eu_trust_ecb,q_eu_trust_ecb_raw,Q132_5,1,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Central Bank",United Kingdom
+q_eu_trust_ep,q_eu_trust_ep_raw,Q132_3,1,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Parliament",United Kingdom
+q_eu_trust_ep,q_eu_trust_ep_raw,Q226_3,2,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Parliament",United Kingdom
+q_eu_trust_ep,q_eu_trust_ep_raw,Q233_3,3,"For each of the following institutions, please tell me if you tend to trust it or tend not to trust it. - European Parliament",United Kingdom
+q_eu_trust_ep_fra,q_eu_trust_ep_fra_raw,Q233_3,2,Et pourriez-vous me dire si vous avez plutôt confiance ou plutôt pas confiance en ces institutions européennes. - Le Parlement européen,France
+q_eu_trust_val,q_eu_trust_val_raw,Q9,1,To what extent do you trust the EU to make the right decisions?,United Kingdom
+q_eu_vote_2014,q_eu_vote_2014_raw,Q61,1,"On Thursday, May 23rd 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. Which party would you vote for? - Selected Choice",United Kingdom
+q_eu_vote_2014_raw_text,q_eu_vote_2014_raw_text,Q61_TEXT,1,NA,NA
+q_euint_cjeu,q_euint_cjeu_raw,Q162_4,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Court of Justice of the European Union",United Kingdom
+q_euint_cjeu,q_euint_cjeu_raw,Q242_4,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Court of Justice of the European Union",United Kingdom
+q_euint_cjeu,q_euint_cjeu_raw,Q242_4,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Court of Justice of the European Union",United Kingdom
+q_euint_com,q_euint_com_raw,Q162_1,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Commission",United Kingdom
+q_euint_com,q_euint_com_raw,Q242_1,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Commission",United Kingdom
+q_euint_com,q_euint_com_raw,Q242_1,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Commission",United Kingdom
+q_euint_cou,q_euint_cou_raw,Q162_2,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Council of the European Union",United Kingdom
+q_euint_cou,q_euint_cou_raw,Q242_2,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Council of the European Union",United Kingdom
+q_euint_cou,q_euint_cou_raw,Q242_2,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - Council of the European Union",United Kingdom
+q_euint_ecb,q_euint_ecb_raw,Q162_5,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Central Bank",United Kingdom
+q_euint_ep,q_euint_ep_raw,Q162_3,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Parliament",United Kingdom
+q_euint_ep,q_euint_ep_raw,Q242_3,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Parliament",United Kingdom
+q_euint_ep,q_euint_ep_raw,Q242_3,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""being extremely opposed to European integration"" and 11 means ""being extremely in favor of European integration""? - European Parliament",United Kingdom
+q_euint_party_1,q_euint_party_1_raw,Q161_1,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_euint_party_1,q_euint_party_1_raw,Q241_1,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_euint_party_1,q_euint_party_1_raw,Q241_1,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_euint_party_10,q_euint_party_10_raw,Q161_10,1,"Les partis politiques varient également dans leurs attitudes face à l’intégration européenne. Où situeriez-vous les partis suivants sur cette échelle ? Quel nombre de 1 à 11 décrit le mieux chacun des partis suivants, sachant que 1 signifie ""extrêmement opposé"" et 11 signifie ""extrêmement favorable"" ? - Partij van de Arbeid van België (PVDA) - Parti du Travail de Belgique (PTB)",Belgium
+q_euint_party_2,q_euint_party_2_raw,Q161_2,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_euint_party_2,q_euint_party_2_raw,Q241_2,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_euint_party_2,q_euint_party_2_raw,Q241_2,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_euint_party_3,q_euint_party_3_raw,Q161_3,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_euint_party_3,q_euint_party_3_raw,Q241_3,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Brexit Party",United Kingdom
+q_euint_party_3,q_euint_party_3_raw,Q241_3,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Brexit Party",United Kingdom
+q_euint_party_4,q_euint_party_4_raw,Q161_4,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_euint_party_4,q_euint_party_4_raw,Q241_4,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_euint_party_4,q_euint_party_4_raw,Q241_4,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_euint_party_5,q_euint_party_5_raw,Q161_5,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_euint_party_5,q_euint_party_5_raw,Q241_5,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_euint_party_5,q_euint_party_5_raw,Q241_5,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_euint_party_6,q_euint_party_6_raw,Q161_6,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_euint_party_6,q_euint_party_6_raw,Q241_6,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_euint_party_6,q_euint_party_6_raw,Q241_6,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_euint_party_7,q_euint_party_7_raw,Q161_7,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Plaid Cymru – Party of Wales (PL-PW)",United Kingdom
+q_euint_party_7,q_euint_party_7_raw,Q241_7,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Change UK – The Independent Group",United Kingdom
+q_euint_party_7,q_euint_party_7_raw,Q241_7,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - Change UK – The Independent Group",United Kingdom
+q_euint_party_8,q_euint_party_8_raw,Q161_8,1,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - British National Party (BNP)",United Kingdom
+q_euint_party_8,q_euint_party_8_raw,Q241_8,2,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_euint_party_8,q_euint_party_8_raw,Q241_8,3,"And political parties also vary in their attitudes towards European Integration. Where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""extremely opposed"" and '11' means ""extremely in favor"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_euint_party_9,q_euint_party_9_raw,Q161_9,1,"Les partis politiques varient également dans leurs attitudes face à l’intégration européenne. Où situeriez-vous les partis suivants sur cette échelle ? Quel nombre de 1 à 11 décrit le mieux chacun des partis suivants, sachant que 1 signifie ""extrêmement opposé"" et 11 signifie ""extrêmement favorable"" ? - Vlaams Belang (VB)",Belgium
+q_euint_pos,q_euint_pos_raw,Q20,2,"Some people say that European integration should be pushed further. Others say it already has gone too far. What is your opinion? 
+Please indicate your views using a scale from 1 to 7, where '1' means European integration ""has already gone too far"" and '7' means it ""should be pushed further"". What number on this scale best describes your position?",United Kingdom
+q_euint_pos,q_euint_pos_raw,Q41,3,"When it comes to the question of whether European integration should be pushed further or it already has gone too far, what is your opinion? Please indicate your views using a scale from 1 to 11, where '1' means European integration ""has already gone too far"" and '11' means it ""should be pushed further"".",United Kingdom
+q_euint_pos_fra,q_euint_pos_fra_raw,Q41,2,"Quelle est votre opinion sur la question de savoir si l'intégration européenne devrait aller plus loin ou si elle est déjà allée trop loin ? Veuillez me donner votre avis sur une échelle de 1 à 7 où '1' signifie que ""l’intégration européenne est déjà allée trop loin"" et '7' signifie que ""l’intégration européenne devrait aller plus loin"".",France
+q_euint_self,q_euint_self_raw,Q160,1,Some people are extremely opposed to European integration. Suppose these people are located at 1. Others are extremely in favor of European integration. Suppose these people are located at 11. And others have views in between. Where would you place yourself on this scale?,United Kingdom
+q_euint_self,q_euint_self_raw,Q240,2,Some people are extremely opposed to European integration. Suppose these people are located at 1. Others are extremely in favor of European integration. Suppose these people are located at 11. And others have views in between. Where would you place yourself on this scale?,United Kingdom
+q_euint_self,q_euint_self_raw,Q240,3,Some people are extremely opposed to European integration. Suppose these people are located at 1. Others are extremely in favor of European integration. Suppose these people are located at 11. And others have views in between. Where would you place yourself on this scale?,United Kingdom
+q_eval_econ_eur,q_eval_econ_eur_raw,Q216_1,2,How would you judge the current situation in each of the following? - The situation of the European economy,United Kingdom
+q_eval_econ_eur,q_eval_econ_eur_raw,Q219_1,3,How would you judge the current situation in each of the following? - The situation of the European economy,United Kingdom
+q_eval_econ_eur_fra,q_eval_econ_eur_fra_raw,Q219_1,2,Comment jugez-vous la situation actuelle de chacun des domaines suivants ? - La situation de l'économie européenne,France
+q_eval_econ_nat,q_eval_econ_nat_raw,Q216_2,2,How would you judge the current situation in each of the following? - The situation of the UK economy,United Kingdom
+q_eval_econ_nat,q_eval_econ_nat_raw,Q219_2,3,How would you judge the current situation in each of the following? - The situation of the UK economy,United Kingdom
+q_eval_econ_nat_fra,q_eval_econ_nat_fra_raw,Q219_2,2,Comment jugez-vous la situation actuelle de chacun des domaines suivants ? - La situation de l'économie française,France
+q_eval_fin_household,q_eval_fin_household_raw,Q216_3,2,How would you judge the current situation in each of the following? - The financial situation of your household,United Kingdom
+q_eval_fin_household,q_eval_fin_household_raw,Q219_3,3,How would you judge the current situation in each of the following? - The financial situation of your household,United Kingdom
+q_eval_fin_household_fra,q_eval_fin_household_fra_raw,Q219_3,2,Comment jugez-vous la situation actuelle de chacun des domaines suivants ? - La situation financière de votre ménage,France
+q_eval_job,q_eval_job_raw,Q216_4,2,How would you judge the current situation in each of the following? - Your personal job situation,United Kingdom
+q_eval_job,q_eval_job_raw,Q219_4,3,How would you judge the current situation in each of the following? - Your personal job situation,United Kingdom
+q_eval_job_fra,q_eval_job_fra_raw,Q219_4,2,Comment jugez-vous la situation actuelle de chacun des domaines suivants ? - Votre situation professionnelle,France
+q_fin_strain,q_fin_strain_raw,Q175,1,"During the last twelve months, would you say you had difficulties to pay your bills at the end of the month...?",United Kingdom
+q_future_discount,q_future_discount,Q228,2,"We now ask for your willingness to or unwillingness you are to give up something that is beneficial for you today in order to benefit more from that in the future. 
+Please again indicate your answer on a scale from 1 to 7, where 1 means you are ”completely unwilling to do so” and a 7 means you are ”very willing to do so”. You can also use any numbers between 1 and 7 to indicate where you fall on the scale.",United Kingdom
+q_future_discount,q_future_discount,Q235,3,"We now ask for your willingness to or unwillingness you are to give up something that is beneficial for you today in order to benefit more from that in the future. 
+Please again indicate your answer on a scale from 1 to 7, where 1 means you are ”completely unwilling to do so” and a 7 means you are ”very willing to do so”. You can also use any numbers between 1 and 11 to indicate where you fall on the scale.",United Kingdom
+q_future_discount_fra,q_future_discount_fra_raw,Q235,2,"Nous souhaiterions à présent savoir si vous êtes disposé(e) ou non à renoncer à quelque chose qui vous est bénéfique aujourd'hui afin d'en tirer davantage de bénéfices à l'avenir. 
+Veuillez à nouveau utiliser une échelle allant de 1 à 7, où 1 signifie que vous n'êtes « pas du tout disposé(e) à le faire » et 7 que vous êtes « tout à fait disposé(e) à le faire ». Vous pouvez également utiliser les valeurs comprises entre 1 et 7 pour nuancer votre avis.",France
+q_gender,q_gender_raw,Q2,1,Please indicate your gender.,United Kingdom
+q_gender,q_gender_raw,Q2,2,Please indicate your gender.,United Kingdom
+q_gender,q_gender_raw,Q2,3,Please indicate your gender.,United Kingdom
+q_global_control,q_global_control_raw,Q220_4,3,"You may have heard of globalisation, that is the general opening-up of all economies, which leads to the creation of a world-wide market. 
+Please tell me to what extent you agree or disagree with each of the following statements. - Globalisation takes away control from the UK government",United Kingdom
+q_global_cult,q_global_cult_raw,Q220_2,3,"You may have heard of globalisation, that is the general opening-up of all economies, which leads to the creation of a world-wide market. 
+Please tell me to what extent you agree or disagree with each of the following statements. - Globalisation is a generally bad thing for our culture and identity",United Kingdom
+q_global_nat_econ,q_global_nat_econ_raw,Q220_1,3,"You may have heard of globalisation, that is the general opening-up of all economies, which leads to the creation of a world-wide market. 
+Please tell me to what extent you agree or disagree with each of the following statements. - Globalisation is a generally bad thing for the UK economy",United Kingdom
+q_global_nosay,q_global_nosay_raw,Q220_3,3,"You may have heard of globalisation, that is the general opening-up of all economies, which leads to the creation of a world-wide market. 
+Please tell me to what extent you agree or disagree with each of the following statements. - Globalisation does not give people like me a say in politics",United Kingdom
+q_gridlock_manip,q_gridlock_manip_raw,Q82_1,1,"In thinking about the European Union (EU) and its decisions more generally, some people argue that it tends to fail to reach an agreement and generate continued conflicts and inaction on important issues. On the other hand, others contend that the EU tends to reach an agreement too easily, rather than representing different views and interests.
+When it comes to the question of whether the EU tends to fail to reach an agreement or it tends to reach an agreement too easily, what is your opinion? - The EU tends to lead to conflicts and inaction",United Kingdom
+q_identity_country,q_identity_country_raw,Q5_1,1,Please tell me how attached you feel to... - United Kingdom,United Kingdom
+q_identity_country,q_identity_country_raw,Q5_1,2,Please tell me how attached you feel to... - United Kingdom,United Kingdom
+q_identity_country,q_identity_country_raw,Q5_1,3,Please tell me how attached you feel to... - United Kingdom,United Kingdom
+q_identity_eu,q_identity_eu_raw,Q5_2,1,Please tell me how attached you feel to... - The European Union (EU),United Kingdom
+q_identity_eu,q_identity_eu_raw,Q5_2,2,Please tell me how attached you feel to... - The European Union (EU),United Kingdom
+q_identity_eu,q_identity_eu_raw,Q5_2,3,Please tell me how attached you feel to... - The European Union (EU),United Kingdom
+q_identity_europe,q_identity_europe_raw,Q5_3,1,Please tell me how attached you feel to... - Europe,United Kingdom
+q_identity_europe,q_identity_europe_raw,Q5_3,2,Please tell me how attached you feel to... - Europe,United Kingdom
+q_identity_europe,q_identity_europe_raw,Q5_3,3,Please tell me how attached you feel to... - Europe,United Kingdom
+q_lr_cjeu,q_lr_cjeu_raw,Q156_4,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""left"" and 11 means ""right?"" - Court of Justice of the European Union",United Kingdom
+q_lr_cjeu,q_lr_cjeu_raw,Q238_4,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - Court of Justice of the European Union",United Kingdom
+q_lr_cjeu,q_lr_cjeu_raw,Q238_4,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - Court of Justice of the European Union",United Kingdom
+q_lr_com,q_lr_com_raw,Q156_1,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""left"" and 11 means ""right?"" - European Commission",United Kingdom
+q_lr_com,q_lr_com_raw,Q238_1,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - European Commission",United Kingdom
+q_lr_com,q_lr_com_raw,Q238_1,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - European Commission",United Kingdom
+q_lr_cou,q_lr_cou_raw,Q156_2,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""left"" and 11 means ""right?"" - Council of the European Union",United Kingdom
+q_lr_cou,q_lr_cou_raw,Q238_2,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - Council of the European Union",United Kingdom
+q_lr_cou,q_lr_cou_raw,Q238_2,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - Council of the European Union",United Kingdom
+q_lr_court_nat,q_lr_court_nat_raw,Q155_2,1,About where would you place the following institutions on this scale? - The Supreme Court,United Kingdom
+q_lr_ecb,q_lr_ecb_raw,Q156_5,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""left"" and 11 means ""right?"" - European Central Bank",United Kingdom
+q_lr_ep,q_lr_ep_raw,Q156_3,1,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies, where 1 means ""left"" and 11 means ""right?"" - European Parliament",United Kingdom
+q_lr_ep,q_lr_ep_raw,Q238_3,2,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - European Parliament",United Kingdom
+q_lr_ep,q_lr_ep_raw,Q238_3,3,"When you use this scale from 1 to 11, how would you describe the political viewpoint of the following European bodies today, where 1 means ""left"" and 11 means ""right?"" - European Parliament",United Kingdom
+q_lr_gov_nat,q_lr_gov_nat_raw,Q155_1,1,About where would you place the following institutions on this scale? - The UK government,United Kingdom
+q_lr_party_1,q_lr_party_1_raw,Q154_1,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_lr_party_1,q_lr_party_1_raw,Q237_1,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_lr_party_1,q_lr_party_1_raw,Q237_1,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Labour Party (Labour)",United Kingdom
+q_lr_party_10,q_lr_party_10_raw,Q154_10,1,"Et où placeriez‐vous les partis politiques suivants sur cette échelle ? Quel chiffre, de 1 à 11 décrit le mieux ce parti, 1 signifiant ""gauche"" et 11 signifiant ""droite"" ? - Partij van de Arbeid van België (PVDA) - Parti du Travail de Belgique (PTB)",Belgium
+q_lr_party_10,q_lr_party_10_raw,Q237_10,2,"Og hvor vil du cirka placere følgende partier på skalaen? Hvilket tal fra 1 til 11, hvor '1' betyder ”venstre”, og '11' betyder ”højre” beskriver bedst partiet? - Nye Borgerlige (D)",Denmark
+q_lr_party_11,q_lr_party_11_raw,Q154_11,1,"En waar ongeveer zou u de volgende politieke partijen plaatsen op deze schaal? Hoe zit het met…? Welk getal van 1 tot 11, waarbij '1' staat voor ""links"" en '11' staat voor ""rechts"" beschrijft het beste deze partij? - Partij voor de Dieren (PvdD)",Netherlands
+q_lr_party_11,q_lr_party_11_raw,Q237_11,2,"Og hvor vil du cirka placere følgende partier på skalaen? Hvilket tal fra 1 til 11, hvor '1' betyder ”venstre”, og '11' betyder ”højre” beskriver bedst partiet? - Kristendemokraterne (K)",Denmark
+q_lr_party_12,q_lr_party_12_raw,Q154_12,1,"En waar ongeveer zou u de volgende politieke partijen plaatsen op deze schaal? Hoe zit het met…? Welk getal van 1 tot 11, waarbij '1' staat voor ""links"" en '11' staat voor ""rechts"" beschrijft het beste deze partij? - Staatkundig Gereformeerde Partij (SGP)",Netherlands
+q_lr_party_12,q_lr_party_12_raw,Q237_12,2,"Og hvor vil du cirka placere følgende partier på skalaen? Hvilket tal fra 1 til 11, hvor '1' betyder ”venstre”, og '11' betyder ”højre” beskriver bedst partiet? - Stram Kurs (P)",Denmark
+q_lr_party_13,q_lr_party_13_raw,Q154_13,1,"En waar ongeveer zou u de volgende politieke partijen plaatsen op deze schaal? Hoe zit het met…? Welk getal van 1 tot 11, waarbij '1' staat voor ""links"" en '11' staat voor ""rechts"" beschrijft het beste deze partij? - DENK",Netherlands
+q_lr_party_2,q_lr_party_2_raw,Q154_2,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_lr_party_2,q_lr_party_2_raw,Q237_2,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_lr_party_2,q_lr_party_2_raw,Q237_2,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Conservative and Unionist Party (Conservative Party)",United Kingdom
+q_lr_party_3,q_lr_party_3_raw,Q154_3,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_lr_party_3,q_lr_party_3_raw,Q237_3,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Brexit Party",United Kingdom
+q_lr_party_3,q_lr_party_3_raw,Q237_3,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Brexit Party",United Kingdom
+q_lr_party_4,q_lr_party_4_raw,Q154_4,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_lr_party_4,q_lr_party_4_raw,Q237_4,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_lr_party_4,q_lr_party_4_raw,Q237_4,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Liberal Democrats (Lib Dem)",United Kingdom
+q_lr_party_5,q_lr_party_5_raw,Q154_5,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_lr_party_5,q_lr_party_5_raw,Q237_5,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_lr_party_5,q_lr_party_5_raw,Q237_5,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Scotish National Party (SNP)",United Kingdom
+q_lr_party_6,q_lr_party_6_raw,Q154_6,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_lr_party_6,q_lr_party_6_raw,Q237_6,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_lr_party_6,q_lr_party_6_raw,Q237_6,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Green Party of England and Wales (GP)",United Kingdom
+q_lr_party_7,q_lr_party_7_raw,Q154_7,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Plaid Cymru – Party of Wales (PL-PW)",United Kingdom
+q_lr_party_7,q_lr_party_7_raw,Q237_7,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Change UK – The Independent Group",United Kingdom
+q_lr_party_7,q_lr_party_7_raw,Q237_7,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - Change UK – The Independent Group",United Kingdom
+q_lr_party_8,q_lr_party_8_raw,Q154_8,1,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - British National Party (BNP)",United Kingdom
+q_lr_party_8,q_lr_party_8_raw,Q237_8,2,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_lr_party_8,q_lr_party_8_raw,Q237_8,3,"And where would you place the following parties on this scale? Which number from 1 to 11, where '1' means ""left"" and '11' means ""right"" best describes each of the following parties? - UK Independence Party (UKIP)",United Kingdom
+q_lr_party_9,q_lr_party_9_raw,Q154_9,1,"Et où placeriez‐vous les partis politiques suivants sur cette échelle ? Quel chiffre, de 1 à 11 décrit le mieux ce parti, 1 signifiant ""gauche"" et 11 signifiant ""droite"" ? - Vlaams Belang (VB)",Belgium
+q_lr_party_9,q_lr_party_9_raw,Q237_9,2,"Og hvor vil du cirka placere følgende partier på skalaen? Hvilket tal fra 1 til 11, hvor '1' betyder ”venstre”, og '11' betyder ”højre” beskriver bedst partiet? - Det Konservative Folkeparti (C)",Denmark
+q_lr_self,q_lr_self_raw,Q153,1,"In politics, people often talk about ""left"" and ""right."" When you use this scale from 1 to 11, where would you locate yourself, where 1 means ""left"" and 11 means ""right?""",United Kingdom
+q_lr_self,q_lr_self_raw,Q236,2,"In politics, people often talk about ""left"" and ""right."" When you use this scale from 1 to 11, where would you locate yourself, where 1 means ""left"" and 11 means ""right?""",United Kingdom
+q_lr_self,q_lr_self_raw,Q236,3,"In politics, people often talk about ""left"" and ""right."" When you use this scale from 1 to 11, where would you locate yourself, where 1 means ""left"" and 11 means ""right?""",United Kingdom
+q_nat_efficacy_care,q_nat_efficacy_care_raw,Q239_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - The politicians in the UK care about what people like me think,United Kingdom
+q_nat_efficacy_nosay,q_nat_efficacy_nosay_raw,Q239_3,3,Please tell me to what extent you agree or disagree with each of the following statements. - People like me don't have any say about what the UK government does,United Kingdom
+q_nat_efficacy_understand,q_nat_efficacy_understand_raw,Q239_1,3,Please tell me to what extent you agree or disagree with each of the following statements. - I can understand and evaluate important political issues about the UK,United Kingdom
+q_nat_int,q_nat_int_raw,Q145_1,1,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in political issues in the UK,United Kingdom
+q_nat_int,q_nat_int_raw,Q222_1,2,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in political issues in the United Kingdom,United Kingdom
+q_nat_int,q_nat_int_raw,Q229_1,3,Please tell me to what extent you agree or disagree with each of the following statements. - I am very interested in political issues in the UK,United Kingdom
+q_nat_int_fra,q_nat_int_fra_raw,Q229_1,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je suis très intéressé(e) par les questions politiques en France,France
+q_natcourt_1,q_natcourt_1_raw,Q137_1,1,"Please tell me to what extent you agree or disagree with each of the following statements. - If the Supreme Court started making a lot of decisions that most people disagreed with, it might be better to do away with the Supreme Court altogether",United Kingdom
+q_natcourt_2,q_natcourt_2_raw,Q137_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - I am satisfied with the performance of the Supreme Court,United Kingdom
+q_natcourt_informed,q_natcourt_informed_raw,Q134,1,"And what about the Supreme Court of the United Kingdom that reviews the constitutionality of laws? that reviews the constitutionality of laws?
+Do you consider that you are very well, fairly well, fairly badly or very badly informed about it?",United Kingdom
+q_nationality,q_nationality_raw,Q4,1,"What is your nationality? Please tell me the country(ies) that applies(y).
+
+
+
+
+
+// Start of JavaScript
+var attRaw = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+//var att = attRaw.slice(0);
+var att = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+// number here really plays no role (when attributes are filled below, loop would add additional elements if necessary); 7 is the number of dimensions; if you generate more than 7 placeholders, some will be empty
+var attributes = ["""","""","""","""","""","""",""""];
+
+// Randomize the Order of Dimensions (avoid recency and primacy)
+// from 0 to 7-1=6: 7 elements
+for (i=0; i - Selected Choice",United Kingdom
+q_nationality,q_nationality_raw,Q4,2,"What is your nationality? Please tell me the country(ies) that applies(y).
+
+
+
+
+
+// Start of JavaScript
+var attRaw = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+//var att = attRaw.slice(0);
+var att = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+// number here really plays no role (when attributes are filled below, loop would add additional elements if necessary); 7 is the number of dimensions; if you generate more than 7 placeholders, some will be empty
+var attributes = ["""","""","""","""","""","""",""""];
+
+// Randomize the Order of Dimensions (avoid recency and primacy)
+// from 0 to 7-1=6: 7 elements
+for (i=0; i - Selected Choice",United Kingdom
+q_nationality,q_nationality_raw,Q4,3,"What is your nationality? Please tell me the country(ies) that applies(y).
+
+
+
+
+
+// Start of JavaScript
+var attRaw = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+//var att = attRaw.slice(0);
+var att = [""European integration"", ""Market regulation and competition"",""Asylum and immigration"",""Environment and energy"", ""Security and defense"", ""Agriculture"",""Trade policy""];
+// number here really plays no role (when attributes are filled below, loop would add additional elements if necessary); 7 is the number of dimensions; if you generate more than 7 placeholders, some will be empty
+var attributes = ["""","""","""","""","""","""",""""];
+
+// Randomize the Order of Dimensions (avoid recency and primacy)
+// from 0 to 7-1=6: 7 elements
+for (i=0; i - Selected Choice",United Kingdom
+q_nationality_other,q_nationality_other_raw,Q4_TEXT,1,NA,NA
+q_nationality_other,q_nationality_other_raw,Q4_TEXT,2,NA,NA
+q_nationality_other,q_nationality_other_raw,Q4_TEXT,3,NA,NA
+q_nativ_3_fra,q_nativ_3_fra_raw,Q220_3,2,"Vous avez peut-être déjà entendu parler de la mondialisation, c'est-à-dire l'ouverture de toutes les
+èconomies, qui conduit à la creation d'un marché au niveau mondial.  
+Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - La mondialisation ne permet pas à des gens comme moi d'avoir leur mot à dire en politique",France
+q_nativ_4_fra,q_nativ_4_fra_raw,Q220_4,2,"Vous avez peut-être déjà entendu parler de la mondialisation, c'est-à-dire l'ouverture de toutes les
+èconomies, qui conduit à la creation d'un marché au niveau mondial.  
+Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - La mondialisation prive le gouvernement français de tout contrôle",France
+q_nativ_cult,q_nativ_cult_raw,Q145_4,1,Please tell me to what extent you agree or disagree with each of the following statements. - The UK's cultural life will be generally undermined if people from other countries come to live here,United Kingdom
+q_nativ_cult,q_nativ_cult_raw,Q223_2,2,Please tell me to what extent you agree or disagree with each of the following statements. - UK's cultural life will be generally undermined if people from other countries come to live here,United Kingdom
+q_nativ_cult,q_nativ_cult_raw,Q230_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - UK's cultural life will be generally undermined if people from other countries come to live here,United Kingdom
+q_nativ_cult_b_fra,q_nativ_cult_b_fra_raw,Q230_2,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - De manière générale, la vie culturelle de la France sera compromise si des personnes provenant d'autres pays viennent vivre ici",France
+q_nativ_cult_fra,q_nativ_cult_fra_raw,Q220_2,2,"Vous avez peut-être déjà entendu parler de la mondialisation, c'est-à-dire l'ouverture de toutes les
+èconomies, qui conduit à la creation d'un marché au niveau mondial.  
+Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Dans l'ensemble, la mondialisation est néfaste pour notre culture et notre identité",France
+q_nativ_econ,q_nativ_econ_raw,Q145_3,1,Please tell me to what extent you agree or disagree with each of the following statements. - It is generally bad for the UK's economy if people from other countries come to live here,United Kingdom
+q_nativ_econ,q_nativ_econ_raw,Q223_1,2,Please tell me to what extent you agree or disagree with each of the following statements. - It is generally bad for the UK economy if people from other countries come to live here,United Kingdom
+q_nativ_econ,q_nativ_econ_raw,Q230_1,3,Please tell me to what extent you agree or disagree with each of the following statements. - It is generally bad for the UK economy if people from other countries come to live here,United Kingdom
+q_nativ_econ_b_fra,q_nativ_econ_b_fra_raw,Q230_1,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - En général, l'installation de personnes provenant d'autres pays nuit à l'économie de la France",France
+q_nativ_econ_fra,q_nativ_econ_fra_raw,Q220_1,2,"Vous avez peut-être déjà entendu parler de la mondialisation, c'est-à-dire l'ouverture de toutes les
+èconomies, qui conduit à la creation d'un marché au niveau mondial.  
+Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Dans l'ensemble, la mondialisation est une bonne chose pour la France",France
+q_news_internet,q_news_internet_raw,Q197_5,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (5) Other Internet sources (such as e-mail provider, Blog)",United Kingdom
+q_news_newspaper,q_news_newspaper_raw,Q197_2,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (2) Newspaper (incl. web offerings)",United Kingdom
+q_news_online,q_news_online_raw,Q165_2,1,How often do you follow the news ...? - On the Internet,United Kingdom
+q_news_other,q_news_other_raw,Q197_7,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (7) Other: specify",United Kingdom
+q_news_other_text,q_news_other_text_raw,Q197_TEXT,2,NA,NA
+q_news_personal,q_news_personal_raw,Q197_6,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (6) Personal conversations",United Kingdom
+q_news_print,q_news_print_raw,Q165_3,1,How often do you follow the news ...? - On the newspapers,United Kingdom
+q_news_radio,q_news_radio_raw,Q197_3,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (3) Radio (incl. web radio)",United Kingdom
+q_news_social,q_news_social_raw,Q197_4,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (4) Social media (such as Facebook, Twitter)",United Kingdom
+q_news_tv,q_news_tv_raw,Q165_1,1,How often do you follow the news ...? - On TV,United Kingdom
+q_news_tv,q_news_tv_raw,Q197_1,2,"How many days per week, on average, do you use the following media or other resources to follow news about the EU and European politics? - (1) Television (incl. broadcaster player)",United Kingdom
+q_norm_bypass_law,q_norm_bypass_law_raw,Q152_5,1,Please tell me to what extent you agree or disagree with each of the following statements. - Sometimes it might be better to ignore the law and solve problems immediately rather than wait for a legal solution,United Kingdom
+q_norm_bypass_law,q_norm_bypass_law_raw,Q218_5,3,Please tell me to what extent you agree or disagree with each of the following statements. - Sometimes it might be better to ignore the law and solve problems immediately rather than wait for a legal solution,United Kingdom
+q_norm_bypass_law_fra,q_norm_bypass_law_fra_raw,Q218_5,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Parfois, il vaut sans doute mieux ignorer la loi et résoudre les problèmes immédiatement plutôt qu'attendre une solution juridique",France
+q_norm_disobey_gov,q_norm_disobey_gov_raw,Q152_4,1,Please tell me to what extent you agree or disagree with each of the following statements. - It is not necessary to obey the laws of a government I did not vote for,United Kingdom
+q_norm_disobey_gov,q_norm_disobey_gov_raw,Q218_4,3,Please tell me to what extent you agree or disagree with each of the following statements. - It is not necessary to obey the laws of a government I did not vote for,United Kingdom
+q_norm_disobey_unjustlaw,q_norm_disobey_unjustlaw_raw,Q152_3,1,Please tell me to what extent you agree or disagree with each of the following statements. - It is not necessary to obey a law you consider unjust,United Kingdom
+q_norm_disobey_unjustlaw,q_norm_disobey_unjustlaw_raw,Q218_3,3,Please tell me to what extent you agree or disagree with each of the following statements. - It is not necessary to obey a law you consider unjust,United Kingdom
+q_norm_gov_bend_law,q_norm_gov_bend_law_raw,Q152_6,1,Please tell me to what extent you agree or disagree with each of the following statements. - The government should have some ability to bend the law in order to solve pressing social and political problems,United Kingdom
+q_norm_gov_bend_law,q_norm_gov_bend_law_raw,Q218_6,3,Please tell me to what extent you agree or disagree with each of the following statements. - The government should have some ability to bend the law in order to solve pressing social and political problems,United Kingdom
+q_norm_gov_bypass_fra,q_norm_gov_bypass_fra_raw,Q218_6,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Le gouvernement devrait avoir une certaine capacité à contourner la loi afin de résoudre des problèmes sociaux et politiques urgents,France
+q_norm_order_fra,q_norm_order_fra_raw,Q218_2,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Il vaut mieux vivre dans une société où règne l'ordre que de laisser aux gens tellement de liberté qu'ils peuvent devenir des éléments perturbateurs,France
+q_norm_order_over_freedom,q_norm_order_over_freedom_raw,Q152_2,1,Please tell me to what extent you agree or disagree with each of the following statements. - It is better to live in an orderly society than to allow people so much freedom that they can become disruptive,United Kingdom
+q_norm_order_over_freedom,q_norm_order_over_freedom_raw,Q218_2,3,Please tell me to what extent you agree or disagree with each of the following statements. - It is better to live in an orderly society than to allow people so much freedom that they can become disruptive,United Kingdom
+q_norm_tol_opposition,q_norm_tol_opposition_raw,Q152_1,1,Please tell me to what extent you agree or disagree with each of the following statements. - Society should have to put up with those who have political ideas that are very different from the majority,United Kingdom
+q_norm_tol_opposition,q_norm_tol_opposition_raw,Q218_1,3,Please tell me to what extent you agree or disagree with each of the following statements. - Society should have to put up with those who have political ideas that are very different from the majority,United Kingdom
+q_norm_tolerance_fra,q_norm_tolerance_fra_raw,Q218_1,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - La société devrait tolérer les personnes qui ont des idées politiques très différentes de celles de la majorité,France
+q_norm_unjust_law_fra,q_norm_unjust_law_fra_raw,Q218_3,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Il n'est pas nécessaire de respecter une loi que vous considérez comme injuste,France
+q_norm_unvoted_gov_fra,q_norm_unvoted_gov_fra_raw,Q218_4,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Il n'est pas nécessaire de respecter les lois d'un gouvernement pour lequel je n'ai pas voté,France
+q_occ_current,q_occ_current_raw,Q173,1,What is your current occupation?,United Kingdom
+q_occ_current,q_occ_current_raw,Q247,2,What is your current occupation?,United Kingdom
+q_occ_current,q_occ_current_raw,Q247,3,What is your current occupation?,United Kingdom
+q_occ_last,q_occ_last_raw,Q174,1,Did you do any paid work in the past? What was your last occupation?,United Kingdom
+q_occ_last,q_occ_last_raw,Q248,2,Did you do any paid work in the past? What was your last occupation?,United Kingdom
+q_occ_last,q_occ_last_raw,Q248,3,Did you do any paid work in the past? What was your last occupation?,United Kingdom
+q_party_closeness,q_party_closeness_raw,Q76,1,"Do you feel yourself to be very close to this party, fairly close, or merely a sympathiser?",United Kingdom
+q_party_harm,q_party_harm_raw,Q23_5,2,Please indicate how much you agree with each of the following statements. - Political parties do more harm than good to society,United Kingdom
+q_party_harm,q_party_harm_raw,Q37_5,3,Please indicate how much you agree with each of the following statements. - Political parties do more harm than good to society,United Kingdom
+q_party_harm_fra,q_party_harm_fra_raw,Q37_5,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les partis politiques font plus de mal que de bien à la société,France
+q_party_id,q_party_id_raw,Q75,1,"Do you consider yourself to be close to any particular political party? If so, which party do you feel close to? - Selected Choice",United Kingdom
+q_party_id,q_party_id_raw,Q52,2,"Do you consider yourself to be close to any particular political party? If so, which party do you feel close to? - Selected Choice",United Kingdom
+q_party_id,q_party_id_raw,Q52,3,"Do you consider yourself to be close to any particular political party? If so, which party do you feel close to? - Selected Choice",United Kingdom
+q_party_id_fra,q_party_id_fra_raw,Q57,2,"Vous sentez‐vous proche d’un parti politique en particulier ? Si oui, de quel parti vous sentez‐vous proche ? - Selected Choice",France
+q_party_id_other,q_party_id_other_raw,Q75_TEXT,1,NA,NA
+q_party_id_other,q_party_id_other_raw,Q52_TEXT,2,NA,NA
+q_party_id_other,q_party_id_other_raw,Q52_TEXT,3,NA,NA
+q_party_id_other_fra,q_party_id_other_fra_raw,Q57_TEXT,2,NA,NA
+q_people_incompetent,q_people_incompetent_raw,Q23_6,2,Please indicate how much you agree with each of the following statements. - Ordinary people don’t know what policies are good for them.,United Kingdom
+q_people_incompetent,q_people_incompetent_raw,Q37_6,3,Please indicate how much you agree with each of the following statements. - Ordinary people don’t know what policies are good for them.,United Kingdom
+q_people_incompetent_fra,q_people_incompetent_fra_raw,Q37_6,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Le citoyen lambda ne sait pas quelles politiques sont bonnes pour lui.,France
+q_pol_agriculture,q_pol_agriculture_raw,Q151_6,1,What is your position on each of the following issues? - Agriculture: Extending subsidies for agriculture and farmers even at the cost of economic efficiency,United Kingdom
+q_pol_environment,q_pol_environment_raw,Q151_4,1,What is your position on each of the following issues? - Environment and energy : Supporting environmental protection even at the cost of economic growth,United Kingdom
+q_pol_immigration,q_pol_immigration_raw,Q151_3,1,What is your position on each of the following issues? - Asylum and Immigration: Restrictive policy on asylum seekers and immigration,United Kingdom
+q_pol_market,q_pol_market_raw,Q151_1,1,What is your position on each of the following issues? - Market regulation and competition: Governments intervening in the economy,United Kingdom
+q_pol_security,q_pol_security_raw,Q151_2,1,What is your position on each of the following issues? - Security and defense policy: Increasing military spending to strengthen the security and defense,United Kingdom
+q_pol_trade,q_pol_trade_raw,Q151_5,1,What is your position on each of the following issues? - Trade policy: Extending or maintaining tariffs to protect internal markets,United Kingdom
+q_policy_comp_eu_natgov,q_policy_comp_eu_natgov_raw,Q8,1,"Please think about the above issues the EU deals with. 
+Generally speaking, would you personally like to see the European Union make more decisions or on the contrary national governments make more decisions?",United Kingdom
+q_policy_comp_pos_agriculture,q_policy_comp_pos_agriculture_raw,Q25_6,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Agriculture: Whether subsidies to protect agriculture and farmers should be reduced",United Kingdom
+q_policy_comp_pos_environment,q_policy_comp_pos_environment_raw,Q25_4,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Environment and energy: Whether policies to protect the environment should be encouraged even at the cost of economic growth",United Kingdom
+q_policy_comp_pos_immigration,q_policy_comp_pos_immigration_raw,Q25_3,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Asylum and Immigration: Whether policies for asylum seekers and immigrants should be more restrictive",United Kingdom
+q_policy_comp_pos_market,q_policy_comp_pos_market_raw,Q25_1,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Market regulation and competition: Whether governments should intervene in the economy",United Kingdom
+q_policy_comp_pos_security,q_policy_comp_pos_security_raw,Q25_2,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Security and defense policy: Whether military spending and armament should be increased",United Kingdom
+q_policy_comp_pos_trade,q_policy_comp_pos_trade_raw,Q25_5,1,"People have different views on the following policy areas  that the EU currently deals with.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Trade policy: Whether tariffs should be extended to protect the internal market",United Kingdom
+q_policy_comp_val_agriculture,q_policy_comp_val_agriculture_raw,Q7_6,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Agriculture: Improving a stable food supply, food quality, and living standards for farmers",United Kingdom
+q_policy_comp_val_environment,q_policy_comp_val_environment_raw,Q7_4,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Environment and energy: Protecting the environment and securing energy supply",United Kingdom
+q_policy_comp_val_immigration,q_policy_comp_val_immigration_raw,Q7_3,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Asylum and Immigration: Improving asylum and immigration procedures",United Kingdom
+q_policy_comp_val_market,q_policy_comp_val_market_raw,Q7_1,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Market regulation and competition: Ensuring competitiveness and innovation",United Kingdom
+q_policy_comp_val_security,q_policy_comp_val_security_raw,Q7_2,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Security and defense policy: Promoting peace and international security",United Kingdom
+q_policy_comp_val_trade,q_policy_comp_val_trade_raw,Q7_5,1,"The EU currently deals with the following policy areas.
+For each of the following areas, would you personally like to see the European Union (EU) play a more important role or on the contrary national governments play a more important role? - Trade policy: Ensuring fair and open trade",United Kingdom
+q_pop_citizen,q_pop_citizen_raw,Q60_4,1,Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - I would rather be represented by a citizen than by a specialized politician.,United Kingdom
+q_pop_citizen,q_pop_citizen_raw,Q22_3,2,Please indicate how much you agree with each of the following statements. - I would rather be represented by a citizen than by a specialized politician.,United Kingdom
+q_pop_citizen,q_pop_citizen_raw,Q36_3,3,Please indicate how much you agree with each of the following statements. - I would rather be represented by a citizen than by a specialized politician.,United Kingdom
+q_pop_citizen_fra,q_pop_citizen_fra_raw,Q36_3,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Je préférerais être représenté(e) par un(e) citoyen(ne) que par un(e) politicien(ne) spécialisé(e).,France
+q_pop_compromise,q_pop_compromise_raw,Q60_7,1,"Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - What people call ""compromise"" in politics is really just selling out on one's principles.",United Kingdom
+q_pop_compromise,q_pop_compromise_raw,Q22_6,2,"Please indicate how much you agree with each of the following statements. - What people call ""compromise"" in politics is really just selling out on one's principles.",United Kingdom
+q_pop_compromise,q_pop_compromise_raw,Q36_6,3,"Please indicate how much you agree with each of the following statements. - What people call ""compromise"" in politics is really just selling out on one's principles.",United Kingdom
+q_pop_compromise_fra,q_pop_compromise_fra_raw,Q36_6,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Ce qu’on appelle le « compromis », en politique, est simplement le fait de renoncer à ses principes.",France
+q_pop_elite,q_pop_elite_raw,Q60_3,1,Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - The political differences between the elite and the people are larger than the differences among the people.,United Kingdom
+q_pop_goodevil,q_pop_goodevil_raw,Q60_6,1,Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - Politics is ultimately a struggle between good and evil.,United Kingdom
+q_pop_goodevil,q_pop_goodevil_raw,Q22_5,2,Please indicate how much you agree with each of the following statements. - Politics is ultimately a struggle between good and evil.,United Kingdom
+q_pop_goodevil,q_pop_goodevil_raw,Q36_5,3,Please indicate how much you agree with each of the following statements. - Politics is ultimately a struggle between good and evil.,United Kingdom
+q_pop_goodevil_fra,q_pop_goodevil_fra_raw,Q36_5,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - La politique est en fin de compte une lutte entre le bien et le mal.,France
+q_pop_people,q_pop_people_raw,Q60_2,1,"Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - The people, and not politicians, should make our most important policy decisions.",United Kingdom
+q_pop_people,q_pop_people_raw,Q22_2,2,"Please indicate how much you agree with each of the following statements. - The people, and not politicians, should make our most important policy decisions.",United Kingdom
+q_pop_people,q_pop_people_raw,Q36_2,3,"Please indicate how much you agree with each of the following statements. - The people, and not politicians, should make our most important policy decisions.",United Kingdom
+q_pop_people_fra,q_pop_people_fra_raw,Q36_2,2,"Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - La population, et non les politiciens, devrait prendre nos décisions politiques les plus importantes.",France
+q_pop_reps,q_pop_reps_raw,Q60_5,1,Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - Elected officials talk too much and take too little action.,United Kingdom
+q_pop_reps,q_pop_reps_raw,Q22_4,2,Please indicate how much you agree with each of the following statements. - Elected officials talk too much and take too little action.,United Kingdom
+q_pop_reps,q_pop_reps_raw,Q36_4,3,Please indicate how much you agree with each of the following statements. - Elected officials talk too much and take too little action.,United Kingdom
+q_pop_reps_fra,q_pop_reps_fra_raw,Q36_4,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les élus parlent trop et n’agissent pas assez.,France
+q_pop_will,q_pop_will_raw,Q60_1,1,Please indicate how much you agree with each of the following statements. Please take the previous information about the EU into account in your decision. - The politicians should follow the will of the people.,United Kingdom
+q_pop_will,q_pop_will_raw,Q22_1,2,Please indicate how much you agree with each of the following statements. - The politicians should follow the will of the people.,United Kingdom
+q_pop_will,q_pop_will_raw,Q36_1,3,Please indicate how much you agree with each of the following statements. - The politicians should follow the will of the people.,United Kingdom
+q_pop_will_fra,q_pop_will_fra_raw,Q36_1,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les politiciens devraient suivre la volonté de la population.,France
+q_postal_code,q_postal_code_raw,Q245,2,"Please indicate some information we need for statistical purposes. 
+What is your postal code?",United Kingdom
+q_postal_code,q_postal_code_raw,Q245,3,"Please indicate some information we need for statistical purposes. 
+What is your postal code?",United Kingdom
+q_region,q_region,Q246,2,Region,United Kingdom
+q_region,q_region,Q246,3,Region,United Kingdom
+q_religion,q_religion_raw,Q6,2,Do you consider yourself to be…?,United Kingdom
+q_religion,q_religion_raw,Q6,3,Do you consider yourself to be…?,United Kingdom
+q_religion_other,q_religion_other_raw,Q6_TEXT,2,NA,NA
+q_religion_other,q_religion_other_raw,Q6_TEXT,3,NA,NA
+q_resp_verif,q_resp_verif_raw,Q70,1,"In the previous screen, we read about the EU and its decisions. Please indicate all the correct option(s).",United Kingdom
+q_risk_taking,q_risk_taking,Q227,2,"Please tell me, in general, how willing or unwilling you are to take risks.  
+Please use a scale from 1 to 7, where 1 means you are ”completely unwilling to take risks” and a 7 means you are ”very willing to take risks”. You can also use any numbers between 1 and 11 to indicate where you fall on the scale.",United Kingdom
+q_risk_taking,q_risk_taking,Q234,3,"Please tell me, in general, how willing or unwilling you are to take risks.  
+Please use a scale from 1 to 7, where 1 means you are ”completely unwilling to take risks” and a 7 means you are ”very willing to take risks”. You can also use any numbers between 1 and 11 to indicate where you fall on the scale.",United Kingdom
+q_risk_taking_fra,q_risk_taking_fra_raw,Q234,2,"Veuillez indiquer dans quelle mesure vous êtes disposé(e) ou non à prendre des risques de manière générale.  
+Veuillez utiliser une échelle allant de 1 à 7, où 1 signifie que vous n'êtes « pas du tout disposé(e) à prendre des risques » et 7 que vous êtes « tout à fait disposé(e) à prendre des risques ». Vous pouvez également utiliser les valeurs comprises entre 1 et 7 pour nuancer votre avis..",France
+q_rural_urban,q_rural_urban_raw,Q244,2,Would you say you live in a...?,United Kingdom
+q_rural_urban,q_rural_urban_raw,Q244,3,Would you say you live in a...?,United Kingdom
+q_satis_demo_eu,q_satis_demo_eu_raw,Q217_2,2,"On the whole, are you very satisfied, fairly satisfied, not very satisfied or not at all satisfied with the way democracy works in the United Kingdom? 
+And how about the way democracy works in the EU? - In the European Union",United Kingdom
+q_satis_demo_eu,q_satis_demo_eu_raw,Q221_2,3,"On the whole, are you very satisfied, fairly satisfied, not very satisfied or not at all satisfied with the way democracy works in the United Kingdom? 
+And how about the way democracy works in the EU? - In the European Union",United Kingdom
+q_satis_demo_eu_fra,q_satis_demo_eu_fra_raw,Q221_2,2,"Dans l'ensemble, êtes-vous très satisfait(e), plutôt satisfait(e), plutôt pas satisfait(e) ou pas du tout satisfait(e) du fonctionnement de la démocratie en la France?  
+Et du fonctionnement de la démocratie dans l'Union européenne? - Dans l'Union européenne",France
+q_satis_demo_nat,q_satis_demo_nat_raw,Q217_1,2,"On the whole, are you very satisfied, fairly satisfied, not very satisfied or not at all satisfied with the way democracy works in the United Kingdom? 
+And how about the way democracy works in the EU? - In the United Kingdom",United Kingdom
+q_satis_demo_nat,q_satis_demo_nat_raw,Q221_1,3,"On the whole, are you very satisfied, fairly satisfied, not very satisfied or not at all satisfied with the way democracy works in the United Kingdom? 
+And how about the way democracy works in the EU? - In the United Kingdom",United Kingdom
+q_satis_demo_nat_fra,q_satis_demo_nat_fra_raw,Q221_1,2,"Dans l'ensemble, êtes-vous très satisfait(e), plutôt satisfait(e), plutôt pas satisfait(e) ou pas du tout satisfait(e) du fonctionnement de la démocratie en la France?  
+Et du fonctionnement de la démocratie dans l'Union européenne? - En France",France
+q_tech_experts,q_tech_experts_raw,Q23_3,2,Please indicate how much you agree with each of the following statements. - Our country would run better if political decisions were left up to experts instead of politicians and citizens.,United Kingdom
+q_tech_experts,q_tech_experts_raw,Q37_3,3,Please indicate how much you agree with each of the following statements. - Our country would run better if political decisions were left up to experts instead of politicians and citizens.,United Kingdom
+q_tech_experts_fra,q_tech_experts_fra_raw,Q37_3,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Notre pays fonctionnerait mieux si les décisions politiques étaient laissées aux experts plutôt qu'aux hommes politiques et aux citoyens.,France
+q_tech_leaders,q_tech_leaders_raw,Q23_4,2,Please indicate how much you agree with each of the following statements. - The leaders of our country should be more educated and skilled than ordinary citizens.,United Kingdom
+q_tech_leaders,q_tech_leaders_raw,Q37_4,3,Please indicate how much you agree with each of the following statements. - The leaders of our country should be more educated and skilled than ordinary citizens.,United Kingdom
+q_tech_leaders_fra,q_tech_leaders_fra_raw,Q37_4,2,Dans quelle mesure êtes-vous d'accord ou pas d'accord avec chacune des affirmations suivantes? - Les dirigeants de notre pays devraient être plus instruits et plus compétents que les citoyens ordinaires.,France
+q_thermo_1,q_thermo_1_raw,q_thermo_1_raw,2,NA,NA
+q_thermo_1,q_thermo_1_raw,q_thermo_1_raw,3,NA,NA
+q_thermo_2,q_thermo_2_raw,q_thermo_2_raw,2,NA,NA
+q_thermo_2,q_thermo_2_raw,q_thermo_2_raw,3,NA,NA
+q_thermo_3,q_thermo_3_raw,q_thermo_3_raw,2,NA,NA
+q_thermo_3,q_thermo_3_raw,q_thermo_3_raw,3,NA,NA
+q_thermo_4,q_thermo_4_raw,q_thermo_4_raw,2,NA,NA
+q_thermo_4,q_thermo_4_raw,q_thermo_4_raw,3,NA,NA
+q_thermo_5,q_thermo_5_raw,q_thermo_5_raw,2,NA,NA
+q_thermo_5,q_thermo_5_raw,q_thermo_5_raw,3,NA,NA
+q_thermo_6,q_thermo_6_raw,q_thermo_6_raw,2,NA,NA
+q_thermo_6,q_thermo_6_raw,q_thermo_6_raw,3,NA,NA
+q_verif,q_verif_raw,Q8,2,"We appreciate your participation in this survey. We value your time and effort. However, we have to make sure that our data are valid and accurate. Specifically, we are interested in whether you actually take the time to read instructions closely; if not, our data based on your responses will be invalid. In order to demonstrate that you have read instructions, please ignore the next question, and simply write ""I read the instructions"" in the box labeled ""Others"". Thank you very much.
+Where would you place YOURSELF on this scale? - Selected Choice",United Kingdom
+q_verif2,q_verif2_raw,Q8_TEXT,2,NA,NA
+q_vote_choice_ep2014_fra,q_vote_choice_ep2014_fra_raw,Q56,2,"Cette question concerne les précédentes élections européennes s'étant tenues il y a 5 ans. 
+Pour quel parti avez-vous voté lors des précédentes élections européennes en 2014? - Selected Choice",France
+q_vote_choice_ep2014_other_fra,q_vote_choice_ep2014_other_fra_raw,Q56_TEXT,2,NA,NA
+q_vote_choice_hypo,q_vote_choice_hypo_raw,Q46,2,"Just assuming you were going to vote in the election, which party would you vote for? - Selected Choice",United Kingdom
+q_vote_choice_hypo,q_vote_choice_hypo_raw,Q55,3,"Just assuming you had voted in the election, which party would you have voted for? - Selected Choice",United Kingdom
+q_vote_choice_hypo_fra,q_vote_choice_hypo_fra_raw,Q55,2,"En imaginant que vous ayez voté lors de ces élections, pour quel parti auriez-vous voté? - Selected Choice",France
+q_vote_choice_hypo_other,q_vote_choice_hypo_other_raw,Q46_TEXT,2,NA,NA
+q_vote_choice_hypo_other,q_vote_choice_hypo_other_raw,Q55_TEXT,3,NA,NA
+q_vote_choice_hypo_other_fra,q_vote_choice_hypo_other_fra_raw,Q55_TEXT,2,NA,NA
+q_vote_choice_intended,q_vote_choice_intended_raw,Q45,2,Which party will you vote for in this election? - Selected Choice,United Kingdom
+q_vote_choice_intended_other,q_vote_choice_intended_other_raw,Q45_TEXT,2,NA,NA
+q_vote_choice_past,q_vote_choice_past_raw,Q44,2,Which party did you vote for in this election? - Selected Choice,United Kingdom
+q_vote_choice_past,q_vote_choice_past_raw,Q54,3,Which party did you vote for in this election? - Selected Choice,United Kingdom
+q_vote_choice_past2014,q_vote_choice_past2014_raw,Q51,2,"This question is about the previous European Parliament elections that were held five years ago. 
+Which party did you vote for in the previous European Parliament elections in 2014? - Selected Choice",United Kingdom
+q_vote_choice_past2014,q_vote_choice_past2014_raw,Q56,3,"This question is about the previous European Parliament elections that were held five years ago. 
+Which party did you vote for in the previous European Parliament elections in 2014? - Selected Choice",United Kingdom
+q_vote_choice_past2014_other,q_vote_choice_past2014_other_raw,Q51_TEXT,2,NA,NA
+q_vote_choice_past2014_other,q_vote_choice_past2014_other_raw,Q56_TEXT,3,NA,NA
+q_vote_choice_past_fra,q_vote_choice_past_fra_raw,Q54,2,Pour quel parti avez-vous voté lors de ces élections ? - Selected Choice,France
+q_vote_choice_past_other,q_vote_choice_past_other_raw,Q44_TEXT,2,NA,NA
+q_vote_choice_past_other,q_vote_choice_past_other_raw,Q54_TEXT,3,NA,NA
+q_vote_choice_past_other_fra,q_vote_choice_past_other_fra_raw,Q54_TEXT,2,NA,NA
+q_vote_eu_2014,q_vote_eu_2014_raw,Q158,1,"The European Parliament elections were held on the 22nd May 2014. For one reason or another, some people in the UK did not vote in these elections. Did you vote in the recent European Parliament elections?",United Kingdom
+q_vote_eu_2014_rec,q_vote_eu_2014_rec_raw,Q159,1,Which party did you vote for in the European Parliament elections? - Selected Choice,United Kingdom
+q_vote_eu_2014_rec_text,q_vote_eu_2014_rec_text_raw,Q159_TEXT,1,NA,NA
+q_vote_exp_rank_party_1,q_vote_exp_rank_party_1_raw,q_vote_exp_rank_party_1_raw,2,NA,NA
+q_vote_exp_rank_party_2,q_vote_exp_rank_party_2_raw,q_vote_exp_rank_party_2_raw,2,NA,NA
+q_vote_exp_rank_party_3,q_vote_exp_rank_party_3_raw,q_vote_exp_rank_party_3_raw,2,NA,NA
+q_vote_exp_rank_party_4,q_vote_exp_rank_party_4_raw,q_vote_exp_rank_party_4_raw,2,NA,NA
+q_vote_exp_rank_party_5,q_vote_exp_rank_party_5_raw,q_vote_exp_rank_party_5_raw,2,NA,NA
+q_vote_exp_rank_party_6,q_vote_exp_rank_party_6_raw,q_vote_exp_rank_party_6_raw,2,NA,NA
+q_vote_turnout_confirm,q_vote_turnout_confirm_raw,Q43,2,"Just to be clear, we are recording that you already voted in the election that is scheduled to take place on Thursday, 23 May 2019. Is that right?",United Kingdom
+q_vote_turnout_likelihood,q_vote_turnout_likelihood_raw,Q42,2,"On Thursday, 23 May 2019, the European election takes place. All citizens of the European Union elect the members of the European Parliament. 
+While a lot of people vote, others do not manage to vote or do not participate in elections for other reasons. How likely is it that you will vote in the upcoming election?",United Kingdom
+q_vote_turnout_likelihood,q_vote_turnout_likelihood_raw,Q53,3,"European Parliament elections were held on Thursday, 23 May 2019. For one reason or another, some people in the UK did not vote in these elections. A lot of people were not able to vote because they were sick, or they just didn't have time.
+Which of the following statements best describes you?",United Kingdom
+q_vote_turnout_reason_fra,q_vote_turnout_reason_fra_raw,Q53,2,"Les élections européennes ont eu lieu le 26 mai 2019. Pour différentes raisons, certaines personnes en la France n'ont pas voté à ces élections. Beaucoup de citoyens n'ont pas pu voter parce qu'ils étaient malades ou qu'ils n'avaient tout simplement pas le temps.
+ Laquelle des affirmations suivantes s'applique le mieux à vous ?",France

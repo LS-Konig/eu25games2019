@@ -1,0 +1,876 @@
+variable,raw,code
+q_approval_eu,19,approve
+q_approval_eu,Approve,approve
+q_approval_eu,Approvo,approve
+q_approval_eu,Aprob,approve
+q_approval_eu,Aprovo,approve
+q_approval_eu,Apruebo,approve
+q_approval_eu,Atbalstu,approve
+q_approval_eu,Eens,approve
+q_approval_eu,Egyetért,approve
+q_approval_eu,Enig,approve
+q_approval_eu,Godtar,approve
+q_approval_eu,Hyväksyn,approve
+q_approval_eu,J'approuve,approve
+q_approval_eu,Je désapprouve,approve
+q_approval_eu,Odobravam,approve
+q_approval_eu,Pooldan,approve
+q_approval_eu,Popieram,approve
+q_approval_eu,Pritariu,approve
+q_approval_eu,Schvaluji,approve
+q_approval_eu,Slažem se,approve
+q_approval_eu,Súhlasím,approve
+q_approval_eu,Zufrieden,approve
+q_approval_eu,Εγκρίνω,approve
+q_approval_eu,Одобрявам,approve
+q_approval_eu,Desaprovo,disapprove
+q_approval_eu,Desapruebo,disapprove
+q_approval_eu,Dezaprob,disapprove
+q_approval_eu,Disapprove,disapprove
+q_approval_eu,Disapprovo,disapprove
+q_approval_eu,Ei poolda,disapprove
+q_approval_eu,Förkastar,disapprove
+q_approval_eu,Hylkään,disapprove
+q_approval_eu,Je n'approuve ni ne désapprouve,disapprove
+q_approval_eu,Ne odobravam,disapprove
+q_approval_eu,Ne slažem se,disapprove
+q_approval_eu,Neatbalstu,disapprove
+q_approval_eu,Nem ért egyet,disapprove
+q_approval_eu,Nepritariu,disapprove
+q_approval_eu,Neschvaluji,disapprove
+q_approval_eu,Nesúhlasím,disapprove
+q_approval_eu,Nie popieram,disapprove
+q_approval_eu,Non approvo né disapprovo,disapprove
+q_approval_eu,Não aprovo nem desaprovo,disapprove
+q_approval_eu,Oneens,disapprove
+q_approval_eu,Uenig,disapprove
+q_approval_eu,Unzufrieden,disapprove
+q_approval_eu,Δεν εγκρίνω,disapprove
+q_approval_eu,Не одобрявам,disapprove
+q_approval_eu,"Ani popieram, ani nie popieram",neither
+q_approval_eu,Ei poolda ega ole vastu,neither
+q_approval_eu,Etkö hyväksyn etkä hylkään,neither
+q_approval_eu,Hverken enig eller uenig,neither
+q_approval_eu,"Nedz atbalstu, nedz neatbalstu",neither
+q_approval_eu,"Nei pritariu, nei nepritariu",neither
+q_approval_eu,Neither approve or disapprove,neither
+q_approval_eu,Ni apruebo ni desapruebo,neither
+q_approval_eu,Niti Odobravam niti ne odobravam,neither
+q_approval_eu,Niti se slažem niti ne slažem,neither
+q_approval_eu,"No eens, noch oneens",neither
+q_approval_eu,Semleges álláspontot képvisel,neither
+q_approval_eu,Varken godtar eller förkastar,neither
+q_approval_eu,Weder zufrieden noch unzufrieden,neither
+q_approval_eu,Îmi este indiferent,neither
+q_approval_eu,Ούτε εγκρίνω ούτε δεν εγκρίνω,neither
+q_approval_eu,"Нито одобрявам, нито не одобрявам",neither
+q_approval_eu,Eher zufrieden,tend_approve
+q_approval_eu,Forholdsvis enig,tend_approve
+q_approval_eu,Godtar till viss del,tend_approve
+q_approval_eu,Grotendeels eens,tend_approve
+q_approval_eu,Grotendeels oneens,tend_approve
+q_approval_eu,Hyväksyn jossain määrin,tend_approve
+q_approval_eu,J'ai tendance à approuver,tend_approve
+q_approval_eu,J'ai tendance à désapprouver,tend_approve
+q_approval_eu,Jobbára egyetért,tend_approve
+q_approval_eu,Pigem ei poolda,tend_approve
+q_approval_eu,Pigem pooldan,tend_approve
+q_approval_eu,Raczej popieram,tend_approve
+q_approval_eu,Skôr súhlasím,tend_approve
+q_approval_eu,Sliecos atbalstīt,tend_approve
+q_approval_eu,Spíše schvaluji,tend_approve
+q_approval_eu,Tend to approve,tend_approve
+q_approval_eu,Tendo a aprovar,tend_approve
+q_approval_eu,Tendo ad approvare,tend_approve
+q_approval_eu,Tiendo a aprobar,tend_approve
+q_approval_eu,Tind să aprob,tend_approve
+q_approval_eu,Uglavnom se slažem,tend_approve
+q_approval_eu,Vecinoma odobravam,tend_approve
+q_approval_eu,Veikiau pritariu,tend_approve
+q_approval_eu,Τείνω να εγκρίνω,tend_approve
+q_approval_eu,Склонен/на към неободрение,tend_approve
+q_approval_eu,Склонен/на към одобрение,tend_approve
+q_approval_eu,Eher unzufrieden,tend_disapprove
+q_approval_eu,Forholdsvis uenig,tend_disapprove
+q_approval_eu,Förkastar till viss del,tend_disapprove
+q_approval_eu,Hylkään jossain määrin,tend_disapprove
+q_approval_eu,Jobbára nem ért egyet,tend_disapprove
+q_approval_eu,Raczej nie popieram,tend_disapprove
+q_approval_eu,Skôr nesúhlasím,tend_disapprove
+q_approval_eu,Sliecos neatbalstīt,tend_disapprove
+q_approval_eu,Spíše neschvaluji,tend_disapprove
+q_approval_eu,Tend to disapprove,tend_disapprove
+q_approval_eu,Tendo a desaprovar,tend_disapprove
+q_approval_eu,Tendo a disapprovare,tend_disapprove
+q_approval_eu,Tiendo a desaprobar,tend_disapprove
+q_approval_eu,Tind să dezaprob,tend_disapprove
+q_approval_eu,Uglavnom se ne slažem,tend_disapprove
+q_approval_eu,Vecinoma ne odobravam,tend_disapprove
+q_approval_eu,Veikiau nepritariu,tend_disapprove
+q_approval_eu,Τείνω να μην εγκρίνω,tend_disapprove
+q_approval_eu,Nemám názor,NA
+q_approval_natgov,22,approve
+q_approval_natgov,23,approve
+q_approval_natgov,Approve,approve
+q_approval_natgov,Approvo,approve
+q_approval_natgov,Aprob,approve
+q_approval_natgov,Aprovo,approve
+q_approval_natgov,Apruebo,approve
+q_approval_natgov,Atbalstu,approve
+q_approval_natgov,Eens,approve
+q_approval_natgov,Egyetért,approve
+q_approval_natgov,Enig,approve
+q_approval_natgov,Godtar,approve
+q_approval_natgov,Hyväksyn,approve
+q_approval_natgov,J'approuve,approve
+q_approval_natgov,Je désapprouve,approve
+q_approval_natgov,Odobravam,approve
+q_approval_natgov,Pooldan,approve
+q_approval_natgov,Popieram,approve
+q_approval_natgov,Pritariu,approve
+q_approval_natgov,Schvaluji,approve
+q_approval_natgov,Slažem se,approve
+q_approval_natgov,Súhlasím,approve
+q_approval_natgov,Zufrieden,approve
+q_approval_natgov,Εγκρίνω,approve
+q_approval_natgov,Одобрявам,approve
+q_approval_natgov,Desaprovo,disapprove
+q_approval_natgov,Desapruebo,disapprove
+q_approval_natgov,Dezaprob,disapprove
+q_approval_natgov,Disapprove,disapprove
+q_approval_natgov,Disapprovo,disapprove
+q_approval_natgov,Ei poolda,disapprove
+q_approval_natgov,Förkastar,disapprove
+q_approval_natgov,Hylkään,disapprove
+q_approval_natgov,Je n'approuve ni ne désapprouve,disapprove
+q_approval_natgov,Ne odobravam,disapprove
+q_approval_natgov,Ne slažem se,disapprove
+q_approval_natgov,Neatbalstu,disapprove
+q_approval_natgov,Nem ért egyet,disapprove
+q_approval_natgov,Nepritariu,disapprove
+q_approval_natgov,Neschvaluji,disapprove
+q_approval_natgov,Nesúhlasím,disapprove
+q_approval_natgov,Nie popieram,disapprove
+q_approval_natgov,Non approvo né disapprovo,disapprove
+q_approval_natgov,Não aprovo nem desaprovo,disapprove
+q_approval_natgov,Oneens,disapprove
+q_approval_natgov,Uenig,disapprove
+q_approval_natgov,Unzufrieden,disapprove
+q_approval_natgov,Δεν εγκρίνω,disapprove
+q_approval_natgov,Не одобрявам,disapprove
+q_approval_natgov,"Ani popieram, ani nie popieram",neither
+q_approval_natgov,Ei poolda ega ole vastu,neither
+q_approval_natgov,Etkö hyväksyn etkä hylkään,neither
+q_approval_natgov,Hverken enig eller uenig,neither
+q_approval_natgov,"Nedz atbalstu, nedz neatbalstu",neither
+q_approval_natgov,"Nei pritariu, nei nepritariu",neither
+q_approval_natgov,Neither approve or disapprove,neither
+q_approval_natgov,Ni apruebo ni desapruebo,neither
+q_approval_natgov,Niti Odobravam niti ne odobravam,neither
+q_approval_natgov,Niti se slažem niti ne slažem,neither
+q_approval_natgov,"No eens, noch oneens",neither
+q_approval_natgov,Semleges álláspontot képvisel,neither
+q_approval_natgov,Varken godtar eller förkastar,neither
+q_approval_natgov,Weder zufrieden noch unzufrieden,neither
+q_approval_natgov,Îmi este indiferent,neither
+q_approval_natgov,Ούτε εγκρίνω ούτε δεν εγκρίνω,neither
+q_approval_natgov,"Нито одобрявам, нито не одобрявам",neither
+q_approval_natgov,Eher zufrieden,tend_approve
+q_approval_natgov,Forholdsvis enig,tend_approve
+q_approval_natgov,Godtar till viss del,tend_approve
+q_approval_natgov,Grotendeels eens,tend_approve
+q_approval_natgov,Grotendeels oneens,tend_approve
+q_approval_natgov,Hyväksyn jossain määrin,tend_approve
+q_approval_natgov,J'ai tendance à approuver,tend_approve
+q_approval_natgov,J'ai tendance à désapprouver,tend_approve
+q_approval_natgov,Jobbára egyetért,tend_approve
+q_approval_natgov,Pigem ei poolda,tend_approve
+q_approval_natgov,Pigem pooldan,tend_approve
+q_approval_natgov,Raczej popieram,tend_approve
+q_approval_natgov,Skôr súhlasím,tend_approve
+q_approval_natgov,Sliecos atbalstīt,tend_approve
+q_approval_natgov,Spíše schvaluji,tend_approve
+q_approval_natgov,Tend to approve,tend_approve
+q_approval_natgov,Tendo a aprovar,tend_approve
+q_approval_natgov,Tendo ad approvare,tend_approve
+q_approval_natgov,Tiendo a aprobar,tend_approve
+q_approval_natgov,Tind să aprob,tend_approve
+q_approval_natgov,Uglavnom se slažem,tend_approve
+q_approval_natgov,Vecinoma odobravam,tend_approve
+q_approval_natgov,Veikiau pritariu,tend_approve
+q_approval_natgov,Τείνω να εγκρίνω,tend_approve
+q_approval_natgov,Склонен/на към неободрение,tend_approve
+q_approval_natgov,Склонен/на към одобрение,tend_approve
+q_approval_natgov,Eher unzufrieden,tend_disapprove
+q_approval_natgov,Forholdsvis uenig,tend_disapprove
+q_approval_natgov,Förkastar till viss del,tend_disapprove
+q_approval_natgov,Hylkään jossain määrin,tend_disapprove
+q_approval_natgov,Jobbára nem ért egyet,tend_disapprove
+q_approval_natgov,Raczej nie popieram,tend_disapprove
+q_approval_natgov,Skôr nesúhlasím,tend_disapprove
+q_approval_natgov,Sliecos neatbalstīt,tend_disapprove
+q_approval_natgov,Spíše neschvaluji,tend_disapprove
+q_approval_natgov,Tend to disapprove,tend_disapprove
+q_approval_natgov,Tendo a desaprovar,tend_disapprove
+q_approval_natgov,Tendo a disapprovare,tend_disapprove
+q_approval_natgov,Tiendo a desaprobar,tend_disapprove
+q_approval_natgov,Tind să dezaprob,tend_disapprove
+q_approval_natgov,Uglavnom se ne slažem,tend_disapprove
+q_approval_natgov,Vecinoma ne odobravam,tend_disapprove
+q_approval_natgov,Veikiau nepritariu,tend_disapprove
+q_approval_natgov,Τείνω να μην εγκρίνω,tend_disapprove
+q_approval_natgov,Nemám názor,NA
+q_cjeu_pos,"Az Európai Unió Bírósága hajlik rá, hogy előnyben részesítse a Bizottság fellépéseit",favor_government
+q_cjeu_pos,Curtea de Justiție a Uniunii Europene tinde să favorizeze acțiunile întreprinse de Comisie,favor_government
+q_cjeu_pos,Der Gerichtshof der Europäischen Union begünstigt eher die von der Kommission ergriffenen Maßnahmen,favor_government
+q_cjeu_pos,EU-Domstolen har tendens til at favorisere handlinger udført af Kommissione,favor_government
+q_cjeu_pos,EU-Domstolen har tendens til at favorisere handlinger udført af Kommissionen,favor_government
+q_cjeu_pos,EU-domstolen har en tendens att gynna åtgärder vidtagna av Kommissione,favor_government
+q_cjeu_pos,Eiropas Savienības Tiesa sliecas atbalstīt Komisijas veiktās darbības,favor_government
+q_cjeu_pos,El Tribunal de Justicia de la Unión Europea suele favorecer medidas tomadas por la Comisión,favor_government
+q_cjeu_pos,Euroopa Liidu Kohus kaldub soosima Euroopa Komisjoni poolt rakendatavaid meetmei,favor_government
+q_cjeu_pos,Euroopa Liidu Kohus kaldub soosima Euroopa Komisjoni poolt rakendatavaid meetmeid,favor_government
+q_cjeu_pos,Euroopan unionin tuomioistuimella on taipumuksena suosia Euroopan komission toteuttamia toimia,favor_government
+q_cjeu_pos,Europejski Trybunał Sprawiedliwości zwykle przychyla się czynnościom podejmowanym przez Komisj,favor_government
+q_cjeu_pos,Europos Sąjungos teisingumo teismas palankesnis Komisijos veiksmams,favor_government
+q_cjeu_pos,Het Hof van Justitie van de Europese Unie heeft de neiging de voorkeur te geven aan acties van de Commissie,favor_government
+q_cjeu_pos,La Corte di giustizia dell'Unione europea tende a favorire azioni intraprese dalla Commissione europea,favor_government
+q_cjeu_pos,La Cour de justice de l'Union européenne à tendance à favoriser les mesures prises par la Commission,favor_government
+q_cjeu_pos,O Tribunal de Justiça da União Europeia tende a favorecer as ações tomadas pela Comissão,favor_government
+q_cjeu_pos,Sodišče Evropske unije običajno favorizira ukrepe Komisije,favor_government
+q_cjeu_pos,Soudní dvůr Evropské unie má tendenci podporovat úkony Evropské komise,favor_government
+q_cjeu_pos,Sud Europske unije je sklon aktivnostima koje poduzima Komisija,favor_government
+q_cjeu_pos,Súdny dvor Európskej únie má tendenciu uprednostňovať opatrenia prijaté Komisiou,favor_government
+q_cjeu_pos,The Court of Justice of the European Union tends to favor actions taken by the Commission,favor_government
+q_cjeu_pos,Το Δικαστήριο της Ευρωπαϊκής Ένωσης τείνει να ευνοεί ενέργειες της Επιτροπής,favor_government
+q_cjeu_pos,"Съдът на Европейския съюз е склонен да подкрепя действия, предприети от Комисията",favor_government
+q_cjeu_pos,"Az Európai Unió Bírósága hajlik rá, hogy védelmezze a szembenálló csoportokat",favor_opposition
+q_cjeu_pos,Curtea de Justiție a Uniunii Europene tinde să protejeze grupările de opoziție,favor_opposition
+q_cjeu_pos,"Der Gerichtshof der Europäischen Union schützt eher Gruppen, die gegen die Kommission sind",favor_opposition
+q_cjeu_pos,EU-Domstolen har tendens til at beskytte oppositionsgrupper,favor_opposition
+q_cjeu_pos,EU-domstolen har en tendens att skydda grupper som står i opposition,favor_opposition
+q_cjeu_pos,Eiropas Savienības Tiesa sliecas aizsargāt opozīcijā esošās grupas,favor_opposition
+q_cjeu_pos,El Tribunal de Justicia de la Unión Europea suele proteger a los grupos opuestos,favor_opposition
+q_cjeu_pos,Euroopa Liidu Kohus kaldub kaitsma sellele vastanduvaid rühmi,favor_opposition
+q_cjeu_pos,Euroopan unionin tuomioistuimella on taipumuksena suojella oppositioryhmiä,favor_opposition
+q_cjeu_pos,Europejski Trybunał Sprawiedliwości zwykle chroni przeciwną stronę,favor_opposition
+q_cjeu_pos,Europos Sąjungos teisingumo teismas linkęs apsaugoti opozicines grupes,favor_opposition
+q_cjeu_pos,Het Hof van Justitie van de Europese Unie heeft de neiging oppositiegroepen te beschermen,favor_opposition
+q_cjeu_pos,La Corte di Giustizia dell'Unione europea tende a proteggere gruppi contrapposti,favor_opposition
+q_cjeu_pos,La Cour de justice de l'Union européenne à tendance à protéger les groupes opposés,favor_opposition
+q_cjeu_pos,O Tribunal de Justiça da União Europeia tende a proteger os grupos opositores,favor_opposition
+q_cjeu_pos,"Sodišče Evropske komisije običajno ščiti skupine, ki nasprotujejo",favor_opposition
+q_cjeu_pos,"Soudní dvůr Evropské unie má tendenci hájit skupiny, které jsou v opozici",favor_opposition
+q_cjeu_pos,Sud Europske unije je sklon štititi suprotstavljene skupine,favor_opposition
+q_cjeu_pos,Súdny dvor Európskej únie má tendenciu chrániť protichodné skupiny,favor_opposition
+q_cjeu_pos,The Court of Justice of the European Union tends to protect opposing groups,favor_opposition
+q_cjeu_pos,Το Δικαστήριο της Ευρωπαϊκής Ένωσης τείνει να προστατεύει τις ομάδες που αντιτίθενται,favor_opposition
+q_cjeu_pos,Съдът на Европейския съюз е склонен да защитава опониращи  групи,favor_opposition
+q_cjeu_pos,Don't know,NA
+q_cjeu_pos,Ei tea,NA
+q_cjeu_pos,En tiedä,NA
+q_cjeu_pos,Ne Sait Pas,NA
+q_cjeu_pos,Ne vem,NA
+q_cjeu_pos,Ne znam,NA
+q_cjeu_pos,Nem Tudom,NA
+q_cjeu_pos,Neviem,NA
+q_cjeu_pos,Nevím,NA
+q_cjeu_pos,Nezinu,NA
+q_cjeu_pos,Nežinau,NA
+q_cjeu_pos,Nie wiem,NA
+q_cjeu_pos,No sé,NA
+q_cjeu_pos,Non so,NA
+q_cjeu_pos,Nu ştiu,NA
+q_cjeu_pos,Não sei,NA
+q_cjeu_pos,Ved ikke,NA
+q_cjeu_pos,Vet ej,NA
+q_cjeu_pos,Weet niet,NA
+q_cjeu_pos,Weiß nicht,NA
+q_cjeu_pos,δεν ξέρω,NA
+q_cjeu_pos,Не знам,NA
+q_cjeu_pos_fra,La Cour de justice de l'Union européenne à tendance à favoriser les mesures prises par la Commission,favor_government
+q_cjeu_pos_fra,La Cour de justice de l'Union européenne à tendance à protéger les groupes opposés,favor_opposition
+q_cjeu_pos_fra,Ne Sait Pas,NA
+q_court_pos,A Bíróság többnyire a kormány intézkedéseit támogatja,favor_government
+q_court_pos,Court tends to favor the government's actions,favor_government
+q_court_pos,Curtea tinde să favorizeze acțiunile guvernului,favor_government
+q_court_pos,Das Gericht neigt eher Maßnahmen der Regierung zu,favor_government
+q_court_pos,Das Gericht neigt eher den Maßnahmen der Regierung zu,favor_government
+q_court_pos,De Raad heeft de neiging om positief te staan ten aanzien van regeringsmaatregelen,favor_government
+q_court_pos,Domstolen tenderar att gynna regeringens åtgärder,favor_government
+q_court_pos,El Tribunal tiende a favorecer las acciones del gobierno,favor_government
+q_court_pos,Højesteret favoriserer regeringens handlinger,favor_government
+q_court_pos,Je ne sais pas,favor_government
+q_court_pos,Kohus kaldub eelistama valitsuse meetmeid,favor_government
+q_court_pos,La Cour a tendance à favoriser les mesures prises par le gouvernement,favor_government
+q_court_pos,La corte tende a favorire le misure del governo,favor_government
+q_court_pos,O tribunal tende a favorecer as ações do governo,favor_government
+q_court_pos,Sodišče se nagiba k podpiranju dejanj vlade.,favor_government
+q_court_pos,Soud má tendenci podporovat opoziční strany,favor_government
+q_court_pos,Soud má tendenci podporovat úkony vlády,favor_government
+q_court_pos,Sud je sklon aktivnostima vlade,favor_government
+q_court_pos,Súd sa zvykne prikloniť ku krokom vlády,favor_government
+q_court_pos,Teismas dažnai palankesnis valdžios veiksmams,favor_government
+q_court_pos,Tiesa parasti atbalsta valdības darbības,favor_government
+q_court_pos,Trybunał ma tendencję do faworyzowania działań rządu,favor_government
+q_court_pos,Valiokunnalla on taipumuksena suosia hallituksen toimia,favor_government
+q_court_pos,Το Δικαστήριο τείνει να ευνοεί τις ενέργειες της κυβέρνησης,favor_government
+q_court_pos,Съдът е склонен да благоприятства правителствените действия,favor_government
+q_court_pos,A Bíróság többnyire az ellenzéket támogatja,favor_opposition
+q_court_pos,Court tends to favor opposition groups,favor_opposition
+q_court_pos,Curtea tinde să favorizeze grupările de opoziție,favor_opposition
+q_court_pos,"Das Gericht neigt eher Gruppen zu, die der Regierung widersprechen",favor_opposition
+q_court_pos,De Raad heeft de neiging om positief te staan ten aanzien van oppositiegroepen,favor_opposition
+q_court_pos,Domstolen tenderar att gynna oppositionsgrupper,favor_opposition
+q_court_pos,El Tribunal tiende a favorecer a los grupos de la oposición,favor_opposition
+q_court_pos,Højesteret favoriserer oppositionsgrupper,favor_opposition
+q_court_pos,Kohus kaldub eelistama opositsioonis olevaid rühmi,favor_opposition
+q_court_pos,La Cour a tendance à favoriser les groupes opposés au gouvernement,favor_opposition
+q_court_pos,La corte tende a favorire gruppi di opposizione,favor_opposition
+q_court_pos,O tribunal tende a favorecer os grupos da oposição,favor_opposition
+q_court_pos,Sodišče se nagiba k podpiranju opozicijskih skupin.,favor_opposition
+q_court_pos,Sud je sklon oporbenim skupinama,favor_opposition
+q_court_pos,Súd sa zvykne prikloniť k opozičným skupinám,favor_opposition
+q_court_pos,Teismas dažnai palankesnis opozicinėms grupėms,favor_opposition
+q_court_pos,Tiesa parasti atbalsta valdības opozīcijā esošās grupas,favor_opposition
+q_court_pos,Trybunał ma tendencję do faworyzowania grup opozycyjnych,favor_opposition
+q_court_pos,Valiokunnalla on taipumuksena suosia oppositioryhmiä,favor_opposition
+q_court_pos,Το Δικαστήριο τείνει να ευνοεί αντίθετες ομάδες,favor_opposition
+q_court_pos,Съдът е склонен да благоприятства противопоставящи се групи,favor_opposition
+q_court_pos,Don't know,NA
+q_court_pos,Ei osaa sanoa,NA
+q_court_pos,Ei tea,NA
+q_court_pos,Ne vem,NA
+q_court_pos,Ne znam,NA
+q_court_pos,Nem tudom,NA
+q_court_pos,Neviem,NA
+q_court_pos,Nevím,NA
+q_court_pos,Nezinu,NA
+q_court_pos,Nežinau,NA
+q_court_pos,Nie wiem,NA
+q_court_pos,No lo sé,NA
+q_court_pos,Non so,NA
+q_court_pos,Nu știu,NA
+q_court_pos,Não sei,NA
+q_court_pos,Ved ikke,NA
+q_court_pos,Vet ej,NA
+q_court_pos,Weet niet,NA
+q_court_pos,Weiß nicht,NA
+q_court_pos,Δεν γνωρίζω,NA
+q_court_pos,Не знам,NA
+q_econ_eval_retro,Abbastanza migliorata,little_better
+q_econ_eval_retro,Egy kicsit jobb,little_better
+q_econ_eval_retro,Es un poco mejor,little_better
+q_econ_eval_retro,Este puţin mai bună,little_better
+q_econ_eval_retro,Etwas besser ist,little_better
+q_econ_eval_retro,Iets beter is,little_better
+q_econ_eval_retro,Is a little better,little_better
+q_econ_eval_retro,Jonkin verran parempi,little_better
+q_econ_eval_retro,Lidt bedre,little_better
+q_econ_eval_retro,Malo bolja,little_better
+q_econ_eval_retro,Nekoliko boljše,little_better
+q_econ_eval_retro,Något bättre,little_better
+q_econ_eval_retro,O něco lepší,little_better
+q_econ_eval_retro,Raczej się poprawiła,little_better
+q_econ_eval_retro,S’est un peu améliorée,little_better
+q_econ_eval_retro,Trochu zlepšila,little_better
+q_econ_eval_retro,Um pouco melhor,little_better
+q_econ_eval_retro,pisut paremaks,little_better
+q_econ_eval_retro,Šiek tiek geresnė,little_better
+q_econ_eval_retro,Είναι λίγο καλύτερη,little_better
+q_econ_eval_retro,Е малко по-добра,little_better
+q_econ_eval_retro,A un peu empiré,little_worse
+q_econ_eval_retro,Abbastanza peggiorata,little_worse
+q_econ_eval_retro,Egy kicsit rosszabb,little_worse
+q_econ_eval_retro,Es un poco peor,little_worse
+q_econ_eval_retro,Este puţin mai proastă,little_worse
+q_econ_eval_retro,Etwas schlechter ist,little_worse
+q_econ_eval_retro,Iets slechter is,little_worse
+q_econ_eval_retro,Is a little worse,little_worse
+q_econ_eval_retro,Lidt værre,little_worse
+q_econ_eval_retro,Lite sämre,little_worse
+q_econ_eval_retro,Malo lošija,little_worse
+q_econ_eval_retro,Nekoliko slabše,little_worse
+q_econ_eval_retro,O něco horší,little_worse
+q_econ_eval_retro,Raczej się pogorszyła,little_worse
+q_econ_eval_retro,Trochu zhoršila,little_worse
+q_econ_eval_retro,Um pouco pior,little_worse
+q_econ_eval_retro,Vähän huonompi,little_worse
+q_econ_eval_retro,natuke halvemaks,little_worse
+q_econ_eval_retro,Šiek tiek blogesnė,little_worse
+q_econ_eval_retro,Είναι λίγο χειρότερη,little_worse
+q_econ_eval_retro,Е малко по-лоша,little_worse
+q_econ_eval_retro,Dosti boljše,much_better
+q_econ_eval_retro,Es mucho mejor,much_better
+q_econ_eval_retro,Este mult mai bună,much_better
+q_econ_eval_retro,Is a lot better,much_better
+q_econ_eval_retro,Meget bedre,much_better
+q_econ_eval_retro,Mnohem lepší,much_better
+q_econ_eval_retro,Molto migliorata,much_better
+q_econ_eval_retro,Muito melhor,much_better
+q_econ_eval_retro,Mycket bättre,much_better
+q_econ_eval_retro,Paljon parempi,much_better
+q_econ_eval_retro,Puno bolja,much_better
+q_econ_eval_retro,Sokkal jobb,much_better
+q_econ_eval_retro,S’est beaucoup améliorée,much_better
+q_econ_eval_retro,Veel beter is,much_better
+q_econ_eval_retro,Výrazne zlepšila,much_better
+q_econ_eval_retro,Wesentlich besser ist,much_better
+q_econ_eval_retro,Zdecydowanie się poprawiła,much_better
+q_econ_eval_retro,daudz labāka,much_better
+q_econ_eval_retro,nedaudz labāka,much_better
+q_econ_eval_retro,palju paremaks,much_better
+q_econ_eval_retro,Žymiai geresnė,much_better
+q_econ_eval_retro,Είναι πολύ καλύτερη,much_better
+q_econ_eval_retro,Е много по-добра,much_better
+q_econ_eval_retro,A beaucoup empiré,much_worse
+q_econ_eval_retro,Dosti slabše,much_worse
+q_econ_eval_retro,Es mucho peor,much_worse
+q_econ_eval_retro,Este mult mai proastă,much_worse
+q_econ_eval_retro,Is a lot worse,much_worse
+q_econ_eval_retro,Meget værre,much_worse
+q_econ_eval_retro,Mnohem horší,much_worse
+q_econ_eval_retro,Molto peggiorata,much_worse
+q_econ_eval_retro,Muito pior,much_worse
+q_econ_eval_retro,Mycket sämre,much_worse
+q_econ_eval_retro,Paljon huonompi,much_worse
+q_econ_eval_retro,Puno lošija,much_worse
+q_econ_eval_retro,Sokkal rosszabb,much_worse
+q_econ_eval_retro,Veel slechter is,much_worse
+q_econ_eval_retro,Výrazne zhoršila,much_worse
+q_econ_eval_retro,Wesentlich schlechter ist,much_worse
+q_econ_eval_retro,Zdecydowanie się pogorszyła,much_worse
+q_econ_eval_retro,daudz sliktāka,much_worse
+q_econ_eval_retro,nedaudz sliktāka,much_worse
+q_econ_eval_retro,palju halvemaks,much_worse
+q_econ_eval_retro,Žymiai blogesnė,much_worse
+q_econ_eval_retro,Είναι πολύ χειρότερη,much_worse
+q_econ_eval_retro,Е много по-лоша,much_worse
+q_econ_eval_retro,A rămas la fel,same
+q_econ_eval_retro,Det samme,same
+q_econ_eval_retro,Detsamma,same
+q_econ_eval_retro,Enako,same
+q_econ_eval_retro,Ennallaan,same
+q_econ_eval_retro,Est restée la même,same
+q_econ_eval_retro,Gleich geblieben ist,same
+q_econ_eval_retro,Ha permanecido igual,same
+q_econ_eval_retro,Has stayed the same,same
+q_econ_eval_retro,Hetzelfde is gebleven,same
+q_econ_eval_retro,Igual,same
+q_econ_eval_retro,Išliko tokia pati,same
+q_econ_eval_retro,Nie zmieniła się,same
+q_econ_eval_retro,Ostala nepromijenjena,same
+q_econ_eval_retro,Rimasta uguale,same
+q_econ_eval_retro,Ugyanolyan maradt,same
+q_econ_eval_retro,Zostala rovnaká,same
+q_econ_eval_retro,Zůstala stejná,same
+q_econ_eval_retro,jäänud samaks,same
+q_econ_eval_retro,palikusi tāda pati,same
+q_econ_eval_retro,Παρέμεινε η ίδια,same
+q_econ_eval_retro,Останала е същата,same
+q_eu_trust_val,Completely distrust,completely_distrust
+q_eu_trust_val,Desconfía por completo,completely_distrust
+q_eu_trust_val,Egyáltalán nem bízom benne,completely_distrust
+q_eu_trust_val,Ei usalda üldse,completely_distrust
+q_eu_trust_val,Epäilen täysin,completely_distrust
+q_eu_trust_val,Je ne lui fais pas du tout confiance,completely_distrust
+q_eu_trust_val,Meget mistillid,completely_distrust
+q_eu_trust_val,Misstraue vollkommen,completely_distrust
+q_eu_trust_val,Naprosto nedůvěřuji,completely_distrust
+q_eu_trust_val,Neîncredere totală,completely_distrust
+q_eu_trust_val,Não confio de todo,completely_distrust
+q_eu_trust_val,Pilnībā neuzticos,completely_distrust
+q_eu_trust_val,Visiškai nepasitikiu,completely_distrust
+q_eu_trust_val,Volledig wantrouwen,completely_distrust
+q_eu_trust_val,Vôbec tomu nedôverujem,completely_distrust
+q_eu_trust_val,Zupełnie jej nie ufam,completely_distrust
+q_eu_trust_val,Δεν την εμπιστεύομαι καθόλου,completely_distrust
+q_eu_trust_val,Изобщо нямам доверие,completely_distrust
+q_eu_trust_val,Completely trust,completely_trust
+q_eu_trust_val,Confio totalmente,completely_trust
+q_eu_trust_val,Confía por completo,completely_trust
+q_eu_trust_val,Del tutto fiducioso/a,completely_trust
+q_eu_trust_val,Fuld tillid,completely_trust
+q_eu_trust_val,Je lui fais totalement confiance,completely_trust
+q_eu_trust_val,Litar inte alls på,completely_trust
+q_eu_trust_val,Luotan täysin,completely_trust
+q_eu_trust_val,Meget tillid,completely_trust
+q_eu_trust_val,Naprosto důvěřuji,completely_trust
+q_eu_trust_val,Nikakor ne zaupam,completely_trust
+q_eu_trust_val,Pilnībā uzticos,completely_trust
+q_eu_trust_val,Povsem zaupam,completely_trust
+q_eu_trust_val,Slet ingen tillid,completely_trust
+q_eu_trust_val,Teljesen bízom benne,completely_trust
+q_eu_trust_val,Usaldan täiesti,completely_trust
+q_eu_trust_val,Vertraue vollkommen,completely_trust
+q_eu_trust_val,Visiškai pasitikiu,completely_trust
+q_eu_trust_val,Volledig vertrouwen,completely_trust
+q_eu_trust_val,W pełni jej ufam,completely_trust
+q_eu_trust_val,Încredere totală,completely_trust
+q_eu_trust_val,Úplne tomu dôverujem,completely_trust
+q_eu_trust_val,Την εμπιστεύομαι απόλυτα,completely_trust
+q_eu_trust_val,Напълно имам доверие,completely_trust
+q_eu_trust_val,Abbastanza sfiduciato/a,distrust
+q_eu_trust_val,Completamente sfiduciato/a,distrust
+q_eu_trust_val,Desconfía,distrust
+q_eu_trust_val,Distrust,distrust
+q_eu_trust_val,Ei usalda,distrust
+q_eu_trust_val,Epäilen,distrust
+q_eu_trust_val,Litar inte på,distrust
+q_eu_trust_val,Misstraue,distrust
+q_eu_trust_val,Ne zaupam,distrust
+q_eu_trust_val,Nedôverujem tomu,distrust
+q_eu_trust_val,Nedůvěřuji,distrust
+q_eu_trust_val,Nem bízom benne,distrust
+q_eu_trust_val,Nem confio nem desconfio,distrust
+q_eu_trust_val,Nemam povjerenja,distrust
+q_eu_trust_val,Nepasitikiu,distrust
+q_eu_trust_val,Neuzticos,distrust
+q_eu_trust_val,Neîncredere,distrust
+q_eu_trust_val,Nie ufam jej,distrust
+q_eu_trust_val,Não confio,distrust
+q_eu_trust_val,Não confio muito,distrust
+q_eu_trust_val,Sfiduciato/a,distrust
+q_eu_trust_val,Uopće nemam povjerenja,distrust
+q_eu_trust_val,Wantrouwen,distrust
+q_eu_trust_val,Δεν την εμπιστεύομαι,distrust
+q_eu_trust_val,Нямам доверие,distrust
+q_eu_trust_val,Ei usalda ega umbusalda,neither
+q_eu_trust_val,En luota enkä epäile,neither
+q_eu_trust_val,Hverken mistillid eller tillid,neither
+q_eu_trust_val,"Je ne lui fais ni confiance, ni pas confiance",neither
+q_eu_trust_val,"Nedz neuzticos, nedz uzticos",neither
+q_eu_trust_val,"Nei nepasitikiu, nei pasitikiu",neither
+q_eu_trust_val,Neither distrust nor trust,neither
+q_eu_trust_val,Ni confía ni desconfía,neither
+q_eu_trust_val,"Nici neîncredere, nici încredere",neither
+q_eu_trust_val,Niti imam niti nemam povjerenja,neither
+q_eu_trust_val,Niti zaupam niti ne zaupam,neither
+q_eu_trust_val,"Noch wantrouwen, noch vertrouwen",neither
+q_eu_trust_val,Né l’uno né l’altro,neither
+q_eu_trust_val,"Se nem bízom benne, se nem kételkedek benne",neither
+q_eu_trust_val,Varken litar eller inte litar på,neither
+q_eu_trust_val,Weder vertraue noch misstraue ich,neither
+q_eu_trust_val,Ούτε δεν την εμπιστεύομαι ούτε την εμπιστεύομαι,neither
+q_eu_trust_val,"Нито нямам доверие, нито имам доверие",neither
+q_eu_trust_val,Desconfía algo,somewhat_distrust
+q_eu_trust_val,Djelomično nemam povjerenja,somewhat_distrust
+q_eu_trust_val,Do určitej miery tomu nedôverujem,somewhat_distrust
+q_eu_trust_val,Enigszins wantrouwen,somewhat_distrust
+q_eu_trust_val,Epäilen jossain määrin,somewhat_distrust
+q_eu_trust_val,Inkább nem bízom benne,somewhat_distrust
+q_eu_trust_val,Je ne lui fais pas vraiment confiance,somewhat_distrust
+q_eu_trust_val,Je ne lui fais plutôt pas confiance,somewhat_distrust
+q_eu_trust_val,Litar inte på i viss utsträckning,somewhat_distrust
+q_eu_trust_val,Misstraue eher,somewhat_distrust
+q_eu_trust_val,Mõneti ei usalda,somewhat_distrust
+q_eu_trust_val,Neîncredere parțială,somewhat_distrust
+q_eu_trust_val,Nogen mistillid,somewhat_distrust
+q_eu_trust_val,Somewhat distrust,somewhat_distrust
+q_eu_trust_val,Spíše nedůvěřuji,somewhat_distrust
+q_eu_trust_val,Veikiau nepasitikiu,somewhat_distrust
+q_eu_trust_val,Zināmā mērā neuzticos,somewhat_distrust
+q_eu_trust_val,Δεν την εμπιστεύομαι σε κάποιο βαθμό,somewhat_distrust
+q_eu_trust_val,Донякъде нямам доверие,somewhat_distrust
+q_eu_trust_val,Confio um pouco,somewhat_trust
+q_eu_trust_val,Confía algo,somewhat_trust
+q_eu_trust_val,Częściowo jej ufam,somewhat_trust
+q_eu_trust_val,Delno ne zaupam,somewhat_trust
+q_eu_trust_val,Delno zaupam,somewhat_trust
+q_eu_trust_val,Djelomično imam povjerenja,somewhat_trust
+q_eu_trust_val,Do určitej miery tomu dôverujem,somewhat_trust
+q_eu_trust_val,Enigszins vertrouwen,somewhat_trust
+q_eu_trust_val,Inkább bízom benne,somewhat_trust
+q_eu_trust_val,Je lui fais un peu confiance,somewhat_trust
+q_eu_trust_val,Litar på i viss utsträckning,somewhat_trust
+q_eu_trust_val,Luotan jossain määrin,somewhat_trust
+q_eu_trust_val,Mõneti usaldan,somewhat_trust
+q_eu_trust_val,Nogen tillid,somewhat_trust
+q_eu_trust_val,Somewhat trust,somewhat_trust
+q_eu_trust_val,Spíše důvěřuji,somewhat_trust
+q_eu_trust_val,Veikiau pasitikiu,somewhat_trust
+q_eu_trust_val,Vertraue eher,somewhat_trust
+q_eu_trust_val,Zināmā mērā uzticos,somewhat_trust
+q_eu_trust_val,Încredere parțială,somewhat_trust
+q_eu_trust_val,Την εμπιστεύομαι σε κάποιο βαθμό,somewhat_trust
+q_eu_trust_val,Донякъде имам доверие,somewhat_trust
+q_eu_trust_val,Abbastanza fiducioso/a,trust
+q_eu_trust_val,Bízom benne,trust
+q_eu_trust_val,Confio,trust
+q_eu_trust_val,Confía,trust
+q_eu_trust_val,Dôverujem tomu,trust
+q_eu_trust_val,Důvěřuji,trust
+q_eu_trust_val,Fiducioso/a,trust
+q_eu_trust_val,Imam potpuno povjerenje,trust
+q_eu_trust_val,Imam povjerenja,trust
+q_eu_trust_val,Je lui fais confiance,trust
+q_eu_trust_val,Litar fullständigt på,trust
+q_eu_trust_val,Litar på,trust
+q_eu_trust_val,Luotan,trust
+q_eu_trust_val,Pasitikiu,trust
+q_eu_trust_val,Trust,trust
+q_eu_trust_val,Ufam jej,trust
+q_eu_trust_val,Usaldan,trust
+q_eu_trust_val,Uzticos,trust
+q_eu_trust_val,Vertraue,trust
+q_eu_trust_val,Vertrouwen,trust
+q_eu_trust_val,Zaupam,trust
+q_eu_trust_val,Încredere,trust
+q_eu_trust_val,Την εμπιστεύομαι,trust
+q_eu_trust_val,Имам доверие,trust
+q_eu_trust_val,Mam neutralny stosunek,NA
+q_eu_trust_val,Mám neutrální názor,NA
+q_eu_trust_val,Nemám na to názor,NA
+q_fin_strain,"Almost never, or never",almost_never
+q_fin_strain,Aproape niciodată/ Niciodată,almost_never
+q_fin_strain,Beveik niekada / niekada,almost_never
+q_fin_strain,Bijna nooit/nooit,almost_never
+q_fin_strain,Casi nunca / Nunca,almost_never
+q_fin_strain,Gandrīz nekad / nekad,almost_never
+q_fin_strain,Gotovo nikada /nikada,almost_never
+q_fin_strain,Nästan aldrig / Aldrig,almost_never
+q_fin_strain,Peaaegu mitte kunagi\ Mitte kunagi,almost_never
+q_fin_strain,Pratiquement jamais / Jamais,almost_never
+q_fin_strain,Quase nunca/nunca,almost_never
+q_fin_strain,Skoraj nikoli/Nikoli,almost_never
+q_fin_strain,Stort set aldrig/Aldrig,almost_never
+q_fin_strain,Szinte soha / Soha,almost_never
+q_fin_strain,Takmer nikdy/nikdy,almost_never
+q_fin_strain,Tuskin koskaan/ Ei koskaan,almost_never
+q_fin_strain,"Téměř nikdy/nikdy""",almost_never
+q_fin_strain,prawie nigdy \ nigdy,almost_never
+q_fin_strain,Σχεδόν ποτέ/ Ποτέ,almost_never
+q_fin_strain,Почти никога / никога,almost_never
+q_fin_strain,Af en toe,from_time_to_time
+q_fin_strain,De temps en temps,from_time_to_time
+q_fin_strain,De vez em quando,from_time_to_time
+q_fin_strain,Enamus ajast,from_time_to_time
+q_fin_strain,Enkelte gange,from_time_to_time
+q_fin_strain,From time to time,from_time_to_time
+q_fin_strain,Gelegentlich,from_time_to_time
+q_fin_strain,Ibland,from_time_to_time
+q_fin_strain,Jen někdy,from_time_to_time
+q_fin_strain,Kartais,from_time_to_time
+q_fin_strain,Nahezu nie/ nie,from_time_to_time
+q_fin_strain,Néha,from_time_to_time
+q_fin_strain,Ocasionalmente,from_time_to_time
+q_fin_strain,Ocazional,from_time_to_time
+q_fin_strain,Povremeno,from_time_to_time
+q_fin_strain,Praticamente mai/Mai,from_time_to_time
+q_fin_strain,Príležitostne,from_time_to_time
+q_fin_strain,Qualche volta,from_time_to_time
+q_fin_strain,Reizēm,from_time_to_time
+q_fin_strain,Satunnaisesti,from_time_to_time
+q_fin_strain,Vahetevahel,from_time_to_time
+q_fin_strain,Većinu vremena,from_time_to_time
+q_fin_strain,Včasih,from_time_to_time
+q_fin_strain,czasami,from_time_to_time
+q_fin_strain,Κατά καιρούς,from_time_to_time
+q_fin_strain,Понякога,from_time_to_time
+q_fin_strain,A maioria das vezes,most_of_time
+q_fin_strain,Az esetek többségében,most_of_time
+q_fin_strain,Dažniausiai,most_of_time
+q_fin_strain,De fleste måneder,most_of_time
+q_fin_strain,La maggior parte delle volte,most_of_time
+q_fin_strain,La mayor parte del tiempo,most_of_time
+q_fin_strain,La plupart du temps,most_of_time
+q_fin_strain,Lielāko daļu laika,most_of_time
+q_fin_strain,Meestal,most_of_time
+q_fin_strain,Meistens,most_of_time
+q_fin_strain,Most of the time,most_of_time
+q_fin_strain,Skoraj zmeraj,most_of_time
+q_fin_strain,Större delen av tiden,most_of_time
+q_fin_strain,Useimmiten,most_of_time
+q_fin_strain,Väčšinou,most_of_time
+q_fin_strain,Většinou,most_of_time
+q_fin_strain,zazwyczaj,most_of_time
+q_fin_strain,În cea mai mare parte a timpului,most_of_time
+q_fin_strain,Τις περισσότερες φορές,most_of_time
+q_fin_strain,Повечето пъти,most_of_time
+q_party_closeness,Abbastanza vicino,fairly_close
+q_party_closeness,Assez proche,fairly_close
+q_party_closeness,Bastante próximo,fairly_close
+q_party_closeness,Bastante próximo/a,fairly_close
+q_party_closeness,Destul de apropiat(ă),fairly_close
+q_party_closeness,Diezgan tuvs/-a,fairly_close
+q_party_closeness,Docela blízká,fairly_close
+q_party_closeness,Dosť blízko,fairly_close
+q_party_closeness,Elég közel,fairly_close
+q_party_closeness,Fairly close,fairly_close
+q_party_closeness,Foarte apropiat(ă),fairly_close
+q_party_closeness,Forholdsvis tæt,fairly_close
+q_party_closeness,Gana artimas (-a),fairly_close
+q_party_closeness,Ganska nära,fairly_close
+q_party_closeness,Melko läheiseksi,fairly_close
+q_party_closeness,Muito próximo,fairly_close
+q_party_closeness,Plus comme un sympatisant,fairly_close
+q_party_closeness,Precej blizu,fairly_close
+q_party_closeness,Priličnu bliskost,fairly_close
+q_party_closeness,Raczej mocno związany,fairly_close
+q_party_closeness,Sympatiserer med,fairly_close
+q_party_closeness,Tamelijk verbonden,fairly_close
+q_party_closeness,Ziemlich verbunden,fairly_close
+q_party_closeness,Üsna lähedane,fairly_close
+q_party_closeness,Αρκετά,fairly_close
+q_party_closeness,Сравнително близък/а,fairly_close
+q_party_closeness,Csupán szimpatizál,sympathiser
+q_party_closeness,Doar un simpatizant,sympathiser
+q_party_closeness,Endast en sympatör,sympathiser
+q_party_closeness,Le naklonjen(-a),sympathiser
+q_party_closeness,Len sympatizant,sympathiser
+q_party_closeness,Lihtsalt poolehoidja,sympathiser
+q_party_closeness,Lähinnä vain kannattaja,sympathiser
+q_party_closeness,Meramente simpatizante,sympathiser
+q_party_closeness,Merely a sympathiser,sympathiser
+q_party_closeness,Niezbyt mocno związany,sympathiser
+q_party_closeness,Nur Sympathisant,sympathiser
+q_party_closeness,Pouze sympatizant,sympathiser
+q_party_closeness,Samo simpatizer,sympathiser
+q_party_closeness,Simplemente es un/a simpatizante,sympathiser
+q_party_closeness,Slechts een sympathisant,sympathiser
+q_party_closeness,Tik prijaučiate,sympathiser
+q_party_closeness,Tikai simpatizēju,sympathiser
+q_party_closeness,Un semplice simpatizzante,sympathiser
+q_party_closeness,Απλώς το συμπαθώ,sympathiser
+q_party_closeness,Просто симпатизант,sympathiser
+q_party_closeness,Bardzo mocno związany,very_close
+q_party_closeness,Heel erg verbonden,very_close
+q_party_closeness,Hodně blízká,very_close
+q_party_closeness,Hyvin läheiseksi,very_close
+q_party_closeness,Labai artimas (-a),very_close
+q_party_closeness,Meget tæt,very_close
+q_party_closeness,Molto vicino,very_close
+q_party_closeness,Muy próximo/a,very_close
+q_party_closeness,Mycket nära,very_close
+q_party_closeness,Nagyon közel,very_close
+q_party_closeness,Sehr verbunden,very_close
+q_party_closeness,Très proche,very_close
+q_party_closeness,Veliku bliskost,very_close
+q_party_closeness,Very close,very_close
+q_party_closeness,Veľmi blízko,very_close
+q_party_closeness,Väga lähedane,very_close
+q_party_closeness,Zelo blizu,very_close
+q_party_closeness,Ļoti tuvs/-a,very_close
+q_party_closeness,Πολύ,very_close
+q_party_closeness,Много близък/а,very_close
+q_rural_urban,Cidade grande,large_city
+q_rural_urban,Dans une grande ville,large_city
+q_rural_urban,Dideliame mieste,large_city
+q_rural_urban,En liten eller medelstor stad,large_city
+q_rural_urban,En stor stad,large_city
+q_rural_urban,Gran ciudad,large_city
+q_rural_urban,In een grote stad,large_city
+q_rural_urban,In een kleine of middelgrote stad,large_city
+q_rural_urban,Large town,large_city
+q_rural_urban,Lille eller middelstor by,large_city
+q_rural_urban,Malom ili srednje velikom gradu,large_city
+q_rural_urban,Pienessä tai keskisuuressa kaupungissa,large_city
+q_rural_urban,Stor by,large_city
+q_rural_urban,Suures linnas,large_city
+q_rural_urban,Suuressa kaupungissa,large_city
+q_rural_urban,Una grande città,large_city
+q_rural_urban,V malém nebo středně velkém městě,large_city
+q_rural_urban,Ve velkém městě,large_city
+q_rural_urban,Velikom gradu,large_city
+q_rural_urban,einer Großstadt,large_city
+q_rural_urban,Голям град,large_city
+q_rural_urban,Dans une commune rurale,rural
+q_rural_urban,"Faluban, falusias településen él",rural
+q_rural_urban,Glesbygd eller by,rural
+q_rural_urban,"Kaimo vietovėje, vienkiemyje",rural
+q_rural_urban,La sat sau comună,rural
+q_rural_urban,Landdistrikt eller landsby,rural
+q_rural_urban,Laukos vai ciematā,rural
+q_rural_urban,Maa-asulas või külas,rural
+q_rural_urban,Maaseutualueella tai kylässä,rural
+q_rural_urban,Na podeželju ali na vasi,rural
+q_rural_urban,"Na venkově, na vesnici",rural
+q_rural_urban,Na vidieku alebo na dedine,rural
+q_rural_urban,Op het platteland of in een dorp,rural
+q_rural_urban,Rural area or village,rural
+q_rural_urban,Ruralnom području ili selu,rural
+q_rural_urban,Un villaggio o un'area rurale,rural
+q_rural_urban,Zona rural ou aldeia,rural
+q_rural_urban,Área rural o pueblo,rural
+q_rural_urban,Αγροτική περιοχή ή χωριό,rural
+q_rural_urban,Селски район или село,rural
+q_rural_urban,Cidade pequena ou média,small_med_town
+q_rural_urban,Ciudad pequeña o mediana,small_med_town
+q_rural_urban,Dans une ville petite ou moyenne,small_med_town
+q_rural_urban,Într-un oraş mare,small_med_town
+q_rural_urban,Într-un oraş mic sau mediu,small_med_town
+q_rural_urban,"Kis, esetleg közepes méretű városban",small_med_town
+q_rural_urban,Lielā pilsētā,small_med_town
+q_rural_urban,Mazā vai vidēji lielā pilsētā,small_med_town
+q_rural_urban,Mažame miestelyje ar vidutinio dydžio mieste,small_med_town
+q_rural_urban,Na obszarze wiejskim lub na wsi,small_med_town
+q_rural_urban,Nagyvárosban él,small_med_town
+q_rural_urban,Nevím,small_med_town
+q_rural_urban,Nu ştiu,small_med_town
+q_rural_urban,Small or middle sized town,small_med_town
+q_rural_urban,Una piccola o media cittadina,small_med_town
+q_rural_urban,V malom alebo v stredne veľkom meste,small_med_town
+q_rural_urban,V manjšem ali srednje velikem kraju,small_med_town
+q_rural_urban,V večjem mestu,small_med_town
+q_rural_urban,Väikses või keskmise suurusega linnas,small_med_town
+q_rural_urban,Vo veľkom meste,small_med_town
+q_rural_urban,W dużym mieście,small_med_town
+q_rural_urban,W średnim lub małym mieście,small_med_town
+q_rural_urban,einer kleinen oder mittelgroßen Stadt,small_med_town
+q_rural_urban,einer ländlichen Gegend oder Landgemeinde,small_med_town
+q_rural_urban,Μεγάλη πόλη,small_med_town
+q_rural_urban,Μικρού ή μεσαίου μεγέθους πόλη,small_med_town
+q_rural_urban,Малък или среден град,small_med_town
+q_rural_urban,Don't know,NA
+q_rural_urban,Ei tea,NA
+q_rural_urban,En tiedä,NA
+q_rural_urban,Ne sait pas,NA
+q_rural_urban,Ne vem,NA
+q_rural_urban,Ne zna,NA
+q_rural_urban,Ne znam,NA
+q_rural_urban,Nem tudom,NA
+q_rural_urban,Nežinau,NA
+q_rural_urban,Nie wiem,NA
+q_rural_urban,No sé,NA
+q_rural_urban,Non so,NA
+q_rural_urban,Não sei,NA
+q_rural_urban,Ved ikke,NA
+q_rural_urban,Vet ej,NA
+q_rural_urban,Weet niet,NA
+q_rural_urban,Weiß nicht,NA
+q_rural_urban,Не знам,NA
+q_vote_turnout_confirm,En ole äänestänyt,no
+q_vote_turnout_confirm,"Ne, nevolil/a jsem",no
+q_vote_turnout_confirm,"Nee, ik heb niet gestemd",no
+q_vote_turnout_confirm,"Nein, ich habe nicht abgestimmt.",no
+q_vote_turnout_confirm,"Nej, jeg har ikke stemt",no
+q_vote_turnout_confirm,"Nie, nie wziąłem/wzięłam udziału",no
+q_vote_turnout_confirm,"No, I have not voted",no
+q_vote_turnout_confirm,"No, no he votado",no
+q_vote_turnout_confirm,"Non, je n'ai pas voté",no
+q_vote_turnout_confirm,"Nu, nu am votat",no
+q_vote_turnout_confirm,"Όχι, δεν έχω ψηφίσε",no
+q_vote_turnout_confirm,"Ano, volil/a jsem",yes
+q_vote_turnout_confirm,"Da, am votat",yes
+q_vote_turnout_confirm,"Da, sem že glasoval/a",yes
+q_vote_turnout_confirm,"Ja, ich habe abgestimmt.",yes
+q_vote_turnout_confirm,"Ja, ik heb gestemd",yes
+q_vote_turnout_confirm,"Ja, jag har röstat",yes
+q_vote_turnout_confirm,"Ja, jeg har stemt",yes
+q_vote_turnout_confirm,"Jah, ma hääletasin",yes
+q_vote_turnout_confirm,"Jā, es nobalsoju",yes
+q_vote_turnout_confirm,"Kyllä, olen äänestänyt",yes
+q_vote_turnout_confirm,"Oui, j'ai voté",yes
+q_vote_turnout_confirm,"Sim, votei",yes
+q_vote_turnout_confirm,"Sì, ho votato",yes
+q_vote_turnout_confirm,"Sí, he votado",yes
+q_vote_turnout_confirm,"Taip, balsavau",yes
+q_vote_turnout_confirm,"Tak, wziąłem/wzięłam udział",yes
+q_vote_turnout_confirm,"Yes, I voted",yes
+q_vote_turnout_confirm,"Áno, voli(-a) som",yes
+q_vote_turnout_confirm,"Да, аз гласувах",yes
+q_vote_turnout_reason_fra,"J'avais envisagé de voter cette fois-ci, mais je ne l'ai pas fait",considered_not_voted
+q_vote_turnout_reason_fra,Je n'ai pas voté (lors de ces élections en mai),did_not_vote
+q_vote_turnout_reason_fra,Je n'avais pas le droit de vote,not_eligible
+q_vote_turnout_reason_fra,"Je vote en général, mais je ne l'ai pas fait cette fois-ci",usually_votes_not_this_time
+q_vote_turnout_reason_fra,Je suis certain(e) d'avoir voté,voted
