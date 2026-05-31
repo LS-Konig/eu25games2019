@@ -11990,7 +11990,8 @@ write_rds(
     "data",
     "03_final",
     "eu25games2019.rds"
-  )
+  ),
+  compress = "xz"  # best ratio; read_rds() decompresses transparently
 )
 ```
 
