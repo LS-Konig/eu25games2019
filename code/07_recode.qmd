@@ -10468,6 +10468,215 @@ df_stacked_recoded |>
 rm(cj_muslim_vec, cj_protestant_vec, cj_catholic_vec, cj_nonreli_vec)
 ```
 
+# Conjoint Profile Attributes {#sec-cj-attributes}
+
+The conjoint "player 2" profile carried four categorical attributes besides
+religion (`cj_*_rel`, done above): **sex**, **social class**, **nationality**
+and **EU-citizenship feeling** (`eupos`).
+Each was shown in the respondent's own language, so every level appears in up to
+25 translations; a few stray test strings (`"eeeeddddd"`, `"ddsafasffs"`,
+`"oojsdnd"`, `"scdsd"`) also occur and map to `NA`.
+
+Coding choices:
+
+- **sex** → `"male"` / `"female"`.
+- **class** → `"lower"` / `"middle"` / `"upper"`.
+- **eupos** (subjective EU identity of the profile) → `"eu_citizen"` /
+  `"not_eu_citizen"`.
+- **nat** (nationality of the profile) → three levels: `"own_country"` when a
+  specific member-state name is shown (national of the respondent's own
+  country), `"eu"` for a generic "EU national", `"non_eu"` for a non-EU national.
+
+The same vectors recode all six profile columns (`cj_dict{1,2,3}_*`,
+`cj_trust{1,2,3}_*`).
+
+```{r}
+#| label: value-labels-cj-attributes
+# some translations use non-breaking / unicode spaces (e.g. Latvian "2.<NBSP>"),
+# which str_squish() does not fold — normalise whitespace before matching
+cj_norm <- function(x) {
+  str_squish(gsub("\\p{Z}", " ", x, perl = TRUE))
+}
+
+# SEX --------------------------------------------------------------------------
+cj_female_vec <- c(
+  "Donna", "Female", "Femeie", "Feminino", "Femme", "Kobieta", "Kvinde",
+  "Kvinna", "Moteris", "Mujer", "Naine", "Nainen", "Nő", "sieviete",
+  "Sieviete", "Vrouw", "Weiblich", "žena", "Žena", "Ženski", "Žensko",
+  "Γυναίκα", "жена"
+)
+cj_male_vec <- c(
+  "Bărbat", "Férfi", "Hombre", "Homme", "Male", "Man", "Mand", "Männlich",
+  "Masculino", "Mees", "Mężczyzna", "Mies", "Moški", "Muško", "Muž", "Uomo",
+  "vīrietis", "Vīrietis", "Vyras", "Άνδρας", "мъж"
+)
+
+# SOCIAL CLASS -----------------------------------------------------------------
+cj_class_lower_vec <- c(
+  "alempi luokka", "Alsó társadalmi réteg", "Baixa", "Baja", "Basso",
+  "Clasă de jos", "Inférieure", "Lagere klasse", "lägre klass", "Lower Class",
+  "madalklass", "Niži sloj", "Nižji razred", "Nižší třída", "Nižšia trieda",
+  "Niższa", "Underklasse", "Untere Schicht", "Žemesnė klasė", "zemākais slānis",
+  "Zemākais slānis", "Κατώτερη τάξη", "нисша класа"
+)
+cj_class_middle_vec <- c(
+  "Clasă de mijloc", "keskiluokka", "keskklass", "Közép társadalmi réteg",
+  "medelklass", "Media", "Média", "Medio", "Middelklasse", "Middenklasse",
+  "Middle Class", "Mittelschicht", "Moyenne", "Srednji razred", "Srednji sloj",
+  "Stredná trieda", "Střední třída", "Średnia", "Vidurinė klasė",
+  "vidusslānis slānis", "Vidusslānis slānis", "Μεσαία τάξη", "средна класа"
+)
+cj_class_upper_vec <- c(
+  "Alta", "Alto", "augstākais slānis", "Augstākais slānis", "Aukštesnė klasė",
+  "Bovenklasse", "Clasă de sus", "Felső társadalmi réteg", "Gehobene Schicht",
+  "Horná trieda", "kõrgklass", "överklass", "Overklasse", "Supérieure",
+  "Upper Class", "Viši sloj", "Vyšší třída", "Wyższa", "yläluokka",
+  "Zgornji razred", "Ανώτερη τάξη", "висша класа"
+)
+
+# EU-CITIZENSHIP FEELING (eupos) -----------------------------------------------
+cj_eupos_yes_vec <- c(
+  "2-es játékos úgy érzi_ hogy ő EU-polgár",
+  "2. mängija tunneb_ et ta on ELi kodanik.",
+  "2. spēlētājam šķiet_ ka viņš/viņa ir ES pilsonis",
+  "2. spēlētājam šķiet_ ka viņš/viņa ir ES pilsonis(-e)",
+  "El jugador 2 siente que es ciudadano(a) de la UE",
+  "Gracz 2 uważa się za obywatela UE",
+  "Hráč 2 sa domnieva_ že on/ona je občanom EÚ",
+  "Hráč č. 2 má pocit_ že je občan/ka EU",
+  "Igrač 2 osjeća da je on/ona državljanin EU-a",
+  "Igralec 2 meni_ da je državljan EU",
+  "Il Giocatore 2 si sente cittadino/a europeo/a",
+  "O Jogador 2 sente que é um cidadão da UE",
+  "Jucătorul 2 consideră că este cetățean UE",
+  "Și Jucătorul 2 consideră că este cetățean UE",
+  "Le jouer 2 pense qu'il est un citoyen de l'UE",
+  "Pelaaja 2 tuntee itsensä EU-kansalaiseksi",
+  "Player 2 feels that he/she is a citizen of the EU",
+  "Spelare 2 känner att han/hon är medborgare i EU",
+  "Speler 2 heeft het gevoel dat hij/zij burger is van de EU",
+  "Spieler 2 sieht sich als europäischen Bürger/in",
+  "Spiller 2 føler sig som en EU-borger",
+  "Žaidėjas Nr. 2 mano_ kad jis yra ES pilietis",
+  "Ο Παίκτης 2 νιώθει ότι είναι πολίτης της ΕΕ",
+  "Играч 2 се чувства гражданин на ЕС"
+)
+cj_eupos_no_vec <- c(
+  "2-es játékos úgy érzi_ hogy ő nem EU-polgár",
+  "2. mängija tunneb_ et ta ei ole ELi kodanik.",
+  "2. spēlētājam šķiet_ ka viņš/viņa nav ES pilsonis",
+  "2. spēlētājam šķiet_ ka viņš/viņa nav ES pilsonis(-e)",
+  "El jugador 2 siente que no es ciudadano(a) de la UE",
+  "Gracz 2 nie uważa się za obywatela UE",
+  "Hráč 2 sa domnieva_ že on/ona nie je občanom EÚ",
+  "Hráč č. 2 má pocit_ že není občanem/občankou EU",
+  "Igrač 2 osjeća da on/ona nije državljanin EU-a",
+  "Igralec 2 meni_ da ni državljan EU",
+  "Il Giocatore 2 non si sente cittadino/a europeo/a",
+  "Jogador 2 sente que não é um cidadão da UE",
+  "Jucătorul 2 consideră că nu este cetățean UE",
+  "Și Jucătorul 2 consideră că nu este cetățean UE",
+  "Le jouer 2 pense qu'il n'est pas un citoyen de l'UE",
+  "Pelaajasta 2 tuntuu_ että hän ei ole EU-kansalainen",
+  "Player 2 feels that he/she is not a citizen of the EU",
+  "Spelare 2 känner att han/hon inte är medborgare i EU",
+  "Speler 2 heeft het gevoel dat hij/zij geen burger is van de EU",
+  "Spieler 2 sieht sich nicht als europäischen Bürger/in",
+  "Spiller 2 føler sig ikke som en EU-borger",
+  "Žaidėjas Nr. 2 mano_ kad jis nėra ES pilietis",
+  "Ο Παίκτης 2 αισθάνεται ότι δεν είναι πολίτης της ΕΕ",
+  "Играч 2 чувства_ че не е гражданин на ЕС"
+)
+
+# NATIONALITY (nat) ------------------------------------------------------------
+cj_nat_eu_vec <- c(
+  "É cidadão da UE", "Cittadino/a europeo/a", "Cetățean UE", "Državljan EU",
+  "Državljanin EU-a", "Een EU-nationaliteit", "Ein EU-Staatsangehöriger",
+  "ELi kodanik", "ES pilietis", "ES pilsonis(-e)", "EU-borger",
+  "EU-kansalainen", "EU-medborgare", "EU-national", "EU-polgár",
+  "nationalité européenne", "Nacional de un país perteneciente a la UE",
+  "Občan/ka členské země EU", "Obywatel(ka) państwa UE",
+  "Štátny príslušník EÚ", "Υπήκοος ΕΕ", "гражданин на ЕС"
+)
+cj_nat_noneu_vec <- c(
+  "Cetățean non-UE", "Cittadino/a extra UE", "Državljan države_ ki ni v EU",
+  "Een nationaliteit van buiten de EU", "ei EU-kansalainen",
+  "Ei ole ELi kodanik", "Ein Nicht-EU Staatsangehöriger", "icke-EU-medborgare",
+  "Ikke EU-borger", "Nacional de un país no perteneciente a la UE",
+  "Não é cidadão da UE", "nationalité non européenne", "Ne ES pilietis",
+  "Nem EU-polgár", "Nije državljanin EU-a", "non-EU national",
+  "Občan/ka nečlenské země EU", "Obywatel(ka) państwa spoza UE",
+  "Štátny príslušník štátu mimo EÚ",
+  "Trešās valsts pilsonis(-e) (nav ES pilsonis(-e))", "Υπήκοος εκτός ΕΕ",
+  "не е гражданин на ЕС"
+)
+# specific member-state names shown = national of respondent's own country
+cj_nat_owncountry_vec <- c(
+  "België", "Belgique", "Česká republika", "Danmark", "Deutschland", "Eesti",
+  "España", "France", "Hrvatska", "Ireland", "Italia", "Latvija", "Lietuva",
+  "Magyarország", "Nederland", "Österreich", "Polska", "Portugal", "România",
+  "Slovenija", "Slovensko", "Suomi", "Sverige", "United Kingdom", "Ελλάδα",
+  "България"
+)
+```
+
+```{r}
+#| label: recode-cj-attributes
+cj_profile_slots <- c(
+  "cj_dict1", "cj_dict2", "cj_dict3", "cj_trust1", "cj_trust2", "cj_trust3"
+)
+
+for (slot in cj_profile_slots) {
+  sex_raw <- paste0(slot, "_sex_raw")
+  cls_raw <- paste0(slot, "_class_raw")
+  eup_raw <- paste0(slot, "_eupos_raw")
+  nat_raw <- paste0(slot, "_nat_raw")
+  df_stacked_recoded <- df_stacked_recoded |>
+    mutate(
+      "{slot}_sex" := case_when(
+        cj_norm(.data[[sex_raw]]) %in% cj_norm(cj_female_vec) ~ "female",
+        cj_norm(.data[[sex_raw]]) %in% cj_norm(cj_male_vec) ~ "male",
+        .default = NA_character_
+      ),
+      "{slot}_class" := case_when(
+        cj_norm(.data[[cls_raw]]) %in% cj_norm(cj_class_lower_vec) ~ "lower",
+        cj_norm(.data[[cls_raw]]) %in% cj_norm(cj_class_middle_vec) ~ "middle",
+        cj_norm(.data[[cls_raw]]) %in% cj_norm(cj_class_upper_vec) ~ "upper",
+        .default = NA_character_
+      ),
+      "{slot}_eupos" := case_when(
+        cj_norm(.data[[eup_raw]]) %in% cj_norm(cj_eupos_yes_vec) ~ "eu_citizen",
+        cj_norm(.data[[eup_raw]]) %in% cj_norm(cj_eupos_no_vec) ~ "not_eu_citizen",
+        .default = NA_character_
+      ),
+      "{slot}_nat" := case_when(
+        cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_owncountry_vec) ~ "own_country",
+        cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_eu_vec) ~ "eu",
+        cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_noneu_vec) ~ "non_eu",
+        .default = NA_character_
+      )
+    )
+}
+```
+
+```{r}
+#| label: validate-cj-attributes
+# any non-empty raw value left uncoded should only be the stray test strings
+cj_attr_raws <- as.vector(outer(
+  cj_profile_slots, c("_sex_raw", "_class_raw", "_eupos_raw", "_nat_raw"),
+  paste0
+))
+map(cj_attr_raws, function(v) {
+  coded <- str_remove(v, "_raw")
+  df_stacked_recoded |>
+    filter(!is.na(.data[[v]]) & .data[[v]] != "" & is.na(.data[[coded]])) |>
+    distinct(.data[[v]])
+}) |>
+  list_rbind() |>
+  rename(uncoded_raw = 1) |>
+  distinct()
+```
+
 # Remaining Numbered Scales {#sec-remaining-scales}
 
 The remaining ordinal scale items all share the same Qualtrics value format: the
@@ -10651,6 +10860,338 @@ map2(all_scale_vars, ranges, function(v, hi) {
   list_rbind() |>
   rename(dropped_raw = 1) |>
   count(dropped_raw, sort = TRUE)
+```
+
+# Remaining Categorical Items {#sec-remaining-categorical}
+
+Three further item families reuse existing recode schemes:
+
+- **News-source frequency** (`q_news_newspaper/radio/social/internet/personal/other`)
+  — same days-per-week (0–7) scheme as `q_news_tv_days`; reuses its `days_*` vectors.
+- **EU knowledge, France fork** (`q_eu_know_*_fra`) — True / False / Don't Know
+  factor, matching `q_eu_know_1`–`5` (French-only labels).
+- **EU-impact, France fork** (`q_eu_imp_nat_{econ,cul,pol}_fra`) — reuses the
+  `very_positive_vec` … `very_negative_vec` vectors (1 = very positive …
+  5 = very negative), matching the base EU-impact items.
+
+```{r}
+#| label: recode-news-sources
+news_source_vars <- c(
+  "q_news_newspaper_raw", "q_news_radio_raw", "q_news_social_raw",
+  "q_news_internet_raw", "q_news_personal_raw", "q_news_other_raw"
+)
+news_days_code <- function(x) {
+  case_when(
+    x %in% less_than_1_day_vec ~ 0L,
+    x %in% days_1_vec ~ 1L,
+    x %in% days_2_vec ~ 2L,
+    x %in% days_3_vec ~ 3L,
+    x %in% days_4_vec ~ 4L,
+    x %in% days_5_vec ~ 5L,
+    x %in% days_6_vec ~ 6L,
+    x %in% days_7_vec ~ 7L,
+    .default = NA_integer_
+  )
+}
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(across(
+    all_of(news_source_vars), news_days_code,
+    .names = "{str_remove(.col, '_raw')}"
+  ))
+```
+
+```{r}
+#| label: recode-eu-know-fra
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(across(
+    all_of(paste0("q_eu_know_", 1:5, "_fra_raw")),
+    ~ factor(
+      case_when(
+        .x == "Vraie" ~ 1L,
+        .x == "Fausse" ~ 2L,
+        .x == "Ne Sait Pas" ~ 3L,
+        .default = NA_integer_
+      ),
+      levels = 1:3, labels = c("True", "False", "Don't Know")
+    ),
+    .names = "{str_remove(.col, '_raw')}"
+  ))
+```
+
+```{r}
+#| label: recode-eu-imp-fra
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(across(
+    all_of(c(
+      "q_eu_imp_nat_econ_fra_raw", "q_eu_imp_nat_cul_fra_raw",
+      "q_eu_imp_nat_pol_fra_raw"
+    )),
+    ~ case_when(
+      .x %in% very_positive_vec ~ 1L,
+      .x %in% rather_positive_vec ~ 2L,
+      .x %in% neither_pos_not_negative_vec ~ 3L,
+      .x %in% rather_negative_vec ~ 4L,
+      .x %in% very_negative_vec ~ 5L,
+      .default = NA_integer_
+    ),
+    .names = "{str_remove(.col, '_raw')}"
+  ))
+```
+
+```{r}
+#| label: validate-remaining-categorical
+walk(
+  c(
+    news_source_vars, paste0("q_eu_know_", 1:5, "_fra_raw"),
+    "q_eu_imp_nat_econ_fra_raw", "q_eu_imp_nat_cul_fra_raw",
+    "q_eu_imp_nat_pol_fra_raw"
+  ),
+  function(v) {
+    coded <- str_remove(v, "_raw")
+    leftover <- df_stacked_recoded |>
+      filter(!is.na(.data[[v]]) & .data[[v]] != "" & is.na(.data[[coded]])) |>
+      distinct(.data[[v]])
+    if (nrow(leftover) > 0) {
+      cat("\n--- uncoded:", v, "---\n")
+      print(leftover, n = 20)
+    }
+  }
+)
+```
+
+# Remaining Multilingual Ordinals {#sec-remaining-ordinals}
+
+These items carry **no embedded numeric code** — they are free-text response
+labels in up to 25 languages.
+They are coded with keyword classifiers (one ordered/nominal level per response
+option), to descriptive character labels (kept as strings so the levels are
+self-documenting; convert to ordered factors downstream as needed).
+Don't-know / can't-say options map to `NA`.
+
+Confidence:
+
+- **High** (clean morphological discriminators): `q_court_pos`, `q_cjeu_pos`,
+  `q_cjeu_pos_fra` (favours government vs opposition), `q_vote_turnout_confirm`
+  (voted yes/no), `q_rural_urban` (rural / small-or-medium town / large city),
+  `q_econ_eval_retro` (much/little better–worse, same), `q_party_closeness`
+  (very close / fairly close / sympathiser), `q_fin_strain` (most of the time /
+  from time to time / almost never), `q_vote_turnout_reason_fra`.
+- **Best-effort — verify** (rely on negation parsing across languages):
+  `q_approval_natgov`, `q_approval_eu` (approve … disapprove), `q_eu_trust_val`
+  (completely trust … completely distrust). Every raw → code assignment is
+  written to `data/03_final/ordinal_recode_check.csv` for auditing.
+
+`q_vote_turnout_likelihood` is **left raw-only** on purpose: it mixes
+prospective likelihood with retrospective turnout into ~10 categories whose
+level structure is a substantive design decision.
+
+```{r}
+#| label: value-labels-remaining-ordinals
+ci_ord <- function(x, p) str_detect(x, regex(p, ignore_case = TRUE))
+dk_ord <- "don't know|dont know|ne sait pas|ne Sait Pas|weiß nicht|weiß es nicht|weet niet|^non so$|no l?o? ?s[ée]$|^no s[ée]$|n[aã]o sei|nu ?ști|nu ?şti|nie wiem|nem tudom|^nev[íi]m$|^neviem$|nežinau|nezinu|^ei tea$|ei osaa|en tiedä|ved ikke|vet ej|δεν γνωρ|δεν ξέρω|не знам|^ne vem$|^ne zna$|^ne znam$|nemám názor|nemám na to|neutr"
+
+ord_court <- function(x) {
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "oppos|opozic|oposi|opposi|opposé|widerspr|contrappos|protichod|protich|vastandu|αντίθ|против|przeciwn|suprotstav|szembenáll|ellenzék|opozīcijā|grup|skupin|rühm|ryhm|ομάδ|групи|csoport|grupos|nasprotuj|sellele|opponer") ~ "favor_opposition",
+    .default = "favor_government"
+  )
+}
+ord_confirm <- function(x) {
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, "^n[eo]|^nu,|nicht|nevoli|nie wzi|niet gestemd|ikke|ole ääne|δεν") ~ "no",
+    .default = "yes"
+  )
+}
+ord_rural <- function(x) {
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "rural|village|ländlich|platteland|dorp|landdistrikt|landsby|glesbygd|aldeia|pueblo|sat sau|venkov|vesnic|vidiek|dedin|podeželj|vasi|kaimo|laukos|ciematā|maa-asulas|külas|maaseutu|kylä|αγροτ|χωριό|селски|село|falu") ~ "rural",
+    ci_ord(x, "grande ville|grande citt|großstadt|grote stad|stor stad|stor by|gran ciudad|cidade grande|oraş mare|oras mare|veľk|velk|večj|nagyvár|suures|suuress|liel[āa] pils|didel|μεγάλη|голям град|stort|large town|velikom grad|dużym") ~ "large_city",
+    .default = "small_med_town"
+  )
+}
+ord_econ <- function(x) {
+  same <- ci_ord(x, "same|rămas la fel|det samme|detsamma|^enako|ennallaan|^igual|permanecido igual|restée la même|gleich gebl|hetzelfde|išliko tokia|jäänud samaks|nie zmieni|rimasta uguale|ugyanolyan|zůstala stejná|zostala rovn|nepromij|palikusi tāda|παρέμεινε|останала е същата")
+  worse <- ci_ord(x, "worse|peor|pior|schlechter|slechter|sämre|værre|huonompi|blogesnė|sliktāk|rosszabb|hor[šs]í|zhorš|pogorsz|slabš|halvemaks|χειρότερη|по-лоша|peggiorata|lošij|proastă|empiré")
+  better <- ci_ord(x, "better|mejor|melhor|besser|beter|bättre|bedre|parempi|geresnė|labāk|jobb|lep[šs]í|zlepš|popraw|poprav|bolj|paremaks|καλύτερη|по-добра|migliorata|bună|améliorée")
+  much <- ci_ord(x, "mucho|muito|beaucoup|wesentlich|veel|mycket|meget|paljon|žymiai|daudz|sokkal|mnohem|výrazne|zdecydowanie|dosti|palju|πολύ|много|molto|puno|mult mai|lot |viel")
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    same ~ "same",
+    better ~ if_else(much, "much_better", "little_better"),
+    worse ~ if_else(much, "much_worse", "little_worse"),
+    .default = NA_character_
+  )
+}
+ord_close <- function(x) {
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "sympath|simpat|szimpat|kannattaja|poolehoidja|simpatizer|naklonjen|συμπ|симпатизант|prijauč|merely|^len |^nur |pouze|doar un|^samo |slechts|endast|lähinnä vain|tikai simpat|csupán|niezbyt mocno|просто симп") ~ "sympathiser",
+    ci_ord(x, "very close|molto vicino|muy próximo|très proche|sehr verbunden|heel erg|mycket nära|meget tæt|hyvin lähei|labai artim|ļoti tuvs|nagyon közel|veľmi blízko|zelo blizu|väga lähed|^πολύ|много близък|bardzo mocno|hodně|veliku|veľmi") ~ "very_close",
+    .default = "fairly_close"
+  )
+}
+ord_fin <- function(x) {
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "most of the time|la plupart|la mayor parte|la maggior parte|meistens|meestal|useimmiten|större delen|de fleste|większ|většinou|väčšinou|večinu|dažniaus|lielāko daļu|τις περισσότερες|повечето|în cea mai mare|skoraj zmeraj|a maioria|az esetek több|zazwyczaj") ~ "most_of_time",
+    ci_ord(x, "almost never|never|nikdy|nigdy|aldrig|nunca|niemals|nooit|niekada|nekad|^soha|никога|ποτέ|niciodată|jamais|mitte kunagi|koskaan|nikoli|nikada|szinte soha") ~ "almost_never",
+    .default = "from_time_to_time"
+  )
+}
+# best-effort (negation-based) — verify against ordinal_recode_check.csv
+ord_approval <- function(x) {
+  tend <- ci_ord(x, "tend|eher|raczej|sk[ôo]r|spíše|pigem|forholdsvis|jobbára|sliec|veikiau|τείνω|склонен|grotendeels|uglavnom|vecinoma|jossain määrin|till viss del|tendance|tind să|tendo a|tiendo a")
+  disappr <- ci_ord(x, "disappr|desappr|desapr|dezapr|n'approuve|nem ért egyet|nie popieram|ne odobr|ne slaž|neatbalst|nepritar|nesch|nesúhlas|^oneens|uenig|unzufrieden|förkast|hylkä|^ei poolda|μην εγκ|δεν εγκ|не одобр|disapprovo|^ne ")
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "neither|ni .*ni |ani .*ani|nei .*nei|nedz .*nedz|niti .*niti|nem ért.*nem|no eens, noch|weder|varken|hverken|ούτε .*ούτε|нито .*нито|indiferent|semleges|ega ole vastu|etkö") ~ "neither",
+    .default = paste0(if_else(tend, "tend_", ""), if_else(disappr, "disapprove", "approve"))
+  )
+}
+ord_trust <- function(x) {
+  comp <- ci_ord(x, "completely|por completo|totalmente|totale|totalno|del tutto|fuld|täysin|täiesti|vollkommen|volledig|naprosto|úplne|w pełni|zupełnie|pilnībā|visiškai|απόλυτα|καθόλου|напълно|изобщо|slet ingen|^meget|povsem|nikakor|egyáltalán|teljesen|vôbec|de todo|pas du tout|inte alls|totală|üldse")
+  some <- ci_ord(x, "somewhat|algo|um pouco|un peu|enigszins|jossain määrin|inkább|určitej miery|delno|djelomično|częściowo|zināmā mērā|κάποιο βαθμό|донякъде|i viss|nogen|mõneti|parțial|spíše|eher|vraiment|plutôt|veikiau|zināmā")
+  distrust <- ci_ord(x, "distrust|sfiduc|desconf|wantrouw|misstrau|mistillid|nedôver|nedůvěř|nepasitik|neuztic|nem bíz|nie ufam|^ne zaupam|neîncredere|nemam povjer|nincs|epäile|ei usalda|não confio|δεν.*εμπιστ|нямам доверие|umbusalda|nedz neuztic|inte på|lui fais pas|lui fais plutôt pas|kételk")
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, dk_ord) ~ NA_character_,
+    ci_ord(x, "neither|né l|ni confía ni|ni .*ni |noch .*noch|weder.*noch|hverken|varken|nei .*nei|nedz .*nedz|niti .*niti|nici .*nici|ούτε.*ούτε|нито.*нито|se nem.*se nem|en luota enkä|ei usalda ega|neutral") ~ "neither",
+    .default = paste0(if_else(comp, "completely_", if_else(some, "somewhat_", "")), if_else(distrust, "distrust", "trust"))
+  )
+}
+ord_reason <- function(x) {
+  case_when(
+    ci_ord(x, "certain.*d'avoir voté|suis certain") ~ "voted",
+    ci_ord(x, "en général") ~ "usually_votes_not_this_time",
+    ci_ord(x, "envisagé") ~ "considered_not_voted",
+    ci_ord(x, "droit de vote") ~ "not_eligible",
+    ci_ord(x, "pas voté") ~ "did_not_vote",
+    .default = NA_character_
+  )
+}
+```
+
+```{r}
+#| label: recode-remaining-ordinals
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    q_court_pos = ord_court(q_court_pos_raw),
+    q_cjeu_pos = ord_court(q_cjeu_pos_raw),
+    q_cjeu_pos_fra = ord_court(q_cjeu_pos_fra_raw),
+    q_vote_turnout_confirm = ord_confirm(q_vote_turnout_confirm_raw),
+    q_rural_urban = ord_rural(q_rural_urban_raw),
+    q_econ_eval_retro = ord_econ(q_econ_eval_retro_raw),
+    q_party_closeness = ord_close(q_party_closeness_raw),
+    q_fin_strain = ord_fin(q_fin_strain_raw),
+    q_approval_natgov = ord_approval(q_approval_natgov_raw),
+    q_approval_eu = ord_approval(q_approval_eu_raw),
+    q_eu_trust_val = ord_trust(q_eu_trust_val_raw),
+    q_vote_turnout_reason_fra = ord_reason(q_vote_turnout_reason_fra_raw)
+  )
+```
+
+```{r}
+#| label: ordinal-recode-check-export
+# audit trail: every distinct raw value and the code it received
+ord_check_vars <- c(
+  "q_court_pos", "q_cjeu_pos", "q_cjeu_pos_fra", "q_vote_turnout_confirm",
+  "q_rural_urban", "q_econ_eval_retro", "q_party_closeness", "q_fin_strain",
+  "q_approval_natgov", "q_approval_eu", "q_eu_trust_val",
+  "q_vote_turnout_reason_fra"
+)
+map(ord_check_vars, function(v) {
+  df_stacked_recoded |>
+    distinct(raw = .data[[paste0(v, "_raw")]], code = .data[[v]]) |>
+    filter(!is.na(raw) & raw != "") |>
+    mutate(variable = v, .before = 1)
+}) |>
+  list_rbind() |>
+  arrange(variable, code, raw) |>
+  write_csv(here("data", "03_final", "ordinal_recode_check.csv"))
+```
+
+```{r}
+#| label: validate-remaining-ordinals
+# distinct codes per variable (sanity); dropped raw = don't-know only
+walk(ord_check_vars, function(v) {
+  cat("\n", v, ":", sep = "")
+  print(table(df_stacked_recoded[[v]], useNA = "ifany"))
+})
+```
+
+# Conjoint Task Outcomes {#sec-cj-task}
+
+The three forced-choice conjoint tasks each show two party profiles.
+
+- **Choice** (`cj_task{1,2,3}_choice`) → `"profile_1"` / `"profile_2"` (the first
+  vs second profile shown). Profiles are labelled A/B, C/D, E/F across tasks and
+  languages (Latin, Cyrillic Б/Г/Е, Greek Δ/ΣΤ); the second profile is detected
+  by its trailing letter (explicit Unicode set to avoid Cyrillic/Greek
+  look-alikes), everything else is the first.
+- **Evaluation** (`cj_task{1,2,3}_eval_{a..f}`) → 5-point `very_negative` …
+  `very_positive` with a `neither` midpoint, coded with the same morphological
+  keyword approach as the other ordinals.
+
+```{r}
+#| label: recode-cj-task
+# trailing letters that mark the SECOND profile in each pair:
+#   B D F (Latin) · Б Г Е (Cyrillic) · Δ Τ (Greek; "ΣΤ" ends in Τ)
+cj_choice_second <- c(
+  "B", "D", "F", "Б", "Г", "Е", "Δ", "Τ"
+)
+cj_choice_code <- function(x) {
+  case_when(
+    is.na(x) | x == "" ~ NA_character_,
+    str_sub(x, -1) %in% cj_choice_second ~ "profile_2",
+    .default = "profile_1"
+  )
+}
+cj_eval_code <- function(x) {
+  pos <- ci_ord(x, "positi|pozyt|pozit|teigiam|myönteinen|positiv|θετικ|положителн|позитивн|pozitív|kladn")
+  neg <- ci_ord(x, "negati|negatí|négati|negaty|neigiam|kielteinen|negativ|negatīvi|αρνητικ|отрицателн|негативн|záporn")
+  very <- ci_ord(x, "very|bardzo|foarte|erittäin|ļoti|labai|molto|muito|sehr|mycket|meget|très|πολύ|много|veľmi|velmi|zelo|väga|nagyon")
+  case_when(
+    is.na(x) ~ NA_character_,
+    ci_ord(x, "neither|ani .*ani|ei .*eik|ei positiivselt ega|hverken|neutr|ni .*ni|niti|ούτε|нито|ne pozitiv") ~ "neither",
+    pos ~ if_else(very, "very_positive", "rather_positive"),
+    neg ~ if_else(very, "very_negative", "rather_negative"),
+    .default = NA_character_
+  )
+}
+
+cj_choice_vars <- paste0("cj_task", 1:3, "_choice_raw")
+cj_eval_vars <- c(
+  "cj_task1_eval_a_raw", "cj_task1_eval_b_raw", "cj_task2_eval_c_raw",
+  "cj_task2_eval_d_raw", "cj_task3_eval_e_raw", "cj_task3_eval_f_raw"
+)
+df_stacked_recoded <- df_stacked_recoded |>
+  mutate(
+    across(all_of(cj_choice_vars), cj_choice_code, .names = "{str_remove(.col, '_raw')}"),
+    across(all_of(cj_eval_vars), cj_eval_code, .names = "{str_remove(.col, '_raw')}")
+  )
+```
+
+```{r}
+#| label: validate-cj-task
+walk(c(cj_choice_vars, cj_eval_vars), function(v) {
+  coded <- str_remove(v, "_raw")
+  leftover <- df_stacked_recoded |>
+    filter(!is.na(.data[[v]]) & .data[[v]] != "" & is.na(.data[[coded]])) |>
+    distinct(.data[[v]])
+  if (nrow(leftover) > 0) {
+    cat("\n--- uncoded:", v, "---\n")
+    print(leftover, n = 20)
+  }
+})
 ```
 
 # Save Full Recoded Wide EU25 Dataset
