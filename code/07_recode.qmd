@@ -9231,15 +9231,15 @@ The remaining `q_eu_vote_2014_raw == "13"` (Ireland) is a stray numeric code, an
 ```{r}
 #| label: party-recode-artifacts
 party_recode_artifacts <- tribble(
-  ~meta_country, ~party_spelling                             , ~source_variable      , ~note,
-  "Ireland"    , "13"                                        , "q_eu_vote_2014_raw"  , "stray numeric code",
-  "Latvia"     , "Independent Alliance"                      , "cj_trust1_party_raw" , "Irish party under wrong country (conjoint)",
-  "Latvia"     , "Social Democrats (Daonlathaigh Shóisialta)", "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)",
-  "Latvia"     , "Worker's Party (WP)"                       , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)",
-  "Latvia"     , "sdfsd"                                     , "cj_dict1_party_raw"  , "test garbage",
-  "Romania"    , "Green Party"                               , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)",
-  "Romania"    , "Renua Ireland (Renua)"                     , "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)",
-  "Romania"    , "Social Democrats (Daonlathaigh Shóisialta)", "cj_dict2_party_raw"  , "Irish party under wrong country (conjoint)"
+  ~meta_country , ~party_spelling                              , ~source_variable      , ~note                                        ,
+  "Ireland"     , "13"                                         , "q_eu_vote_2014_raw"  , "stray numeric code"                         ,
+  "Latvia"      , "Independent Alliance"                       , "cj_trust1_party_raw" , "Irish party under wrong country (conjoint)" ,
+  "Latvia"      , "Social Democrats (Daonlathaigh Shóisialta)" , "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)" ,
+  "Latvia"      , "Worker's Party (WP)"                        , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)" ,
+  "Latvia"      , "sdfsd"                                      , "cj_dict1_party_raw"  , "test garbage"                               ,
+  "Romania"     , "Green Party"                                , "cj_trust3_party_raw" , "Irish party under wrong country (conjoint)" ,
+  "Romania"     , "Renua Ireland (Renua)"                      , "cj_trust2_party_raw" , "Irish party under wrong country (conjoint)" ,
+  "Romania"     , "Social Democrats (Daonlathaigh Shóisialta)" , "cj_dict2_party_raw"  , "Irish party under wrong country (conjoint)"
 )
 party_recode_artifacts
 ```
@@ -10500,38 +10500,128 @@ cj_norm <- function(x) {
 
 # SEX --------------------------------------------------------------------------
 cj_female_vec <- c(
-  "Donna", "Female", "Femeie", "Feminino", "Femme", "Kobieta", "Kvinde",
-  "Kvinna", "Moteris", "Mujer", "Naine", "Nainen", "Nő", "sieviete",
-  "Sieviete", "Vrouw", "Weiblich", "žena", "Žena", "Ženski", "Žensko",
-  "Γυναίκα", "жена"
+  "Donna",
+  "Female",
+  "Femeie",
+  "Feminino",
+  "Femme",
+  "Kobieta",
+  "Kvinde",
+  "Kvinna",
+  "Moteris",
+  "Mujer",
+  "Naine",
+  "Nainen",
+  "Nő",
+  "sieviete",
+  "Sieviete",
+  "Vrouw",
+  "Weiblich",
+  "žena",
+  "Žena",
+  "Ženski",
+  "Žensko",
+  "Γυναίκα",
+  "жена"
 )
 cj_male_vec <- c(
-  "Bărbat", "Férfi", "Hombre", "Homme", "Male", "Man", "Mand", "Männlich",
-  "Masculino", "Mees", "Mężczyzna", "Mies", "Moški", "Muško", "Muž", "Uomo",
-  "vīrietis", "Vīrietis", "Vyras", "Άνδρας", "мъж"
+  "Bărbat",
+  "Férfi",
+  "Hombre",
+  "Homme",
+  "Male",
+  "Man",
+  "Mand",
+  "Männlich",
+  "Masculino",
+  "Mees",
+  "Mężczyzna",
+  "Mies",
+  "Moški",
+  "Muško",
+  "Muž",
+  "Uomo",
+  "vīrietis",
+  "Vīrietis",
+  "Vyras",
+  "Άνδρας",
+  "мъж"
 )
 
 # SOCIAL CLASS -----------------------------------------------------------------
 cj_class_lower_vec <- c(
-  "alempi luokka", "Alsó társadalmi réteg", "Baixa", "Baja", "Basso",
-  "Clasă de jos", "Inférieure", "Lagere klasse", "lägre klass", "Lower Class",
-  "madalklass", "Niži sloj", "Nižji razred", "Nižší třída", "Nižšia trieda",
-  "Niższa", "Underklasse", "Untere Schicht", "Žemesnė klasė", "zemākais slānis",
-  "Zemākais slānis", "Κατώτερη τάξη", "нисша класа"
+  "alempi luokka",
+  "Alsó társadalmi réteg",
+  "Baixa",
+  "Baja",
+  "Basso",
+  "Clasă de jos",
+  "Inférieure",
+  "Lagere klasse",
+  "lägre klass",
+  "Lower Class",
+  "madalklass",
+  "Niži sloj",
+  "Nižji razred",
+  "Nižší třída",
+  "Nižšia trieda",
+  "Niższa",
+  "Underklasse",
+  "Untere Schicht",
+  "Žemesnė klasė",
+  "zemākais slānis",
+  "Zemākais slānis",
+  "Κατώτερη τάξη",
+  "нисша класа"
 )
 cj_class_middle_vec <- c(
-  "Clasă de mijloc", "keskiluokka", "keskklass", "Közép társadalmi réteg",
-  "medelklass", "Media", "Média", "Medio", "Middelklasse", "Middenklasse",
-  "Middle Class", "Mittelschicht", "Moyenne", "Srednji razred", "Srednji sloj",
-  "Stredná trieda", "Střední třída", "Średnia", "Vidurinė klasė",
-  "vidusslānis slānis", "Vidusslānis slānis", "Μεσαία τάξη", "средна класа"
+  "Clasă de mijloc",
+  "keskiluokka",
+  "keskklass",
+  "Közép társadalmi réteg",
+  "medelklass",
+  "Media",
+  "Média",
+  "Medio",
+  "Middelklasse",
+  "Middenklasse",
+  "Middle Class",
+  "Mittelschicht",
+  "Moyenne",
+  "Srednji razred",
+  "Srednji sloj",
+  "Stredná trieda",
+  "Střední třída",
+  "Średnia",
+  "Vidurinė klasė",
+  "vidusslānis slānis",
+  "Vidusslānis slānis",
+  "Μεσαία τάξη",
+  "средна класа"
 )
 cj_class_upper_vec <- c(
-  "Alta", "Alto", "augstākais slānis", "Augstākais slānis", "Aukštesnė klasė",
-  "Bovenklasse", "Clasă de sus", "Felső társadalmi réteg", "Gehobene Schicht",
-  "Horná trieda", "kõrgklass", "överklass", "Overklasse", "Supérieure",
-  "Upper Class", "Viši sloj", "Vyšší třída", "Wyższa", "yläluokka",
-  "Zgornji razred", "Ανώτερη τάξη", "висша класа"
+  "Alta",
+  "Alto",
+  "augstākais slānis",
+  "Augstākais slānis",
+  "Aukštesnė klasė",
+  "Bovenklasse",
+  "Clasă de sus",
+  "Felső társadalmi réteg",
+  "Gehobene Schicht",
+  "Horná trieda",
+  "kõrgklass",
+  "överklass",
+  "Overklasse",
+  "Supérieure",
+  "Upper Class",
+  "Viši sloj",
+  "Vyšší třída",
+  "Wyższa",
+  "yläluokka",
+  "Zgornji razred",
+  "Ανώτερη τάξη",
+  "висша класа"
 )
 
 # EU-CITIZENSHIP FEELING (eupos) -----------------------------------------------
@@ -10590,32 +10680,80 @@ cj_eupos_no_vec <- c(
 
 # NATIONALITY (nat) ------------------------------------------------------------
 cj_nat_eu_vec <- c(
-  "É cidadão da UE", "Cittadino/a europeo/a", "Cetățean UE", "Državljan EU",
-  "Državljanin EU-a", "Een EU-nationaliteit", "Ein EU-Staatsangehöriger",
-  "ELi kodanik", "ES pilietis", "ES pilsonis(-e)", "EU-borger",
-  "EU-kansalainen", "EU-medborgare", "EU-national", "EU-polgár",
-  "nationalité européenne", "Nacional de un país perteneciente a la UE",
-  "Občan/ka členské země EU", "Obywatel(ka) państwa UE",
-  "Štátny príslušník EÚ", "Υπήκοος ΕΕ", "гражданин на ЕС"
+  "É cidadão da UE",
+  "Cittadino/a europeo/a",
+  "Cetățean UE",
+  "Državljan EU",
+  "Državljanin EU-a",
+  "Een EU-nationaliteit",
+  "Ein EU-Staatsangehöriger",
+  "ELi kodanik",
+  "ES pilietis",
+  "ES pilsonis(-e)",
+  "EU-borger",
+  "EU-kansalainen",
+  "EU-medborgare",
+  "EU-national",
+  "EU-polgár",
+  "nationalité européenne",
+  "Nacional de un país perteneciente a la UE",
+  "Občan/ka členské země EU",
+  "Obywatel(ka) państwa UE",
+  "Štátny príslušník EÚ",
+  "Υπήκοος ΕΕ",
+  "гражданин на ЕС"
 )
 cj_nat_noneu_vec <- c(
-  "Cetățean non-UE", "Cittadino/a extra UE", "Državljan države_ ki ni v EU",
-  "Een nationaliteit van buiten de EU", "ei EU-kansalainen",
-  "Ei ole ELi kodanik", "Ein Nicht-EU Staatsangehöriger", "icke-EU-medborgare",
-  "Ikke EU-borger", "Nacional de un país no perteneciente a la UE",
-  "Não é cidadão da UE", "nationalité non européenne", "Ne ES pilietis",
-  "Nem EU-polgár", "Nije državljanin EU-a", "non-EU national",
-  "Občan/ka nečlenské země EU", "Obywatel(ka) państwa spoza UE",
+  "Cetățean non-UE",
+  "Cittadino/a extra UE",
+  "Državljan države_ ki ni v EU",
+  "Een nationaliteit van buiten de EU",
+  "ei EU-kansalainen",
+  "Ei ole ELi kodanik",
+  "Ein Nicht-EU Staatsangehöriger",
+  "icke-EU-medborgare",
+  "Ikke EU-borger",
+  "Nacional de un país no perteneciente a la UE",
+  "Não é cidadão da UE",
+  "nationalité non européenne",
+  "Ne ES pilietis",
+  "Nem EU-polgár",
+  "Nije državljanin EU-a",
+  "non-EU national",
+  "Občan/ka nečlenské země EU",
+  "Obywatel(ka) państwa spoza UE",
   "Štátny príslušník štátu mimo EÚ",
-  "Trešās valsts pilsonis(-e) (nav ES pilsonis(-e))", "Υπήκοος εκτός ΕΕ",
+  "Trešās valsts pilsonis(-e) (nav ES pilsonis(-e))",
+  "Υπήκοος εκτός ΕΕ",
   "не е гражданин на ЕС"
 )
 # specific member-state names shown = national of respondent's own country
 cj_nat_owncountry_vec <- c(
-  "België", "Belgique", "Česká republika", "Danmark", "Deutschland", "Eesti",
-  "España", "France", "Hrvatska", "Ireland", "Italia", "Latvija", "Lietuva",
-  "Magyarország", "Nederland", "Österreich", "Polska", "Portugal", "România",
-  "Slovenija", "Slovensko", "Suomi", "Sverige", "United Kingdom", "Ελλάδα",
+  "België",
+  "Belgique",
+  "Česká republika",
+  "Danmark",
+  "Deutschland",
+  "Eesti",
+  "España",
+  "France",
+  "Hrvatska",
+  "Ireland",
+  "Italia",
+  "Latvija",
+  "Lietuva",
+  "Magyarország",
+  "Nederland",
+  "Österreich",
+  "Polska",
+  "Portugal",
+  "România",
+  "Slovenija",
+  "Slovensko",
+  "Suomi",
+  "Sverige",
+  "United Kingdom",
+  "Ελλάδα",
   "България"
 )
 ```
@@ -10623,7 +10761,12 @@ cj_nat_owncountry_vec <- c(
 ```{r}
 #| label: recode-cj-attributes
 cj_profile_slots <- c(
-  "cj_dict1", "cj_dict2", "cj_dict3", "cj_trust1", "cj_trust2", "cj_trust3"
+  "cj_dict1",
+  "cj_dict2",
+  "cj_dict3",
+  "cj_trust1",
+  "cj_trust2",
+  "cj_trust3"
 )
 
 for (slot in cj_profile_slots) {
@@ -10646,11 +10789,13 @@ for (slot in cj_profile_slots) {
       ),
       "{slot}_eupos" := case_when(
         cj_norm(.data[[eup_raw]]) %in% cj_norm(cj_eupos_yes_vec) ~ "eu_citizen",
-        cj_norm(.data[[eup_raw]]) %in% cj_norm(cj_eupos_no_vec) ~ "not_eu_citizen",
+        cj_norm(.data[[eup_raw]]) %in%
+          cj_norm(cj_eupos_no_vec) ~ "not_eu_citizen",
         .default = NA_character_
       ),
       "{slot}_nat" := case_when(
-        cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_owncountry_vec) ~ "own_country",
+        cj_norm(.data[[nat_raw]]) %in%
+          cj_norm(cj_nat_owncountry_vec) ~ "own_country",
         cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_eu_vec) ~ "eu",
         cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_noneu_vec) ~ "non_eu",
         .default = NA_character_
@@ -10663,7 +10808,8 @@ for (slot in cj_profile_slots) {
 #| label: validate-cj-attributes
 # any non-empty raw value left uncoded should only be the stray test strings
 cj_attr_raws <- as.vector(outer(
-  cj_profile_slots, c("_sex_raw", "_class_raw", "_eupos_raw", "_nat_raw"),
+  cj_profile_slots,
+  c("_sex_raw", "_class_raw", "_eupos_raw", "_nat_raw"),
   paste0
 ))
 map(cj_attr_raws, function(v) {
@@ -10714,71 +10860,133 @@ scale_code <- function(x, lo, hi) {
 
 # 7-point items (1-7) -----------------------------------------------------------
 scale7_vars <- c(
-  "q_cjeu_abolish_fra_raw", "q_cjeu_satisfaction_fra_raw",
-  "q_dem_compromise_fra_raw", "q_dem_listen_fra_raw",
-  "q_econ_resp_eu_raw", "q_econ_resp_global_raw", "q_econ_resp_imm_raw",
+  "q_cjeu_abolish_fra_raw",
+  "q_cjeu_satisfaction_fra_raw",
+  "q_dem_compromise_fra_raw",
+  "q_dem_listen_fra_raw",
+  "q_econ_resp_eu_raw",
+  "q_econ_resp_global_raw",
+  "q_econ_resp_imm_raw",
   "q_econ_resp_natgov_raw",
-  "q_eff_external_nosay_c_raw", "q_eff_external_nosay_raw",
-  "q_eff_external_resp_raw", "q_eff_internal_raw",
-  "q_eu_abolish_fra_raw", "q_eu_benefit_nat_raw",
-  "q_eu_efficacy_care_c_raw", "q_eu_efficacy_care_fra_raw",
-  "q_eu_efficacy_nosay_fra_raw", "q_eu_efficacy_understand_c_raw",
+  "q_eff_external_nosay_c_raw",
+  "q_eff_external_nosay_raw",
+  "q_eff_external_resp_raw",
+  "q_eff_internal_raw",
+  "q_eu_abolish_fra_raw",
+  "q_eu_benefit_nat_raw",
+  "q_eu_efficacy_care_c_raw",
+  "q_eu_efficacy_care_fra_raw",
+  "q_eu_efficacy_nosay_fra_raw",
+  "q_eu_efficacy_understand_c_raw",
   "q_eu_efficacy_understand_fra_raw",
-  "q_eu_informed_cjeu_fra_raw", "q_eu_informed_com_fra_raw",
-  "q_eu_informed_cou_fra_raw", "q_eu_informed_ecb_raw",
-  "q_eu_informed_ep_fra_raw", "q_eu_int_fra_raw",
-  "q_eu_longterm_fra_raw", "q_eu_longterm_gre_raw",
-  "q_eu_pos_personal_raw", "q_eu_responsive_fra_raw",
-  "q_eu_responsive_gre_raw", "q_eu_satisfaction_fra_raw",
-  "q_eu_trust_cjeu_fra_raw", "q_eu_trust_com_fra_raw",
-  "q_eu_trust_cou_fra_raw", "q_eu_trust_ecb_raw", "q_eu_trust_ep_fra_raw",
-  "q_euint_pos_fra_raw", "q_future_discount_fra_raw",
-  "q_global_control_raw", "q_global_cult_raw", "q_global_nat_econ_raw",
-  "q_global_nosay_raw", "q_gridlock_manip_raw",
-  "q_nat_efficacy_care_raw", "q_nat_efficacy_nosay_raw",
-  "q_nat_efficacy_understand_raw", "q_nat_int_fra_raw",
-  "q_natcourt_1_raw", "q_natcourt_2_raw", "q_natcourt_informed_raw",
-  "q_nativ_3_fra_raw", "q_nativ_4_fra_raw", "q_nativ_cult_b_fra_raw",
-  "q_nativ_cult_fra_raw", "q_nativ_econ_b_fra_raw", "q_nativ_econ_fra_raw",
-  "q_norm_bypass_law_fra_raw", "q_norm_gov_bypass_fra_raw",
-  "q_norm_order_fra_raw", "q_norm_tolerance_fra_raw",
-  "q_norm_unjust_law_fra_raw", "q_norm_unvoted_gov_fra_raw",
-  "q_party_harm_fra_raw", "q_people_incompetent_fra_raw",
-  "q_pol_agriculture_raw", "q_pol_environment_raw", "q_pol_immigration_raw",
-  "q_pol_market_raw", "q_pol_security_raw", "q_pol_trade_raw",
-  "q_pop_citizen_fra_raw", "q_pop_compromise_fra_raw", "q_pop_elite_raw",
-  "q_pop_goodevil_fra_raw", "q_pop_people_fra_raw", "q_pop_reps_fra_raw",
-  "q_pop_will_fra_raw", "q_risk_taking_fra_raw",
-  "q_tech_experts_fra_raw", "q_tech_leaders_fra_raw"
+  "q_eu_informed_cjeu_fra_raw",
+  "q_eu_informed_com_fra_raw",
+  "q_eu_informed_cou_fra_raw",
+  "q_eu_informed_ecb_raw",
+  "q_eu_informed_ep_fra_raw",
+  "q_eu_int_fra_raw",
+  "q_eu_longterm_fra_raw",
+  "q_eu_longterm_gre_raw",
+  "q_eu_pos_personal_raw",
+  "q_eu_responsive_fra_raw",
+  "q_eu_responsive_gre_raw",
+  "q_eu_satisfaction_fra_raw",
+  "q_eu_trust_cjeu_fra_raw",
+  "q_eu_trust_com_fra_raw",
+  "q_eu_trust_cou_fra_raw",
+  "q_eu_trust_ecb_raw",
+  "q_eu_trust_ep_fra_raw",
+  "q_euint_pos_fra_raw",
+  "q_future_discount_fra_raw",
+  "q_global_control_raw",
+  "q_global_cult_raw",
+  "q_global_nat_econ_raw",
+  "q_global_nosay_raw",
+  "q_gridlock_manip_raw",
+  "q_nat_efficacy_care_raw",
+  "q_nat_efficacy_nosay_raw",
+  "q_nat_efficacy_understand_raw",
+  "q_nat_int_fra_raw",
+  "q_natcourt_1_raw",
+  "q_natcourt_2_raw",
+  "q_natcourt_informed_raw",
+  "q_nativ_3_fra_raw",
+  "q_nativ_4_fra_raw",
+  "q_nativ_cult_b_fra_raw",
+  "q_nativ_cult_fra_raw",
+  "q_nativ_econ_b_fra_raw",
+  "q_nativ_econ_fra_raw",
+  "q_norm_bypass_law_fra_raw",
+  "q_norm_gov_bypass_fra_raw",
+  "q_norm_order_fra_raw",
+  "q_norm_tolerance_fra_raw",
+  "q_norm_unjust_law_fra_raw",
+  "q_norm_unvoted_gov_fra_raw",
+  "q_party_harm_fra_raw",
+  "q_people_incompetent_fra_raw",
+  "q_pol_agriculture_raw",
+  "q_pol_environment_raw",
+  "q_pol_immigration_raw",
+  "q_pol_market_raw",
+  "q_pol_security_raw",
+  "q_pol_trade_raw",
+  "q_pop_citizen_fra_raw",
+  "q_pop_compromise_fra_raw",
+  "q_pop_elite_raw",
+  "q_pop_goodevil_fra_raw",
+  "q_pop_people_fra_raw",
+  "q_pop_reps_fra_raw",
+  "q_pop_will_fra_raw",
+  "q_risk_taking_fra_raw",
+  "q_tech_experts_fra_raw",
+  "q_tech_leaders_fra_raw"
 )
 
 # 11-point left-right & EU-integration placements (1-11) ------------------------
 scale11_vars <- c(
-  "q_euint_ecb_raw", "q_euint_party_10_raw", "q_euint_party_9_raw",
-  "q_lr_court_nat_raw", "q_lr_ecb_raw", "q_lr_gov_nat_raw", "q_lr_party_13_raw"
+  "q_euint_ecb_raw",
+  "q_euint_party_10_raw",
+  "q_euint_party_9_raw",
+  "q_lr_court_nat_raw",
+  "q_lr_ecb_raw",
+  "q_lr_gov_nat_raw",
+  "q_lr_party_13_raw"
 )
 
 # 5-point policy-composition / election-importance / econ-evaluation (1-5) ------
 scale5_vars <- c(
-  "q_election_challenge_polgroups_raw", "q_election_impact_eu_raw",
+  "q_election_challenge_polgroups_raw",
+  "q_election_impact_eu_raw",
   "q_election_importance_self_raw",
-  "q_eval_econ_eur_fra_raw", "q_eval_econ_eur_raw",
-  "q_eval_econ_nat_fra_raw", "q_eval_econ_nat_raw",
-  "q_eval_fin_household_fra_raw", "q_eval_fin_household_raw",
-  "q_eval_job_fra_raw", "q_eval_job_raw",
+  "q_eval_econ_eur_fra_raw",
+  "q_eval_econ_eur_raw",
+  "q_eval_econ_nat_fra_raw",
+  "q_eval_econ_nat_raw",
+  "q_eval_fin_household_fra_raw",
+  "q_eval_fin_household_raw",
+  "q_eval_job_fra_raw",
+  "q_eval_job_raw",
   "q_policy_comp_eu_natgov_raw",
-  "q_policy_comp_pos_agriculture_raw", "q_policy_comp_pos_environment_raw",
-  "q_policy_comp_pos_immigration_raw", "q_policy_comp_pos_market_raw",
-  "q_policy_comp_pos_security_raw", "q_policy_comp_pos_trade_raw",
-  "q_policy_comp_val_agriculture_raw", "q_policy_comp_val_environment_raw",
-  "q_policy_comp_val_immigration_raw", "q_policy_comp_val_market_raw",
-  "q_policy_comp_val_security_raw", "q_policy_comp_val_trade_raw"
+  "q_policy_comp_pos_agriculture_raw",
+  "q_policy_comp_pos_environment_raw",
+  "q_policy_comp_pos_immigration_raw",
+  "q_policy_comp_pos_market_raw",
+  "q_policy_comp_pos_security_raw",
+  "q_policy_comp_pos_trade_raw",
+  "q_policy_comp_val_agriculture_raw",
+  "q_policy_comp_val_environment_raw",
+  "q_policy_comp_val_immigration_raw",
+  "q_policy_comp_val_market_raw",
+  "q_policy_comp_val_security_raw",
+  "q_policy_comp_val_trade_raw"
 )
 
 # 4-point satisfaction-with-democracy (1-4) ------------------------------------
 scale4_vars <- c(
-  "q_satis_demo_eu_fra_raw", "q_satis_demo_eu_raw",
-  "q_satis_demo_nat_fra_raw", "q_satis_demo_nat_raw"
+  "q_satis_demo_eu_fra_raw",
+  "q_satis_demo_eu_raw",
+  "q_satis_demo_nat_fra_raw",
+  "q_satis_demo_nat_raw"
 )
 ```
 
@@ -10787,19 +10995,23 @@ scale4_vars <- c(
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
     across(
-      all_of(scale7_vars), ~ scale_code(.x, 1L, 7L),
+      all_of(scale7_vars),
+      ~ scale_code(.x, 1L, 7L),
       .names = "{str_remove(.col, '_raw')}"
     ),
     across(
-      all_of(scale11_vars), ~ scale_code(.x, 1L, 11L),
+      all_of(scale11_vars),
+      ~ scale_code(.x, 1L, 11L),
       .names = "{str_remove(.col, '_raw')}"
     ),
     across(
-      all_of(scale5_vars), ~ scale_code(.x, 1L, 5L),
+      all_of(scale5_vars),
+      ~ scale_code(.x, 1L, 5L),
       .names = "{str_remove(.col, '_raw')}"
     ),
     across(
-      all_of(scale4_vars), ~ scale_code(.x, 1L, 4L),
+      all_of(scale4_vars),
+      ~ scale_code(.x, 1L, 4L),
       .names = "{str_remove(.col, '_raw')}"
     )
   )
@@ -10812,8 +11024,12 @@ Pure numeric items: feeling thermometers (0–100), conjoint candidate ages
 #| label: recode-remaining-numeric
 thermo_vars <- paste0("q_thermo_", 1:6, "_raw")
 age_vars <- c(
-  "cj_dict1_age_raw", "cj_dict2_age_raw", "cj_dict3_age_raw",
-  "cj_trust1_age_raw", "cj_trust2_age_raw", "cj_trust3_age_raw"
+  "cj_dict1_age_raw",
+  "cj_dict2_age_raw",
+  "cj_dict3_age_raw",
+  "cj_trust1_age_raw",
+  "cj_trust2_age_raw",
+  "cj_trust3_age_raw"
 )
 rank_vars <- paste0("q_vote_exp_rank_party_", 1:6, "_raw")
 
@@ -10831,13 +11047,15 @@ df_stacked_recoded <- df_stacked_recoded |>
 #| label: validate-remaining-scales
 # 1. coded distinct values must stay within each family's intended range
 list(
-  s7 = scale7_vars, s11 = scale11_vars, s5 = scale5_vars, s4 = scale4_vars
+  s7 = scale7_vars,
+  s11 = scale11_vars,
+  s5 = scale5_vars,
+  s4 = scale4_vars
 ) |>
   imap(function(vars, fam) {
     coded <- str_remove(vars, "_raw")
     rng <- range(unlist(map(coded, ~ df_stacked_recoded[[.x]])), na.rm = TRUE)
-    tibble(family = fam, n_vars = length(vars),
-           min = rng[1], max = rng[2])
+    tibble(family = fam, n_vars = length(vars), min = rng[1], max = rng[2])
   }) |>
   list_rbind()
 ```
@@ -10847,8 +11065,12 @@ list(
 # 2. every raw value that became NA should be a don't-know / refusal / scale
 #    error — i.e. contain no in-range digit. List anything unexpected.
 all_scale_vars <- c(scale7_vars, scale11_vars, scale5_vars, scale4_vars)
-ranges <- c(rep(7L, length(scale7_vars)), rep(11L, length(scale11_vars)),
-            rep(5L, length(scale5_vars)), rep(4L, length(scale4_vars)))
+ranges <- c(
+  rep(7L, length(scale7_vars)),
+  rep(11L, length(scale11_vars)),
+  rep(5L, length(scale5_vars)),
+  rep(4L, length(scale4_vars))
+)
 
 map2(all_scale_vars, ranges, function(v, hi) {
   coded <- str_remove(v, "_raw")
@@ -10877,8 +11099,12 @@ Three further item families reuse existing recode schemes:
 ```{r}
 #| label: recode-news-sources
 news_source_vars <- c(
-  "q_news_newspaper_raw", "q_news_radio_raw", "q_news_social_raw",
-  "q_news_internet_raw", "q_news_personal_raw", "q_news_other_raw"
+  "q_news_newspaper_raw",
+  "q_news_radio_raw",
+  "q_news_social_raw",
+  "q_news_internet_raw",
+  "q_news_personal_raw",
+  "q_news_other_raw"
 )
 news_days_code <- function(x) {
   case_when(
@@ -10895,7 +11121,8 @@ news_days_code <- function(x) {
 }
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(across(
-    all_of(news_source_vars), news_days_code,
+    all_of(news_source_vars),
+    news_days_code,
     .names = "{str_remove(.col, '_raw')}"
   ))
 ```
@@ -10912,7 +11139,8 @@ df_stacked_recoded <- df_stacked_recoded |>
         .x == "Ne Sait Pas" ~ 3L,
         .default = NA_integer_
       ),
-      levels = 1:3, labels = c("True", "False", "Don't Know")
+      levels = 1:3,
+      labels = c("True", "False", "Don't Know")
     ),
     .names = "{str_remove(.col, '_raw')}"
   ))
@@ -10923,7 +11151,8 @@ df_stacked_recoded <- df_stacked_recoded |>
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(across(
     all_of(c(
-      "q_eu_imp_nat_econ_fra_raw", "q_eu_imp_nat_cul_fra_raw",
+      "q_eu_imp_nat_econ_fra_raw",
+      "q_eu_imp_nat_cul_fra_raw",
       "q_eu_imp_nat_pol_fra_raw"
     )),
     ~ case_when(
@@ -10942,8 +11171,10 @@ df_stacked_recoded <- df_stacked_recoded |>
 #| label: validate-remaining-categorical
 walk(
   c(
-    news_source_vars, paste0("q_eu_know_", 1:5, "_fra_raw"),
-    "q_eu_imp_nat_econ_fra_raw", "q_eu_imp_nat_cul_fra_raw",
+    news_source_vars,
+    paste0("q_eu_know_", 1:5, "_fra_raw"),
+    "q_eu_imp_nat_econ_fra_raw",
+    "q_eu_imp_nat_cul_fra_raw",
     "q_eu_imp_nat_pol_fra_raw"
   ),
   function(v) {
@@ -10994,14 +11225,20 @@ ord_court <- function(x) {
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "oppos|opozic|oposi|opposi|opposé|widerspr|contrappos|protichod|protich|vastandu|αντίθ|против|przeciwn|suprotstav|szembenáll|ellenzék|opozīcijā|grup|skupin|rühm|ryhm|ομάδ|групи|csoport|grupos|nasprotuj|sellele|opponer") ~ "favor_opposition",
+    ci_ord(
+      x,
+      "oppos|opozic|oposi|opposi|opposé|widerspr|contrappos|protichod|protich|vastandu|αντίθ|против|przeciwn|suprotstav|szembenáll|ellenzék|opozīcijā|grup|skupin|rühm|ryhm|ομάδ|групи|csoport|grupos|nasprotuj|sellele|opponer"
+    ) ~ "favor_opposition",
     .default = "favor_government"
   )
 }
 ord_confirm <- function(x) {
   case_when(
     is.na(x) ~ NA_character_,
-    ci_ord(x, "^n[eo]|^nu,|nicht|nevoli|nie wzi|niet gestemd|ikke|ole ääne|δεν") ~ "no",
+    ci_ord(
+      x,
+      "^n[eo]|^nu,|nicht|nevoli|nie wzi|niet gestemd|ikke|ole ääne|δεν"
+    ) ~ "no",
     .default = "yes"
   )
 }
@@ -11009,16 +11246,34 @@ ord_rural <- function(x) {
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "rural|village|ländlich|platteland|dorp|landdistrikt|landsby|glesbygd|aldeia|pueblo|sat sau|venkov|vesnic|vidiek|dedin|podeželj|vasi|kaimo|laukos|ciematā|maa-asulas|külas|maaseutu|kylä|αγροτ|χωριό|селски|село|falu") ~ "rural",
-    ci_ord(x, "grande ville|grande citt|großstadt|grote stad|stor stad|stor by|gran ciudad|cidade grande|oraş mare|oras mare|veľk|velk|večj|nagyvár|suures|suuress|liel[āa] pils|didel|μεγάλη|голям град|stort|large town|velikom grad|dużym") ~ "large_city",
+    ci_ord(
+      x,
+      "rural|village|ländlich|platteland|dorp|landdistrikt|landsby|glesbygd|aldeia|pueblo|sat sau|venkov|vesnic|vidiek|dedin|podeželj|vasi|kaimo|laukos|ciematā|maa-asulas|külas|maaseutu|kylä|αγροτ|χωριό|селски|село|falu"
+    ) ~ "rural",
+    ci_ord(
+      x,
+      "grande ville|grande citt|großstadt|grote stad|stor stad|stor by|gran ciudad|cidade grande|oraş mare|oras mare|veľk|velk|večj|nagyvár|suures|suuress|liel[āa] pils|didel|μεγάλη|голям град|stort|large town|velikom grad|dużym"
+    ) ~ "large_city",
     .default = "small_med_town"
   )
 }
 ord_econ <- function(x) {
-  same <- ci_ord(x, "same|rămas la fel|det samme|detsamma|^enako|ennallaan|^igual|permanecido igual|restée la même|gleich gebl|hetzelfde|išliko tokia|jäänud samaks|nie zmieni|rimasta uguale|ugyanolyan|zůstala stejná|zostala rovn|nepromij|palikusi tāda|παρέμεινε|останала е същата")
-  worse <- ci_ord(x, "worse|peor|pior|schlechter|slechter|sämre|værre|huonompi|blogesnė|sliktāk|rosszabb|hor[šs]í|zhorš|pogorsz|slabš|halvemaks|χειρότερη|по-лоша|peggiorata|lošij|proastă|empiré")
-  better <- ci_ord(x, "better|mejor|melhor|besser|beter|bättre|bedre|parempi|geresnė|labāk|jobb|lep[šs]í|zlepš|popraw|poprav|bolj|paremaks|καλύτερη|по-добра|migliorata|bună|améliorée")
-  much <- ci_ord(x, "mucho|muito|beaucoup|wesentlich|veel|mycket|meget|paljon|žymiai|daudz|sokkal|mnohem|výrazne|zdecydowanie|dosti|palju|πολύ|много|molto|puno|mult mai|lot |viel")
+  same <- ci_ord(
+    x,
+    "same|rămas la fel|det samme|detsamma|^enako|ennallaan|^igual|permanecido igual|restée la même|gleich gebl|hetzelfde|išliko tokia|jäänud samaks|nie zmieni|rimasta uguale|ugyanolyan|zůstala stejná|zostala rovn|nepromij|palikusi tāda|παρέμεινε|останала е същата"
+  )
+  worse <- ci_ord(
+    x,
+    "worse|peor|pior|schlechter|slechter|sämre|værre|huonompi|blogesnė|sliktāk|rosszabb|hor[šs]í|zhorš|pogorsz|slabš|halvemaks|χειρότερη|по-лоша|peggiorata|lošij|proastă|empiré"
+  )
+  better <- ci_ord(
+    x,
+    "better|mejor|melhor|besser|beter|bättre|bedre|parempi|geresnė|labāk|jobb|lep[šs]í|zlepš|popraw|poprav|bolj|paremaks|καλύτερη|по-добра|migliorata|bună|améliorée"
+  )
+  much <- ci_ord(
+    x,
+    "mucho|muito|beaucoup|wesentlich|veel|mycket|meget|paljon|žymiai|daudz|sokkal|mnohem|výrazne|zdecydowanie|dosti|palju|πολύ|много|molto|puno|mult mai|lot |viel"
+  )
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
@@ -11032,8 +11287,14 @@ ord_close <- function(x) {
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "sympath|simpat|szimpat|kannattaja|poolehoidja|simpatizer|naklonjen|συμπ|симпатизант|prijauč|merely|^len |^nur |pouze|doar un|^samo |slechts|endast|lähinnä vain|tikai simpat|csupán|niezbyt mocno|просто симп") ~ "sympathiser",
-    ci_ord(x, "very close|molto vicino|muy próximo|très proche|sehr verbunden|heel erg|mycket nära|meget tæt|hyvin lähei|labai artim|ļoti tuvs|nagyon közel|veľmi blízko|zelo blizu|väga lähed|^πολύ|много близък|bardzo mocno|hodně|veliku|veľmi") ~ "very_close",
+    ci_ord(
+      x,
+      "sympath|simpat|szimpat|kannattaja|poolehoidja|simpatizer|naklonjen|συμπ|симпатизант|prijauč|merely|^len |^nur |pouze|doar un|^samo |slechts|endast|lähinnä vain|tikai simpat|csupán|niezbyt mocno|просто симп"
+    ) ~ "sympathiser",
+    ci_ord(
+      x,
+      "very close|molto vicino|muy próximo|très proche|sehr verbunden|heel erg|mycket nära|meget tæt|hyvin lähei|labai artim|ļoti tuvs|nagyon közel|veľmi blízko|zelo blizu|väga lähed|^πολύ|много близък|bardzo mocno|hodně|veliku|veľmi"
+    ) ~ "very_close",
     .default = "fairly_close"
   )
 }
@@ -11041,31 +11302,64 @@ ord_fin <- function(x) {
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "most of the time|la plupart|la mayor parte|la maggior parte|meistens|meestal|useimmiten|större delen|de fleste|większ|většinou|väčšinou|večinu|dažniaus|lielāko daļu|τις περισσότερες|повечето|în cea mai mare|skoraj zmeraj|a maioria|az esetek több|zazwyczaj") ~ "most_of_time",
-    ci_ord(x, "almost never|never|nikdy|nigdy|aldrig|nunca|niemals|nooit|niekada|nekad|^soha|никога|ποτέ|niciodată|jamais|mitte kunagi|koskaan|nikoli|nikada|szinte soha") ~ "almost_never",
+    ci_ord(
+      x,
+      "most of the time|la plupart|la mayor parte|la maggior parte|meistens|meestal|useimmiten|större delen|de fleste|większ|většinou|väčšinou|večinu|dažniaus|lielāko daļu|τις περισσότερες|повечето|în cea mai mare|skoraj zmeraj|a maioria|az esetek több|zazwyczaj"
+    ) ~ "most_of_time",
+    ci_ord(
+      x,
+      "almost never|never|nikdy|nigdy|aldrig|nunca|niemals|nooit|niekada|nekad|^soha|никога|ποτέ|niciodată|jamais|mitte kunagi|koskaan|nikoli|nikada|szinte soha"
+    ) ~ "almost_never",
     .default = "from_time_to_time"
   )
 }
 # best-effort (negation-based) — verify against ordinal_recode_check.csv
 ord_approval <- function(x) {
-  tend <- ci_ord(x, "tend|eher|raczej|sk[ôo]r|spíše|pigem|forholdsvis|jobbára|sliec|veikiau|τείνω|склонен|grotendeels|uglavnom|vecinoma|jossain määrin|till viss del|tendance|tind să|tendo a|tiendo a")
-  disappr <- ci_ord(x, "disappr|desappr|desapr|dezapr|n'approuve|nem ért egyet|nie popieram|ne odobr|ne slaž|neatbalst|nepritar|nesch|nesúhlas|^oneens|uenig|unzufrieden|förkast|hylkä|^ei poolda|μην εγκ|δεν εγκ|не одобр|disapprovo|^ne ")
+  tend <- ci_ord(
+    x,
+    "tend|eher|raczej|sk[ôo]r|spíše|pigem|forholdsvis|jobbára|sliec|veikiau|τείνω|склонен|grotendeels|uglavnom|vecinoma|jossain määrin|till viss del|tendance|tind să|tendo a|tiendo a"
+  )
+  disappr <- ci_ord(
+    x,
+    "disappr|desappr|desapr|dezapr|n'approuve|nem ért egyet|nie popieram|ne odobr|ne slaž|neatbalst|nepritar|nesch|nesúhlas|^oneens|uenig|unzufrieden|förkast|hylkä|^ei poolda|μην εγκ|δεν εγκ|не одобр|disapprovo|^ne "
+  )
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "neither|ni .*ni |ani .*ani|nei .*nei|nedz .*nedz|niti .*niti|nem ért.*nem|no eens, noch|weder|varken|hverken|ούτε .*ούτε|нито .*нито|indiferent|semleges|ega ole vastu|etkö") ~ "neither",
-    .default = paste0(if_else(tend, "tend_", ""), if_else(disappr, "disapprove", "approve"))
+    ci_ord(
+      x,
+      "neither|ni .*ni |ani .*ani|nei .*nei|nedz .*nedz|niti .*niti|nem ért.*nem|no eens, noch|weder|varken|hverken|ούτε .*ούτε|нито .*нито|indiferent|semleges|ega ole vastu|etkö"
+    ) ~ "neither",
+    .default = paste0(
+      if_else(tend, "tend_", ""),
+      if_else(disappr, "disapprove", "approve")
+    )
   )
 }
 ord_trust <- function(x) {
-  comp <- ci_ord(x, "completely|por completo|totalmente|totale|totalno|del tutto|fuld|täysin|täiesti|vollkommen|volledig|naprosto|úplne|w pełni|zupełnie|pilnībā|visiškai|απόλυτα|καθόλου|напълно|изобщо|slet ingen|^meget|povsem|nikakor|egyáltalán|teljesen|vôbec|de todo|pas du tout|inte alls|totală|üldse")
-  some <- ci_ord(x, "somewhat|algo|um pouco|un peu|enigszins|jossain määrin|inkább|určitej miery|delno|djelomično|częściowo|zināmā mērā|κάποιο βαθμό|донякъде|i viss|nogen|mõneti|parțial|spíše|eher|vraiment|plutôt|veikiau|zināmā")
-  distrust <- ci_ord(x, "distrust|sfiduc|desconf|wantrouw|misstrau|mistillid|nedôver|nedůvěř|nepasitik|neuztic|nem bíz|nie ufam|^ne zaupam|neîncredere|nemam povjer|nincs|epäile|ei usalda|não confio|δεν.*εμπιστ|нямам доверие|umbusalda|nedz neuztic|inte på|lui fais pas|lui fais plutôt pas|kételk")
+  comp <- ci_ord(
+    x,
+    "completely|por completo|totalmente|totale|totalno|del tutto|fuld|täysin|täiesti|vollkommen|volledig|naprosto|úplne|w pełni|zupełnie|pilnībā|visiškai|απόλυτα|καθόλου|напълно|изобщо|slet ingen|^meget|povsem|nikakor|egyáltalán|teljesen|vôbec|de todo|pas du tout|inte alls|totală|üldse"
+  )
+  some <- ci_ord(
+    x,
+    "somewhat|algo|um pouco|un peu|enigszins|jossain määrin|inkább|určitej miery|delno|djelomično|częściowo|zināmā mērā|κάποιο βαθμό|донякъде|i viss|nogen|mõneti|parțial|spíše|eher|vraiment|plutôt|veikiau|zināmā"
+  )
+  distrust <- ci_ord(
+    x,
+    "distrust|sfiduc|desconf|wantrouw|misstrau|mistillid|nedôver|nedůvěř|nepasitik|neuztic|nem bíz|nie ufam|^ne zaupam|neîncredere|nemam povjer|nincs|epäile|ei usalda|não confio|δεν.*εμπιστ|нямам доверие|umbusalda|nedz neuztic|inte på|lui fais pas|lui fais plutôt pas|kételk"
+  )
   case_when(
     is.na(x) ~ NA_character_,
     ci_ord(x, dk_ord) ~ NA_character_,
-    ci_ord(x, "neither|né l|ni confía ni|ni .*ni |noch .*noch|weder.*noch|hverken|varken|nei .*nei|nedz .*nedz|niti .*niti|nici .*nici|ούτε.*ούτε|нито.*нито|se nem.*se nem|en luota enkä|ei usalda ega|neutral") ~ "neither",
-    .default = paste0(if_else(comp, "completely_", if_else(some, "somewhat_", "")), if_else(distrust, "distrust", "trust"))
+    ci_ord(
+      x,
+      "neither|né l|ni confía ni|ni .*ni |noch .*noch|weder.*noch|hverken|varken|nei .*nei|nedz .*nedz|niti .*niti|nici .*nici|ούτε.*ούτε|нито.*нито|se nem.*se nem|en luota enkä|ei usalda ega|neutral"
+    ) ~ "neither",
+    .default = paste0(
+      if_else(comp, "completely_", if_else(some, "somewhat_", "")),
+      if_else(distrust, "distrust", "trust")
+    )
   )
 }
 ord_reason <- function(x) {
@@ -11103,9 +11397,17 @@ df_stacked_recoded <- df_stacked_recoded |>
 #| label: ordinal-recode-check-export
 # audit trail: every distinct raw value and the code it received
 ord_check_vars <- c(
-  "q_court_pos", "q_cjeu_pos", "q_cjeu_pos_fra", "q_vote_turnout_confirm",
-  "q_rural_urban", "q_econ_eval_retro", "q_party_closeness", "q_fin_strain",
-  "q_approval_natgov", "q_approval_eu", "q_eu_trust_val",
+  "q_court_pos",
+  "q_cjeu_pos",
+  "q_cjeu_pos_fra",
+  "q_vote_turnout_confirm",
+  "q_rural_urban",
+  "q_econ_eval_retro",
+  "q_party_closeness",
+  "q_fin_strain",
+  "q_approval_natgov",
+  "q_approval_eu",
+  "q_eu_trust_val",
   "q_vote_turnout_reason_fra"
 )
 map(ord_check_vars, function(v) {
@@ -11146,7 +11448,14 @@ The three forced-choice conjoint tasks each show two party profiles.
 # trailing letters that mark the SECOND profile in each pair:
 #   B D F (Latin) · Б Г Е (Cyrillic) · Δ Τ (Greek; "ΣΤ" ends in Τ)
 cj_choice_second <- c(
-  "B", "D", "F", "Б", "Г", "Е", "Δ", "Τ"
+  "B",
+  "D",
+  "F",
+  "Б",
+  "Г",
+  "Е",
+  "Δ",
+  "Τ"
 )
 cj_choice_code <- function(x) {
   case_when(
@@ -11156,12 +11465,24 @@ cj_choice_code <- function(x) {
   )
 }
 cj_eval_code <- function(x) {
-  pos <- ci_ord(x, "positi|pozyt|pozit|teigiam|myönteinen|positiv|θετικ|положителн|позитивн|pozitív|kladn")
-  neg <- ci_ord(x, "negati|negatí|négati|negaty|neigiam|kielteinen|negativ|negatīvi|αρνητικ|отрицателн|негативн|záporn")
-  very <- ci_ord(x, "very|bardzo|foarte|erittäin|ļoti|labai|molto|muito|sehr|mycket|meget|très|πολύ|много|veľmi|velmi|zelo|väga|nagyon")
+  pos <- ci_ord(
+    x,
+    "positi|pozyt|pozit|teigiam|myönteinen|positiv|θετικ|положителн|позитивн|pozitív|kladn"
+  )
+  neg <- ci_ord(
+    x,
+    "negati|negatí|négati|negaty|neigiam|kielteinen|negativ|negatīvi|αρνητικ|отрицателн|негативн|záporn"
+  )
+  very <- ci_ord(
+    x,
+    "very|bardzo|foarte|erittäin|ļoti|labai|molto|muito|sehr|mycket|meget|très|πολύ|много|veľmi|velmi|zelo|väga|nagyon"
+  )
   case_when(
     is.na(x) ~ NA_character_,
-    ci_ord(x, "neither|ani .*ani|ei .*eik|ei positiivselt ega|hverken|neutr|ni .*ni|niti|ούτε|нито|ne pozitiv") ~ "neither",
+    ci_ord(
+      x,
+      "neither|ani .*ani|ei .*eik|ei positiivselt ega|hverken|neutr|ni .*ni|niti|ούτε|нито|ne pozitiv"
+    ) ~ "neither",
     pos ~ if_else(very, "very_positive", "rather_positive"),
     neg ~ if_else(very, "very_negative", "rather_negative"),
     .default = NA_character_
@@ -11170,13 +11491,25 @@ cj_eval_code <- function(x) {
 
 cj_choice_vars <- paste0("cj_task", 1:3, "_choice_raw")
 cj_eval_vars <- c(
-  "cj_task1_eval_a_raw", "cj_task1_eval_b_raw", "cj_task2_eval_c_raw",
-  "cj_task2_eval_d_raw", "cj_task3_eval_e_raw", "cj_task3_eval_f_raw"
+  "cj_task1_eval_a_raw",
+  "cj_task1_eval_b_raw",
+  "cj_task2_eval_c_raw",
+  "cj_task2_eval_d_raw",
+  "cj_task3_eval_e_raw",
+  "cj_task3_eval_f_raw"
 )
 df_stacked_recoded <- df_stacked_recoded |>
   mutate(
-    across(all_of(cj_choice_vars), cj_choice_code, .names = "{str_remove(.col, '_raw')}"),
-    across(all_of(cj_eval_vars), cj_eval_code, .names = "{str_remove(.col, '_raw')}")
+    across(
+      all_of(cj_choice_vars),
+      cj_choice_code,
+      .names = "{str_remove(.col, '_raw')}"
+    ),
+    across(
+      all_of(cj_eval_vars),
+      cj_eval_code,
+      .names = "{str_remove(.col, '_raw')}"
+    )
   )
 ```
 
@@ -11192,6 +11525,358 @@ walk(c(cj_choice_vars, cj_eval_vars), function(v) {
     print(leftover, n = 20)
   }
 })
+```
+
+# Conjoint Attribute Order {#sec-cj-attr-order}
+
+`cj_attr_order_raw` records, per respondent, the randomised display order of the
+conjoint profile attributes as a single delimited string of attribute tokens
+(translated per country). Coding it to the canonical English attribute set
+(`party`, `nat`, `eupos`, `rel`, `age`, `sex`, `class`) is needed for
+experimental checks.
+
+```{r}
+#| label: cj_attr_order-values
+# aus
+df_stacked |>
+  filter(meta_country == "Austria") |>
+  distinct(cj_attr_order_raw)
+# bel
+df_stacked |>
+  filter(meta_country == "Belgium") |>
+  distinct(cj_attr_order_raw)
+# bgr
+df_stacked |>
+  filter(meta_country == "Bulgaria") |>
+  distinct(cj_attr_order_raw)
+# hrv
+df_stacked |>
+  filter(meta_country == "Croatia") |>
+  distinct(cj_attr_order_raw)
+# cze
+df_stacked |>
+  filter(meta_country == "Czechia") |>
+  distinct(cj_attr_order_raw)
+# dnk
+df_stacked |>
+  filter(meta_country == "Denmark") |>
+  distinct(cj_attr_order_raw)
+# est
+df_stacked |>
+  filter(meta_country == "Estonia") |>
+  distinct(cj_attr_order_raw)
+# fin
+df_stacked |>
+  filter(meta_country == "Finland") |>
+  distinct(cj_attr_order_raw)
+# fra
+df_stacked |>
+  filter(meta_country == "France") |>
+  distinct(cj_attr_order_raw)
+# deu
+df_stacked |>
+  filter(meta_country == "Germany") |>
+  distinct(cj_attr_order_raw)
+# grc
+df_stacked |>
+  filter(meta_country == "Greece") |>
+  distinct(cj_attr_order_raw)
+# hun
+df_stacked |>
+  filter(meta_country == "Hungary") |>
+  distinct(cj_attr_order_raw)
+# irl
+df_stacked |>
+  filter(meta_country == "Ireland") |>
+  distinct(cj_attr_order_raw)
+# ita
+df_stacked |>
+  filter(meta_country == "Italy") |>
+  distinct(cj_attr_order_raw)
+# lva
+df_stacked |>
+  filter(meta_country == "Latvia") |>
+  distinct(cj_attr_order_raw)
+# ltu
+df_stacked |>
+  filter(meta_country == "Lithuania") |>
+  distinct(cj_attr_order_raw)
+# nld
+df_stacked |>
+  filter(meta_country == "Netherlands") |>
+  distinct(cj_attr_order_raw)
+# pol
+df_stacked |>
+  filter(meta_country == "Poland") |>
+  distinct(cj_attr_order_raw)
+# prt
+df_stacked |>
+  filter(meta_country == "Portugal") |>
+  distinct(cj_attr_order_raw)
+# rou
+df_stacked |>
+  filter(meta_country == "Romania") |>
+  distinct(cj_attr_order_raw)
+# svk
+df_stacked |>
+  filter(meta_country == "Slovakia") |>
+  distinct(cj_attr_order_raw)
+# svn
+df_stacked |>
+  filter(meta_country == "Slovenia") |>
+  distinct(cj_attr_order_raw)
+# esp
+df_stacked |>
+  filter(meta_country == "Spain") |>
+  distinct(cj_attr_order_raw)
+# swe
+df_stacked |>
+  filter(meta_country == "Sweden") |>
+  distinct(cj_attr_order_raw)
+# gbr
+df_stacked |>
+  filter(meta_country == "United Kingdom") |>
+  distinct(cj_attr_order_raw)
+```
+
+Each raw string is a comma-delimited list of the seven attribute tokens in their
+randomised display order (translated per country; some respondents in any country
+received the English instrument, so the English tokens appear everywhere). Tokens
+map onto the canonical conjoint attribute set already used by the profile columns:
+`nat`, `age`, `party`, `sex`, `rel`, `class`, `eupos`. One named vector per
+canonical token, one entry per language. `cj_norm()` (defined above) folds the
+trailing unicode/NBSP spaces seen in the Estonian (`"ELi "`) and Lithuanian
+(`"ES "`) EU tokens, so the clean forms below match.
+
+```{r}
+#| label: value-labels-cj_attr_order
+# nationality -> "nat"
+attr_nat_vec <- c(
+  "Nationality", # en
+  "Nationalität", # de
+  "Nationaliteit", # nl
+  "Nationalité", # fr
+  "Националност", # bg
+  "Nacionalnost", # hr
+  "Občanství", # cs (citizenship)
+  "Nationalitet", # da / sv
+  "Kodakondsus", # et (citizenship)
+  "Kansalaisuus", # fi
+  "Υπηκοότητα", # el
+  "Nemzetisége", # hu
+  "Nazionalità", # it
+  "Tautība", # lv
+  "Pilietybė", # lt
+  "Narodowość", # pl
+  "Nacionalidade", # pt
+  "Naționalitate", # ro
+  "Národnosť", # sk
+  "Državljanstvo", # sl (citizenship)
+  "Nacionalidad" # es
+)
+
+# age -> "age"
+attr_age_vec <- c(
+  "Age", # en
+  "Alter", # de
+  "Leeftijd", # nl
+  "Âge", # fr
+  "Възраст", # bg
+  "Dob", # hr
+  "Věk", # cs
+  "Alder", # da
+  "Vanus", # et
+  "Ikä", # fi
+  "Ηλικία", # el
+  "Kora", # hu
+  "Età", # it
+  "Vecums", # lv
+  "Amžius", # lt
+  "Wiek", # pl
+  "Idade", # pt
+  "Vârstă", # ro
+  "Vek", # sk
+  "Starost", # sl
+  "Edad", # es
+  "Ålder" # sv
+)
+
+# party affiliation -> "party"
+attr_party_vec <- c(
+  "Party Affiliation", # en
+  "Parteizugehörigkeit", # de
+  "Lidmaatschap van politieke partij", # nl
+  "Affiliation politique", # fr
+  "Принадлежност към политическа партия", # bg
+  "Pripadnost političkoj stranci", # hr
+  "Příklon k politické straně", # cs
+  "Politisk tilhørsforhold", # da
+  "Erakondlik kuuluvus", # et
+  "Poliittinen puolue", # fi
+  "Σχέση με πολιτικό κόμμα", # el
+  "Politikai párttagsága", # hu
+  "Affiliazione politica", # it
+  "Piederība politiskajai partijai", # lv
+  "Narystė politinėje partijoje", # lt
+  "Przynależność partyjna", # pl
+  "Filiação política partidária", # pt
+  "Afiliere la un partid politic", # ro
+  "Príslušnosť k politickej strane", # sk
+  "Pripadnost politični stranki", # sl
+  "Afiliación política", # es
+  "Politisk partitillhörighet" # sv
+)
+
+# gender -> "sex"
+attr_sex_vec <- c(
+  "Gender", # en
+  "Geschlecht", # de
+  "Geslacht", # nl
+  "Sexe", # fr
+  "Пол", # bg
+  "Spol", # hr / sl
+  "Pohlaví", # cs
+  "Køn", # da
+  "Sugu", # et
+  "Sukupuoli", # fi
+  "Φύλο", # el
+  "Neme", # hu
+  "Sesso", # it
+  "Dzimums", # lv
+  "Lytis", # lt
+  "Płeć", # pl
+  "Género", # pt
+  "Sex", # ro
+  "Pohlavie", # sk
+  "Sexo", # es
+  "Kön" # sv
+)
+
+# religion -> "rel"
+attr_rel_vec <- c(
+  "Religion", # en / de / da / sv / fr
+  "Religie", # nl / ro (same spelling)
+  "Религия", # bg
+  "Vjera", # hr
+  "Vyznání", # cs
+  "Usutunnistus", # et
+  "Uskonto", # fi
+  "Θρησκεία", # el
+  "Vallása", # hu
+  "Religione", # it
+  "Reliģiskā piederība", # lv
+  "Religija", # lt / sl
+  "Wyznanie", # pl
+  "Religião", # pt
+  "Vierovyznanie", # sk
+  "Religión" # es
+)
+
+# social class -> "class"
+attr_class_vec <- c(
+  "Social Class", # en
+  "Soziale Schicht", # de
+  "Sociale klasse", # nl
+  "Classe sociale", # fr
+  "Социална класа", # bg
+  "Društveni sloj", # hr
+  "Sociální třída", # cs
+  "Socialklasse", # da
+  "Ühiskonnaklass", # et
+  "Yhteiskuntaluokka", # fi
+  "Κοινωνική τάξη", # el
+  "Társadalmi osztálya", # hu
+  "Ceto sociale", # it
+  "Sociālais slānis", # lv
+  "Socialinė klasė", # lt
+  "Klasa społeczna", # pl
+  "Classe social", # pt
+  "Clasă socială", # ro
+  "Spoločenská trieda", # sk
+  "Družbeni razred", # sl
+  "Clase social", # es
+  "Social klass" # sv
+)
+
+# EU position -> "eupos"
+attr_eupos_vec <- c(
+  "EU-Position", # en / de (this data uses "EU-Position", not "EU Attachement")
+  "EU", # nl / hr / cs / da / fi / hu / sl / sv
+  "UE", # fr / it / pl / pt / ro / es
+  "ЕС", # bg
+  "ELi", # et — trailing space ("ELi ") in raw, folded by cj_norm()
+  "EE", # el
+  "ES", # lv / lt — lt has trailing space ("ES "), folded by cj_norm()
+  "EÚ" # sk
+)
+```
+
+Each raw string is split on `,`, every token is `cj_norm()`-normalised and mapped
+to its canonical name; the canonical names are re-joined in their original order
+into `cj_attr_order`. If **any** token in a string fails to resolve, that string's
+`cj_attr_order` is set to `NA` (no partial orders). Alongside the order string we
+also store the 1-based display slot of each attribute as `cj_att_pos_<attr>`
+integers. Both are computed once per distinct raw string and joined back, which
+leaves row order untouched. Wave-1 rows (no games) have `NA` raw → `NA` throughout.
+
+```{r}
+#| label: recode-cj_attr_order
+canonical_attrs <- c("nat", "age", "party", "sex", "rel", "class", "eupos")
+
+# normalised token -> canonical attribute name
+attr_lookup <- c(
+  setNames(rep("nat", length(attr_nat_vec)), cj_norm(attr_nat_vec)),
+  setNames(rep("age", length(attr_age_vec)), cj_norm(attr_age_vec)),
+  setNames(rep("party", length(attr_party_vec)), cj_norm(attr_party_vec)),
+  setNames(rep("sex", length(attr_sex_vec)), cj_norm(attr_sex_vec)),
+  setNames(rep("rel", length(attr_rel_vec)), cj_norm(attr_rel_vec)),
+  setNames(rep("class", length(attr_class_vec)), cj_norm(attr_class_vec)),
+  setNames(rep("eupos", length(attr_eupos_vec)), cj_norm(attr_eupos_vec))
+)
+
+# map one raw order string -> canonical tokens; NA if blank or any token unresolved
+cj_attr_canonical <- function(raw) {
+  if (is.na(raw)) {
+    return(NA_character_)
+  }
+  toks <- cj_norm(str_split(raw, ",")[[1]])
+  mapped <- unname(attr_lookup[toks])
+  if (any(is.na(mapped))) {
+    return(NA_character_)
+  }
+  mapped
+}
+
+# 1-based slot of one attribute within a canonical token vector
+cj_attr_pos <- function(canon, attr) {
+  if (length(canon) == 1 && is.na(canon[1])) {
+    return(NA_integer_)
+  }
+  pos <- match(attr, canon)
+  if (is.na(pos)) NA_integer_ else as.integer(pos)
+}
+
+# compute once per distinct raw string, then join back (preserves row order)
+attr_order_map <- df_stacked_recoded |>
+  distinct(cj_attr_order_raw) |>
+  mutate(.canon = map(cj_attr_order_raw, cj_attr_canonical)) |>
+  mutate(
+    cj_attr_order = map_chr(
+      .canon,
+      \(x) if (length(x) == 1 && is.na(x[1])) NA_character_ else str_c(x, collapse = ",")
+    ),
+    cj_att_pos_nat = map_int(.canon, \(x) cj_attr_pos(x, "nat")),
+    cj_att_pos_age = map_int(.canon, \(x) cj_attr_pos(x, "age")),
+    cj_att_pos_party = map_int(.canon, \(x) cj_attr_pos(x, "party")),
+    cj_att_pos_sex = map_int(.canon, \(x) cj_attr_pos(x, "sex")),
+    cj_att_pos_rel = map_int(.canon, \(x) cj_attr_pos(x, "rel")),
+    cj_att_pos_class = map_int(.canon, \(x) cj_attr_pos(x, "class")),
+    cj_att_pos_eupos = map_int(.canon, \(x) cj_attr_pos(x, "eupos"))
+  ) |>
+  select(-.canon)
+
+df_stacked_recoded <- df_stacked_recoded |>
+  left_join(attr_order_map, by = "cj_attr_order_raw")
 ```
 
 # Save Full Recoded Wide EU25 Dataset
