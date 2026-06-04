@@ -1,0 +1,44 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+This license applies to all files and objects contained in the data/
+subdirectory of this repository, including all cleaned individual-level
+anonymized survey responses in any format.
+
+The pipeline code is licensed separately under the MIT License (see LICENSE).
+
+=============================================================================
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material for any purpose,
+          even commercially
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made. You may do so in any reasonable
+  manner, but not in any way that suggests the licensor endorses you or your
+  use.
+
+  No additional restrictions — You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license
+  permits.
+
+=============================================================================
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+=============================================================================
+
+NOTICE
+
+The data in this repository are individual-level anonymized survey responses
+collected across three waves of a cross-national conjoint survey experiment.
+All responses have been anonymized prior to inclusion. Users must not attempt
+to re-identify respondents. Use of the data is expected to comply with the
+ethical conditions under which it was originally collected.
+
+This dataset reprocesses and extends data from published replication archives.
+Please see the README for details on the source data, discrepancies with
+prior archives, and how to cite this dataset.
