@@ -10090,7 +10090,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_dict1_lastclick = as.integer(cj_dict1_lastclick),
     cj_dict1_pagesubmit = as.integer(cj_dict1_pagesubmit),
     cj_dict1_clickcount = as.integer(cj_dict1_clickcount),
-    # cj_dict1_nat = ,
+    # cj_dict1_nationality_drawn = ,
     # cj_dict1_party = ,
     # cj_dict1_eupos = ,
     cj_dict1_rel = case_when(
@@ -10108,7 +10108,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_dict2_lastclick = as.integer(cj_dict2_lastclick),
     cj_dict2_pagesubmit = as.integer(cj_dict2_pagesubmit),
     cj_dict2_clickcount = as.integer(cj_dict2_clickcount),
-    # cj_dict2_nat = ,
+    # cj_dict2_nationality_drawn = ,
     # cj_dict2_party = ,
     # cj_dict2_eupos = ,
     cj_dict2_rel = case_when(
@@ -10126,7 +10126,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_dict3_lastclick = as.integer(cj_dict3_lastclick),
     cj_dict3_pagesubmit = as.integer(cj_dict3_pagesubmit),
     cj_dict3_clickcount = as.integer(cj_dict3_clickcount),
-    # cj_dict3_nat = ,
+    # cj_dict3_nationality_drawn = ,
     # cj_dict3_party = ,
     # cj_dict3_eupos = ,
     cj_dict3_rel = case_when(
@@ -10148,7 +10148,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_trust1_lastclick = as.integer(cj_trust1_lastclick),
     cj_trust1_pagesubmit = as.integer(cj_trust1_pagesubmit),
     cj_trust1_clickcount = as.integer(cj_trust1_clickcount),
-    # cj_trust1_nat = ,
+    # cj_trust1_nationality_drawn = ,
     # cj_trust1_party = ,
     # cj_trust1_eupos = ,
     cj_trust1_rel = case_when(
@@ -10166,7 +10166,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_trust2_lastclick = as.integer(cj_trust2_lastclick),
     cj_trust2_pagesubmit = as.integer(cj_trust2_pagesubmit),
     cj_trust2_clickcount = as.integer(cj_trust2_clickcount),
-    # cj_trust2_nat = ,
+    # cj_trust2_nationality_drawn = ,
     # cj_trust2_party = ,
     # cj_trust2_eupos = ,
     cj_trust2_rel = case_when(
@@ -10184,7 +10184,7 @@ df_stacked_recoded <- df_stacked_recoded |>
     cj_trust3_lastclick = as.integer(cj_trust3_lastclick),
     cj_trust3_pagesubmit = as.integer(cj_trust3_pagesubmit),
     cj_trust3_clickcount = as.integer(cj_trust3_clickcount),
-    # cj_trust3_nat = ,
+    # cj_trust3_nationality_drawn = ,
     # cj_trust3_party = ,
     # cj_trust3_eupos = ,
     cj_trust3_rel = case_when(
@@ -10773,7 +10773,7 @@ for (slot in cj_profile_slots) {
   sex_raw <- paste0(slot, "_sex_raw")
   cls_raw <- paste0(slot, "_class_raw")
   eup_raw <- paste0(slot, "_eupos_raw")
-  nat_raw <- paste0(slot, "_nat_raw")
+  nat_raw <- paste0(slot, "_nationality_drawn_raw")
   df_stacked_recoded <- df_stacked_recoded |>
     mutate(
       "{slot}_sex" := case_when(
@@ -10793,7 +10793,7 @@ for (slot in cj_profile_slots) {
           cj_norm(cj_eupos_no_vec) ~ "not_eu_citizen",
         .default = NA_character_
       ),
-      "{slot}_nat" := case_when(
+      "{slot}_nationality_drawn" := case_when(
         cj_norm(.data[[nat_raw]]) %in%
           cj_norm(cj_nat_owncountry_vec) ~ "own_country",
         cj_norm(.data[[nat_raw]]) %in% cj_norm(cj_nat_eu_vec) ~ "eu",
@@ -10809,7 +10809,7 @@ for (slot in cj_profile_slots) {
 # any non-empty raw value left uncoded should only be the stray test strings
 cj_attr_raws <- as.vector(outer(
   cj_profile_slots,
-  c("_sex_raw", "_class_raw", "_eupos_raw", "_nat_raw"),
+  c("_sex_raw", "_class_raw", "_eupos_raw", "_nationality_drawn_raw"),
   paste0
 ))
 map(cj_attr_raws, function(v) {
@@ -10825,7 +10825,7 @@ map(cj_attr_raws, function(v) {
 
 ## Conjoint Shown Nationality {#sec-cj-nationality-shown}
 
-The conjoint `cj_<g>_nat` columns above hold the **drawn** nationality — an
+The conjoint `cj_<g>_nationality_drawn` columns above hold the **drawn** nationality — an
 independent background lottery (`Q60_2`) that is flat ~50/25/25 (own / EU / non-EU)
 inside every treatment.
 But the partner nationality **actually shown** on screen was fixed by the treatment
@@ -10833,11 +10833,11 @@ branch, which *overrides* the draw:
 
 - `1_conat_eustance_partisan`, `2_conat_partisan` (conat) → always co-national (`own_country`)
 - `3_eunat_eustance` (eunat) → always out-national-EU (`eu`)
-- `4_somenat` → the drawn nationality (= the coded `cj_<g>_nat`)
+- `4_somenat` → the drawn nationality (= the coded `cj_<g>_nationality_drawn`)
 
-We materialise this as `der_cj_<g>_nationality`, reproducing the effective
+We materialise this as `cj_<g>_nationality_shown`, reproducing the effective
 `nationality` used in Hilpert's analysis frame (`prepare_dat_consld.R:2374–2391`).
-The raw draw (`cj_<g>_nat` / `cj_<g>_nat_raw`) is kept untouched.
+The raw draw (`cj_<g>_nationality_drawn` / `cj_<g>_nationality_drawn_raw`) is kept untouched.
 
 Nationality is the **only** attribute the branch overrides.
 EU-stance and partisanship are never overridden — when shown, their value simply *is*
@@ -10851,19 +10851,19 @@ partisanship shown ⇔ `treatment ∈ {1_conat_eustance_partisan, 2_conat_partis
 ```{r}
 #| label: recode-cj-nationality-shown
 
-# der_cj_<g>_nationality: nationality actually shown to the respondent.
+# cj_<g>_nationality_shown: nationality actually shown to the respondent.
 # conat forces co-national, eunat forces out-EU (branch overrides the draw);
-# somenat shows the drawn nationality (= already-coded cj_<g>_nat).
+# somenat shows the drawn nationality (= already-coded cj_<g>_nationality_drawn).
 for (slot in cj_profile_slots) {
   trt <- paste0(slot, "_treatment")
-  nat <- paste0(slot, "_nat") # coded draw: own_country / eu / non_eu
+  drawn <- paste0(slot, "_nationality_drawn") # coded draw: own_country / eu / non_eu
   df_stacked_recoded <- df_stacked_recoded |>
     mutate(
-      "der_{slot}_nationality" := case_when(
+      "{slot}_nationality_shown" := case_when(
         .data[[trt]] %in%
           c("1_conat_eustance_partisan", "2_conat_partisan") ~ "own_country",
         .data[[trt]] == "3_eunat_eustance" ~ "eu",
-        .data[[trt]] == "4_somenat" ~ .data[[nat]],
+        .data[[trt]] == "4_somenat" ~ .data[[drawn]],
         .default = NA_character_
       )
     )
@@ -10877,7 +10877,7 @@ for (slot in cj_profile_slots) {
   df_stacked_recoded |>
     count(
       .data[[paste0(slot, "_treatment")]],
-      .data[[paste0("der_", slot, "_nationality")]]
+      .data[[paste0(slot, "_nationality_shown")]]
     ) |>
     print()
 }

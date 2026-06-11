@@ -599,7 +599,9 @@ consolidate_games <- function(df) {
     ordered_cols[[paste0("cj_", g, "_treatment")]] <-
       treatment_cols[[paste0("cj_", g, "_treatment")]]
     for (af in attr_fields) {
-      ordered_cols[[paste0("cj_", g, "_", af, "_raw")]] <-
+      # nationality draw renamed to _drawn to pair with coded shown nationality
+      out_af <- if (af == "nat") "nationality_drawn" else af
+      ordered_cols[[paste0("cj_", g, "_", out_af, "_raw")]] <-
         q60_game_cols[[paste0("cj_", g, "_", af)]]
     }
   }
@@ -615,7 +617,9 @@ consolidate_games <- function(df) {
     ordered_cols[[paste0("cj_", g, "_treatment")]] <-
       treatment_cols[[paste0("cj_", g, "_treatment")]]
     for (af in attr_fields) {
-      ordered_cols[[paste0("cj_", g, "_", af, "_raw")]] <-
+      # nationality draw renamed to _drawn to pair with coded shown nationality
+      out_af <- if (af == "nat") "nationality_drawn" else af
+      ordered_cols[[paste0("cj_", g, "_", out_af, "_raw")]] <-
         q60_game_cols[[paste0("cj_", g, "_", af)]]
     }
   }
@@ -736,7 +740,7 @@ new_cj_instr <- names(aut2_cons)[str_detect(
 )]
 new_cj_attrs <- names(aut2_cons)[str_detect(
   names(aut2_cons),
-  "^cj_(dict|trust)\\d+_(nat|party|eupos|rel|age|sex|class)_raw$"
+  "^cj_(dict|trust)\\d+_(nationality_drawn|party|eupos|rel|age|sex|class)_raw$"
 )]
 cat("Game outcome/timing cols (cj_):", length(new_cj_game), "\n")
 cat("Instruction timing cols (cj_):", length(new_cj_instr), "\n")
