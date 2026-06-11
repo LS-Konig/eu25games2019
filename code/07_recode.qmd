@@ -10823,6 +10823,66 @@ map(cj_attr_raws, function(v) {
   distinct()
 ```
 
+## Conjoint Shown Nationality {#sec-cj-nationality-shown}
+
+The conjoint `cj_<g>_nat` columns above hold the **drawn** nationality — an
+independent background lottery (`Q60_2`) that is flat ~50/25/25 (own / EU / non-EU)
+inside every treatment.
+But the partner nationality **actually shown** on screen was fixed by the treatment
+branch, which *overrides* the draw:
+
+- `1_conat_eustance_partisan`, `2_conat_partisan` (conat) → always co-national (`own_country`)
+- `3_eunat_eustance` (eunat) → always out-national-EU (`eu`)
+- `4_somenat` → the drawn nationality (= the coded `cj_<g>_nat`)
+
+We materialise this as `der_cj_<g>_nationality`, reproducing the effective
+`nationality` used in Hilpert's analysis frame (`prepare_dat_consld.R:2374–2391`).
+The raw draw (`cj_<g>_nat` / `cj_<g>_nat_raw`) is kept untouched.
+
+Nationality is the **only** attribute the branch overrides.
+EU-stance and partisanship are never overridden — when shown, their value simply *is*
+the draw; when not shown, the draw is just unused.
+So they need no materialised column: whether (and with which value) each was shown is
+derivable from `cj_<g>_treatment` plus the existing draw columns —
+EU-stance shown ⇔ `treatment ∈ {1_conat_eustance_partisan, 3_eunat_eustance}` (value `cj_<g>_eupos`);
+partisanship shown ⇔ `treatment ∈ {1_conat_eustance_partisan, 2_conat_partisan}`
+(partner party `cj_<g>_party` / `ext_cj_<g>_party_pf_*`, vs `q_party_id`).
+
+```{r}
+#| label: recode-cj-nationality-shown
+
+# der_cj_<g>_nationality: nationality actually shown to the respondent.
+# conat forces co-national, eunat forces out-EU (branch overrides the draw);
+# somenat shows the drawn nationality (= already-coded cj_<g>_nat).
+for (slot in cj_profile_slots) {
+  trt <- paste0(slot, "_treatment")
+  nat <- paste0(slot, "_nat") # coded draw: own_country / eu / non_eu
+  df_stacked_recoded <- df_stacked_recoded |>
+    mutate(
+      "der_{slot}_nationality" := case_when(
+        .data[[trt]] %in%
+          c("1_conat_eustance_partisan", "2_conat_partisan") ~ "own_country",
+        .data[[trt]] == "3_eunat_eustance" ~ "eu",
+        .data[[trt]] == "4_somenat" ~ .data[[nat]],
+        .default = NA_character_
+      )
+    )
+}
+```
+
+```{r}
+#| label: validate-cj-nationality-shown
+# conat -> own_country only; eunat -> eu only; somenat -> 3 levels; NA trt -> NA
+for (slot in cj_profile_slots) {
+  df_stacked_recoded |>
+    count(
+      .data[[paste0(slot, "_treatment")]],
+      .data[[paste0("der_", slot, "_nationality")]]
+    ) |>
+    print()
+}
+```
+
 # Remaining Numbered Scales {#sec-remaining-scales}
 
 The remaining ordinal scale items all share the same Qualtrics value format: the
