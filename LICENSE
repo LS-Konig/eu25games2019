@@ -1,4 +1,22 @@
-MIT License
+eu25games2019 — Licensing
+==========================
+
+This repository is dual-licensed:
+
+  * CODE — the cleaning-pipeline notebooks and scripts (everything outside the
+    data/ subdirectory) are licensed under the MIT License (Section 1 below).
+
+  * DATA — all files and objects in the data/ subdirectory, including the
+    cleaned individual-level anonymized survey responses in any format, are
+    licensed under the Creative Commons Attribution 4.0 International license
+    (CC BY 4.0) (Section 2 below).
+
+Please also read the DATA NOTICE at the end of this file before using the data.
+
+
+=============================================================================
+1. CODE LICENSE — MIT License
+=============================================================================
 
 Copyright (c) 2026
 
@@ -19,3 +37,46 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+=============================================================================
+2. DATA LICENSE — Creative Commons Attribution 4.0 International (CC BY 4.0)
+=============================================================================
+
+This license applies to all files and objects contained in the data/
+subdirectory of this repository, including all cleaned individual-level
+anonymized survey responses in any format.
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material for any purpose,
+          even commercially
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to the
+  license, and indicate if changes were made. You may do so in any reasonable
+  manner, but not in any way that suggests the licensor endorses you or your
+  use.
+
+  No additional restrictions — You may not apply legal terms or technological
+  measures that legally restrict others from doing anything the license
+  permits.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+
+=============================================================================
+DATA NOTICE
+=============================================================================
+
+The data in this repository are individual-level anonymized survey responses
+collected across three waves of a cross-national conjoint survey experiment.
+All responses have been anonymized prior to inclusion. Users must not attempt
+to re-identify respondents. Use of the data is expected to comply with the
+ethical conditions under which it was originally collected.
+
+This dataset reprocesses and extends data from published replication archives.
+Please see the README for details on the source data, discrepancies with
+prior archives, and how to cite this dataset.
