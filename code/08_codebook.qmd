@@ -14,7 +14,7 @@ date-format: MMMM D, YYYY
 format:
   html:
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     code-fold: true
     code-tools: true
     embed-resources: true
@@ -102,23 +102,68 @@ join_capped <- function(x, cap = 12) {
     return("—")
   }
   if (length(x) > cap) {
-    paste0(paste(head(x, cap), collapse = "; "), " … (+", length(x) - cap, " more)")
+    paste0(
+      paste(head(x, cap), collapse = "; "),
+      " … (+",
+      length(x) - cap,
+      " more)"
+    )
   } else {
     paste(x, collapse = "; ")
   }
 }
 
-# category label from the variable prefix
-var_category <- function(g) {
+# top-level category from the variable prefix
+cat_of <- function(g) {
   p <- str_extract(g, "^[^_]+")
   dplyr::case_when(
     p == "meta" ~ "Metadata & paradata",
     p == "q" ~ "Survey questions",
-    p == "cj" ~ "Conjoint experiment",
-    p == "prime" ~ "Priming experiment",
+    p == "prime" ~ "Priming experiments",
+    p == "cj" ~ "Conjoint & behavioural games",
     p == "der" ~ "Derived variables",
     p == "ext" ~ "External (Party Facts)",
     .default = "Other"
+  )
+}
+
+# fixed top-level order
+cat_order <- c(
+  "Metadata & paradata" = 1L,
+  "Survey questions" = 2L,
+  "Priming experiments" = 3L,
+  "Conjoint & behavioural games" = 4L,
+  "Derived variables" = 5L,
+  "External (Party Facts)" = 6L,
+  "Other" = 7L
+)
+
+# priming experiment labels, keyed by the segment after prime_
+prime_labels <- c(
+  respresp = "Responsiveness vs. responsibility prime (Wave 1)",
+  gridlock = "EU gridlock prime (Wave 1)",
+  compliance = "EU-law compliance prime (Wave 1)",
+  court = "National high-court ruling prime (Wave 1)",
+  econblame = "Economic-blame prime (Wave 1)",
+  moreeu = "More-EU integration prime (Wave 2)",
+  cjeu = "CJEU court-ruling prime (Waves 2–3)",
+  cjeu_fra = "CJEU court-ruling prime, French version (Wave 2)"
+)
+
+# sub-experiment label (NA for categories with no sub-grouping)
+subsection_of <- function(g) {
+  prime_key <- g |>
+    str_remove("^prime_") |>
+    str_remove("_(condition|text|firstclick|lastclick|pagesubmit|clickcount)$")
+  dplyr::case_when(
+    str_starts(g, "prime_") ~ unname(prime_labels[prime_key]),
+    str_starts(g, "cj_task") |
+      str_starts(g, "cj_rand") ~ "Candidate-choice conjoint experiment",
+    str_starts(g, "cj_dict") ~ "Dictator game",
+    str_starts(g, "cj_trust") ~ "Trust game",
+    str_starts(g, "cj_attr_order") |
+      str_starts(g, "cj_att_pos") ~ "Shared: partner-attribute display order",
+    .default = NA_character_
   )
 }
 
@@ -129,11 +174,13 @@ anchor_id <- function(g) {
 
 english_first <- function(tbl) {
   tbl |>
-    mutate(.rank = dplyr::case_when(
-      country == "United Kingdom" ~ 1L,
-      country == "Ireland" ~ 2L,
-      .default = 3L
-    )) |>
+    mutate(
+      .rank = dplyr::case_when(
+        country == "United Kingdom" ~ 1L,
+        country == "Ireland" ~ 2L,
+        .default = 3L
+      )
+    ) |>
     arrange(.rank, country) |>
     select(-.rank)
 }
@@ -145,7 +192,15 @@ gk[str_detect(all_cols, "^cj_att_pos_")] <- "cj_attr_order"
 groups <- tibble(col = all_cols, gk = gk, ord = seq_along(all_cols)) |>
   group_by(gk) |>
   summarise(first = min(ord), cols = list(col), .groups = "drop") |>
-  arrange(first)
+  mutate(
+    cat = cat_of(gk),
+    cat_ord = unname(cat_order[cat]),
+    sub = subsection_of(gk)
+  ) |>
+  group_by(cat, sub) |>
+  mutate(sub_first = min(first)) |>
+  ungroup() |>
+  arrange(cat_ord, sub_first, first)
 
 # per-column class string
 col_class <- map_chr(df, ~ class(.x)[1])
@@ -159,19 +214,28 @@ cat("variable groups:", nrow(groups), "\n")
 #| label: codebook
 #| results: asis
 cur_cat <- ""
+cur_sub <- ""
 
 for (i in seq_len(nrow(groups))) {
   g <- groups$gk[i]
   members <- groups$cols[[i]]
 
-  # category header
-  cat_g <- var_category(g)
-  if (cat_g != cur_cat) {
+  # category header (once)
+  cat_g <- groups$cat[i]
+  if (!identical(cat_g, cur_cat)) {
     cat("\n\n## ", cat_g, "\n\n", sep = "")
     cur_cat <- cat_g
+    cur_sub <- ""
   }
 
-  cat("\n\n### `", g, "` {#", anchor_id(g), "}\n\n", sep = "")
+  # sub-experiment header (once, where present)
+  sub_g <- groups$sub[i]
+  if (!is.na(sub_g) && !identical(sub_g, cur_sub)) {
+    cat("\n\n### ", sub_g, "\n\n", sep = "")
+    cur_sub <- sub_g
+  }
+
+  cat("\n\n#### `", g, "` {#", anchor_id(g), "}\n\n", sep = "")
 
   # ---- classify member columns ----------------------------------------------
   raw_col <- members[str_detect(members, "_raw$")]
@@ -182,7 +246,8 @@ for (i in seq_len(nrow(groups))) {
   pos_cols <- members[str_detect(members, "^cj_att_pos_")]
 
   primary <- dplyr::coalesce(
-    coded_col, raw_col,
+    coded_col,
+    raw_col,
     members[!str_detect(members, "^ext_|^cj_att_pos_")][1],
     members[1]
   )
@@ -207,13 +272,13 @@ for (i in seq_len(nrow(groups))) {
 
   # ---- metadata table --------------------------------------------------------
   meta_tbl <- tibble::tribble(
-    ~Field, ~Value,
-    "Variable (renamed)", paste0("`", g, "`"),
-    "Columns in dataset", paste0("`", members, "` (", col_class[members], ")", collapse = ", "),
-    "Raw column", if (is.na(raw_col)) "— (no `_raw` sibling)" else paste0("`", raw_col, "`"),
-    "Original Dynata code(s)", if (length(orig_codes) == 0) "—" else paste(orig_codes, collapse = ", "),
-    "Waves present", if (length(waves_present) == 0) "—" else paste(waves_present, collapse = ", "),
-    "English wording", if (length(eng_wording) == 0) "—" else clean_cell(eng_wording[1])
+    ~Field                    , ~Value                                                                         ,
+    "Variable (renamed)"      , paste0("`", g, "`")                                                            ,
+    "Columns in dataset"      , paste0("`", members, "` (", col_class[members], ")", collapse = ", ")          ,
+    "Raw column"              , if (is.na(raw_col)) "— (no `_raw` sibling)" else paste0("`", raw_col, "`")     ,
+    "Original Dynata code(s)" , if (length(orig_codes) == 0) "—" else paste(orig_codes, collapse = ", ")       ,
+    "Waves present"           , if (length(waves_present) == 0) "—" else paste(waves_present, collapse = ", ") ,
+    "English wording"         , if (length(eng_wording) == 0) "—" else clean_cell(eng_wording[1])
   )
   cat(knitr::kable(meta_tbl, format = "pipe"), sep = "\n")
   cat("\n\n")
@@ -244,9 +309,15 @@ for (i in seq_len(nrow(groups))) {
       # continuous numeric coded from a raw string
       rng <- range(v, na.rm = TRUE)
       cat(
-        "Numeric, derived from the raw string. Range **", rng[1], "–", rng[2],
-        "**; ", nd, " distinct non-missing values; ",
-        sum(is.na(v)), " missing (don't-know / refusal / not asked).\n\n",
+        "Numeric, derived from the raw string. Range **",
+        rng[1],
+        "–",
+        rng[2],
+        "**; ",
+        nd,
+        " distinct non-missing values; ",
+        sum(is.na(v)),
+        " missing (don't-know / refusal / not asked).\n\n",
         sep = ""
       )
     } else if (!is.na(raw_col)) {
@@ -262,7 +333,9 @@ for (i in seq_len(nrow(groups))) {
           raw_values = join_capped(unique(raw)),
           .groups = "drop"
         ) |>
-        mutate(coded = ifelse(is.na(coded), "NA (missing / don't-know)", coded)) |>
+        mutate(
+          coded = ifelse(is.na(coded), "NA (missing / don't-know)", coded)
+        ) |>
         arrange(coded != "NA (missing / don't-know)", coded) |>
         transmute(`Coded value` = coded, `n` = n, `Raw value(s)` = raw_values)
       cat(knitr::kable(mp, format = "pipe"), sep = "\n")
@@ -270,8 +343,15 @@ for (i in seq_len(nrow(groups))) {
     } else if (is.numeric(v) || is.integer(v)) {
       rng <- range(v, na.rm = TRUE)
       cat(
-        "Numeric. Range **", rng[1], "–", rng[2], "**; ", nd,
-        " distinct non-missing values; ", sum(is.na(v)), " missing.\n\n",
+        "Numeric. Range **",
+        rng[1],
+        "–",
+        rng[2],
+        "**; ",
+        nd,
+        " distinct non-missing values; ",
+        sum(is.na(v)),
+        " missing.\n\n",
         sep = ""
       )
     } else if (is.logical(v)) {
@@ -283,7 +363,9 @@ for (i in seq_len(nrow(groups))) {
       lv <- df |>
         count(.data[[coded_col]], name = "n") |>
         rename(Value = 1) |>
-        mutate(Value = ifelse(is.na(Value), "NA (missing)", as.character(Value))) |>
+        mutate(
+          Value = ifelse(is.na(Value), "NA (missing)", as.character(Value))
+        ) |>
         arrange(desc(n))
       cat("Categorical, ", nrow(lv), " distinct values:\n\n", sep = "")
       cat(knitr::kable(head(lv, 60), format = "pipe"), sep = "\n")
@@ -294,7 +376,8 @@ for (i in seq_len(nrow(groups))) {
     if (length(pos_cols) > 0) {
       cat(
         "Companion display-slot integers (1–7): ",
-        paste0("`", pos_cols, "`", collapse = ", "), ".\n\n",
+        paste0("`", pos_cols, "`", collapse = ", "),
+        ".\n\n",
         sep = ""
       )
     }
@@ -303,19 +386,27 @@ for (i in seq_len(nrow(groups))) {
     pf <- df[[ext_name[1]]]
     nd <- dplyr::n_distinct(pf[!is.na(pf)])
     cat(
-      "Party identity is harmonised to Party Facts in `", ext_name[1],
-      "` (name) and `", ext_id[1], "` (id). The `_raw` column holds the original ",
-      "party spelling (free text). ", nd, " distinct Party Facts names; examples: ",
-      join_capped(unique(pf), cap = 15), ".\n\n",
+      "Party identity is harmonised to Party Facts in `",
+      ext_name[1],
+      "` (name) and `",
+      ext_id[1],
+      "` (id). The `_raw` column holds the original ",
+      "party spelling (free text). ",
+      nd,
+      " distinct Party Facts names; examples: ",
+      join_capped(unique(pf), cap = 15),
+      ".\n\n",
       sep = ""
     )
   } else if (!is.na(raw_col)) {
     rv <- df[[raw_col]]
     nd <- dplyr::n_distinct(rv[!is.na(rv)])
     cat(
-      "Raw only (kept verbatim, no coded sibling). ", nd,
+      "Raw only (kept verbatim, no coded sibling). ",
+      nd,
       " distinct non-missing values. Examples: ",
-      join_capped(unique(rv), cap = 8), ".\n\n",
+      join_capped(unique(rv), cap = 8),
+      ".\n\n",
       sep = ""
     )
   } else {
@@ -324,14 +415,23 @@ for (i in seq_len(nrow(groups))) {
     if (is.numeric(v) || is.integer(v)) {
       rng <- suppressWarnings(range(v, na.rm = TRUE))
       cat(
-        "Numeric/paradata. Range **", rng[1], "–", rng[2], "**; ",
-        dplyr::n_distinct(v[!is.na(v)]), " distinct non-missing values.\n\n",
+        "Numeric/paradata. Range **",
+        rng[1],
+        "–",
+        rng[2],
+        "**; ",
+        dplyr::n_distinct(v[!is.na(v)]),
+        " distinct non-missing values.\n\n",
         sep = ""
       )
     } else if (inherits(v, "POSIXct") || inherits(v, "Date")) {
       rng <- suppressWarnings(range(v, na.rm = TRUE))
-      cat("Timestamp. Range **", as.character(rng[1]), "** to **",
-        as.character(rng[2]), "**.\n\n",
+      cat(
+        "Timestamp. Range **",
+        as.character(rng[1]),
+        "** to **",
+        as.character(rng[2]),
+        "**.\n\n",
         sep = ""
       )
     } else if (is.logical(v)) {
@@ -342,8 +442,10 @@ for (i in seq_len(nrow(groups))) {
     } else {
       nd <- dplyr::n_distinct(v[!is.na(v)])
       cat(
-        nd, " distinct non-missing values. Examples: ",
-        join_capped(unique(v), cap = 10), ".\n\n",
+        nd,
+        " distinct non-missing values. Examples: ",
+        join_capped(unique(v), cap = 10),
+        ".\n\n",
         sep = ""
       )
     }
