@@ -1,0 +1,56 @@
+cff-version: 1.2.0
+message: "If you use this dataset or pipeline, please cite it as below."
+title: "eu25games2019: A cleaned three-wave EU elections survey (2019) across 25 countries"
+abstract: >-
+  A harmonized, individual-level dataset from a three-wave survey fielded across
+  25 EU member states around the 2019 European Parliament elections, including an
+  embedded conjoint experiment, together with the full from-scratch data-cleaning
+  pipeline used to produce it. Party-name variables are linked to Party Facts.
+  The underlying survey data were designed and collected by Hahm, Hilpert, and
+  König for their study of partyism and coalition partnership in Europe
+  (American Political Science Review, 2024; doi:10.1017/S0003055423000266); this
+  record reprocesses and extends those data with a documented, reproducible
+  cleaning pipeline.
+type: dataset
+authors:
+  - family-names: Muno
+    given-names: Tristan
+    affiliation: "University of Mannheim"
+    orcid: "https://orcid.org/0009-0002-3078-8436"
+  # --- add co-authors below (copy the block, remove the leading '# ') ---
+  # - family-names: Konig
+  #   given-names: ""
+  #   affiliation: "University of Mannheim"
+  #   orcid: "https://orcid.org/0000-0000-0000-0000"
+version: "1.0.0"
+date-released: "2026-07-10"     # <-- set to the actual release date
+license:
+  - MIT           # code (notebooks/scripts outside data/)
+  - CC-BY-4.0     # data (everything in data/)
+repository-code: "https://github.com/LS-Konig/eu25games2019"
+keywords:
+  - "European Parliament elections"
+  - "2019"
+  - "conjoint experiment"
+  - "survey data"
+  - "European Union"
+  - "public opinion"
+  - "cross-national survey"
+references:
+  - type: article
+    title: "Divided We Unite: The Nature of Partyism and the Role of Coalition Partnership in Europe"
+    authors:
+      - family-names: Hahm
+        given-names: Hyeonho
+      - family-names: Hilpert
+        given-names: David
+      - family-names: König
+        given-names: Thomas
+    journal: "American Political Science Review"
+    year: 2024
+    volume: 118
+    issue: 1
+    start: 69
+    end: 87
+    doi: "10.1017/S0003055423000266"
+    notes: "Source study; original survey design and data collection."
