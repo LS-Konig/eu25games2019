@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1208689018.svg)](https://doi.org/10.5281/zenodo.21294634)
+
 # eu25games2019
 
 Data-cleaning pipeline for a **3-wave EU elections survey (2019)** fielded across **25 countries**.
