@@ -22,6 +22,8 @@ The final product is `data/03_final/eu25games2019.rds` (~103,685 rows × 833 col
 
 The file is **xz-compressed**, so it is far smaller on disk than its >1 GB uncompressed size. `read_rds()` / `readRDS()` decompress it transparently — no extra step needed.
 
+The rendered codebook, produced by `code/08_codebook.qmd`, can be [viewed here](http://htmlpreview.github.io/?https://github.com/LS-Konig/eu25games2019/blob/main/code/08_codebook.html)
+
 ### Loading it
 
 ```r
@@ -30,6 +32,8 @@ df <- read_rds("data/03_final/eu25games2019.rds")
 # or base R:
 df <- readRDS("data/03_final/eu25games2019.rds")
 ```
+
+Remember to adjust the loading paths accordingly after downloading the dataset.
 
 Companion files in `data/03_final/`:
 
