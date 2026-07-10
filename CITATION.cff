@@ -17,11 +17,10 @@ authors:
     given-names: Tristan
     affiliation: "University of Mannheim"
     orcid: "https://orcid.org/0009-0002-3078-8436"
-  # --- add co-authors below (copy the block, remove the leading '# ') ---
-  # - family-names: Konig
-  #   given-names: ""
-  #   affiliation: "University of Mannheim"
-  #   orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: König
+    given-names: Thomas
+    affiliation: "University of Mannheim"
+    orcid: "https://orcid.org/0000-0002-1797-6662"
 version: "1.0.0"
 date-released: "2026-07-10"     # <-- set to the actual release date
 license:
