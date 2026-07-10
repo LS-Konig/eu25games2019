@@ -87,3 +87,15 @@ The notebooks in `code/` run in order, each caching its output to `data/02_proce
 
 Authoritative inputs: `data/01_raw/Wave{1,2,3}.rds` (each an R list of 25 country dataframes).
 Run with R 4.5.3. Re-run `07_recode` end-to-end after any new recode to regenerate the deliverables.
+
+## How to cite
+
+If you use this dataset or pipeline, please cite it via its DOI (this resolves to the latest version):
+
+> Muno, Tristan, and Thomas König. *eu25games2019: A cleaned three-wave EU elections survey (2019) across 25 countries*. Zenodo. https://doi.org/10.5281/zenodo.21294634
+
+Please also cite the source study, whose survey design and data collection underlie this dataset:
+
+> Hahm, Hyeonho, David Hilpert, and Thomas König. 2024. "Divided We Unite: The Nature of Partyism and the Role of Coalition Partnership in Europe." *American Political Science Review* 118(1): 69–87. https://doi.org/10.1017/S0003055423000266
+
+Machine-readable citation metadata is in [`CITATION.cff`](CITATION.cff).

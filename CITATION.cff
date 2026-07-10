@@ -26,6 +26,7 @@ date-released: "2026-07-10"     # <-- set to the actual release date
 license:
   - MIT           # code (notebooks/scripts outside data/)
   - CC-BY-4.0     # data (everything in data/)
+doi: "10.5281/zenodo.21294634"
 repository-code: "https://github.com/LS-Konig/eu25games2019"
 keywords:
   - "European Parliament elections"
