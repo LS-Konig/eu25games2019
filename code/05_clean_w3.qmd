@@ -228,7 +228,7 @@ df_wave3 <- df_wave3 |>
           "Lithuania",
           "Netherlands",
           "Poland",
-          "UK"
+          "United Kingdom"
         ) ~ Q196_12,
       meta_country == "Germany" ~ Q196_22,
       meta_country == "Ireland" ~ Q196_7,
@@ -262,7 +262,7 @@ df_wave3 <- df_wave3 |>
           "Lithuania",
           "Netherlands",
           "Poland",
-          "UK"
+          "United Kingdom"
         ) ~ Q196_13,
       meta_country == "Germany" ~ Q196_23,
       meta_country == "Ireland" ~ Q196_8,
@@ -296,7 +296,7 @@ df_wave3 <- df_wave3 |>
           "Lithuania",
           "Netherlands",
           "Poland",
-          "UK"
+          "United Kingdom"
         ) ~ Q196_14,
       meta_country == "Germany" ~ Q196_24,
       meta_country == "Ireland" ~ Q196_9,
@@ -330,7 +330,7 @@ df_wave3 <- df_wave3 |>
           "Lithuania",
           "Netherlands",
           "Poland",
-          "UK"
+          "United Kingdom"
         ) ~ Q196_15,
       meta_country == "Germany" ~ Q196_25,
       meta_country == "Ireland" ~ Q196_10,
@@ -364,7 +364,7 @@ df_wave3 <- df_wave3 |>
           "Lithuania",
           "Netherlands",
           "Poland",
-          "UK"
+          "United Kingdom"
         ) ~ Q196_16,
       meta_country == "Germany" ~ Q196_26,
       meta_country == "Ireland" ~ Q196_11,
