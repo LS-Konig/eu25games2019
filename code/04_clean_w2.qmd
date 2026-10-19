@@ -1371,7 +1371,7 @@ df_wave2 <- df_wave2 |>
     ),
     prime_cjeu_text = case_match(
       prime_cjeu_condition,
-      "control-text" ~ "In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission."
+      "control_text" ~ "In thinking about the Court of Justice of the European Union's (CJEU) decisions more generally, some people argue that it tends to favor actions taken by the European Commission at the expense of parties or groups that are opposed to the European Commission. Others contend that the CJEU tends to protect parties or groups that are opposed to the European Commission even if it means striking down actions taken by the European Commission."
     )
   ) |>
   rename(
