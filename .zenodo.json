@@ -4,7 +4,7 @@
   "access_right": "open",
   "license": "cc-by-4.0",
   "language": "eng",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "<p>A harmonized, individual-level dataset from a three-wave survey fielded across 25 EU member states around the 2019 European Parliament elections, including an embedded conjoint experiment, together with the full from-scratch data-cleaning pipeline used to produce it. Party-name variables are linked to Party Facts.</p><p>The underlying survey data were designed and collected by Hyeonho Hahm, David Hilpert, and Thomas K&ouml;nig for their study of partyism and coalition partnership in Europe (<em>American Political Science Review</em>, 2024; <a href=\"https://doi.org/10.1017/S0003055423000266\">doi:10.1017/S0003055423000266</a>). This record reprocesses and extends those data with a documented, reproducible cleaning pipeline.</p><p><strong>Licensing:</strong> the cleaning-pipeline code (notebooks and scripts outside <code>data/</code>) is released under the MIT License; all data files under <code>data/</code> are released under CC BY 4.0. See the repository <code>LICENSE</code> file and DATA NOTICE for details, including re-identification and ethical-use conditions.</p>",
   "creators": [
     {

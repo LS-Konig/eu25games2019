@@ -21,8 +21,8 @@ authors:
     given-names: Thomas
     affiliation: "University of Mannheim"
     orcid: "https://orcid.org/0000-0002-1797-6662"
-version: "1.0.0"
-date-released: "2026-07-10"     # <-- set to the actual release date
+version: "1.1.0"
+date-released: "2026-10-19"     # <-- set to the actual release date
 license:
   - MIT           # code (notebooks/scripts outside data/)
   - CC-BY-4.0     # data (everything in data/)
